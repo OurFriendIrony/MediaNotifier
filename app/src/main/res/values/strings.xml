@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">MediaNotifierAndroid</string>
+    <string name="action_settings">Settings</string>
+    <string name="settings_welcome">Hello and welcome to the settings page</string>
+    <string name="button_tvshow_lookup">Find</string>
+    <string name="button_movie_lookup">Find</string>
+    <string name="button_music_lookup">Find</string>
+    <string name="button_tvshows">TV Shows</string>
+    <string name="button_movies">Movies</string>
+    <string name="button_music">Music</string>
+</resources>
