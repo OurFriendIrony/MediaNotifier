@@ -1,4 +1,4 @@
-package uk.co.ourfriendirony.medianotifierandroid;
+package uk.co.ourfriendirony.medianotifier;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

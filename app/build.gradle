@@ -2,14 +2,20 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    buildToolsVersion = 24
 
     defaultConfig {
         applicationId "uk.co.ourfriendirony.medianotifierandroid"
-        minSdkVersion 15
+        minSdkVersion 18
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        jackOptions {
+            enabled true
+        }
+    }
+    dexOptions {
+        incremental true
     }
     buildTypes {
         release {
@@ -17,11 +23,23 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    useLibrary  'org.apache.http.legacy'
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+repositories {
+    mavenLocal()
+    jcenter()
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:design:23.4.0'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.6.3'
+//    compile 'uk.co.ourfriendirony:MediaNotifier:1.0.0'
 }

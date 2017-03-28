@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="uk.co.ourfriendirony.medianotifierandroid.MainActivity"
+    tools:context=".activities.MainActivity"
     tools:showIn="@layout/activity_main">
 
     <LinearLayout
@@ -32,7 +32,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|left"
                 android:layout_margin="@dimen/fab_margin"
-                android:backgroundTint="@color/Red"
+                android:backgroundTint="@color/color_lookup"
+                app:borderWidth="0dp"
                 android:src="@android:drawable/ic_search_category_default" />
 
             <Button
@@ -57,6 +58,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|left"
                 android:layout_margin="@dimen/fab_margin"
+                android:backgroundTint="@color/color_lookup"
+                app:borderWidth="0dp"
                 android:src="@android:drawable/ic_search_category_default" />
 
             <Button
@@ -81,6 +84,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|left"
                 android:layout_margin="@dimen/fab_margin"
+                android:backgroundTint="@color/color_lookup"
+                app:borderWidth="0dp"
                 android:src="@android:drawable/ic_search_category_default" />
 
             <Button
