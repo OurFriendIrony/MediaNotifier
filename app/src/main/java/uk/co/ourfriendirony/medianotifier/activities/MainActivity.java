@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         fab_find_movie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), SettingsActivity.class));
+                startActivity(new Intent(view.getContext(), MovieLookupActivity.class));
             }
         });
         FloatingActionButton fab_find_music = (FloatingActionButton) findViewById(R.id.fab_find_music);

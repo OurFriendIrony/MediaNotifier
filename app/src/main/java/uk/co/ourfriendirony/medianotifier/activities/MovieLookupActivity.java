@@ -16,23 +16,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.autogen.tvshow.MDTVShowSummary;
+import uk.co.ourfriendirony.medianotifier.autogen.movie.MDMovieSummary;
 import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
 
-public class TVLookupActivity extends AppCompatActivity {
+public class MovieLookupActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tvlookup);
+        setContentView(R.layout.activity_lookup_movie);
 
-        EditText editText = (EditText) findViewById(R.id.input_tvshowlookup);
+        EditText editText = (EditText) findViewById(R.id.input_movielookup);
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_SEND) {
-                    List<String> list = lookupTvShow(getInputString(textView));
+                    List<String> list = lookupMovie(getInputString(textView));
                     updateListView(textView, list);
                     handled = true;
                 }
@@ -42,18 +42,18 @@ public class TVLookupActivity extends AppCompatActivity {
     }
 
     private void updateListView(TextView textView, List<String> list) {
-        ListView lv = (ListView) findViewById(R.id.list_tvshowlookup);
+        ListView lv = (ListView) findViewById(R.id.list_movielookup);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(textView.getContext(), android.R.layout.simple_list_item_1, list);
         lv.setAdapter(arrayAdapter);
     }
 
-    private List<String> lookupTvShow(String inputString) {
+    private List<String> lookupMovie(String inputString) {
         List<String> mylist = new ArrayList<>();
         Log.v(String.valueOf(this.getClass()), "*** lookup");
         MovieDatabaseClient client = new MovieDatabaseClient();
         try {
-            for (MDTVShowSummary tvShow : client.queryTVShow(inputString)) {
-                mylist.add(tvShow.getFirstAirDate() + " | " + tvShow.getName());
+            for (MDMovieSummary movie : client.queryMovie(inputString)) {
+                mylist.add(movie.getReleaseDate() + " | " + movie.getTitle());
             }
         } catch (IOException e) {
             e.printStackTrace();
