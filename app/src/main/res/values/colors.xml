@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--grey scale-->
+    <color name="white">#FFFFFF</color>
+    <color name="grey_light">#999999</color>
+    <color name="grey">#666666</color>
+    <color name="grey_dark">#333333</color>
+    <color name="black">#000000</color>
+    <!--primary colours-->
+    <color name="Aqua">#00FFFF</color>
+    <color name="Fuchsia">#FF00FF</color>
+    <color name="Green">#008000</color>
+    <color name="Maroon">#800000</color>
+    <color name="Navy">#000080</color>
+    <color name="Olive">#808000</color>
+    <color name="Red">#FF0000</color>
+    <color name="Silver">#C0C0C0</color>
+    <color name="Teal">#008080</color>
+    <color name="Yellow">#FFFF00</color>
+    <!--styles-->
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>

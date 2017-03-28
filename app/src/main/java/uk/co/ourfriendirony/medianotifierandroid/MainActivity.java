@@ -3,7 +3,6 @@ package uk.co.ourfriendirony.medianotifierandroid;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -21,15 +20,11 @@ public class MainActivity extends AppCompatActivity {
 
         FloatingActionButton fab_find_tv = (FloatingActionButton) findViewById(R.id.fab_find_tv);
         fab_find_tv.setOnClickListener(new View.OnClickListener() {
-                                           @Override
-                                           public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-
-                                               startActivity(new Intent(view.getContext(), SettingsActivity.class));
-                                           }
-                                       }
-        );
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), TVLookupActivity.class));
+            }
+        });
         FloatingActionButton fab_find_movie = (FloatingActionButton) findViewById(R.id.fab_find_movie);
         fab_find_movie.setOnClickListener(new View.OnClickListener() {
             @Override
