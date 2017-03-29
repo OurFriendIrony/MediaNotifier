@@ -1,36 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".activities.TVLookupActivity">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                tools:context=".activities.TVLookupActivity">
 
     <TextView
         android:id="@+id/title_tvshowlookup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/black"
+        android:padding="30px"
         android:text="@string/title_tvlookup"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="@dimen/title_size" />
+        android:textSize="@dimen/title_size"
+        android:textStyle="bold"
+        />
 
     <EditText
         android:id="@+id/input_tvshowlookup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/title_tvshowlookup"
+        android:backgroundTint="@color/red"
         android:imeOptions="actionSend"
-        android:inputType="text" />
+        android:textSize="20sp"
+        android:inputType="text"/>
+
 
     <ListView
         android:id="@+id/list_tvshowlookup"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/input_tvshowlookup"></ListView>
+        android:layout_height="match_parent"
+        android:layout_below="@+id/input_tvshowlookup"
+        android:background="@drawable/border"
+        android:divider="@color/black"
+        android:dividerHeight="2dp"
+        android:padding="6dp"
+        >
+
+    </ListView>
 
 </RelativeLayout>
+

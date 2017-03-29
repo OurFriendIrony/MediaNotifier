@@ -2,6 +2,7 @@ package uk.co.ourfriendirony.medianotifier.autogen.tvshow;
 
 import com.fasterxml.jackson.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,8 +37,9 @@ public class MDTVShowSummary {
     private Double voteAverage;
     @JsonProperty("overview")
     private String overview;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @JsonProperty("first_air_date")
-    private String firstAirDate;
+    private Date firstAirDate;
     @JsonProperty("origin_country")
     private List<String> originCountry = null;
     @JsonProperty("genre_ids")
@@ -114,12 +116,12 @@ public class MDTVShowSummary {
     }
 
     @JsonProperty("first_air_date")
-    public String getFirstAirDate() {
+    public Date getFirstAirDate() {
         return firstAirDate;
     }
 
     @JsonProperty("first_air_date")
-    public void setFirstAirDate(String firstAirDate) {
+    public void setFirstAirDate(Date firstAirDate) {
         this.firstAirDate = firstAirDate;
     }
 
