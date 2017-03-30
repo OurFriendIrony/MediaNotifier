@@ -16,7 +16,7 @@ import java.util.List;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.MDTVShowSummary;
 import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
-import uk.co.ourfriendirony.medianotifier.general.MyArrayAdapter;
+import uk.co.ourfriendirony.medianotifier.general.MyTVShowAdapter;
 
 public class TVLookupActivity extends AppCompatActivity {
     ListView simpleList;
@@ -26,9 +26,12 @@ public class TVLookupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tvlookup);
+        setContentView(R.layout.activity_lookup);
 
-        EditText editText = (EditText) findViewById(R.id.input_tvshowlookup);
+        TextView textView = (TextView) findViewById(R.id.title_lookup);
+        textView.setText(R.string.title_lookup_tvshow);
+
+        EditText editText = (EditText) findViewById(R.id.input_lookup);
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             @Override
@@ -40,12 +43,12 @@ public class TVLookupActivity extends AppCompatActivity {
                         tvShows = client.queryTVShow(textView.getText().toString());
                     } catch (IOException e) {
                         e.printStackTrace();
-                        Toast.makeText(textView.getContext(), "No Matches", Toast.LENGTH_LONG);
+                        Toast.makeText(textView.getContext(), R.string.lookup_no_results, Toast.LENGTH_LONG);
                     }
 
-                    simpleList = (ListView) findViewById(R.id.list_tvshowlookup);
+                    simpleList = (ListView) findViewById(R.id.list_lookup);
 
-                    MyArrayAdapter adapter = new MyArrayAdapter(textView.getContext(), R.layout.list_item, tvShows);
+                    MyTVShowAdapter adapter = new MyTVShowAdapter(textView.getContext(), R.layout.list_item, tvShows);
                     simpleList.setAdapter(adapter);
                     handled = true;
                 }

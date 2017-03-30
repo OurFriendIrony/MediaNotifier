@@ -1,7 +1,7 @@
 package uk.co.ourfriendirony.medianotifier.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import uk.co.ourfriendirony.medianotifier.R;
 

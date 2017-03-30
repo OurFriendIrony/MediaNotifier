@@ -17,13 +17,13 @@ import java.util.List;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.MDTVShowSummary;
 
-public class MyArrayAdapter extends ArrayAdapter {
+public class MyTVShowAdapter extends ArrayAdapter {
     private final List<MDTVShowSummary> tvShows;
 
     DateFormat dateFormat = new SimpleDateFormat("yyyy");
     DecimalFormat decimalFormat = new DecimalFormat("#.0");
 
-    public MyArrayAdapter(Context context, int textViewResourceId, List<MDTVShowSummary> objects) {
+    public MyTVShowAdapter(Context context, int textViewResourceId, List<MDTVShowSummary> objects) {
         super(context, textViewResourceId, objects);
         tvShows = objects;
     }
@@ -41,10 +41,10 @@ public class MyArrayAdapter extends ArrayAdapter {
         View v = view;
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         v = inflater.inflate(R.layout.list_item, null);
-        TextView textView1 = (TextView) v.findViewById(R.id.textView1);
-        TextView textView2 = (TextView) v.findViewById(R.id.textView3);
-        TextView textView3 = (TextView) v.findViewById(R.id.textView2);
-        ImageView imageView = (ImageView) v.findViewById(R.id.imageView);
+        TextView textView1 = (TextView) v.findViewById(R.id.lookup_item_title);
+        TextView textView2 = (TextView) v.findViewById(R.id.lookup_item_date);
+        TextView textView3 = (TextView) v.findViewById(R.id.lookup_item_overview);
+        ImageView imageView = (ImageView) v.findViewById(R.id.lookup_item_img);
 
         String year = "";
         Date date = tvShow.getFirstAirDate();

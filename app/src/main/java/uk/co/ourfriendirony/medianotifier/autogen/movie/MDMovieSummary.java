@@ -2,6 +2,7 @@ package uk.co.ourfriendirony.medianotifier.autogen.movie;
 
 import com.fasterxml.jackson.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +33,7 @@ public class MDMovieSummary {
     @JsonProperty("overview")
     private String overview;
     @JsonProperty("release_date")
-    private String releaseDate;
+    private Date releaseDate;
     @JsonProperty("genre_ids")
     private List<Integer> genreIds = null;
     @JsonProperty("id")
@@ -87,12 +88,12 @@ public class MDMovieSummary {
     }
 
     @JsonProperty("release_date")
-    public String getReleaseDate() {
+    public Date getReleaseDate() {
         return releaseDate;
     }
 
     @JsonProperty("release_date")
-    public void setReleaseDate(String releaseDate) {
+    public void setReleaseDate(Date releaseDate) {
         this.releaseDate = releaseDate;
     }
 

@@ -1,15 +1,13 @@
 package uk.co.ourfriendirony.medianotifier.activities;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,52 +16,44 @@ import java.util.List;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.autogen.movie.MDMovieSummary;
 import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
+import uk.co.ourfriendirony.medianotifier.general.MyMovieAdapter;
 
 public class MovieLookupActivity extends AppCompatActivity {
+    ListView simpleList;
+    List<MDMovieSummary> movies = new ArrayList<>();
+    MovieDatabaseClient client = new MovieDatabaseClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lookup_movie);
+        setContentView(R.layout.activity_lookup);
 
-        EditText editText = (EditText) findViewById(R.id.input_movielookup);
+        TextView textView = (TextView) findViewById(R.id.title_lookup);
+        textView.setText(R.string.title_lookup_movie);
+
+        EditText editText = (EditText) findViewById(R.id.input_lookup);
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_SEND) {
-                    List<String> list = lookupMovie(getInputString(textView));
-                    updateListView(textView, list);
+
+                    try {
+                        movies = client.queryMovie(textView.getText().toString());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Toast.makeText(textView.getContext(),  R.string.lookup_no_results, Toast.LENGTH_LONG);
+                    }
+
+                    simpleList = (ListView) findViewById(R.id.list_lookup);
+
+                    MyMovieAdapter adapter = new MyMovieAdapter(textView.getContext(), R.layout.list_item, movies);
+                    simpleList.setAdapter(adapter);
                     handled = true;
                 }
                 return handled;
             }
         });
     }
-
-    private void updateListView(TextView textView, List<String> list) {
-        ListView lv = (ListView) findViewById(R.id.list_movielookup);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(textView.getContext(), android.R.layout.simple_list_item_1, list);
-        lv.setAdapter(arrayAdapter);
-    }
-
-    private List<String> lookupMovie(String inputString) {
-        List<String> mylist = new ArrayList<>();
-        Log.v(String.valueOf(this.getClass()), "*** lookup");
-        MovieDatabaseClient client = new MovieDatabaseClient();
-        try {
-            for (MDMovieSummary movie : client.queryMovie(inputString)) {
-                mylist.add(movie.getReleaseDate() + " | " + movie.getTitle());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return mylist;
-    }
-
-    @NonNull
-    private String getInputString(TextView textView) {
-        return textView.getText().toString();
-    }
-
 }

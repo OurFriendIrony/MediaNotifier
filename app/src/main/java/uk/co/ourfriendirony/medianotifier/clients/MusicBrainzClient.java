@@ -10,15 +10,7 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 import java.util.List;
 
-import uk.co.ourfriendirony.medianotifier.autogen.music.LookupAlbum;
-import uk.co.ourfriendirony.medianotifier.autogen.music.LookupArtist;
-import uk.co.ourfriendirony.medianotifier.autogen.music.LookupReleaseGroup;
-import uk.co.ourfriendirony.medianotifier.autogen.music.MBArtist;
-import uk.co.ourfriendirony.medianotifier.autogen.music.MBMedium;
-import uk.co.ourfriendirony.medianotifier.autogen.music.MBRelease;
-import uk.co.ourfriendirony.medianotifier.autogen.music.MBReleaseGroup;
-import uk.co.ourfriendirony.medianotifier.autogen.music.MBTrack;
-import uk.co.ourfriendirony.medianotifier.autogen.music.QueryArtist;
+import uk.co.ourfriendirony.medianotifier.autogen.music.*;
 
 import static uk.co.ourfriendirony.medianotifier.general.UrlHandler.urlCleaner;
 
