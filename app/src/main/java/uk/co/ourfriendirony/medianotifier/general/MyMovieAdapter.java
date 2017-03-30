@@ -31,12 +31,12 @@ public class MyMovieAdapter extends ArrayAdapter {
         return super.getCount();
     }
 
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        View view = convertView;
+
         MDMovieSummary movie = movies.get(position);
 
-        View view = convertView;
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(R.layout.list_item, null);
         TextView textView1 = (TextView) view.findViewById(R.id.lookup_item_title);

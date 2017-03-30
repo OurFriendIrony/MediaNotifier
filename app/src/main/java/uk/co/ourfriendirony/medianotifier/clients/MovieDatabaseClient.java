@@ -39,37 +39,38 @@ public class MovieDatabaseClient {
 
     private String payload;
     private int statusCode;
+    private String url;
 
     public List<MDMovieSummary> queryMovie(String movie) throws IOException {
-        String url = URL_MOVIE_QUERY.replace("@NAME@", urlCleaner(movie));
+        url = URL_MOVIE_QUERY.replace("@NAME@", urlCleaner(movie));
         httpGetRequest(url);
         MDQueryMovie query = OBJECT_MAPPER.readValue(payload, MDQueryMovie.class);
         return query.getResults();
     }
 
     public MDLookupMovie getMovie(String movieID) throws IOException {
-        String url = URL_MOVIE_ID.replace("@ID@", urlCleaner(movieID));
+        url = URL_MOVIE_ID.replace("@ID@", urlCleaner(movieID));
         httpGetRequest(url);
         MDLookupMovie movie = OBJECT_MAPPER.readValue(payload, MDLookupMovie.class);
         return movie;
     }
 
     public List<MDTVShowSummary> queryTVShow(String tvShow) throws IOException {
-        String url = URL_TVSHOW_QUERY.replace("@NAME@", urlCleaner(tvShow));
+        url = URL_TVSHOW_QUERY.replace("@NAME@", urlCleaner(tvShow));
         httpGetRequest(url);
         MDQueryTVShow query = OBJECT_MAPPER.readValue(payload, MDQueryTVShow.class);
         return query.getResults();
     }
 
     public MDLookupTVShow getTVShow(String tvShowID) throws IOException {
-        String url = URL_TVSHOW_ID.replace("@ID@", urlCleaner(tvShowID));
+        url = URL_TVSHOW_ID.replace("@ID@", urlCleaner(tvShowID));
         httpGetRequest(url);
         MDLookupTVShow tvShow = OBJECT_MAPPER.readValue(payload, MDLookupTVShow.class);
         return tvShow;
     }
 
     public MDLookupTVShowSeason getTVShowSeason(int tvShowID, int seasonNo) throws IOException {
-        String url = URL_TVSHOW_ID_SEASON.replace("@ID@", Integer.toString(tvShowID)).replace("@SEASON@", Integer.toString(seasonNo));
+        url = URL_TVSHOW_ID_SEASON.replace("@ID@", Integer.toString(tvShowID)).replace("@SEASON@", Integer.toString(seasonNo));
         httpGetRequest(url);
         MDLookupTVShowSeason tvShow = OBJECT_MAPPER.readValue(payload, MDLookupTVShowSeason.class);
         return tvShow;
@@ -80,6 +81,7 @@ public class MovieDatabaseClient {
         HttpResponse httpResponse = client.execute(new HttpGet(url));
         payload = getPayload(httpResponse);
         statusCode = getStatusCode(httpResponse);
+        Log.v(String.valueOf(this.getClass()), "URL     = " + url);
         Log.v(String.valueOf(this.getClass()), "PAYLOAD = " + payload);
         Log.v(String.valueOf(this.getClass()), "STATUSC = " + statusCode);
     }
@@ -99,5 +101,4 @@ public class MovieDatabaseClient {
     private int getStatusCode(HttpResponse response) {
         return response.getStatusLine().getStatusCode();
     }
-
 }

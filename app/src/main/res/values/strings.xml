@@ -9,8 +9,8 @@
     <string name="button_tvshows">TV Shows</string>
     <string name="button_movies">Movies</string>
     <string name="button_music">Music</string>
-    <string name="title_lookup_tvshow">TV Show Lookup</string>
-    <string name="title_lookup_movie">Movie Lookup</string>
-    <string name="title_lookup_music">Artist Lookup</string>
+    <string name="lookup_title_tvshow">TV Show Lookup</string>
+    <string name="lookup_title_movie">Movie Lookup</string>
+    <string name="lookup_title_music">Artist Lookup</string>
     <string name="lookup_no_results">No Matches</string>
 </resources>
