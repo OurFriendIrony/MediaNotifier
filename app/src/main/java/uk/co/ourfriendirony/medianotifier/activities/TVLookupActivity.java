@@ -43,13 +43,14 @@ public class TVLookupActivity extends AppCompatActivity {
                         tvShows = client.queryTVShow(textView.getText().toString());
                     } catch (IOException e) {
                         e.printStackTrace();
-                        Toast.makeText(textView.getContext(), R.string.lookup_no_results, Toast.LENGTH_LONG);
                     }
-
-                    simpleList = (ListView) findViewById(R.id.list_lookup);
-
-                    MyTVShowAdapter adapter = new MyTVShowAdapter(textView.getContext(), R.layout.list_item, tvShows);
-                    simpleList.setAdapter(adapter);
+                    if (tvShows.size() > 0) {
+                        MyTVShowAdapter adapter = new MyTVShowAdapter(textView.getContext(), R.layout.list_item, tvShows);
+                        simpleList = (ListView) findViewById(R.id.list_lookup);
+                        simpleList.setAdapter(adapter);
+                    } else {
+                        Toast.makeText(textView.getContext(), R.string.lookup_no_results, Toast.LENGTH_LONG).show();
+                    }
                     handled = true;
                 }
                 return handled;

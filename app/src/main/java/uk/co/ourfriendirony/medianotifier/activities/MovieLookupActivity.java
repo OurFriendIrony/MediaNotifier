@@ -43,13 +43,14 @@ public class MovieLookupActivity extends AppCompatActivity {
                         movies = client.queryMovie(textView.getText().toString());
                     } catch (IOException e) {
                         e.printStackTrace();
-                        Toast.makeText(textView.getContext(),  R.string.lookup_no_results, Toast.LENGTH_LONG);
                     }
-
-                    simpleList = (ListView) findViewById(R.id.list_lookup);
-
-                    MyMovieAdapter adapter = new MyMovieAdapter(textView.getContext(), R.layout.list_item, movies);
-                    simpleList.setAdapter(adapter);
+                    if (movies.size() > 0) {
+                        MyMovieAdapter adapter = new MyMovieAdapter(textView.getContext(), R.layout.list_item, movies);
+                        simpleList = (ListView) findViewById(R.id.list_lookup);
+                        simpleList.setAdapter(adapter);
+                    } else {
+                        Toast.makeText(textView.getContext(), R.string.lookup_no_results, Toast.LENGTH_LONG).show();
+                    }
                     handled = true;
                 }
                 return handled;
