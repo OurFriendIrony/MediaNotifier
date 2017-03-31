@@ -20,41 +20,43 @@
         android:textStyle="bold"
         />
 
-    <EditText
-        android:id="@+id/lookup_input"
+    <RelativeLayout
+        android:id="@+id/lookup_input_progress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/lookup_title"
-        android:layout_gravity="left"
-        android:backgroundTint="@color/red"
-        android:imeOptions="actionSend"
-        android:inputType="text"
-        android:textSize="30sp"
-        />
+        android:layout_below="@+id/lookup_title">
 
-    <ProgressBar
-        android:id="@+id/lookup_progress"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/lookup_input"
-        android:layout_alignRight="@+id/lookup_input"
-        android:layout_alignTop="@+id/lookup_input"
-        android:visibility="invisible"
-        />
+        <EditText
+            android:id="@+id/lookup_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/lookup_progress"
+            android:backgroundTint="@color/red"
+            android:imeOptions="actionSend"
+            android:inputType="text"
+            android:textSize="30sp"
+            />
+
+        <ProgressBar
+            android:id="@+id/lookup_progress"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignBottom="@+id/lookup_input"
+            android:layout_alignTop="@+id/lookup_input"
+            android:visibility="gone"
+            />
+    </RelativeLayout>
 
     <ListView
         android:id="@+id/lookup_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/lookup_input"
+        android:layout_below="@+id/lookup_input_progress"
         android:background="@drawable/border"
         android:divider="@color/black"
         android:dividerHeight="2dp"
-        android:padding="6dp"
-        >
-
+        android:padding="6dp">
     </ListView>
-
 </RelativeLayout>
-
