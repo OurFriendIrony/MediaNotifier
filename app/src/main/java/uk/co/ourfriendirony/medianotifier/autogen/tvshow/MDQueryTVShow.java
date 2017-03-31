@@ -2,6 +2,7 @@ package uk.co.ourfriendirony.medianotifier.autogen.tvshow;
 
 import com.fasterxml.jackson.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,7 @@ public class MDQueryTVShow {
     @JsonProperty("page")
     private Integer page;
     @JsonProperty("results")
-    private List<MDTVShowSummary> results = null;
+    private List<MDTVShowSummary> results = new ArrayList<>();
     @JsonProperty("total_results")
     private Integer totalResults;
     @JsonProperty("total_pages")
