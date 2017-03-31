@@ -46,15 +46,17 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/lookup_secondarybar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_below="@+id/lookup_primarybar"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        >
 
         <TextView
             android:id="@+id/lookup_item_overview"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             android:text="Overview"
             android:textSize="10sp"
             />

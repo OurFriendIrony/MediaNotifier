@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.*;
 
@@ -29,12 +30,12 @@ public class MovieLookupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lookup);
 
+        simpleList = (ListView) findViewById(R.id.lookup_list);
         progressBar = (ProgressBar) findViewById(R.id.lookup_progress);
-
         TextView textView = (TextView) findViewById(R.id.lookup_title);
-        textView.setText(R.string.lookup_title_movie);
-
         EditText editText = (EditText) findViewById(R.id.lookup_input);
+
+        textView.setText(R.string.lookup_title_movie);
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             @Override
@@ -47,6 +48,21 @@ public class MovieLookupActivity extends AppCompatActivity {
                 return handled;
             }
         });
+
+        simpleList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                RelativeLayout layout = (RelativeLayout) view.findViewById(R.id.lookup_secondarybar);
+                ViewGroup.LayoutParams params = layout.getLayoutParams();
+                params.height = (params.height > 0) ? 0 : pdToPx(40);
+                layout.setLayoutParams(params);
+            }
+        });
+    }
+
+    public int pdToPx(int dimensionDp) {
+        float density = getResources().getDisplayMetrics().density;
+        return (int) (dimensionDp * density + 0.5f);
     }
 
     class MovieLookupAsyncTask extends AsyncTask<String, Void, List<MDMovieSummary>> {
