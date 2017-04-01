@@ -9,8 +9,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import uk.co.ourfriendirony.medianotifier.R;
+import uk.co.ourfriendirony.medianotifier.general.TVShowDatabaseDefinition;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,31 +23,62 @@ public class MainActivity extends AppCompatActivity {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        TVShowDatabaseDefinition def = new TVShowDatabaseDefinition(getApplicationContext());
+def.getReadableDatabase();
+        def.getWritableDatabase();
+
+
+
         FloatingActionButton fab_find_tv = (FloatingActionButton) findViewById(R.id.fab_find_tv);
+        FloatingActionButton fab_find_movie = (FloatingActionButton) findViewById(R.id.fab_find_movie);
+        FloatingActionButton fab_find_music = (FloatingActionButton) findViewById(R.id.fab_find_music);
+
+        Button button_show_tv = (Button) findViewById(R.id.button_show_tv) ;
+        Button button_show_movie = (Button) findViewById(R.id.button_show_movie) ;
+        Button button_show_music = (Button) findViewById(R.id.button_show_music) ;
+
         fab_find_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(view.getContext(), TVLookupActivity.class));
             }
         });
-        FloatingActionButton fab_find_movie = (FloatingActionButton) findViewById(R.id.fab_find_movie);
         fab_find_movie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(view.getContext(), MovieLookupActivity.class));
             }
         });
-        FloatingActionButton fab_find_music = (FloatingActionButton) findViewById(R.id.fab_find_music);
         fab_find_music.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(view.getContext(), SettingsActivity.class));
+            }
+        });
+
+        button_show_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), TVListActivity.class));
+            }
+        });
+        button_show_movie.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "NOT YET IMPLEMENTED", Toast.LENGTH_SHORT).show();
+//                startActivity(new Intent(view.getContext(), TVListActivity.class));
+            }
+        });
+        button_show_music.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "NOT YET IMPLEMENTED", Toast.LENGTH_SHORT).show();
+//                startActivity(new Intent(view.getContext(), TVListActivity.class));
             }
         });
     }

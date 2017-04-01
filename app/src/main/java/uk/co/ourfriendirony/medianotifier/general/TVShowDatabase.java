@@ -23,29 +23,6 @@ public class TVShowDatabase {
         dbReadable = databaseHelper.getReadableDatabase();
     }
 
-    public String selectTVShow() {
-        String sql = "SELECT * FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS + ";";
-        StringBuilder result = new StringBuilder();
-        Cursor cursor = dbReadable.rawQuery(sql, null);
-        try {
-            while (cursor.moveToNext()) {
-                result.append(getColumnValue(cursor, TT_ID)).append(" | ")
-                        .append(getColumnValue(cursor, TT_DATE)).append(" | ")
-                        .append(getColumnValue(cursor, TT_TITLE)).append(" | ")
-                        .append(getColumnValue(cursor, TT_OVERVIEW))
-                        .append("\n*****************\n");
-            }
-        } finally {
-            cursor.close();
-        }
-        return result.toString();
-
-    }
-
-    private String getColumnValue(Cursor cursor, String field) {
-        return cursor.getString(cursor.getColumnIndex(field));
-    }
-
     public void saveTVShow(int tvShowId) {
         MovieDatabaseClient client = new MovieDatabaseClient();
         MDLookupTVShow tvShow;
@@ -92,4 +69,34 @@ public class TVShowDatabase {
         episodeRow.put(TTSE_OVERVIEW, episode.getOverview());
         dbWritable.insert(TABLE_TVSHOWS_EPISODES, null, episodeRow);
     }
+
+    public String selectTVShow() {
+        String sql = "SELECT * FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS + ";";
+        StringBuilder result = new StringBuilder();
+        Cursor cursor = dbReadable.rawQuery(sql, null);
+        try {
+            while (cursor.moveToNext()) {
+                result.append(getColumnValue(cursor, TT_ID)).append(" | ")
+                        .append(getColumnValue(cursor, TT_DATE)).append(" | ")
+                        .append(getColumnValue(cursor, TT_TITLE)).append(" | ")
+                        .append(getColumnValue(cursor, TT_OVERVIEW))
+                        .append("\n*****************\n");
+            }
+        } finally {
+            cursor.close();
+        }
+        return result.toString();
+
+    }
+
+    private String getColumnValue(Cursor cursor, String field) {
+        return cursor.getString(cursor.getColumnIndex(field));
+    }
+
+    public void deleteAllTVShows() {
+        dbWritable.execSQL("DELETE FROM " + TABLE_TVSHOWS + ";");
+        dbWritable.execSQL("DELETE FROM " + TABLE_TVSHOWS_SEASONS + ";");
+        dbWritable.execSQL("DELETE FROM " + TABLE_TVSHOWS_EPISODES + ";");
+    }
+
 }

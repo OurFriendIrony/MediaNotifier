@@ -24,6 +24,8 @@
         <activity android:name=".activities.TVLookupActivity"/>
         <activity android:name=".activities.MovieLookupActivity">
         </activity>
+        <activity android:name=".activities.TVListActivity">
+        </activity>
     </application>
 
 </manifest>

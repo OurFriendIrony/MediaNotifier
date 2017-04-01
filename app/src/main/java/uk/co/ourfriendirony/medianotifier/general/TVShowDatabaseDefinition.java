@@ -3,6 +3,8 @@ package uk.co.ourfriendirony.medianotifier.general;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+import android.widget.Toast;
 
 public class TVShowDatabaseDefinition extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "tv_shows";
@@ -28,13 +30,18 @@ public class TVShowDatabaseDefinition extends SQLiteOpenHelper {
     public static final String TTSE_OVERVIEW = "overview";
 
     private static final int DATABASE_VERSION = 1;
+    private final Context context;
 
     public TVShowDatabaseDefinition(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        Toast.makeText(context, "onCreate INVOKED", Toast.LENGTH_SHORT).show();
+        Log.v(String.valueOf(this.getClass()), "onCreate INVOKED");
+
         db.execSQL("CREATE TABLE " + TABLE_TVSHOWS + " (" +
                 TT_ID + " INTEGER, " +
                 TT_TITLE + " TEXT, " +
@@ -64,6 +71,9 @@ public class TVShowDatabaseDefinition extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        Toast.makeText(context, "onUpgrade INVOKED", Toast.LENGTH_SHORT).show();
+        Log.v(String.valueOf(this.getClass()), "onCreate INVOKED");
+
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TVSHOWS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TVSHOWS_SEASONS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TVSHOWS_EPISODES);
