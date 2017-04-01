@@ -2,6 +2,7 @@ package uk.co.ourfriendirony.medianotifier.autogen.music;
 
 import com.fasterxml.jackson.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,11 +23,11 @@ public class MBReleaseGroup {
     @JsonProperty("title")
     private String title;
     @JsonProperty("secondary-types")
-    private List<String> secondaryTypes = null;
+    private List<String> secondaryTypes = new ArrayList<>();
     @JsonProperty("id")
     private String id;
     @JsonProperty("secondary-type-ids")
-    private List<String> secondaryTypeIds = null;
+    private List<String> secondaryTypeIds = new ArrayList<>();
     @JsonProperty("disambiguation")
     private String disambiguation;
     @JsonProperty("primary-type-id")

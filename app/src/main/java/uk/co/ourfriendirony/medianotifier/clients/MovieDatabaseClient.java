@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -36,6 +37,7 @@ public class MovieDatabaseClient {
 
     private String payload;
     private int statusCode;
+    private String headers;
 
     public List<MDMovieSummary> queryMovie(String movie) throws IOException {
         httpGetRequest(URL_MOVIE_QUERY
@@ -66,11 +68,12 @@ public class MovieDatabaseClient {
                 .replace("@ID@", Integer.toString(tvShowID))
         );
         MDLookupTVShow tvShow = OBJECT_MAPPER.readValue(payload, MDLookupTVShow.class);
-
         for (MDSeason season : tvShow.getSeasons()) {
-            MDLookupTVShowSeason lookupSeason = getTVShowSeason(tvShowID, season.getSeasonNumber());
-            season.setEpisodes(lookupSeason.getEpisodes());
-            season.setEpisodeCount(lookupSeason.getEpisodes().size());
+            if (season.getSeasonNumber() > 0) {
+                MDLookupTVShowSeason lookupSeason = getTVShowSeason(tvShowID, season.getSeasonNumber());
+                season.setEpisodes(lookupSeason.getEpisodes());
+                season.setEpisodeCount(lookupSeason.getEpisodes().size());
+            }
         }
         return tvShow;
     }
@@ -85,18 +88,32 @@ public class MovieDatabaseClient {
     }
 
     private void httpGetRequest(String url) throws IOException {
-        sleep();
-        HttpResponse httpResponse = client.execute(new HttpGet(url));
-        payload = getPayload(httpResponse);
-        statusCode = getStatusCode(httpResponse);
+
+        while (true) {
+            HttpResponse httpResponse = client.execute(new HttpGet(url));
+            payload = getPayload(httpResponse);
+            statusCode = getStatusCode(httpResponse);
+            headers = getHeaders(httpResponse);
+
+            logResponse(url);
+            if (statusCode == 200) {
+                break;
+            } else {
+                sleep(1);
+            }
+        }
+    }
+
+    private void logResponse(String url) {
         Log.v(String.valueOf(this.getClass()), "URL     = " + url);
         Log.v(String.valueOf(this.getClass()), "PAYLOAD = " + payload);
+        Log.v(String.valueOf(this.getClass()), "HEADERS = " + headers);
         Log.v(String.valueOf(this.getClass()), "STATUSC = " + statusCode);
     }
 
-    private void sleep() {
+    private void sleep(int time) {
         try {
-            Thread.sleep(1000);
+            Thread.sleep(time * 1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -104,6 +121,14 @@ public class MovieDatabaseClient {
 
     private String getPayload(HttpResponse response) throws IOException {
         return EntityUtils.toString(response.getEntity());
+    }
+
+    private String getHeaders(HttpResponse response) {
+        StringBuilder x = new StringBuilder();
+        for (Header header : response.getAllHeaders()) {
+            x.append(header.getName() + ":" + header.getValue() + " | ");
+        }
+        return x.toString();
     }
 
     private int getStatusCode(HttpResponse response) {

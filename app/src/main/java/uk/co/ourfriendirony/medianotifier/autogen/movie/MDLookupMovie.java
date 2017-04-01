@@ -2,6 +2,7 @@ package uk.co.ourfriendirony.medianotifier.autogen.movie;
 
 import com.fasterxml.jackson.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +46,7 @@ public class MDLookupMovie {
     @JsonProperty("budget")
     private Integer budget;
     @JsonProperty("genres")
-    private List<MDGenre> genres = null;
+    private List<MDGenre> genres = new ArrayList<>();
     @JsonProperty("homepage")
     private String homepage;
     @JsonProperty("id")
@@ -63,9 +64,9 @@ public class MDLookupMovie {
     @JsonProperty("poster_path")
     private String posterPath;
     @JsonProperty("production_companies")
-    private List<MDProductionCompany> productionCompanies = null;
+    private List<MDProductionCompany> productionCompanies = new ArrayList<>();
     @JsonProperty("production_countries")
-    private List<MDProductionCountry> productionCountries = null;
+    private List<MDProductionCountry> productionCountries = new ArrayList<>();
     @JsonProperty("release_date")
     private String releaseDate;
     @JsonProperty("revenue")
@@ -73,7 +74,7 @@ public class MDLookupMovie {
     @JsonProperty("runtime")
     private Integer runtime;
     @JsonProperty("spoken_languages")
-    private List<MDSpokenLanguage> spokenLanguages = null;
+    private List<MDSpokenLanguage> spokenLanguages = new ArrayList<>();
     @JsonProperty("status")
     private String status;
     @JsonProperty("tagline")

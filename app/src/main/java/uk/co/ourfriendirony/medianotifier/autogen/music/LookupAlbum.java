@@ -2,6 +2,7 @@ package uk.co.ourfriendirony.medianotifier.autogen.music;
 
 import com.fasterxml.jackson.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,9 +47,9 @@ public class LookupAlbum {
     @JsonProperty("asin")
     private Object asin;
     @JsonProperty("release-events")
-    private List<MBReleaseEvent> releaseEvents = null;
+    private List<MBReleaseEvent> releaseEvents = new ArrayList<>();
     @JsonProperty("media")
-    private List<MBMedium> media = null;
+    private List<MBMedium> media = new ArrayList<>();
     @JsonProperty("text-representation")
     private MBTextRepresentation textRepresentation;
     @JsonProperty("packaging")

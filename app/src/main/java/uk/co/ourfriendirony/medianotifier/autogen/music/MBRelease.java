@@ -2,6 +2,7 @@ package uk.co.ourfriendirony.medianotifier.autogen.music;
 
 import com.fasterxml.jackson.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +34,7 @@ public class MBRelease {
     @JsonProperty("packaging-id")
     private String packagingId;
     @JsonProperty("release-events")
-    private List<MBReleaseEvent> releaseEvents = null;
+    private List<MBReleaseEvent> releaseEvents = new ArrayList<>();
     @JsonProperty("country")
     private String country;
     @JsonProperty("disambiguation")

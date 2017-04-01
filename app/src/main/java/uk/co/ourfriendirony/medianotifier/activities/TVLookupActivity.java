@@ -64,7 +64,7 @@ public class TVLookupActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.v(String.valueOf(this.getClass()), "IM HERE");
-                TextView textView = (TextView)view.findViewById(R.id.lookup_item_id);
+                TextView textView = (TextView) view.findViewById(R.id.lookup_item_id);
                 database.saveTVShow(Integer.parseInt(textView.getText().toString()));
             }
         });

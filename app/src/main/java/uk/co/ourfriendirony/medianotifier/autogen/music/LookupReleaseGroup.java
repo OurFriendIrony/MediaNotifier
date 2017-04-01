@@ -2,6 +2,7 @@ package uk.co.ourfriendirony.medianotifier.autogen.music;
 
 import com.fasterxml.jackson.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,7 @@ public class LookupReleaseGroup {
     @JsonProperty("id")
     private String id;
     @JsonProperty("releases")
-    private List<MBRelease> releases = null;
+    private List<MBRelease> releases = new ArrayList<>();
     @JsonProperty("primary-type-id")
     private String primaryTypeId;
     @JsonProperty("disambiguation")
@@ -31,9 +32,9 @@ public class LookupReleaseGroup {
     @JsonProperty("primary-type")
     private String primaryType;
     @JsonProperty("secondary-types")
-    private List<Object> secondaryTypes = null;
+    private List<Object> secondaryTypes = new ArrayList<>();
     @JsonProperty("secondary-type-ids")
-    private List<Object> secondaryTypeIds = null;
+    private List<Object> secondaryTypeIds = new ArrayList<>();
     @JsonProperty("first-release-date")
     private String firstReleaseDate;
     @JsonProperty("title")

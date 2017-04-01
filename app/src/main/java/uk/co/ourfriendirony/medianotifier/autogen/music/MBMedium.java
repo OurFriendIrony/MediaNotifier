@@ -2,6 +2,7 @@ package uk.co.ourfriendirony.medianotifier.autogen.music;
 
 import com.fasterxml.jackson.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +28,7 @@ public class MBMedium {
     @JsonProperty("format")
     private String format;
     @JsonProperty("tracks")
-    private List<MBTrack> tracks = null;
+    private List<MBTrack> tracks = new ArrayList<>();
     @JsonProperty("title")
     private String title;
     @JsonProperty("track-count")

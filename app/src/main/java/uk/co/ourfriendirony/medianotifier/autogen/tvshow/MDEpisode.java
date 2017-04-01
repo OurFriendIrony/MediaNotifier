@@ -2,6 +2,7 @@ package uk.co.ourfriendirony.medianotifier.autogen.tvshow;
 
 import com.fasterxml.jackson.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,11 +27,11 @@ public class MDEpisode {
     @JsonProperty("air_date")
     private String airDate;
     @JsonProperty("crew")
-    private List<MDCrew> crew = null;
+    private List<MDCrew> crew = new ArrayList<>();
     @JsonProperty("episode_number")
     private Integer episodeNumber;
     @JsonProperty("guest_stars")
-    private List<MDGuestStar> guestStars = null;
+    private List<MDGuestStar> guestStars = new ArrayList<>();
     @JsonProperty("name")
     private String name;
     @JsonProperty("overview")

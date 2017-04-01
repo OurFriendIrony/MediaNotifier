@@ -2,10 +2,7 @@ package uk.co.ourfriendirony.medianotifier.autogen.movie;
 
 import com.fasterxml.jackson.annotation.*;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -35,7 +32,7 @@ public class MDMovieSummary {
     @JsonProperty("release_date")
     private Date releaseDate;
     @JsonProperty("genre_ids")
-    private List<Integer> genreIds = null;
+    private List<Integer> genreIds = new ArrayList<>();
     @JsonProperty("id")
     private Integer id;
     @JsonProperty("original_title")

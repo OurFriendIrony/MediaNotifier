@@ -29,18 +29,17 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         TVShowDatabaseDefinition def = new TVShowDatabaseDefinition(getApplicationContext());
-def.getReadableDatabase();
+        def.getReadableDatabase();
         def.getWritableDatabase();
-
 
 
         FloatingActionButton fab_find_tv = (FloatingActionButton) findViewById(R.id.fab_find_tv);
         FloatingActionButton fab_find_movie = (FloatingActionButton) findViewById(R.id.fab_find_movie);
         FloatingActionButton fab_find_music = (FloatingActionButton) findViewById(R.id.fab_find_music);
 
-        Button button_show_tv = (Button) findViewById(R.id.button_show_tv) ;
-        Button button_show_movie = (Button) findViewById(R.id.button_show_movie) ;
-        Button button_show_music = (Button) findViewById(R.id.button_show_music) ;
+        Button button_show_tv = (Button) findViewById(R.id.button_show_tv);
+        Button button_show_movie = (Button) findViewById(R.id.button_show_movie);
+        Button button_show_music = (Button) findViewById(R.id.button_show_music);
 
         fab_find_tv.setOnClickListener(new View.OnClickListener() {
             @Override

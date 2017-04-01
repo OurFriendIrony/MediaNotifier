@@ -2,6 +2,7 @@ package uk.co.ourfriendirony.medianotifier.autogen.music;
 
 import com.fasterxml.jackson.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,9 +44,9 @@ public class MBArtist {
     @JsonProperty("life-span")
     private MBLifeSpan lifeSpan;
     @JsonProperty("aliases")
-    private List<MBAlias> aliases = null;
+    private List<MBAlias> aliases = new ArrayList<>();
     @JsonProperty("tags")
-    private List<MBTag> tags = null;
+    private List<MBTag> tags = new ArrayList<>();
     @JsonProperty("gender")
     private String gender;
     @JsonProperty("disambiguation")
