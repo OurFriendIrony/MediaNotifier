@@ -3,6 +3,7 @@ package uk.co.ourfriendirony.medianotifier.autogen.tvshow;
 import com.fasterxml.jackson.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -11,7 +12,8 @@ import java.util.Map;
         "episode_count",
         "id",
         "poster_path",
-        "season_number"
+        "season_number",
+        "episodes"
 })
 public class MDSeason {
 
@@ -25,6 +27,8 @@ public class MDSeason {
     private Object posterPath;
     @JsonProperty("season_number")
     private Integer seasonNumber;
+    @JsonProperty("episodes")
+    private List<MDEpisode> episodes;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -76,6 +80,16 @@ public class MDSeason {
     @JsonProperty("season_number")
     public void setSeasonNumber(Integer seasonNumber) {
         this.seasonNumber = seasonNumber;
+    }
+
+    @JsonProperty("episodes")
+    public List<MDEpisode> getEpisodes() {
+        return episodes;
+    }
+
+    @JsonProperty("episodes")
+    public void setEpisodes(List<MDEpisode> episodes) {
+        this.episodes = episodes;
     }
 
     @JsonAnyGetter

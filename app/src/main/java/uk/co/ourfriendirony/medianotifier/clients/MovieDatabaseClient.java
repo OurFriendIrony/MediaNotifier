@@ -15,10 +15,7 @@ import java.util.List;
 import uk.co.ourfriendirony.medianotifier.autogen.movie.MDLookupMovie;
 import uk.co.ourfriendirony.medianotifier.autogen.movie.MDMovieSummary;
 import uk.co.ourfriendirony.medianotifier.autogen.movie.MDQueryMovie;
-import uk.co.ourfriendirony.medianotifier.autogen.tvshow.MDLookupTVShow;
-import uk.co.ourfriendirony.medianotifier.autogen.tvshow.MDLookupTVShowSeason;
-import uk.co.ourfriendirony.medianotifier.autogen.tvshow.MDQueryTVShow;
-import uk.co.ourfriendirony.medianotifier.autogen.tvshow.MDTVShowSummary;
+import uk.co.ourfriendirony.medianotifier.autogen.tvshow.*;
 
 import static uk.co.ourfriendirony.medianotifier.general.UrlHandler.urlCleaner;
 
@@ -39,39 +36,50 @@ public class MovieDatabaseClient {
 
     private String payload;
     private int statusCode;
-    private String url;
 
     public List<MDMovieSummary> queryMovie(String movie) throws IOException {
-        url = URL_MOVIE_QUERY.replace("@NAME@", urlCleaner(movie));
-        httpGetRequest(url);
+        httpGetRequest(URL_MOVIE_QUERY
+                .replace("@NAME@", urlCleaner(movie))
+        );
         MDQueryMovie query = OBJECT_MAPPER.readValue(payload, MDQueryMovie.class);
         return query.getResults();
     }
 
-    public MDLookupMovie getMovie(String movieID) throws IOException {
-        url = URL_MOVIE_ID.replace("@ID@", urlCleaner(movieID));
-        httpGetRequest(url);
-        MDLookupMovie movie = OBJECT_MAPPER.readValue(payload, MDLookupMovie.class);
-        return movie;
-    }
-
     public List<MDTVShowSummary> queryTVShow(String tvShow) throws IOException {
-        url = URL_TVSHOW_QUERY.replace("@NAME@", urlCleaner(tvShow));
-        httpGetRequest(url);
+        httpGetRequest(URL_TVSHOW_QUERY
+                .replace("@NAME@", urlCleaner(tvShow))
+        );
         MDQueryTVShow query = OBJECT_MAPPER.readValue(payload, MDQueryTVShow.class);
         return query.getResults();
     }
 
-    public MDLookupTVShow getTVShow(String tvShowID) throws IOException {
-        url = URL_TVSHOW_ID.replace("@ID@", urlCleaner(tvShowID));
-        httpGetRequest(url);
+    public MDLookupMovie getMovie(int movieID) throws IOException {
+        httpGetRequest(URL_MOVIE_ID
+                .replace("@ID@", Integer.toString(movieID))
+        );
+        MDLookupMovie movie = OBJECT_MAPPER.readValue(payload, MDLookupMovie.class);
+        return movie;
+    }
+
+    public MDLookupTVShow getTVShow(int tvShowID) throws IOException {
+        httpGetRequest(URL_TVSHOW_ID
+                .replace("@ID@", Integer.toString(tvShowID))
+        );
         MDLookupTVShow tvShow = OBJECT_MAPPER.readValue(payload, MDLookupTVShow.class);
+
+        for (MDSeason season : tvShow.getSeasons()) {
+            MDLookupTVShowSeason lookupSeason = getTVShowSeason(tvShowID, season.getSeasonNumber());
+            season.setEpisodes(lookupSeason.getEpisodes());
+            season.setEpisodeCount(lookupSeason.getEpisodes().size());
+        }
         return tvShow;
     }
 
     public MDLookupTVShowSeason getTVShowSeason(int tvShowID, int seasonNo) throws IOException {
-        url = URL_TVSHOW_ID_SEASON.replace("@ID@", Integer.toString(tvShowID)).replace("@SEASON@", Integer.toString(seasonNo));
-        httpGetRequest(url);
+        httpGetRequest(URL_TVSHOW_ID_SEASON
+                .replace("@ID@", Integer.toString(tvShowID))
+                .replace("@SEASON@", Integer.toString(seasonNo))
+        );
         MDLookupTVShowSeason tvShow = OBJECT_MAPPER.readValue(payload, MDLookupTVShowSeason.class);
         return tvShow;
     }

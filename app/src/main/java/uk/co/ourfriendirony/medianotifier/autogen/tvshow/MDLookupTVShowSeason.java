@@ -2,6 +2,7 @@ package uk.co.ourfriendirony.medianotifier.autogen.tvshow;
 
 import com.fasterxml.jackson.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,7 @@ public class MDLookupTVShowSeason {
     @JsonProperty("air_date")
     private String airDate;
     @JsonProperty("episodes")
-    private List<MDEpisode> episodes = null;
+    private List<MDEpisode> episodes = new ArrayList<>();
     @JsonProperty("name")
     private String name;
     @JsonProperty("overview")

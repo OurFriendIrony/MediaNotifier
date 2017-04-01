@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.DateFormat;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -21,11 +20,14 @@ public class MyTVShowAdapter extends ArrayAdapter {
     private final List<MDTVShowSummary> tvShows;
 
     DateFormat dateFormat = new SimpleDateFormat("yyyy");
-    DecimalFormat decimalFormat = new DecimalFormat("#.0");
 
     public MyTVShowAdapter(Context context, int textViewResourceId, List<MDTVShowSummary> objects) {
         super(context, textViewResourceId, objects);
         tvShows = objects;
+    }
+
+    public List<MDTVShowSummary> getTvShows() {
+        return tvShows;
     }
 
     @Override
@@ -35,15 +37,17 @@ public class MyTVShowAdapter extends ArrayAdapter {
 
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        MDTVShowSummary tvShow = tvShows.get(i);
+    public View getView(int position, View convertView, ViewGroup parent) {
 
-        View v = view;
+        MDTVShowSummary tvShow = tvShows.get(position);
+
+        View v = convertView;
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         v = inflater.inflate(R.layout.list_item, null);
         TextView textView1 = (TextView) v.findViewById(R.id.lookup_item_title);
         TextView textView2 = (TextView) v.findViewById(R.id.lookup_item_date);
         TextView textView3 = (TextView) v.findViewById(R.id.lookup_item_overview);
+        TextView textView4 = (TextView) v.findViewById(R.id.lookup_item_id);
         ImageView imageView = (ImageView) v.findViewById(R.id.lookup_item_img);
 
         String year = "";
@@ -54,6 +58,7 @@ public class MyTVShowAdapter extends ArrayAdapter {
         textView1.setText(tvShow.getName());
         textView2.setText(year);
         textView3.setText(tvShow.getOverview());
+        textView4.setText(String.valueOf(tvShow.getId()));
         imageView.setImageResource(R.drawable.img_concentric);
         return v;
     }

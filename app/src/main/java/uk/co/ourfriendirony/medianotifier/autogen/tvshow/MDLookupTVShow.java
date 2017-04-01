@@ -2,6 +2,7 @@ package uk.co.ourfriendirony.medianotifier.autogen.tvshow;
 
 import com.fasterxml.jackson.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,13 +41,13 @@ public class MDLookupTVShow {
     @JsonProperty("backdrop_path")
     private String backdropPath;
     @JsonProperty("created_by")
-    private List<MDCreatedBy> createdBy = null;
+    private List<MDCreatedBy> createdBy = new ArrayList<>();
     @JsonProperty("episode_run_time")
-    private List<Integer> episodeRunTime = null;
+    private List<Integer> episodeRunTime = new ArrayList<>();
     @JsonProperty("first_air_date")
     private String firstAirDate;
     @JsonProperty("genres")
-    private List<MDGenre> genres = null;
+    private List<MDGenre> genres = new ArrayList<>();
     @JsonProperty("homepage")
     private String homepage;
     @JsonProperty("id")
@@ -54,19 +55,19 @@ public class MDLookupTVShow {
     @JsonProperty("in_production")
     private Boolean inProduction;
     @JsonProperty("languages")
-    private List<String> languages = null;
+    private List<String> languages = new ArrayList<>();
     @JsonProperty("last_air_date")
     private String lastAirDate;
     @JsonProperty("name")
     private String name;
     @JsonProperty("networks")
-    private List<MDNetwork> networks = null;
+    private List<MDNetwork> networks = new ArrayList<>();
     @JsonProperty("number_of_episodes")
     private Integer numberOfEpisodes;
     @JsonProperty("number_of_seasons")
     private Integer numberOfSeasons;
     @JsonProperty("origin_country")
-    private List<String> originCountry = null;
+    private List<String> originCountry = new ArrayList<>();
     @JsonProperty("original_language")
     private String originalLanguage;
     @JsonProperty("original_name")
@@ -78,9 +79,9 @@ public class MDLookupTVShow {
     @JsonProperty("poster_path")
     private String posterPath;
     @JsonProperty("production_companies")
-    private List<MDProductionCompany> productionCompanies = null;
+    private List<MDProductionCompany> productionCompanies = new ArrayList<>();
     @JsonProperty("seasons")
-    private List<MDSeason> seasons = null;
+    private List<MDSeason> seasons = new ArrayList<>();
     @JsonProperty("status")
     private String status;
     @JsonProperty("type")

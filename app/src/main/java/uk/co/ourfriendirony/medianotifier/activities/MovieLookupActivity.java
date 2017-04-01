@@ -20,24 +20,27 @@ import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
 import uk.co.ourfriendirony.medianotifier.general.MyMovieAdapter;
 
 public class MovieLookupActivity extends AppCompatActivity {
-    ListView simpleList;
-    List<MDMovieSummary> movies = new ArrayList<>();
-    MovieDatabaseClient client = new MovieDatabaseClient();
-    ProgressBar progressBar;
+    private TextView lookupTitle;
+    private EditText lookupInput;
+    private ProgressBar lookupProgressBar;
+    private ListView lookupList;
+
+    private List<MDMovieSummary> movies = new ArrayList<>();
+    private MovieDatabaseClient client = new MovieDatabaseClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lookup);
 
-        simpleList = (ListView) findViewById(R.id.lookup_list);
-        progressBar = (ProgressBar) findViewById(R.id.lookup_progress);
-        TextView textView = (TextView) findViewById(R.id.lookup_title);
-        EditText editText = (EditText) findViewById(R.id.lookup_input);
+        lookupTitle = (TextView) findViewById(R.id.lookup_title);
+        lookupInput = (EditText) findViewById(R.id.lookup_input);
+        lookupProgressBar = (ProgressBar) findViewById(R.id.lookup_progress);
+        lookupList = (ListView) findViewById(R.id.lookup_list);
 
-        textView.setText(R.string.lookup_title_movie);
-        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        lookupTitle.setText(R.string.lookup_title_movie);
 
+        lookupInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
                 boolean handled = false;
@@ -49,13 +52,22 @@ public class MovieLookupActivity extends AppCompatActivity {
             }
         });
 
-        simpleList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lookupList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.v(String.valueOf(this.getClass()), "IM HERE");
+            }
+        });
+
+
+        lookupList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 RelativeLayout layout = (RelativeLayout) view.findViewById(R.id.lookup_secondarybar);
                 ViewGroup.LayoutParams params = layout.getLayoutParams();
                 params.height = (params.height > 0) ? 0 : pdToPx(40);
                 layout.setLayoutParams(params);
+                return true;
             }
         });
     }
@@ -70,7 +82,7 @@ public class MovieLookupActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressBar.setVisibility(View.VISIBLE);
+            lookupProgressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -86,12 +98,11 @@ public class MovieLookupActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute(List<MDMovieSummary> result) {
-            progressBar.setVisibility(View.GONE);
+            lookupProgressBar.setVisibility(View.GONE);
 
             if (movies.size() > 0) {
                 MyMovieAdapter adapter = new MyMovieAdapter(getBaseContext(), R.layout.list_item, movies);
-                simpleList = (ListView) findViewById(R.id.lookup_list);
-                simpleList.setAdapter(adapter);
+                lookupList.setAdapter(adapter);
             } else {
                 Toast.makeText(getBaseContext(), R.string.lookup_no_results, Toast.LENGTH_LONG).show();
             }

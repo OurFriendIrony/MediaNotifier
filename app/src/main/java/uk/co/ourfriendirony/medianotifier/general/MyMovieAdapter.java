@@ -42,6 +42,7 @@ public class MyMovieAdapter extends ArrayAdapter {
         TextView textView1 = (TextView) view.findViewById(R.id.lookup_item_title);
         TextView textView2 = (TextView) view.findViewById(R.id.lookup_item_date);
         TextView textView3 = (TextView) view.findViewById(R.id.lookup_item_overview);
+        TextView textView4 = (TextView) view.findViewById(R.id.lookup_item_id);
         ImageView imageView = (ImageView) view.findViewById(R.id.lookup_item_img);
 
         String year = "";
@@ -52,6 +53,7 @@ public class MyMovieAdapter extends ArrayAdapter {
         textView1.setText(movie.getTitle());
         textView2.setText(year);
         textView3.setText(movie.getOverview());
+        textView4.setText(String.valueOf(movie.getId()));
         imageView.setImageResource(R.drawable.img_concentric);
         return view;
     }
