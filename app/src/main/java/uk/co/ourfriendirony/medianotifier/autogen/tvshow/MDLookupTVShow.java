@@ -1,5 +1,7 @@
 package uk.co.ourfriendirony.medianotifier.autogen.tvshow;
 
+import android.util.Log;
+
 import com.fasterxml.jackson.annotation.*;
 
 import java.util.ArrayList;

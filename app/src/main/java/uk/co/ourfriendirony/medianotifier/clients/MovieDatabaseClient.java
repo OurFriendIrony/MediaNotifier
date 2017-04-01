@@ -16,7 +16,10 @@ import java.util.List;
 import uk.co.ourfriendirony.medianotifier.autogen.movie.MDLookupMovie;
 import uk.co.ourfriendirony.medianotifier.autogen.movie.MDMovieSummary;
 import uk.co.ourfriendirony.medianotifier.autogen.movie.MDQueryMovie;
-import uk.co.ourfriendirony.medianotifier.autogen.tvshow.*;
+import uk.co.ourfriendirony.medianotifier.autogen.tvshow.MDLookupTVShow;
+import uk.co.ourfriendirony.medianotifier.autogen.tvshow.MDLookupTVShowSeason;
+import uk.co.ourfriendirony.medianotifier.autogen.tvshow.MDQueryTVShow;
+import uk.co.ourfriendirony.medianotifier.autogen.tvshow.MDTVShowSummary;
 
 import static uk.co.ourfriendirony.medianotifier.general.UrlHandler.urlCleaner;
 
@@ -68,11 +71,14 @@ public class MovieDatabaseClient {
                 .replace("@ID@", Integer.toString(tvShowID))
         );
         MDLookupTVShow tvShow = OBJECT_MAPPER.readValue(payload, MDLookupTVShow.class);
-        for (MDSeason season : tvShow.getSeasons()) {
-            if (season.getSeasonNumber() > 0) {
-                MDLookupTVShowSeason lookupSeason = getTVShowSeason(tvShowID, season.getSeasonNumber());
-                season.setEpisodes(lookupSeason.getEpisodes());
-                season.setEpisodeCount(lookupSeason.getEpisodes().size());
+        for (int i = tvShow.getSeasons().size()-1; i >= 0; i--) {
+            if (tvShow.getSeasons().get(i).getSeasonNumber() > 0) {
+                Log.v(String.valueOf(this.getClass()), "no > 0 ");
+                MDLookupTVShowSeason lookupSeason = getTVShowSeason(tvShowID, tvShow.getSeasons().get(i).getSeasonNumber());
+                tvShow.getSeasons().get(i).setEpisodes(lookupSeason.getEpisodes());
+                tvShow.getSeasons().get(i).setEpisodeCount(lookupSeason.getEpisodes().size());
+            } else {
+                tvShow.getSeasons().remove(i);
             }
         }
         return tvShow;
