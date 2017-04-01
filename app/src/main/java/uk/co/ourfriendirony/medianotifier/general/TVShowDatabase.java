@@ -71,20 +71,52 @@ public class TVShowDatabase {
     }
 
     public String selectTVShow() {
-        String sql = "SELECT * FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS + ";";
         StringBuilder result = new StringBuilder();
+
+        String sql = "SELECT * FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS + ";";
         Cursor cursor = dbReadable.rawQuery(sql, null);
         try {
             while (cursor.moveToNext()) {
-                result.append(getColumnValue(cursor, TT_ID)).append(" | ")
-                        .append(getColumnValue(cursor, TT_DATE)).append(" | ")
-                        .append(getColumnValue(cursor, TT_TITLE)).append(" | ")
-                        .append(getColumnValue(cursor, TT_OVERVIEW))
+                result.append(getColumnValue(cursor, TT_ID))
+                        .append(" | ").append(getColumnValue(cursor, TT_DATE))
+                        .append(" | ").append(getColumnValue(cursor, TT_TITLE))
+                        .append(" | ").append(getColumnValue(cursor, TT_OVERVIEW))
                         .append("\n*****************\n");
             }
         } finally {
             cursor.close();
         }
+
+        String sqlSeasons = "SELECT * FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS_SEASONS + ";";
+        Cursor cursorSeasons = dbReadable.rawQuery(sqlSeasons, null);
+        try {
+            while (cursorSeasons.moveToNext()) {
+                result.append(">>> ").append(getColumnValue(cursorSeasons, TTS_ID))
+                        .append(" | ").append(getColumnValue(cursorSeasons, TTS_SEASON_NO))
+                        .append(" | ").append(getColumnValue(cursorSeasons, TTS_DATE))
+                        .append("\n*****************\n");
+            }
+        } finally {
+            cursor.close();
+        }
+
+        String sqlEpisodes = "SELECT * FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS_EPISODES + ";";
+        Cursor cursorEpisodes = dbReadable.rawQuery(sqlEpisodes, null);
+        try {
+            while (cursorEpisodes.moveToNext()) {
+                result.append(">>>>> ").append(getColumnValue(cursorEpisodes, TTSE_ID))
+                        .append(" | ").append(getColumnValue(cursorEpisodes, TTSE_SEASON_NO))
+                        .append(" | ").append(getColumnValue(cursorEpisodes, TTSE_EPISODE_NO))
+                        .append(" | ").append(getColumnValue(cursorEpisodes, TTSE_DATE))
+                        .append(" | ").append(getColumnValue(cursorEpisodes, TTSE_TITLE))
+                        .append(" | ").append(getColumnValue(cursorEpisodes, TTSE_OVERVIEW))
+                        .append("\n*****************\n");
+            }
+        } finally {
+            cursor.close();
+        }
+
+
         return result.toString();
 
     }

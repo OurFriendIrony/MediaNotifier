@@ -19,6 +19,8 @@
     <color name="yellow">#FFFF00</color>
     <!--styles-->
     <color name="color_lookup">#FFFFFF</color>
+    <color name="color_notification_on">#FF5555</color>
+    <color name="color_notification_off">#AAAAAA</color>
     <color name="color_primary">#3F51B5</color>
     <color name="color_primary_dark">#303F9F</color>
     <color name="color_accent">#FF4081</color>
