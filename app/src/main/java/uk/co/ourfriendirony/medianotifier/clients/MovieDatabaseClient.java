@@ -31,7 +31,7 @@ public class MovieDatabaseClient {
     private static final String URL_MOVIE_QUERY = HOST + "search/movie" + URL_API + "&query=@NAME@";
     private static final String URL_MOVIE_ID = HOST + "movie/@ID@" + URL_API;
     private static final String URL_TVSHOW_QUERY = HOST + "search/tv" + URL_API + "&query=@NAME@";
-    private static final String URL_TVSHOW_ID = HOST + "tv/@ID@" + URL_API;
+    private static final String URL_TVSHOW_ID = HOST + "tv/@ID@" + URL_API+"&append_to_response=external_ids";
     private static final String URL_TVSHOW_ID_SEASON = HOST + "tv/@ID@/season/@SEASON@" + URL_API;
 
     private static final DefaultHttpClient client = new DefaultHttpClient();

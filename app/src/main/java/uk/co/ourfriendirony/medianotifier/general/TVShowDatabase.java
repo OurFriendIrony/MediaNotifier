@@ -34,8 +34,10 @@ public class TVShowDatabase {
 
         for (MDSeason season : tvShow.getSeasons()) {
             for (MDEpisode episode : season.getEpisodes()) {
+                episode.setId(tvShow.getId());
                 insertTVShowEpisode(episode);
             }
+            season.setId(tvShow.getId());
             insertTVShowSeason(season);
         }
         insertTVShow(tvShow);
@@ -45,7 +47,7 @@ public class TVShowDatabase {
         ContentValues tvShowRow = new ContentValues();
         tvShowRow.put(TT_ID, tvShow.getId());
         tvShowRow.put(TT_TITLE, tvShow.getName());
-        tvShowRow.put(TT_IMDB, "");
+        tvShowRow.put(TT_IMDB, tvShow.getExternalIds().getImdbId());
         tvShowRow.put(TT_DATE, tvShow.getFirstAirDate());
         tvShowRow.put(TT_OVERVIEW, tvShow.getOverview());
         dbWritable.insert(TABLE_TVSHOWS, null, tvShowRow);
@@ -80,6 +82,7 @@ public class TVShowDatabase {
                 result.append(getColumnValue(cursor, TT_ID))
                         .append(" | ").append(getColumnValue(cursor, TT_DATE))
                         .append(" | ").append(getColumnValue(cursor, TT_TITLE))
+                        .append(" | ").append(getColumnValue(cursor, TT_IMDB))
                         .append(" | ").append(getColumnValue(cursor, TT_OVERVIEW))
                         .append("\n*****************\n");
             }

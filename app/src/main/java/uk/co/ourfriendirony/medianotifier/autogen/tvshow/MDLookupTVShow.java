@@ -1,7 +1,5 @@
 package uk.co.ourfriendirony.medianotifier.autogen.tvshow;
 
-import android.util.Log;
-
 import com.fasterxml.jackson.annotation.*;
 
 import java.util.ArrayList;
@@ -36,7 +34,8 @@ import java.util.Map;
         "status",
         "type",
         "vote_average",
-        "vote_count"
+        "vote_count",
+        "external_ids"
 })
 public class MDLookupTVShow {
 
@@ -92,6 +91,8 @@ public class MDLookupTVShow {
     private Integer voteAverage;
     @JsonProperty("vote_count")
     private Integer voteCount;
+    @JsonProperty("external_ids")
+    private MDExternalIds externalIds;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -353,6 +354,16 @@ public class MDLookupTVShow {
     @JsonProperty("vote_count")
     public void setVoteCount(Integer voteCount) {
         this.voteCount = voteCount;
+    }
+
+    @JsonProperty("external_ids")
+    public MDExternalIds getExternalIds() {
+        return externalIds;
+    }
+
+    @JsonProperty("external_ids")
+    public void setExternalIds(MDExternalIds externalIds) {
+        this.externalIds = externalIds;
     }
 
     @JsonAnyGetter
