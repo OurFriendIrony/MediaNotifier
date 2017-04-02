@@ -2,10 +2,7 @@ package uk.co.ourfriendirony.medianotifier.autogen.tvshow;
 
 import com.fasterxml.jackson.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -36,7 +33,7 @@ public class TVShow {
     @JsonProperty("episode_run_time")
     private List<Integer> episodeRunTime = new ArrayList<>();
     @JsonProperty("first_air_date")
-    private String firstAirDate;
+    private Date firstAirDate;
     @JsonProperty("id")
     private Integer id;
     @JsonProperty("in_production")
@@ -93,12 +90,12 @@ public class TVShow {
     }
 
     @JsonProperty("first_air_date")
-    public String getFirstAirDate() {
+    public Date getFirstAirDate() {
         return firstAirDate;
     }
 
     @JsonProperty("first_air_date")
-    public void setFirstAirDate(String firstAirDate) {
+    public void setFirstAirDate(Date firstAirDate) {
         this.firstAirDate = firstAirDate;
     }
 

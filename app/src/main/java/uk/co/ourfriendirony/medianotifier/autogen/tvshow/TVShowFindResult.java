@@ -13,17 +13,17 @@ import java.util.Map;
 })
 public class TVShowFindResult {
     @JsonProperty("results")
-    private List<TVShowFind> results = new ArrayList<>();
+    private List<TVShow> results = new ArrayList<>();
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("results")
-    public List<TVShowFind> getResults() {
+    public List<TVShow> getResults() {
         return results;
     }
 
     @JsonProperty("results")
-    public void setResults(List<TVShowFind> results) {
+    public void setResults(List<TVShow> results) {
         this.results = results;
     }
 

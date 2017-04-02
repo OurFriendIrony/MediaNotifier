@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import android.widget.Toast;
 
 public class TVShowDatabaseDefinition extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "tv_shows";
@@ -70,7 +69,8 @@ public class TVShowDatabaseDefinition extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.v(String.valueOf(this.getClass()), "TV.onUpdate: old="+oldVersion+" new="+newVersion);
+        Log.v(String.valueOf(this.getClass()), "TV.onUpdate: old=" + oldVersion + " new=" + newVersion);
+
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TVSHOWS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TVSHOWS_SEASONS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TVSHOWS_EPISODES);

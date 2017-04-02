@@ -3,7 +3,6 @@ package uk.co.ourfriendirony.medianotifier.activities;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +54,7 @@ public class MovieFindActivity extends AppCompatActivity {
         findList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.v(String.valueOf(this.getClass()), "IM HERE");
+                Toast.makeText(MovieFindActivity.this, "NOT YET IMPLEMENTED", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -89,7 +88,6 @@ public class MovieFindActivity extends AppCompatActivity {
         protected List<MovieFind> doInBackground(String... strings) {
             String string = strings[0];
             try {
-                Log.v(String.valueOf(this.getClass()), string);
                 movies = client.queryMovie(string.toString());
             } catch (IOException e) {
                 movies = new ArrayList<>();

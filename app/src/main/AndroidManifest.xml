@@ -24,7 +24,7 @@
         <activity android:name=".activities.TVShowFindActivity"/>
         <activity android:name=".activities.MovieFindActivity">
         </activity>
-        <activity android:name=".activities.TVListActivity">
+        <activity android:name=".activities.TVShowListActivity">
         </activity>
     </application>
 

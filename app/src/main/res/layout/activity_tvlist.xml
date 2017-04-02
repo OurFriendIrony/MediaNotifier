@@ -9,10 +9,19 @@
     android:scrollbars="vertical"
     android:layout_margin="5dp">
 
-    <TextView
-        android:id="@+id/list_text"
+    <!--<TextView-->
+        <!--android:id="@+id/list_text"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:text="Scroll output"-->
+        <!--/>-->
+    <ListView
+        android:id="@+id/find_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Scroll output"
-        />
+        android:background="@drawable/border_basic"
+        android:divider="@color/black"
+        android:dividerHeight="2dp"
+        android:padding="6dp">
+    </ListView>
 </ScrollView>

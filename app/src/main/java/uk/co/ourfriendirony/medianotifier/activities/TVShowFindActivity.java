@@ -3,7 +3,6 @@ package uk.co.ourfriendirony.medianotifier.activities;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShowFind;
+import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
 import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition;
-import uk.co.ourfriendirony.medianotifier.listviewadapter.TVShowListViewAdapter;
+import uk.co.ourfriendirony.medianotifier.listviewadapter.TVShowFindListAdapter;
 
 public class TVShowFindActivity extends AppCompatActivity {
     private TextView findTitle;
@@ -27,7 +26,7 @@ public class TVShowFindActivity extends AppCompatActivity {
     private ProgressBar findProgressBar;
     private ListView findList;
 
-    private List<TVShowFind> tvShows = new ArrayList<>();
+    private List<TVShow> tvShows = new ArrayList<>();
     private MovieDatabaseClient client = new MovieDatabaseClient();
     private TVShowDatabase database;
 
@@ -86,7 +85,7 @@ public class TVShowFindActivity extends AppCompatActivity {
         return (int) (dimensionDp * density + 0.5f);
     }
 
-    class TVShowFindAsyncTask extends AsyncTask<String, Void, List<TVShowFind>> {
+    class TVShowFindAsyncTask extends AsyncTask<String, Void, List<TVShow>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -94,22 +93,21 @@ public class TVShowFindActivity extends AppCompatActivity {
         }
 
         @Override
-        protected List<TVShowFind> doInBackground(String... strings) {
+        protected List<TVShow> doInBackground(String... strings) {
             String string = strings[0];
             try {
-                Log.v(String.valueOf(this.getClass()), string);
-                tvShows = client.queryTVShow(string.toString());
+                tvShows = client.queryTVShow(string);
             } catch (IOException e) {
                 tvShows = new ArrayList<>();
             }
             return tvShows;
         }
 
-        protected void onPostExecute(List<TVShowFind> result) {
+        protected void onPostExecute(List<TVShow> result) {
             findProgressBar.setVisibility(View.GONE);
 
             if (tvShows.size() > 0) {
-                TVShowListViewAdapter adapter = new TVShowListViewAdapter(getBaseContext(), R.layout.find_item, tvShows);
+                TVShowFindListAdapter adapter = new TVShowFindListAdapter(getBaseContext(), R.layout.find_item, tvShows);
                 findList.setAdapter(adapter);
             } else {
                 Toast.makeText(getBaseContext(), R.string.find_no_results, Toast.LENGTH_LONG).show();

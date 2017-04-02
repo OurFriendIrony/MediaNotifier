@@ -14,19 +14,19 @@ import java.util.Date;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShowFind;
+import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
 
-public class TVShowListViewAdapter extends ArrayAdapter {
-    private final List<TVShowFind> tvShows;
+public class TVShowFindListAdapter extends ArrayAdapter {
+    private final List<TVShow> tvShows;
 
     DateFormat dateFormat = new SimpleDateFormat("yyyy");
 
-    public TVShowListViewAdapter(Context context, int textViewResourceId, List<TVShowFind> objects) {
+    public TVShowFindListAdapter(Context context, int textViewResourceId, List<TVShow> objects) {
         super(context, textViewResourceId, objects);
         tvShows = objects;
     }
 
-    public List<TVShowFind> getTvShows() {
+    public List<TVShow> getTvShows() {
         return tvShows;
     }
 
@@ -38,9 +38,7 @@ public class TVShowListViewAdapter extends ArrayAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
-        TVShowFind tvShow = tvShows.get(position);
-
+        TVShow tvShow = tvShows.get(position);
         View v = convertView;
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         v = inflater.inflate(R.layout.find_item, null);
@@ -60,6 +58,7 @@ public class TVShowListViewAdapter extends ArrayAdapter {
         textView3.setText(tvShow.getOverview());
         textView4.setText(String.valueOf(tvShow.getId()));
         imageView.setImageResource(R.drawable.circle_off);
+
         return v;
     }
 }
