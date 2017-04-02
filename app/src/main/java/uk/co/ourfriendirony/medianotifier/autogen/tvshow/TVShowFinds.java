@@ -11,7 +11,7 @@ import java.util.Map;
 @JsonPropertyOrder({
         "results"
 })
-public class TVShowFindResult {
+public class TVShowFinds {
     @JsonProperty("results")
     private List<TVShow> results = new ArrayList<>();
     @JsonIgnore

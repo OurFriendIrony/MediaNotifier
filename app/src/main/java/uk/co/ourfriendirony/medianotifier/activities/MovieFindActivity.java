@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.autogen.movie.MovieFind;
+import uk.co.ourfriendirony.medianotifier.autogen.movie.Movie;
 import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.MovieListViewAdapter;
 
@@ -24,7 +24,7 @@ public class MovieFindActivity extends AppCompatActivity {
     private ProgressBar findProgressBar;
     private ListView findList;
 
-    private List<MovieFind> movies = new ArrayList<>();
+    private List<Movie> movies = new ArrayList<>();
     private MovieDatabaseClient client = new MovieDatabaseClient();
 
     @Override
@@ -76,7 +76,7 @@ public class MovieFindActivity extends AppCompatActivity {
         return (int) (dimensionDp * density + 0.5f);
     }
 
-    class MovieFindAsyncTask extends AsyncTask<String, Void, List<MovieFind>> {
+    class MovieFindAsyncTask extends AsyncTask<String, Void, List<Movie>> {
 
         @Override
         protected void onPreExecute() {
@@ -85,7 +85,7 @@ public class MovieFindActivity extends AppCompatActivity {
         }
 
         @Override
-        protected List<MovieFind> doInBackground(String... strings) {
+        protected List<Movie> doInBackground(String... strings) {
             String string = strings[0];
             try {
                 movies = client.queryMovie(string.toString());
@@ -95,7 +95,7 @@ public class MovieFindActivity extends AppCompatActivity {
             return movies;
         }
 
-        protected void onPostExecute(List<MovieFind> result) {
+        protected void onPostExecute(List<Movie> result) {
             findProgressBar.setVisibility(View.GONE);
 
             if (movies.size() > 0) {

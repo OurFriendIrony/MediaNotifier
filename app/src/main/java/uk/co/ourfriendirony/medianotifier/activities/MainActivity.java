@@ -61,21 +61,21 @@ public class MainActivity extends AppCompatActivity {
         button_show_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), TVShowListActivity.class));
+                startActivity(new Intent(view.getContext(), TVShowActivity.class));
             }
         });
         button_show_movie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this, "NOT YET IMPLEMENTED", Toast.LENGTH_SHORT).show();
-//                startActivity(new Intent(view.getContext(), TVShowListActivity.class));
+//                startActivity(new Intent(view.getContext(), TVShowActivity.class));
             }
         });
         button_show_music.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this, "NOT YET IMPLEMENTED", Toast.LENGTH_SHORT).show();
-//                startActivity(new Intent(view.getContext(), TVShowListActivity.class));
+//                startActivity(new Intent(view.getContext(), TVShowActivity.class));
             }
         });
         tmdbImage.setOnClickListener(new View.OnClickListener() {

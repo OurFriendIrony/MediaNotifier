@@ -13,17 +13,17 @@ import java.util.Map;
 })
 public class MovieFindResult {
     @JsonProperty("results")
-    private List<MovieFind> results = new ArrayList<>();
+    private List<Movie> results = new ArrayList<>();
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("results")
-    public List<MovieFind> getResults() {
+    public List<Movie> getResults() {
         return results;
     }
 
     @JsonProperty("results")
-    public void setResults(List<MovieFind> results) {
+    public void setResults(List<Movie> results) {
         this.results = results;
     }
 

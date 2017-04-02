@@ -27,11 +27,11 @@ import java.util.*;
         "external_ids"
 })
 public class TVShow {
-
     @JsonProperty("backdrop_path")
     private String backdropPath;
     @JsonProperty("episode_run_time")
     private List<Integer> episodeRunTime = new ArrayList<>();
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @JsonProperty("first_air_date")
     private Date firstAirDate;
     @JsonProperty("id")
@@ -268,5 +268,4 @@ public class TVShow {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
-
 }

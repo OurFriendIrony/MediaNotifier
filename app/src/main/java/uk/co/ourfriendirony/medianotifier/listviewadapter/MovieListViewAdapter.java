@@ -14,14 +14,14 @@ import java.util.Date;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.autogen.movie.MovieFind;
+import uk.co.ourfriendirony.medianotifier.autogen.movie.Movie;
 
 public class MovieListViewAdapter extends ArrayAdapter {
-    private final List<MovieFind> movies;
+    private final List<Movie> movies;
 
     DateFormat dateFormat = new SimpleDateFormat("yyyy");
 
-    public MovieListViewAdapter(Context context, int textViewResourceId, List<MovieFind> movies) {
+    public MovieListViewAdapter(Context context, int textViewResourceId, List<Movie> movies) {
         super(context, textViewResourceId, movies);
         this.movies = movies;
     }
@@ -35,7 +35,7 @@ public class MovieListViewAdapter extends ArrayAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
 
-        MovieFind movie = movies.get(position);
+        Movie movie = movies.get(position);
 
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(R.layout.find_item, null);

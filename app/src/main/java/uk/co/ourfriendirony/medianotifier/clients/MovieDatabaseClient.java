@@ -14,11 +14,10 @@ import java.io.IOException;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.autogen.movie.Movie;
-import uk.co.ourfriendirony.medianotifier.autogen.movie.MovieFind;
 import uk.co.ourfriendirony.medianotifier.autogen.movie.MovieFindResult;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVSeason;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
-import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShowFindResult;
+import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShowFinds;
 
 import static uk.co.ourfriendirony.medianotifier.general.UrlHandler.urlCleaner;
 
@@ -41,7 +40,7 @@ public class MovieDatabaseClient {
     private int statusCode;
     private String headers;
 
-    public List<MovieFind> queryMovie(String movie) throws IOException {
+    public List<Movie> queryMovie(String movie) throws IOException {
         httpGetRequest(URL_MOVIE_QUERY
                 .replace("@NAME@", urlCleaner(movie))
         );
@@ -53,7 +52,7 @@ public class MovieDatabaseClient {
         httpGetRequest(URL_TVSHOW_QUERY
                 .replace("@NAME@", urlCleaner(tvShow))
         );
-        TVShowFindResult query = OBJECT_MAPPER.readValue(payload, TVShowFindResult.class);
+        TVShowFinds query = OBJECT_MAPPER.readValue(payload, TVShowFinds.class);
         return query.getResults();
     }
 

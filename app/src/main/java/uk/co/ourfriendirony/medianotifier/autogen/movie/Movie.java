@@ -2,10 +2,7 @@ package uk.co.ourfriendirony.medianotifier.autogen.movie;
 
 import com.fasterxml.jackson.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -43,7 +40,7 @@ public class Movie {
     @JsonProperty("poster_path")
     private String posterPath;
     @JsonProperty("release_date")
-    private String releaseDate;
+    private Date releaseDate;
     @JsonProperty("runtime")
     private Integer runtime;
     @JsonProperty("status")
@@ -140,12 +137,12 @@ public class Movie {
     }
 
     @JsonProperty("release_date")
-    public String getReleaseDate() {
+    public Date getReleaseDate() {
         return releaseDate;
     }
 
     @JsonProperty("release_date")
-    public void setReleaseDate(String releaseDate) {
+    public void setReleaseDate(Date releaseDate) {
         this.releaseDate = releaseDate;
     }
 

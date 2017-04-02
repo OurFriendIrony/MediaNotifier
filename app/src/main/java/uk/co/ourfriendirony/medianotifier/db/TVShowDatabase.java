@@ -4,18 +4,18 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.IOException;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVEpisode;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVSeason;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
-import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShowExternalIds;
 import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
 
 import static uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition.*;
@@ -25,6 +25,7 @@ public class TVShowDatabase {
     private final SQLiteDatabase dbWritable;
     private final SQLiteDatabase dbReadable;
     DateFormat dateFormat = new SimpleDateFormat("yyyy");
+    DateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public TVShowDatabase(TVShowDatabaseDefinition databaseHelper) {
         dbWritable = databaseHelper.getWritableDatabase();
@@ -52,12 +53,20 @@ public class TVShowDatabase {
     }
 
     private void insertTVShow(TVShow tvShow) {
+        ObjectMapper mapper = new ObjectMapper();
+        String rawJson = null;
+        try {
+            rawJson = new ObjectMapper().writeValueAsString(tvShow);
+        } catch (JsonProcessingException e) {
+            rawJson = "";
+        }
         ContentValues tvShowRow = new ContentValues();
         tvShowRow.put(TT_ID, tvShow.getId());
         tvShowRow.put(TT_TITLE, tvShow.getName());
         tvShowRow.put(TT_IMDB, tvShow.getExternalIds().getImdbId());
         tvShowRow.put(TT_DATE, tvShow.getFirstAirDate().toString());
         tvShowRow.put(TT_OVERVIEW, tvShow.getOverview());
+        tvShowRow.put(TT_RAWJSON, rawJson);
         dbWritable.insert(TABLE_TVSHOWS, null, tvShowRow);
     }
 
@@ -92,6 +101,7 @@ public class TVShowDatabase {
                         .append(" | ").append(getColumnValue(cursor, TT_TITLE))
                         .append(" | ").append(getColumnValue(cursor, TT_IMDB))
                         .append(" | ").append(getColumnValue(cursor, TT_OVERVIEW))
+                        .append(" | ").append(getColumnValue(cursor, TT_RAWJSON))
                         .append("\n*****************\n");
             }
         } finally {
@@ -126,10 +136,7 @@ public class TVShowDatabase {
         } finally {
             cursor.close();
         }
-
-
         return result.toString();
-
     }
 
     private String getColumnValue(Cursor cursor, String field) {
@@ -145,22 +152,17 @@ public class TVShowDatabase {
     public List<TVShow> getTVShows() {
         List<TVShow> tvShows = new ArrayList<>();
 
-        String sql = "SELECT * FROM " + TABLE_TVSHOWS + ";";
+        String sql = "SELECT " + TT_RAWJSON + " FROM " + TABLE_TVSHOWS + ";";
         Cursor cursor = dbReadable.rawQuery(sql, null);
         try {
             while (cursor.moveToNext()) {
+                ObjectMapper mapper = new ObjectMapper();
                 TVShow tvShow = new TVShow();
-                tvShow.setId(Integer.parseInt(getColumnValue(cursor, TT_ID)));
                 try {
-                    tvShow.setFirstAirDate(dateFormat.parse(getColumnValue(cursor, TT_ID)));
-                } catch (ParseException e) {
-                    tvShow.setFirstAirDate(new Date());
+                    tvShow = mapper.readValue(getColumnValue(cursor, TT_RAWJSON), TVShow.class);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                tvShow.setName(getColumnValue(cursor, TT_TITLE));
-                tvShow.setOverview(getColumnValue(cursor, TT_OVERVIEW));
-                TVShowExternalIds ids = new TVShowExternalIds();
-                ids.setImdbId(getColumnValue(cursor, TT_IMDB));
-                tvShow.setExternalIds(ids);
                 tvShows.add(tvShow);
             }
         } finally {

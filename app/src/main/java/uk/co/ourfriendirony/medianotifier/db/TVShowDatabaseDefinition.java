@@ -14,6 +14,7 @@ public class TVShowDatabaseDefinition extends SQLiteOpenHelper {
     public static final String TT_IMDB = "imdb_id";
     public static final String TT_DATE = "air_date";
     public static final String TT_OVERVIEW = "overview";
+    public static final String TT_RAWJSON = "rawjson";
 
     public static final String TABLE_TVSHOWS_SEASONS = "tv_shows_seasons";
     public static final String TTS_ID = "_id";
@@ -46,6 +47,7 @@ public class TVShowDatabaseDefinition extends SQLiteOpenHelper {
                 TT_IMDB + " TEXT, " +
                 TT_DATE + " TEXT, " +
                 TT_OVERVIEW + " TEXT, " +
+                TT_RAWJSON+ " TEXT, " +
                 "PRIMARY KEY (" + TT_ID + ")" +
                 ")");
 
