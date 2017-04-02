@@ -59,7 +59,7 @@ public class TVShowListViewAdapter extends ArrayAdapter {
         textView2.setText(year);
         textView3.setText(tvShow.getOverview());
         textView4.setText(String.valueOf(tvShow.getId()));
-        imageView.setImageResource(R.drawable.img_concentric);
+        imageView.setImageResource(R.drawable.circle_off);
         return v;
     }
 }

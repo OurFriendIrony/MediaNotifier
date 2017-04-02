@@ -54,7 +54,7 @@ public class MovieListViewAdapter extends ArrayAdapter {
         textView2.setText(year);
         textView3.setText(movie.getOverview());
         textView4.setText(String.valueOf(movie.getId()));
-        imageView.setImageResource(R.drawable.img_concentric);
+        imageView.setImageResource(R.drawable.circle_off);
         return view;
     }
 }

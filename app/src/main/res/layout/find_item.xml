@@ -17,16 +17,8 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:padding="0dp"
-            android:src="@drawable/img_concentric"
+            android:src="@drawable/circle_off"
             />
-        <!--<android.support.design.widget.FloatingActionButton-->
-            <!--android:id="@+id/find_item_img"-->
-            <!--android:layout_width="40dp"-->
-            <!--android:layout_height="40dp"-->
-            <!--android:backgroundTint="@color/grey"-->
-            <!--android:padding="0dp"-->
-            <!--app:borderWidth="0dp"-->
-            <!--/>-->
 
         <TextView
             android:id="@+id/find_item_id"

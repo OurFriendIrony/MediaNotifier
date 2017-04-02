@@ -1,9 +1,7 @@
 package uk.co.ourfriendirony.medianotifier.activities;
 
-import android.content.res.ColorStateList;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -66,8 +64,8 @@ public class TVShowFindActivity extends AppCompatActivity {
                 TextView textViewID = (TextView) view.findViewById(R.id.find_item_id);
                 TextView textViewTitle = (TextView) view.findViewById(R.id.find_item_title);
                 new TVShowAddAsyncTask().execute(textViewID.getText().toString(), textViewTitle.getText().toString());
-//                FloatingActionButton imageView = (FloatingActionButton) view.findViewById(R.id.find_item_img);
-//                imageView.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.green)));
+                ImageView img = (ImageView) view.findViewById(R.id.find_item_img);
+                img.setImageDrawable(getResources().getDrawable(R.drawable.circle_on));
             }
         });
 
