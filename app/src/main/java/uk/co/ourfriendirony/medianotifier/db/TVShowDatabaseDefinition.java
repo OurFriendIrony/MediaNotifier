@@ -39,8 +39,7 @@ public class TVShowDatabaseDefinition extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Toast.makeText(context, "onCreate INVOKED", Toast.LENGTH_SHORT).show();
-        Log.v(String.valueOf(this.getClass()), "onCreate INVOKED");
+        Log.v(String.valueOf(this.getClass()), "TV.onCreate");
 
         db.execSQL("CREATE TABLE " + TABLE_TVSHOWS + " (" +
                 TT_ID + " INTEGER, " +
@@ -71,9 +70,7 @@ public class TVShowDatabaseDefinition extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Toast.makeText(context, "onUpgrade INVOKED", Toast.LENGTH_SHORT).show();
-        Log.v(String.valueOf(this.getClass()), "onCreate INVOKED");
-
+        Log.v(String.valueOf(this.getClass()), "TV.onUpdate: old="+oldVersion+" new="+newVersion);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TVSHOWS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TVSHOWS_SEASONS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TVSHOWS_EPISODES);

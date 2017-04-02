@@ -1,7 +1,6 @@
 package uk.co.ourfriendirony.medianotifier.activities;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
@@ -15,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition;
+import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,11 +29,6 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        TVShowDatabaseDefinition def = new TVShowDatabaseDefinition(getApplicationContext());
-        def.getReadableDatabase();
-        def.getWritableDatabase();
-
-
         FloatingActionButton fab_find_tv = (FloatingActionButton) findViewById(R.id.fab_find_tv);
         FloatingActionButton fab_find_movie = (FloatingActionButton) findViewById(R.id.fab_find_movie);
         FloatingActionButton fab_find_music = (FloatingActionButton) findViewById(R.id.fab_find_music);
@@ -42,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
         Button button_show_tv = (Button) findViewById(R.id.button_show_tv);
         Button button_show_movie = (Button) findViewById(R.id.button_show_movie);
         Button button_show_music = (Button) findViewById(R.id.button_show_music);
+
+        ImageView tmdbImage = (ImageView) findViewById(R.id.badge_tmdb);
 
         fab_find_tv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,14 +78,9 @@ public class MainActivity extends AppCompatActivity {
 //                startActivity(new Intent(view.getContext(), TVListActivity.class));
             }
         });
-        ImageView img = (ImageView)findViewById(R.id.badge_tmdb);
-        img.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                Intent intent = new Intent();
-                intent.setAction(Intent.ACTION_VIEW);
-                intent.addCategory(Intent.CATEGORY_BROWSABLE);
-                intent.setData(Uri.parse("https://www.themoviedb.org/"));
-                startActivity(intent);
+        tmdbImage.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(IntentGenerator.getWebPageIntent("https://www.themoviedb.org/"));
             }
         });
     }
