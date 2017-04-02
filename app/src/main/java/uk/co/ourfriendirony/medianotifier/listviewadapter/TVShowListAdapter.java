@@ -16,12 +16,12 @@ import java.util.List;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
 
-public class TVShowFindListAdapter extends ArrayAdapter {
+public class TVShowListAdapter extends ArrayAdapter {
     private final List<TVShow> tvShows;
 
     DateFormat dateFormat = new SimpleDateFormat("yyyy");
 
-    public TVShowFindListAdapter(Context context, int textViewResourceId, List<TVShow> objects) {
+    public TVShowListAdapter(Context context, int textViewResourceId, List<TVShow> objects) {
         super(context, textViewResourceId, objects);
         tvShows = objects;
     }

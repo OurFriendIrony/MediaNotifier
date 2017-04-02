@@ -18,7 +18,7 @@ import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
 import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition;
-import uk.co.ourfriendirony.medianotifier.listviewadapter.TVShowFindListAdapter;
+import uk.co.ourfriendirony.medianotifier.listviewadapter.TVShowListAdapter;
 
 public class TVShowFindActivity extends AppCompatActivity {
     private TextView findTitle;
@@ -61,9 +61,9 @@ public class TVShowFindActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView textViewID = (TextView) view.findViewById(R.id.find_item_id);
-                TextView textViewTitle = (TextView) view.findViewById(R.id.find_item_title);
+                TextView textViewTitle = (TextView) view.findViewById(R.id.find_item_season_title);
                 new TVShowAddAsyncTask().execute(textViewID.getText().toString(), textViewTitle.getText().toString());
-                ImageView img = (ImageView) view.findViewById(R.id.find_item_img);
+                ImageView img = (ImageView) view.findViewById(R.id.find_item_season_img);
                 img.setImageDrawable(getResources().getDrawable(R.drawable.circle_on));
             }
         });
@@ -107,7 +107,7 @@ public class TVShowFindActivity extends AppCompatActivity {
             findProgressBar.setVisibility(View.GONE);
 
             if (tvShows.size() > 0) {
-                TVShowFindListAdapter adapter = new TVShowFindListAdapter(getBaseContext(), R.layout.find_item, tvShows);
+                TVShowListAdapter adapter = new TVShowListAdapter(getBaseContext(), R.layout.find_item, tvShows);
                 findList.setAdapter(adapter);
             } else {
                 Toast.makeText(getBaseContext(), R.string.find_no_results, Toast.LENGTH_LONG).show();
