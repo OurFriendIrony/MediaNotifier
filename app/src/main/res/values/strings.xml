@@ -10,7 +10,9 @@
     <string name="find_title_movie">Find: Movie</string>
     <string name="find_title_music">Find: Artist</string>
     <string name="find_no_results">No Matches</string>
+
     <string name="find_add_to_db">Adding to Database</string>
+    <string name="find_add_to_db_done">Added</string>
 
     <string name="button_delete_tv_all">Delete TV Shows</string>
     <string name="button_delete_movie_all">Delete Movies</string>

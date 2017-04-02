@@ -1,7 +1,9 @@
 package uk.co.ourfriendirony.medianotifier.activities;
 
+import android.content.res.ColorStateList;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -17,9 +19,9 @@ import java.util.List;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShowFind;
 import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
-import uk.co.ourfriendirony.medianotifier.listviewadapter.TVShowListViewAdapter;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition;
+import uk.co.ourfriendirony.medianotifier.listviewadapter.TVShowListViewAdapter;
 
 public class TVShowFindActivity extends AppCompatActivity {
     private TextView findTitle;
@@ -61,9 +63,11 @@ public class TVShowFindActivity extends AppCompatActivity {
         findList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.v(String.valueOf(this.getClass()), "IM HERE");
-                TextView textView = (TextView) view.findViewById(R.id.find_item_id);
-                database.saveTVShow(Integer.parseInt(textView.getText().toString()));
+                TextView textViewID = (TextView) view.findViewById(R.id.find_item_id);
+                TextView textViewTitle = (TextView) view.findViewById(R.id.find_item_title);
+                new TVShowAddAsyncTask().execute(textViewID.getText().toString(), textViewTitle.getText().toString());
+//                FloatingActionButton imageView = (FloatingActionButton) view.findViewById(R.id.find_item_img);
+//                imageView.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.green)));
             }
         });
 
@@ -85,7 +89,6 @@ public class TVShowFindActivity extends AppCompatActivity {
     }
 
     class TVShowFindAsyncTask extends AsyncTask<String, Void, List<TVShowFind>> {
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -113,6 +116,27 @@ public class TVShowFindActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(getBaseContext(), R.string.find_no_results, Toast.LENGTH_LONG).show();
             }
+        }
+    }
+
+    class TVShowAddAsyncTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            findProgressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String string = params[0];
+            database.saveTVShow(Integer.parseInt(string));
+            return params[1];
+        }
+
+        protected void onPostExecute(String title) {
+            findProgressBar.setVisibility(View.GONE);
+            String toastMsg = "'" + title + "' " + getResources().getString(R.string.find_add_to_db_done);
+            Toast.makeText(getApplicationContext(), toastMsg, Toast.LENGTH_SHORT).show();
         }
     }
 }
