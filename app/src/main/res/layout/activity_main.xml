@@ -45,6 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:layout_margin="3dp"
                 android:background="@drawable/border_basic"
                 android:orientation="horizontal">
 
@@ -72,18 +73,20 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_toStartOf="@+id/button_notification_tv"
+                        android:layout_marginEnd="15dp"
                         android:text="@string/button_tvshows"
                         />
 
                     <android.support.design.widget.FloatingActionButton
                         android:id="@+id/button_notification_tv"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_margin="5dp"
                         android:backgroundTint="@color/color_notification_off"
+                        android:clickable="true"
+                        app:borderWidth="0dp"
                         />
                 </RelativeLayout>
             </LinearLayout>
@@ -92,6 +95,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:layout_margin="3dp"
                 android:background="@drawable/border_basic"
                 android:orientation="horizontal">
 
@@ -118,18 +122,21 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_toStartOf="@+id/button_notification_movie"
+                        android:layout_marginEnd="15dp"
                         android:text="@string/button_movies"
                         />
 
                     <android.support.design.widget.FloatingActionButton
                         android:id="@+id/button_notification_movie"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_margin="5dp"
                         android:backgroundTint="@color/color_notification_off"
+                        android:clickable="true"
+                        app:borderWidth="0dp"
+
                         />
                 </RelativeLayout>
             </LinearLayout>
@@ -138,6 +145,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:layout_margin="3dp"
                 android:background="@drawable/border_basic"
                 android:orientation="horizontal">
 
@@ -164,18 +172,21 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_toStartOf="@+id/button_notification_music"
+                        android:layout_marginEnd="15dp"
                         android:text="@string/button_music"
                         />
 
                     <android.support.design.widget.FloatingActionButton
                         android:id="@+id/button_notification_music"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_margin="5dp"
+                        android:background="@color/aqua"
                         android:backgroundTint="@color/color_notification_off"
+                        android:clickable="true"
+                        app:borderWidth="0dp"
                         />
 
                 </RelativeLayout>
