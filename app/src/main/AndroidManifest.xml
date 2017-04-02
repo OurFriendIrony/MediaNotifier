@@ -21,8 +21,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.SettingsActivity"/>
-        <activity android:name=".activities.TVLookupActivity"/>
-        <activity android:name=".activities.MovieLookupActivity">
+        <activity android:name=".activities.TVShowFindActivity"/>
+        <activity android:name=".activities.MovieFindActivity">
         </activity>
         <activity android:name=".activities.TVListActivity">
         </activity>

@@ -1,4 +1,4 @@
-package uk.co.ourfriendirony.medianotifier.general;
+package uk.co.ourfriendirony.medianotifier.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

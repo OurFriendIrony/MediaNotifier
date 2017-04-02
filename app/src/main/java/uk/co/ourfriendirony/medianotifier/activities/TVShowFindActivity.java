@@ -17,62 +17,60 @@ import java.util.List;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShowFind;
 import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
-import uk.co.ourfriendirony.medianotifier.general.MyTVShowAdapter;
-import uk.co.ourfriendirony.medianotifier.general.TVShowDatabase;
-import uk.co.ourfriendirony.medianotifier.general.TVShowDatabaseDefinition;
+import uk.co.ourfriendirony.medianotifier.listviewadapter.TVShowListViewAdapter;
+import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
+import uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition;
 
-public class TVLookupActivity extends AppCompatActivity {
-    private TextView lookupTitle;
-    private EditText lookupInput;
-    private ProgressBar lookupProgressBar;
-    private ListView lookupList;
+public class TVShowFindActivity extends AppCompatActivity {
+    private TextView findTitle;
+    private EditText findInput;
+    private ProgressBar findProgressBar;
+    private ListView findList;
 
     private List<TVShowFind> tvShows = new ArrayList<>();
     private MovieDatabaseClient client = new MovieDatabaseClient();
     private TVShowDatabase database;
-    //    private SQLiteDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lookup);
+        setContentView(R.layout.activity_find);
 
-//        database = openOrCreateDatabase(TVShowDatabaseDefinition.DATABASE_NAME, Context.MODE_PRIVATE, null);
         TVShowDatabaseDefinition databaseHelper = new TVShowDatabaseDefinition(getApplicationContext());
         database = new TVShowDatabase(databaseHelper);
 
-        lookupTitle = (TextView) findViewById(R.id.lookup_title);
-        lookupInput = (EditText) findViewById(R.id.lookup_input);
-        lookupProgressBar = (ProgressBar) findViewById(R.id.lookup_progress);
-        lookupList = (ListView) findViewById(R.id.lookup_list);
+        findTitle = (TextView) findViewById(R.id.find_title);
+        findInput = (EditText) findViewById(R.id.find_input);
+        findProgressBar = (ProgressBar) findViewById(R.id.find_progress);
+        findList = (ListView) findViewById(R.id.find_list);
 
-        lookupTitle.setText(R.string.lookup_title_tvshow);
+        findTitle.setText(R.string.find_title_tvshow);
 
-        lookupInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        findInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_SEND) {
-                    new TVShowLookupAsyncTask().execute(textView.getText().toString());
+                    new TVShowFindAsyncTask().execute(textView.getText().toString());
                     handled = true;
                 }
                 return handled;
             }
         });
 
-        lookupList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        findList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.v(String.valueOf(this.getClass()), "IM HERE");
-                TextView textView = (TextView) view.findViewById(R.id.lookup_item_id);
+                TextView textView = (TextView) view.findViewById(R.id.find_item_id);
                 database.saveTVShow(Integer.parseInt(textView.getText().toString()));
             }
         });
 
-        lookupList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        findList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                RelativeLayout layout = (RelativeLayout) view.findViewById(R.id.lookup_secondarybar);
+                RelativeLayout layout = (RelativeLayout) view.findViewById(R.id.find_item_secondarybar);
                 ViewGroup.LayoutParams params = layout.getLayoutParams();
                 params.height = (params.height > 0) ? 0 : pdToPx(40);
                 layout.setLayoutParams(params);
@@ -86,12 +84,12 @@ public class TVLookupActivity extends AppCompatActivity {
         return (int) (dimensionDp * density + 0.5f);
     }
 
-    class TVShowLookupAsyncTask extends AsyncTask<String, Void, List<TVShowFind>> {
+    class TVShowFindAsyncTask extends AsyncTask<String, Void, List<TVShowFind>> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            lookupProgressBar.setVisibility(View.VISIBLE);
+            findProgressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -107,13 +105,13 @@ public class TVLookupActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute(List<TVShowFind> result) {
-            lookupProgressBar.setVisibility(View.GONE);
+            findProgressBar.setVisibility(View.GONE);
 
             if (tvShows.size() > 0) {
-                MyTVShowAdapter adapter = new MyTVShowAdapter(getBaseContext(), R.layout.list_item, tvShows);
-                lookupList.setAdapter(adapter);
+                TVShowListViewAdapter adapter = new TVShowListViewAdapter(getBaseContext(), R.layout.find_item, tvShows);
+                findList.setAdapter(adapter);
             } else {
-                Toast.makeText(getBaseContext(), R.string.lookup_no_results, Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), R.string.find_no_results, Toast.LENGTH_LONG).show();
             }
         }
     }

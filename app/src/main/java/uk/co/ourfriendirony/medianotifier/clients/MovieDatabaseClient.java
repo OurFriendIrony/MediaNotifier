@@ -16,7 +16,10 @@ import java.util.List;
 import uk.co.ourfriendirony.medianotifier.autogen.movie.Movie;
 import uk.co.ourfriendirony.medianotifier.autogen.movie.MovieFind;
 import uk.co.ourfriendirony.medianotifier.autogen.movie.MovieFindResult;
-import uk.co.ourfriendirony.medianotifier.autogen.tvshow.*;
+import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVSeason;
+import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
+import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShowFind;
+import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShowFindResult;
 
 import static uk.co.ourfriendirony.medianotifier.general.UrlHandler.urlCleaner;
 
@@ -28,7 +31,7 @@ public class MovieDatabaseClient {
     private static final String URL_MOVIE_QUERY = HOST + "search/movie" + URL_API + "&query=@NAME@";
     private static final String URL_MOVIE_ID = HOST + "movie/@ID@" + URL_API;
     private static final String URL_TVSHOW_QUERY = HOST + "search/tv" + URL_API + "&query=@NAME@";
-    private static final String URL_TVSHOW_ID = HOST + "tv/@ID@" + URL_API+"&append_to_response=external_ids";
+    private static final String URL_TVSHOW_ID = HOST + "tv/@ID@" + URL_API + "&append_to_response=external_ids";
     private static final String URL_TVSHOW_ID_SEASON = HOST + "tv/@ID@/season/@SEASON@" + URL_API;
 
     private static final DefaultHttpClient client = new DefaultHttpClient();
@@ -68,11 +71,11 @@ public class MovieDatabaseClient {
                 .replace("@ID@", Integer.toString(tvShowID))
         );
         TVShow tvShow = OBJECT_MAPPER.readValue(payload, TVShow.class);
-        for (int i = tvShow.getSeasons().size()-1; i >= 0; i--) {
+        for (int i = tvShow.getSeasons().size() - 1; i >= 0; i--) {
             if (tvShow.getSeasons().get(i).getSeasonNumber() > 0) {
                 Log.v(String.valueOf(this.getClass()), "no > 0 ");
-                TVSeason lookupSeason = getTVShowSeason(tvShowID, tvShow.getSeasons().get(i).getSeasonNumber());
-                tvShow.getSeasons().get(i).setEpisodes(lookupSeason.getEpisodes());
+                TVSeason season = getTVShowSeason(tvShowID, tvShow.getSeasons().get(i).getSeasonNumber());
+                tvShow.getSeasons().get(i).setEpisodes(season.getEpisodes());
             } else {
                 tvShow.getSeasons().remove(i);
             }

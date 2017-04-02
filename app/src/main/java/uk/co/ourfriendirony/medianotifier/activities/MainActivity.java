@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.general.TVShowDatabaseDefinition;
+import uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,13 +44,13 @@ public class MainActivity extends AppCompatActivity {
         fab_find_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), TVLookupActivity.class));
+                startActivity(new Intent(view.getContext(), TVShowFindActivity.class));
             }
         });
         fab_find_movie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), MovieLookupActivity.class));
+                startActivity(new Intent(view.getContext(), MovieFindActivity.class));
             }
         });
         fab_find_music.setOnClickListener(new View.OnClickListener() {

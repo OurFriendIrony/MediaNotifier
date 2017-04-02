@@ -16,30 +16,38 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:padding="10dp"
         android:text="@string/tvlist_welcome"
         />
 
-    <Button
-        android:id="@+id/settings_button_delete_tv_all"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/settings_text"
-        android:text="@string/button_delete_tv_all"
-        />
+        android:layout_below="@id/settings_text"
+        android:background="@drawable/border_alert"
+        android:padding="10dp">
 
-    <Button
-        android:id="@+id/settings_button_delete_movie_all"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/settings_button_delete_tv_all"
-        android:text="@string/button_delete_movie_all"
-        />
+        <Button
+            android:id="@+id/settings_button_delete_tv_all"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/button_delete_tv_all"
+            />
 
-    <Button
-        android:id="@+id/settings_button_delete_music_all"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/settings_button_delete_movie_all"
-        android:text="@string/button_delete_music_all"
-        />
+        <Button
+            android:id="@+id/settings_button_delete_movie_all"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/settings_button_delete_tv_all"
+            android:text="@string/button_delete_movie_all"
+            />
+
+        <Button
+            android:id="@+id/settings_button_delete_music_all"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/settings_button_delete_movie_all"
+            android:text="@string/button_delete_music_all"
+            />
+    </RelativeLayout>
 </RelativeLayout>

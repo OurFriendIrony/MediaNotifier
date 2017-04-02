@@ -5,8 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.general.TVShowDatabase;
-import uk.co.ourfriendirony.medianotifier.general.TVShowDatabaseDefinition;
+import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
+import uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition;
 
 public class TVListActivity extends AppCompatActivity {
 

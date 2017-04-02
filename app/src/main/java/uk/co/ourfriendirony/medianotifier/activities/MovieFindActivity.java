@@ -17,13 +17,13 @@ import java.util.List;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.autogen.movie.MovieFind;
 import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
-import uk.co.ourfriendirony.medianotifier.general.MyMovieAdapter;
+import uk.co.ourfriendirony.medianotifier.listviewadapter.MovieListViewAdapter;
 
-public class MovieLookupActivity extends AppCompatActivity {
-    private TextView lookupTitle;
-    private EditText lookupInput;
-    private ProgressBar lookupProgressBar;
-    private ListView lookupList;
+public class MovieFindActivity extends AppCompatActivity {
+    private TextView findTitle;
+    private EditText findInput;
+    private ProgressBar findProgressBar;
+    private ListView findList;
 
     private List<MovieFind> movies = new ArrayList<>();
     private MovieDatabaseClient client = new MovieDatabaseClient();
@@ -31,28 +31,28 @@ public class MovieLookupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lookup);
+        setContentView(R.layout.activity_find);
 
-        lookupTitle = (TextView) findViewById(R.id.lookup_title);
-        lookupInput = (EditText) findViewById(R.id.lookup_input);
-        lookupProgressBar = (ProgressBar) findViewById(R.id.lookup_progress);
-        lookupList = (ListView) findViewById(R.id.lookup_list);
+        findTitle = (TextView) findViewById(R.id.find_title);
+        findInput = (EditText) findViewById(R.id.find_input);
+        findProgressBar = (ProgressBar) findViewById(R.id.find_progress);
+        findList = (ListView) findViewById(R.id.find_list);
 
-        lookupTitle.setText(R.string.lookup_title_movie);
+        findTitle.setText(R.string.find_title_movie);
 
-        lookupInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        findInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_SEND) {
-                    new MovieLookupAsyncTask().execute(textView.getText().toString());
+                    new MovieFindAsyncTask().execute(textView.getText().toString());
                     handled = true;
                 }
                 return handled;
             }
         });
 
-        lookupList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        findList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.v(String.valueOf(this.getClass()), "IM HERE");
@@ -60,10 +60,10 @@ public class MovieLookupActivity extends AppCompatActivity {
         });
 
 
-        lookupList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        findList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                RelativeLayout layout = (RelativeLayout) view.findViewById(R.id.lookup_secondarybar);
+                RelativeLayout layout = (RelativeLayout) view.findViewById(R.id.find_item_secondarybar);
                 ViewGroup.LayoutParams params = layout.getLayoutParams();
                 params.height = (params.height > 0) ? 0 : pdToPx(40);
                 layout.setLayoutParams(params);
@@ -77,12 +77,12 @@ public class MovieLookupActivity extends AppCompatActivity {
         return (int) (dimensionDp * density + 0.5f);
     }
 
-    class MovieLookupAsyncTask extends AsyncTask<String, Void, List<MovieFind>> {
+    class MovieFindAsyncTask extends AsyncTask<String, Void, List<MovieFind>> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            lookupProgressBar.setVisibility(View.VISIBLE);
+            findProgressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -98,13 +98,13 @@ public class MovieLookupActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute(List<MovieFind> result) {
-            lookupProgressBar.setVisibility(View.GONE);
+            findProgressBar.setVisibility(View.GONE);
 
             if (movies.size() > 0) {
-                MyMovieAdapter adapter = new MyMovieAdapter(getBaseContext(), R.layout.list_item, movies);
-                lookupList.setAdapter(adapter);
+                MovieListViewAdapter adapter = new MovieListViewAdapter(getBaseContext(), R.layout.find_item, movies);
+                findList.setAdapter(adapter);
             } else {
-                Toast.makeText(getBaseContext(), R.string.lookup_no_results, Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), R.string.find_no_results, Toast.LENGTH_LONG).show();
             }
         }
     }

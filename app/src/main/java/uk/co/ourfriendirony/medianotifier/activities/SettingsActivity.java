@@ -7,8 +7,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.general.TVShowDatabase;
-import uk.co.ourfriendirony.medianotifier.general.TVShowDatabaseDefinition;
+import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
+import uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition;
 
 public class SettingsActivity extends AppCompatActivity {
 

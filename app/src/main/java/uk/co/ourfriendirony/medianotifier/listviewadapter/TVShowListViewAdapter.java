@@ -1,4 +1,4 @@
-package uk.co.ourfriendirony.medianotifier.general;
+package uk.co.ourfriendirony.medianotifier.listviewadapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -16,12 +16,12 @@ import java.util.List;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShowFind;
 
-public class MyTVShowAdapter extends ArrayAdapter {
+public class TVShowListViewAdapter extends ArrayAdapter {
     private final List<TVShowFind> tvShows;
 
     DateFormat dateFormat = new SimpleDateFormat("yyyy");
 
-    public MyTVShowAdapter(Context context, int textViewResourceId, List<TVShowFind> objects) {
+    public TVShowListViewAdapter(Context context, int textViewResourceId, List<TVShowFind> objects) {
         super(context, textViewResourceId, objects);
         tvShows = objects;
     }
@@ -43,12 +43,12 @@ public class MyTVShowAdapter extends ArrayAdapter {
 
         View v = convertView;
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        v = inflater.inflate(R.layout.list_item, null);
-        TextView textView1 = (TextView) v.findViewById(R.id.lookup_item_title);
-        TextView textView2 = (TextView) v.findViewById(R.id.lookup_item_date);
-        TextView textView3 = (TextView) v.findViewById(R.id.lookup_item_overview);
-        TextView textView4 = (TextView) v.findViewById(R.id.lookup_item_id);
-        ImageView imageView = (ImageView) v.findViewById(R.id.lookup_item_img);
+        v = inflater.inflate(R.layout.find_item, null);
+        TextView textView1 = (TextView) v.findViewById(R.id.find_item_title);
+        TextView textView2 = (TextView) v.findViewById(R.id.find_item_date);
+        TextView textView3 = (TextView) v.findViewById(R.id.find_item_overview);
+        TextView textView4 = (TextView) v.findViewById(R.id.find_item_id);
+        ImageView imageView = (ImageView) v.findViewById(R.id.find_item_img);
 
         String year = "";
         Date date = tvShow.getFirstAirDate();

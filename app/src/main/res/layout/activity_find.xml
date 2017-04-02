@@ -8,12 +8,12 @@
                 android:paddingTop="@dimen/activity_vertical_margin">
 
     <TextView
-        android:id="@+id/lookup_title"
+        android:id="@+id/find_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/black"
         android:padding="15dp"
-        android:text="@string/lookup_title_tvshow"
+        android:text="Find Title"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="@dimen/title_size"
@@ -21,16 +21,16 @@
         />
 
     <RelativeLayout
-        android:id="@+id/lookup_input_progress"
+        android:id="@+id/find_input_progress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/lookup_title">
+        android:layout_below="@+id/find_title">
 
         <EditText
-            android:id="@+id/lookup_input"
+            android:id="@+id/find_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@+id/lookup_progress"
+            android:layout_toStartOf="@+id/find_progress"
             android:backgroundTint="@color/red"
             android:imeOptions="actionSend"
             android:inputType="text"
@@ -38,23 +38,23 @@
             />
 
         <ProgressBar
-            android:id="@+id/lookup_progress"
+            android:id="@+id/find_progress"
             style="?android:attr/progressBarStyleLarge"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentEnd="true"
-            android:layout_alignBottom="@+id/lookup_input"
-            android:layout_alignTop="@+id/lookup_input"
+            android:layout_alignBottom="@+id/find_input"
+            android:layout_alignTop="@+id/find_input"
             android:visibility="gone"
             />
     </RelativeLayout>
 
     <ListView
-        android:id="@+id/lookup_list"
+        android:id="@+id/find_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/lookup_input_progress"
-        android:background="@drawable/border"
+        android:layout_below="@+id/find_input_progress"
+        android:background="@drawable/border_basic"
         android:divider="@color/black"
         android:dividerHeight="2dp"
         android:padding="6dp">

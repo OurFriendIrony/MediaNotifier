@@ -1,4 +1,4 @@
-package uk.co.ourfriendirony.medianotifier.autogen.tvshowfault;
+package uk.co.ourfriendirony.medianotifier.autogen.fault;
 
 
 import com.fasterxml.jackson.annotation.*;
@@ -11,7 +11,7 @@ import java.util.Map;
         "status_code",
         "status_message"
 })
-public class TVFault {
+public class TMDBFault {
 
     @JsonProperty("status_code")
     private Integer statusCode;
