@@ -2,41 +2,29 @@ package uk.co.ourfriendirony.medianotifier.autogen.movie;
 
 import com.fasterxml.jackson.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "iso_639_1",
-        "name"
+        "results"
 })
-public class MDSpokenLanguage {
-
-    @JsonProperty("iso_639_1")
-    private String iso6391;
-    @JsonProperty("name")
-    private String name;
+public class MovieFindResult {
+    @JsonProperty("results")
+    private List<MovieFind> results = new ArrayList<>();
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("iso_639_1")
-    public String getIso6391() {
-        return iso6391;
+    @JsonProperty("results")
+    public List<MovieFind> getResults() {
+        return results;
     }
 
-    @JsonProperty("iso_639_1")
-    public void setIso6391(String iso6391) {
-        this.iso6391 = iso6391;
-    }
-
-    @JsonProperty("name")
-    public String getName() {
-        return name;
-    }
-
-    @JsonProperty("name")
-    public void setName(String name) {
-        this.name = name;
+    @JsonProperty("results")
+    public void setResults(List<MovieFind> results) {
+        this.results = results;
     }
 
     @JsonAnyGetter

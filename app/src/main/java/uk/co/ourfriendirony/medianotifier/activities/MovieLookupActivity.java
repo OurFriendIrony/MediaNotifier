@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.autogen.movie.MDMovieSummary;
+import uk.co.ourfriendirony.medianotifier.autogen.movie.MovieFind;
 import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
 import uk.co.ourfriendirony.medianotifier.general.MyMovieAdapter;
 
@@ -25,7 +25,7 @@ public class MovieLookupActivity extends AppCompatActivity {
     private ProgressBar lookupProgressBar;
     private ListView lookupList;
 
-    private List<MDMovieSummary> movies = new ArrayList<>();
+    private List<MovieFind> movies = new ArrayList<>();
     private MovieDatabaseClient client = new MovieDatabaseClient();
 
     @Override
@@ -77,7 +77,7 @@ public class MovieLookupActivity extends AppCompatActivity {
         return (int) (dimensionDp * density + 0.5f);
     }
 
-    class MovieLookupAsyncTask extends AsyncTask<String, Void, List<MDMovieSummary>> {
+    class MovieLookupAsyncTask extends AsyncTask<String, Void, List<MovieFind>> {
 
         @Override
         protected void onPreExecute() {
@@ -86,7 +86,7 @@ public class MovieLookupActivity extends AppCompatActivity {
         }
 
         @Override
-        protected List<MDMovieSummary> doInBackground(String... strings) {
+        protected List<MovieFind> doInBackground(String... strings) {
             String string = strings[0];
             try {
                 Log.v(String.valueOf(this.getClass()), string);
@@ -97,7 +97,7 @@ public class MovieLookupActivity extends AppCompatActivity {
             return movies;
         }
 
-        protected void onPostExecute(List<MDMovieSummary> result) {
+        protected void onPostExecute(List<MovieFind> result) {
             lookupProgressBar.setVisibility(View.GONE);
 
             if (movies.size() > 0) {

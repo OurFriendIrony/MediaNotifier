@@ -13,9 +13,9 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 import java.util.List;
 
-import uk.co.ourfriendirony.medianotifier.autogen.movie.MDLookupMovie;
-import uk.co.ourfriendirony.medianotifier.autogen.movie.MDMovieSummary;
-import uk.co.ourfriendirony.medianotifier.autogen.movie.MDQueryMovie;
+import uk.co.ourfriendirony.medianotifier.autogen.movie.Movie;
+import uk.co.ourfriendirony.medianotifier.autogen.movie.MovieFind;
+import uk.co.ourfriendirony.medianotifier.autogen.movie.MovieFindResult;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.*;
 
 import static uk.co.ourfriendirony.medianotifier.general.UrlHandler.urlCleaner;
@@ -39,11 +39,11 @@ public class MovieDatabaseClient {
     private int statusCode;
     private String headers;
 
-    public List<MDMovieSummary> queryMovie(String movie) throws IOException {
+    public List<MovieFind> queryMovie(String movie) throws IOException {
         httpGetRequest(URL_MOVIE_QUERY
                 .replace("@NAME@", urlCleaner(movie))
         );
-        MDQueryMovie query = OBJECT_MAPPER.readValue(payload, MDQueryMovie.class);
+        MovieFindResult query = OBJECT_MAPPER.readValue(payload, MovieFindResult.class);
         return query.getResults();
     }
 
@@ -55,11 +55,11 @@ public class MovieDatabaseClient {
         return query.getResults();
     }
 
-    public MDLookupMovie getMovie(int movieID) throws IOException {
+    public Movie getMovie(int movieID) throws IOException {
         httpGetRequest(URL_MOVIE_ID
                 .replace("@ID@", Integer.toString(movieID))
         );
-        MDLookupMovie movie = OBJECT_MAPPER.readValue(payload, MDLookupMovie.class);
+        Movie movie = OBJECT_MAPPER.readValue(payload, Movie.class);
         return movie;
     }
 

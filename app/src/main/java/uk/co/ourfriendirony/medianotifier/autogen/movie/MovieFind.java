@@ -2,43 +2,32 @@ package uk.co.ourfriendirony.medianotifier.autogen.movie;
 
 import com.fasterxml.jackson.annotation.*;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "poster_path",
-        "adult",
         "overview",
         "release_date",
-        "genre_ids",
         "id",
-        "original_title",
-        "original_language",
         "title",
         "backdrop_path",
         "popularity",
         "vote_count",
-        "video",
         "vote_average"
 })
-public class MDMovieSummary {
+public class MovieFind {
 
     @JsonProperty("poster_path")
     private String posterPath;
-    @JsonProperty("adult")
-    private Boolean adult;
     @JsonProperty("overview")
     private String overview;
     @JsonProperty("release_date")
     private Date releaseDate;
-    @JsonProperty("genre_ids")
-    private List<Integer> genreIds = new ArrayList<>();
     @JsonProperty("id")
     private Integer id;
-    @JsonProperty("original_title")
-    private String originalTitle;
-    @JsonProperty("original_language")
-    private String originalLanguage;
     @JsonProperty("title")
     private String title;
     @JsonProperty("backdrop_path")
@@ -47,8 +36,6 @@ public class MDMovieSummary {
     private Double popularity;
     @JsonProperty("vote_count")
     private Integer voteCount;
-    @JsonProperty("video")
-    private Boolean video;
     @JsonProperty("vote_average")
     private Integer voteAverage;
     @JsonIgnore
@@ -62,16 +49,6 @@ public class MDMovieSummary {
     @JsonProperty("poster_path")
     public void setPosterPath(String posterPath) {
         this.posterPath = posterPath;
-    }
-
-    @JsonProperty("adult")
-    public Boolean getAdult() {
-        return adult;
-    }
-
-    @JsonProperty("adult")
-    public void setAdult(Boolean adult) {
-        this.adult = adult;
     }
 
     @JsonProperty("overview")
@@ -94,16 +71,6 @@ public class MDMovieSummary {
         this.releaseDate = releaseDate;
     }
 
-    @JsonProperty("genre_ids")
-    public List<Integer> getGenreIds() {
-        return genreIds;
-    }
-
-    @JsonProperty("genre_ids")
-    public void setGenreIds(List<Integer> genreIds) {
-        this.genreIds = genreIds;
-    }
-
     @JsonProperty("id")
     public Integer getId() {
         return id;
@@ -112,26 +79,6 @@ public class MDMovieSummary {
     @JsonProperty("id")
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    @JsonProperty("original_title")
-    public String getOriginalTitle() {
-        return originalTitle;
-    }
-
-    @JsonProperty("original_title")
-    public void setOriginalTitle(String originalTitle) {
-        this.originalTitle = originalTitle;
-    }
-
-    @JsonProperty("original_language")
-    public String getOriginalLanguage() {
-        return originalLanguage;
-    }
-
-    @JsonProperty("original_language")
-    public void setOriginalLanguage(String originalLanguage) {
-        this.originalLanguage = originalLanguage;
     }
 
     @JsonProperty("title")
@@ -174,16 +121,6 @@ public class MDMovieSummary {
         this.voteCount = voteCount;
     }
 
-    @JsonProperty("video")
-    public Boolean getVideo() {
-        return video;
-    }
-
-    @JsonProperty("video")
-    public void setVideo(Boolean video) {
-        this.video = video;
-    }
-
     @JsonProperty("vote_average")
     public Integer getVoteAverage() {
         return voteAverage;
@@ -203,5 +140,4 @@ public class MDMovieSummary {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
-
 }

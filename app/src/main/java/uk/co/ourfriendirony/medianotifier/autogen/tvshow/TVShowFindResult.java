@@ -9,7 +9,7 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "results",
+        "results"
 })
 public class TVShowFindResult {
     @JsonProperty("results")

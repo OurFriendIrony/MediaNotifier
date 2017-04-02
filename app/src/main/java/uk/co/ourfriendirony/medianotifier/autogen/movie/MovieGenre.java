@@ -10,7 +10,7 @@ import java.util.Map;
         "id",
         "name"
 })
-public class MDGenre {
+public class MovieGenre {
 
     @JsonProperty("id")
     private Integer id;
