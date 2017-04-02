@@ -11,7 +11,7 @@ import java.util.Map;
         "status_code",
         "status_message"
 })
-public class MDTVFault {
+public class TVFault {
 
     @JsonProperty("status_code")
     private Integer statusCode;

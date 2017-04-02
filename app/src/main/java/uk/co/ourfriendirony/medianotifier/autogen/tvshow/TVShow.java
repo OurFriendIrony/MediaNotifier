@@ -10,26 +10,18 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "backdrop_path",
-        "created_by",
         "episode_run_time",
         "first_air_date",
-        "genres",
-        "homepage",
         "id",
         "in_production",
-        "languages",
         "last_air_date",
         "name",
-        "networks",
         "number_of_episodes",
         "number_of_seasons",
-        "origin_country",
-        "original_language",
         "original_name",
         "overview",
         "popularity",
         "poster_path",
-        "production_companies",
         "seasons",
         "status",
         "type",
@@ -37,40 +29,26 @@ import java.util.Map;
         "vote_count",
         "external_ids"
 })
-public class MDLookupTVShow {
+public class TVShow {
 
     @JsonProperty("backdrop_path")
     private String backdropPath;
-    @JsonProperty("created_by")
-    private List<MDCreatedBy> createdBy = new ArrayList<>();
     @JsonProperty("episode_run_time")
     private List<Integer> episodeRunTime = new ArrayList<>();
     @JsonProperty("first_air_date")
     private String firstAirDate;
-    @JsonProperty("genres")
-    private List<MDGenre> genres = new ArrayList<>();
-    @JsonProperty("homepage")
-    private String homepage;
     @JsonProperty("id")
     private Integer id;
     @JsonProperty("in_production")
     private Boolean inProduction;
-    @JsonProperty("languages")
-    private List<String> languages = new ArrayList<>();
     @JsonProperty("last_air_date")
     private String lastAirDate;
     @JsonProperty("name")
     private String name;
-    @JsonProperty("networks")
-    private List<MDNetwork> networks = new ArrayList<>();
     @JsonProperty("number_of_episodes")
     private Integer numberOfEpisodes;
     @JsonProperty("number_of_seasons")
     private Integer numberOfSeasons;
-    @JsonProperty("origin_country")
-    private List<String> originCountry = new ArrayList<>();
-    @JsonProperty("original_language")
-    private String originalLanguage;
     @JsonProperty("original_name")
     private String originalName;
     @JsonProperty("overview")
@@ -79,10 +57,8 @@ public class MDLookupTVShow {
     private Double popularity;
     @JsonProperty("poster_path")
     private String posterPath;
-    @JsonProperty("production_companies")
-    private List<MDProductionCompany> productionCompanies = new ArrayList<>();
     @JsonProperty("seasons")
-    private List<MDSeason> seasons = new ArrayList<>();
+    private List<TVSeason> seasons = new ArrayList<>();
     @JsonProperty("status")
     private String status;
     @JsonProperty("type")
@@ -92,7 +68,7 @@ public class MDLookupTVShow {
     @JsonProperty("vote_count")
     private Integer voteCount;
     @JsonProperty("external_ids")
-    private MDExternalIds externalIds;
+    private TVShowExternalIds externalIds;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -104,16 +80,6 @@ public class MDLookupTVShow {
     @JsonProperty("backdrop_path")
     public void setBackdropPath(String backdropPath) {
         this.backdropPath = backdropPath;
-    }
-
-    @JsonProperty("created_by")
-    public List<MDCreatedBy> getCreatedBy() {
-        return createdBy;
-    }
-
-    @JsonProperty("created_by")
-    public void setCreatedBy(List<MDCreatedBy> createdBy) {
-        this.createdBy = createdBy;
     }
 
     @JsonProperty("episode_run_time")
@@ -136,26 +102,6 @@ public class MDLookupTVShow {
         this.firstAirDate = firstAirDate;
     }
 
-    @JsonProperty("genres")
-    public List<MDGenre> getGenres() {
-        return genres;
-    }
-
-    @JsonProperty("genres")
-    public void setGenres(List<MDGenre> genres) {
-        this.genres = genres;
-    }
-
-    @JsonProperty("homepage")
-    public String getHomepage() {
-        return homepage;
-    }
-
-    @JsonProperty("homepage")
-    public void setHomepage(String homepage) {
-        this.homepage = homepage;
-    }
-
     @JsonProperty("id")
     public Integer getId() {
         return id;
@@ -174,16 +120,6 @@ public class MDLookupTVShow {
     @JsonProperty("in_production")
     public void setInProduction(Boolean inProduction) {
         this.inProduction = inProduction;
-    }
-
-    @JsonProperty("languages")
-    public List<String> getLanguages() {
-        return languages;
-    }
-
-    @JsonProperty("languages")
-    public void setLanguages(List<String> languages) {
-        this.languages = languages;
     }
 
     @JsonProperty("last_air_date")
@@ -206,16 +142,6 @@ public class MDLookupTVShow {
         this.name = name;
     }
 
-    @JsonProperty("networks")
-    public List<MDNetwork> getNetworks() {
-        return networks;
-    }
-
-    @JsonProperty("networks")
-    public void setNetworks(List<MDNetwork> networks) {
-        this.networks = networks;
-    }
-
     @JsonProperty("number_of_episodes")
     public Integer getNumberOfEpisodes() {
         return numberOfEpisodes;
@@ -234,26 +160,6 @@ public class MDLookupTVShow {
     @JsonProperty("number_of_seasons")
     public void setNumberOfSeasons(Integer numberOfSeasons) {
         this.numberOfSeasons = numberOfSeasons;
-    }
-
-    @JsonProperty("origin_country")
-    public List<String> getOriginCountry() {
-        return originCountry;
-    }
-
-    @JsonProperty("origin_country")
-    public void setOriginCountry(List<String> originCountry) {
-        this.originCountry = originCountry;
-    }
-
-    @JsonProperty("original_language")
-    public String getOriginalLanguage() {
-        return originalLanguage;
-    }
-
-    @JsonProperty("original_language")
-    public void setOriginalLanguage(String originalLanguage) {
-        this.originalLanguage = originalLanguage;
     }
 
     @JsonProperty("original_name")
@@ -296,23 +202,13 @@ public class MDLookupTVShow {
         this.posterPath = posterPath;
     }
 
-    @JsonProperty("production_companies")
-    public List<MDProductionCompany> getProductionCompanies() {
-        return productionCompanies;
-    }
-
-    @JsonProperty("production_companies")
-    public void setProductionCompanies(List<MDProductionCompany> productionCompanies) {
-        this.productionCompanies = productionCompanies;
-    }
-
     @JsonProperty("seasons")
-    public List<MDSeason> getSeasons() {
+    public List<TVSeason> getSeasons() {
         return seasons;
     }
 
     @JsonProperty("seasons")
-    public void setSeasons(List<MDSeason> seasons) {
+    public void setSeasons(List<TVSeason> seasons) {
         this.seasons = seasons;
     }
 
@@ -357,12 +253,12 @@ public class MDLookupTVShow {
     }
 
     @JsonProperty("external_ids")
-    public MDExternalIds getExternalIds() {
+    public TVShowExternalIds getExternalIds() {
         return externalIds;
     }
 
     @JsonProperty("external_ids")
-    public void setExternalIds(MDExternalIds externalIds) {
+    public void setExternalIds(TVShowExternalIds externalIds) {
         this.externalIds = externalIds;
     }
 

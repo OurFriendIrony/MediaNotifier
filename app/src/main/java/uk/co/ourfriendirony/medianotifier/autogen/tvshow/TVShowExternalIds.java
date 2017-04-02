@@ -7,36 +7,23 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "name",
-        "id"
+        "imdb_id"
 })
-public class MDProductionCompany {
+public class TVShowExternalIds {
 
-    @JsonProperty("name")
-    private String name;
-    @JsonProperty("id")
-    private Integer id;
+    @JsonProperty("imdb_id")
+    private String imdbId;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("name")
-    public String getName() {
-        return name;
+    @JsonProperty("imdb_id")
+    public String getImdbId() {
+        return imdbId;
     }
 
-    @JsonProperty("name")
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @JsonProperty("id")
-    public Integer getId() {
-        return id;
-    }
-
-    @JsonProperty("id")
-    public void setId(Integer id) {
-        this.id = id;
+    @JsonProperty("imdb_id")
+    public void setImdbId(String imdbId) {
+        this.imdbId = imdbId;
     }
 
     @JsonAnyGetter
@@ -48,5 +35,4 @@ public class MDProductionCompany {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
-
 }

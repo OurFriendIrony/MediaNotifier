@@ -2,44 +2,33 @@ package uk.co.ourfriendirony.medianotifier.autogen.tvshow;
 
 import com.fasterxml.jackson.annotation.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "air_date",
-        "crew",
         "episode_number",
-        "guest_stars",
         "name",
         "overview",
         "id",
-        "production_code",
         "season_number",
         "still_path",
         "vote_average",
         "vote_count"
 })
-public class MDEpisode {
+public class TVEpisode {
 
     @JsonProperty("air_date")
     private String airDate;
-    @JsonProperty("crew")
-    private List<MDCrew> crew = new ArrayList<>();
     @JsonProperty("episode_number")
     private Integer episodeNumber;
-    @JsonProperty("guest_stars")
-    private List<MDGuestStar> guestStars = new ArrayList<>();
     @JsonProperty("name")
     private String name;
     @JsonProperty("overview")
     private String overview;
     @JsonProperty("id")
     private Integer id;
-    @JsonProperty("production_code")
-    private String productionCode;
     @JsonProperty("season_number")
     private Integer seasonNumber;
     @JsonProperty("still_path")
@@ -61,16 +50,6 @@ public class MDEpisode {
         this.airDate = airDate;
     }
 
-    @JsonProperty("crew")
-    public List<MDCrew> getCrew() {
-        return crew;
-    }
-
-    @JsonProperty("crew")
-    public void setCrew(List<MDCrew> crew) {
-        this.crew = crew;
-    }
-
     @JsonProperty("episode_number")
     public Integer getEpisodeNumber() {
         return episodeNumber;
@@ -79,16 +58,6 @@ public class MDEpisode {
     @JsonProperty("episode_number")
     public void setEpisodeNumber(Integer episodeNumber) {
         this.episodeNumber = episodeNumber;
-    }
-
-    @JsonProperty("guest_stars")
-    public List<MDGuestStar> getGuestStars() {
-        return guestStars;
-    }
-
-    @JsonProperty("guest_stars")
-    public void setGuestStars(List<MDGuestStar> guestStars) {
-        this.guestStars = guestStars;
     }
 
     @JsonProperty("name")
@@ -119,16 +88,6 @@ public class MDEpisode {
     @JsonProperty("id")
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    @JsonProperty("production_code")
-    public String getProductionCode() {
-        return productionCode;
-    }
-
-    @JsonProperty("production_code")
-    public void setProductionCode(String productionCode) {
-        this.productionCode = productionCode;
     }
 
     @JsonProperty("season_number")

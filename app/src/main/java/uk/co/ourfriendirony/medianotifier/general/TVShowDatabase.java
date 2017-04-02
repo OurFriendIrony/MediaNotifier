@@ -6,9 +6,9 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.io.IOException;
 
-import uk.co.ourfriendirony.medianotifier.autogen.tvshow.MDEpisode;
-import uk.co.ourfriendirony.medianotifier.autogen.tvshow.MDLookupTVShow;
-import uk.co.ourfriendirony.medianotifier.autogen.tvshow.MDSeason;
+import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVEpisode;
+import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
+import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVSeason;
 import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
 
 import static uk.co.ourfriendirony.medianotifier.general.TVShowDatabaseDefinition.*;
@@ -25,15 +25,15 @@ public class TVShowDatabase {
 
     public void saveTVShow(int tvShowId) {
         MovieDatabaseClient client = new MovieDatabaseClient();
-        MDLookupTVShow tvShow;
+        TVShow tvShow;
         try {
             tvShow = client.getTVShow(tvShowId);
         } catch (IOException e) {
-            tvShow = new MDLookupTVShow();
+            tvShow = new TVShow();
         }
 
-        for (MDSeason season : tvShow.getSeasons()) {
-            for (MDEpisode episode : season.getEpisodes()) {
+        for (TVSeason season : tvShow.getSeasons()) {
+            for (TVEpisode episode : season.getEpisodes()) {
                 episode.setId(tvShow.getId());
                 insertTVShowEpisode(episode);
             }
@@ -43,7 +43,7 @@ public class TVShowDatabase {
         insertTVShow(tvShow);
     }
 
-    private void insertTVShow(MDLookupTVShow tvShow) {
+    private void insertTVShow(TVShow tvShow) {
         ContentValues tvShowRow = new ContentValues();
         tvShowRow.put(TT_ID, tvShow.getId());
         tvShowRow.put(TT_TITLE, tvShow.getName());
@@ -53,7 +53,7 @@ public class TVShowDatabase {
         dbWritable.insert(TABLE_TVSHOWS, null, tvShowRow);
     }
 
-    private void insertTVShowSeason(MDSeason season) {
+    private void insertTVShowSeason(TVSeason season) {
         ContentValues seasonRow = new ContentValues();
         seasonRow.put(TTS_ID, season.getId());
         seasonRow.put(TTS_SEASON_NO, season.getSeasonNumber());
@@ -61,7 +61,7 @@ public class TVShowDatabase {
         dbWritable.insert(TABLE_TVSHOWS_SEASONS, null, seasonRow);
     }
 
-    private void insertTVShowEpisode(MDEpisode episode) {
+    private void insertTVShowEpisode(TVEpisode episode) {
         ContentValues episodeRow = new ContentValues();
         episodeRow.put(TTSE_ID, episode.getId());
         episodeRow.put(TTSE_SEASON_NO, episode.getSeasonNumber());

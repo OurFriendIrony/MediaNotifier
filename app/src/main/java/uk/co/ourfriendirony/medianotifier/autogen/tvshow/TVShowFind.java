@@ -13,14 +13,11 @@ import java.util.*;
         "vote_average",
         "overview",
         "first_air_date",
-        "origin_country",
-        "genre_ids",
-        "original_language",
         "vote_count",
         "name",
         "original_name"
 })
-public class MDTVShowSummary {
+public class TVShowFind {
 
     @JsonProperty("poster_path")
     private String posterPath;
@@ -37,12 +34,6 @@ public class MDTVShowSummary {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @JsonProperty("first_air_date")
     private Date firstAirDate;
-    @JsonProperty("origin_country")
-    private List<String> originCountry = new ArrayList<>();
-    @JsonProperty("genre_ids")
-    private List<Integer> genreIds = new ArrayList<>();
-    @JsonProperty("original_language")
-    private String originalLanguage;
     @JsonProperty("vote_count")
     private Integer voteCount;
     @JsonProperty("name")
@@ -120,36 +111,6 @@ public class MDTVShowSummary {
     @JsonProperty("first_air_date")
     public void setFirstAirDate(Date firstAirDate) {
         this.firstAirDate = firstAirDate;
-    }
-
-    @JsonProperty("origin_country")
-    public List<String> getOriginCountry() {
-        return originCountry;
-    }
-
-    @JsonProperty("origin_country")
-    public void setOriginCountry(List<String> originCountry) {
-        this.originCountry = originCountry;
-    }
-
-    @JsonProperty("genre_ids")
-    public List<Integer> getGenreIds() {
-        return genreIds;
-    }
-
-    @JsonProperty("genre_ids")
-    public void setGenreIds(List<Integer> genreIds) {
-        this.genreIds = genreIds;
-    }
-
-    @JsonProperty("original_language")
-    public String getOriginalLanguage() {
-        return originalLanguage;
-    }
-
-    @JsonProperty("original_language")
-    public void setOriginalLanguage(String originalLanguage) {
-        this.originalLanguage = originalLanguage;
     }
 
     @JsonProperty("vote_count")

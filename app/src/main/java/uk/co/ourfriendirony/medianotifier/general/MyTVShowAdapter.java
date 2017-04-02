@@ -14,19 +14,19 @@ import java.util.Date;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.autogen.tvshow.MDTVShowSummary;
+import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShowFind;
 
 public class MyTVShowAdapter extends ArrayAdapter {
-    private final List<MDTVShowSummary> tvShows;
+    private final List<TVShowFind> tvShows;
 
     DateFormat dateFormat = new SimpleDateFormat("yyyy");
 
-    public MyTVShowAdapter(Context context, int textViewResourceId, List<MDTVShowSummary> objects) {
+    public MyTVShowAdapter(Context context, int textViewResourceId, List<TVShowFind> objects) {
         super(context, textViewResourceId, objects);
         tvShows = objects;
     }
 
-    public List<MDTVShowSummary> getTvShows() {
+    public List<TVShowFind> getTvShows() {
         return tvShows;
     }
 
@@ -39,7 +39,7 @@ public class MyTVShowAdapter extends ArrayAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        MDTVShowSummary tvShow = tvShows.get(position);
+        TVShowFind tvShow = tvShows.get(position);
 
         View v = convertView;
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);

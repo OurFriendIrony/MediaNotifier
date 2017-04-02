@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.autogen.tvshow.MDTVShowSummary;
+import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShowFind;
 import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
 import uk.co.ourfriendirony.medianotifier.general.MyTVShowAdapter;
 import uk.co.ourfriendirony.medianotifier.general.TVShowDatabase;
@@ -27,7 +27,7 @@ public class TVLookupActivity extends AppCompatActivity {
     private ProgressBar lookupProgressBar;
     private ListView lookupList;
 
-    private List<MDTVShowSummary> tvShows = new ArrayList<>();
+    private List<TVShowFind> tvShows = new ArrayList<>();
     private MovieDatabaseClient client = new MovieDatabaseClient();
     private TVShowDatabase database;
     //    private SQLiteDatabase database;
@@ -86,7 +86,7 @@ public class TVLookupActivity extends AppCompatActivity {
         return (int) (dimensionDp * density + 0.5f);
     }
 
-    class TVShowLookupAsyncTask extends AsyncTask<String, Void, List<MDTVShowSummary>> {
+    class TVShowLookupAsyncTask extends AsyncTask<String, Void, List<TVShowFind>> {
 
         @Override
         protected void onPreExecute() {
@@ -95,7 +95,7 @@ public class TVLookupActivity extends AppCompatActivity {
         }
 
         @Override
-        protected List<MDTVShowSummary> doInBackground(String... strings) {
+        protected List<TVShowFind> doInBackground(String... strings) {
             String string = strings[0];
             try {
                 Log.v(String.valueOf(this.getClass()), string);
@@ -106,7 +106,7 @@ public class TVLookupActivity extends AppCompatActivity {
             return tvShows;
         }
 
-        protected void onPostExecute(List<MDTVShowSummary> result) {
+        protected void onPostExecute(List<TVShowFind> result) {
             lookupProgressBar.setVisibility(View.GONE);
 
             if (tvShows.size() > 0) {

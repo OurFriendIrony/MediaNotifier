@@ -10,18 +10,15 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "air_date",
-        "episode_count",
         "id",
         "poster_path",
         "season_number",
         "episodes"
 })
-public class MDSeason {
+public class TVSeason {
 
     @JsonProperty("air_date")
     private String airDate;
-    @JsonProperty("episode_count")
-    private Integer episodeCount;
     @JsonProperty("id")
     private Integer id;
     @JsonProperty("poster_path")
@@ -29,7 +26,7 @@ public class MDSeason {
     @JsonProperty("season_number")
     private Integer seasonNumber;
     @JsonProperty("episodes")
-    private List<MDEpisode> episodes = new ArrayList<>();
+    private List<TVEpisode> episodes = new ArrayList<>();
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -41,16 +38,6 @@ public class MDSeason {
     @JsonProperty("air_date")
     public void setAirDate(String airDate) {
         this.airDate = airDate;
-    }
-
-    @JsonProperty("episode_count")
-    public Integer getEpisodeCount() {
-        return episodeCount;
-    }
-
-    @JsonProperty("episode_count")
-    public void setEpisodeCount(Integer episodeCount) {
-        this.episodeCount = episodeCount;
     }
 
     @JsonProperty("id")
@@ -84,12 +71,12 @@ public class MDSeason {
     }
 
     @JsonProperty("episodes")
-    public List<MDEpisode> getEpisodes() {
+    public List<TVEpisode> getEpisodes() {
         return episodes;
     }
 
     @JsonProperty("episodes")
-    public void setEpisodes(List<MDEpisode> episodes) {
+    public void setEpisodes(List<TVEpisode> episodes) {
         this.episodes = episodes;
     }
 

@@ -2,41 +2,29 @@ package uk.co.ourfriendirony.medianotifier.autogen.tvshow;
 
 import com.fasterxml.jackson.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "id",
-        "name"
+        "results",
 })
-public class MDNetwork {
-
-    @JsonProperty("id")
-    private Integer id;
-    @JsonProperty("name")
-    private String name;
+public class TVShowFindResult {
+    @JsonProperty("results")
+    private List<TVShowFind> results = new ArrayList<>();
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("id")
-    public Integer getId() {
-        return id;
+    @JsonProperty("results")
+    public List<TVShowFind> getResults() {
+        return results;
     }
 
-    @JsonProperty("id")
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    @JsonProperty("name")
-    public String getName() {
-        return name;
-    }
-
-    @JsonProperty("name")
-    public void setName(String name) {
-        this.name = name;
+    @JsonProperty("results")
+    public void setResults(List<TVShowFind> results) {
+        this.results = results;
     }
 
     @JsonAnyGetter
