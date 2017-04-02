@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:layout_margin="10dp"
+              android:layout_margin="7dp"
               android:orientation="vertical"
               android:weightSum="1.0">
 
@@ -15,6 +15,7 @@
         android:divider="@color/black"
         android:dividerHeight="2dp"
         android:padding="6dp"
+        android:layout_margin="1dp"
         />
 
     <LinearLayout
@@ -32,6 +33,7 @@
             android:divider="@color/black"
             android:dividerHeight="2dp"
             android:padding="6dp"
+            android:layout_margin="1dp"
             />
         <ListView
             android:id="@+id/find_list_episodes"
@@ -42,6 +44,7 @@
             android:divider="@color/black"
             android:dividerHeight="2dp"
             android:padding="6dp"
+            android:layout_margin="1dp"
             />
     </LinearLayout>
 </LinearLayout>
