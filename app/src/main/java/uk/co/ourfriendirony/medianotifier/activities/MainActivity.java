@@ -1,6 +1,7 @@
 package uk.co.ourfriendirony.medianotifier.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
@@ -10,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import uk.co.ourfriendirony.medianotifier.R;
@@ -78,6 +80,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this, "NOT YET IMPLEMENTED", Toast.LENGTH_SHORT).show();
 //                startActivity(new Intent(view.getContext(), TVListActivity.class));
+            }
+        });
+        ImageView img = (ImageView)findViewById(R.id.badge_tmdb);
+        img.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.setData(Uri.parse("https://www.themoviedb.org/"));
+                startActivity(intent);
             }
         });
     }

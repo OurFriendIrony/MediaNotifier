@@ -17,4 +17,5 @@
     <string name="button_delete_music_all">Delete Music</string>
 
     <string name="settings_delete_response">Table cleared</string>
+    <string name="tvmb">TVMB</string>
 </resources>
