@@ -35,7 +35,7 @@ public class MovieFindActivity extends AppCompatActivity {
         findTitle = (TextView) findViewById(R.id.find_title);
         findInput = (EditText) findViewById(R.id.find_input);
         findProgressBar = (ProgressBar) findViewById(R.id.find_progress);
-        findList = (ListView) findViewById(R.id.find_list);
+        findList = (ListView) findViewById(R.id.find_list_tv);
 
         findTitle.setText(R.string.find_title_movie);
 

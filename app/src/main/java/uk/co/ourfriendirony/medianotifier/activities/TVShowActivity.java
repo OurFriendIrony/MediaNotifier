@@ -26,7 +26,7 @@ public class TVShowActivity extends AppCompatActivity {
         TVShowDatabaseDefinition databaseHelper = new TVShowDatabaseDefinition(getApplicationContext());
         database = new TVShowDatabase(databaseHelper);
 
-        findList = (ListView) findViewById(R.id.find_list);
+        findList = (ListView) findViewById(R.id.find_list_tv);
 
         List<TVShow> tvShows = database.getTVShows();
         if (tvShows.size() > 0) {
@@ -34,10 +34,6 @@ public class TVShowActivity extends AppCompatActivity {
             findList.setAdapter(adapter);
         }
 
-        // ----- DELETE ME -----
-        TextView textView = (TextView) findViewById(R.id.list_text);
-        textView.setText(database.selectTVShow());
-        // ----- DELETE ME -----
     }
 
 }
