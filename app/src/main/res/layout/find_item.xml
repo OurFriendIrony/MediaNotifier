@@ -2,12 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:orientation="horizontal">
 
     <RelativeLayout
         android:id="@+id/find_item_primarybar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/border_basic_dotted"
         android:orientation="horizontal"
         android:padding="4dp">
 
@@ -15,15 +17,20 @@
             android:id="@+id/find_item_img"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:background="@drawable/border_basic"
             android:padding="0dp"
-            android:src="@drawable/circle_off"
+            android:src="@drawable/img_tilde"
             />
 
         <TextView
             android:id="@+id/find_item_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/find_item_title"
+            android:layout_alignBottom="@+id/find_item_img"
+            android:layout_alignEnd="@+id/find_item_img"
+            android:paddingBottom="1dp"
+            android:paddingEnd="3dp"
+            android:paddingStart="3dp"
             android:text="Find ID"
             android:textSize="8sp"
             android:textStyle="italic"
@@ -37,9 +44,11 @@
             android:layout_alignTop="@id/find_item_img"
             android:layout_toEndOf="@+id/find_item_img"
             android:layout_toStartOf="@+id/find_item_date"
+            android:gravity="start|top"
+            android:paddingEnd="3dp"
+            android:paddingStart="3dp"
             android:text="Find Item Title"
-            android:textAlignment="center"
-            android:textSize="25sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             />
 

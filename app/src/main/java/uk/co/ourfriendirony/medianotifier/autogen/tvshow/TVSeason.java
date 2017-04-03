@@ -2,10 +2,7 @@ package uk.co.ourfriendirony.medianotifier.autogen.tvshow;
 
 import com.fasterxml.jackson.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -17,8 +14,9 @@ import java.util.Map;
 })
 public class TVSeason {
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @JsonProperty("air_date")
-    private String airDate;
+    private Date airDate;
     @JsonProperty("id")
     private Integer id;
     @JsonProperty("poster_path")
@@ -31,12 +29,12 @@ public class TVSeason {
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("air_date")
-    public String getAirDate() {
+    public Date getAirDate() {
         return airDate;
     }
 
     @JsonProperty("air_date")
-    public void setAirDate(String airDate) {
+    public void setAirDate(Date airDate) {
         this.airDate = airDate;
     }
 

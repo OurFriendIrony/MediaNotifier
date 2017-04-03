@@ -39,6 +39,7 @@ public class Movie {
     private Double popularity;
     @JsonProperty("poster_path")
     private String posterPath;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @JsonProperty("release_date")
     private Date releaseDate;
     @JsonProperty("runtime")

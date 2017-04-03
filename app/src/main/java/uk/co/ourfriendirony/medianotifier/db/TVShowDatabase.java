@@ -8,8 +8,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,13 +17,13 @@ import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
 import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
 
 import static uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition.*;
+import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanTitle;
 
 public class TVShowDatabase {
 
+    public static final String SELECT_TVSHOWS = "SELECT " + TT_RAWJSON + " FROM " + TABLE_TVSHOWS + " ORDER BY " + TT_TITLE + " ASC;";
     private final SQLiteDatabase dbWritable;
     private final SQLiteDatabase dbReadable;
-    DateFormat dateFormat = new SimpleDateFormat("yyyy");
-    DateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public TVShowDatabase(TVShowDatabaseDefinition databaseHelper) {
         dbWritable = databaseHelper.getWritableDatabase();
@@ -62,7 +60,7 @@ public class TVShowDatabase {
         }
         ContentValues tvShowRow = new ContentValues();
         tvShowRow.put(TT_ID, tvShow.getId());
-        tvShowRow.put(TT_TITLE, tvShow.getName());
+        tvShowRow.put(TT_TITLE, cleanTitle(tvShow.getName()));
         tvShowRow.put(TT_IMDB, tvShow.getExternalIds().getImdbId());
         tvShowRow.put(TT_DATE, tvShow.getFirstAirDate().toString());
         tvShowRow.put(TT_OVERVIEW, tvShow.getOverview());
@@ -74,7 +72,7 @@ public class TVShowDatabase {
         ContentValues seasonRow = new ContentValues();
         seasonRow.put(TTS_ID, season.getId());
         seasonRow.put(TTS_SEASON_NO, season.getSeasonNumber());
-        seasonRow.put(TTS_DATE, season.getAirDate());
+        seasonRow.put(TTS_DATE, season.getAirDate().toString());
         dbWritable.insert(TABLE_TVSHOWS_SEASONS, null, seasonRow);
     }
 
@@ -84,59 +82,9 @@ public class TVShowDatabase {
         episodeRow.put(TTSE_SEASON_NO, episode.getSeasonNumber());
         episodeRow.put(TTSE_EPISODE_NO, episode.getEpisodeNumber());
         episodeRow.put(TTSE_TITLE, episode.getName());
-        episodeRow.put(TTSE_DATE, episode.getAirDate());
+        episodeRow.put(TTSE_DATE, episode.getAirDate().toString());
         episodeRow.put(TTSE_OVERVIEW, episode.getOverview());
         dbWritable.insert(TABLE_TVSHOWS_EPISODES, null, episodeRow);
-    }
-
-    public String selectTVShow() {
-        StringBuilder result = new StringBuilder();
-
-        String sql = "SELECT * FROM " + TABLE_TVSHOWS + ";";
-        Cursor cursor = dbReadable.rawQuery(sql, null);
-        try {
-            while (cursor.moveToNext()) {
-                result.append(getColumnValue(cursor, TT_ID))
-                        .append(" | ").append(getColumnValue(cursor, TT_DATE))
-                        .append(" | ").append(getColumnValue(cursor, TT_TITLE))
-                        .append(" | ").append(getColumnValue(cursor, TT_IMDB))
-                        .append(" | ").append(getColumnValue(cursor, TT_OVERVIEW))
-                        .append(" | ").append(getColumnValue(cursor, TT_RAWJSON))
-                        .append("\n*****************\n");
-            }
-        } finally {
-            cursor.close();
-        }
-
-        String sqlSeasons = "SELECT * FROM " + TABLE_TVSHOWS_SEASONS + ";";
-        Cursor cursorSeasons = dbReadable.rawQuery(sqlSeasons, null);
-        try {
-            while (cursorSeasons.moveToNext()) {
-                result.append(">>> ").append(getColumnValue(cursorSeasons, TTS_ID))
-                        .append(" | ").append(getColumnValue(cursorSeasons, TTS_SEASON_NO))
-                        .append(" | ").append(getColumnValue(cursorSeasons, TTS_DATE))
-                        .append("\n*****************\n");
-            }
-        } finally {
-            cursor.close();
-        }
-
-        String sqlEpisodes = "SELECT * FROM " + TABLE_TVSHOWS_EPISODES + ";";
-        Cursor cursorEpisodes = dbReadable.rawQuery(sqlEpisodes, null);
-        try {
-            while (cursorEpisodes.moveToNext()) {
-                result.append(">>>>> ").append(getColumnValue(cursorEpisodes, TTSE_ID))
-                        .append(" | ").append(getColumnValue(cursorEpisodes, TTSE_SEASON_NO))
-                        .append(" | ").append(getColumnValue(cursorEpisodes, TTSE_EPISODE_NO))
-                        .append(" | ").append(getColumnValue(cursorEpisodes, TTSE_DATE))
-                        .append(" | ").append(getColumnValue(cursorEpisodes, TTSE_TITLE))
-                        .append(" | ").append(getColumnValue(cursorEpisodes, TTSE_OVERVIEW))
-                        .append("\n*****************\n");
-            }
-        } finally {
-            cursor.close();
-        }
-        return result.toString();
     }
 
     private String getColumnValue(Cursor cursor, String field) {
@@ -152,8 +100,7 @@ public class TVShowDatabase {
     public List<TVShow> getTVShows() {
         List<TVShow> tvShows = new ArrayList<>();
 
-        String sql = "SELECT " + TT_RAWJSON + " FROM " + TABLE_TVSHOWS + ";";
-        Cursor cursor = dbReadable.rawQuery(sql, null);
+        Cursor cursor = dbReadable.rawQuery(SELECT_TVSHOWS, null);
         try {
             while (cursor.moveToNext()) {
                 ObjectMapper mapper = new ObjectMapper();

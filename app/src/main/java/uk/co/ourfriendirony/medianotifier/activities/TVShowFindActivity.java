@@ -61,10 +61,10 @@ public class TVShowFindActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView textViewID = (TextView) view.findViewById(R.id.find_item_id);
-                TextView textViewTitle = (TextView) view.findViewById(R.id.find_item_season_title);
+                TextView textViewTitle = (TextView) view.findViewById(R.id.find_item_title);
                 new TVShowAddAsyncTask().execute(textViewID.getText().toString(), textViewTitle.getText().toString());
-                ImageView img = (ImageView) view.findViewById(R.id.find_item_season_img);
-                img.setImageDrawable(getResources().getDrawable(R.drawable.circle_on));
+                ImageView img = (ImageView) view.findViewById(R.id.find_item_img);
+                img.setImageDrawable(getResources().getDrawable(R.drawable.img_tick));
             }
         });
 

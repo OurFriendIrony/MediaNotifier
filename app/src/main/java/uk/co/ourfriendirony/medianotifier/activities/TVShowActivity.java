@@ -47,7 +47,6 @@ public class TVShowActivity extends AppCompatActivity {
             showList.setAdapter(tvShowListAdapter);
         }
 
-
         showList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -60,7 +59,7 @@ public class TVShowActivity extends AppCompatActivity {
 
                 tvSeasons = tvShows.get(position).getSeasons();
                 if (tvSeasons.size() > 0) {
-                    seasonListAdapter = new TVShowSeasonListAdapter(getBaseContext(), R.layout.find_item_seasons, tvSeasons);
+                    seasonListAdapter = new TVShowSeasonListAdapter(getBaseContext(), R.layout.find_item_season, tvSeasons);
                     seasonList.setAdapter(seasonListAdapter);
                 }
 
@@ -70,7 +69,7 @@ public class TVShowActivity extends AppCompatActivity {
                         episodeList = (ListView) findViewById(R.id.find_list_episodes);
                         tvEpisodes = tvSeasons.get(position).getEpisodes();
                         if (tvEpisodes.size() > 0) {
-                            episodeListAdapter = new TVShowEpisodeListAdapter(getBaseContext(), R.layout.find_item_episodes, tvEpisodes);
+                            episodeListAdapter = new TVShowEpisodeListAdapter(getBaseContext(), R.layout.find_item_episode, tvEpisodes);
                             episodeList.setAdapter(episodeListAdapter);
                         }
                     }

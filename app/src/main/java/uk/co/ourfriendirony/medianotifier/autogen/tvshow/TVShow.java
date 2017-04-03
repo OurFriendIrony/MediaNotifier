@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.*;
 
 import java.util.*;
 
+import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanTitle;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "backdrop_path",
@@ -38,8 +40,9 @@ public class TVShow {
     private Integer id;
     @JsonProperty("in_production")
     private Boolean inProduction;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @JsonProperty("last_air_date")
-    private String lastAirDate;
+    private Date lastAirDate;
     @JsonProperty("name")
     private String name;
     @JsonProperty("number_of_episodes")
@@ -120,12 +123,12 @@ public class TVShow {
     }
 
     @JsonProperty("last_air_date")
-    public String getLastAirDate() {
+    public Date getLastAirDate() {
         return lastAirDate;
     }
 
     @JsonProperty("last_air_date")
-    public void setLastAirDate(String lastAirDate) {
+    public void setLastAirDate(Date lastAirDate) {
         this.lastAirDate = lastAirDate;
     }
 
@@ -136,7 +139,7 @@ public class TVShow {
 
     @JsonProperty("name")
     public void setName(String name) {
-        this.name = name;
+        this.name = cleanTitle(name);
     }
 
     @JsonProperty("number_of_episodes")

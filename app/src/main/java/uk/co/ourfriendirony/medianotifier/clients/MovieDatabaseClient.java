@@ -14,12 +14,12 @@ import java.io.IOException;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.autogen.movie.Movie;
-import uk.co.ourfriendirony.medianotifier.autogen.movie.MovieFindResult;
+import uk.co.ourfriendirony.medianotifier.autogen.movie.MovieFinds;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVSeason;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShowFinds;
 
-import static uk.co.ourfriendirony.medianotifier.general.UrlHandler.urlCleaner;
+import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanUrl;
 
 public class MovieDatabaseClient {
     private static final String API_KEY = "17e93178aefe463b7d42c6198ba78f30";
@@ -42,15 +42,15 @@ public class MovieDatabaseClient {
 
     public List<Movie> queryMovie(String movie) throws IOException {
         httpGetRequest(URL_MOVIE_QUERY
-                .replace("@NAME@", urlCleaner(movie))
+                .replace("@NAME@", cleanUrl(movie))
         );
-        MovieFindResult query = OBJECT_MAPPER.readValue(payload, MovieFindResult.class);
+        MovieFinds query = OBJECT_MAPPER.readValue(payload, MovieFinds.class);
         return query.getResults();
     }
 
     public List<TVShow> queryTVShow(String tvShow) throws IOException {
         httpGetRequest(URL_TVSHOW_QUERY
-                .replace("@NAME@", urlCleaner(tvShow))
+                .replace("@NAME@", cleanUrl(tvShow))
         );
         TVShowFinds query = OBJECT_MAPPER.readValue(payload, TVShowFinds.class);
         return query.getResults();

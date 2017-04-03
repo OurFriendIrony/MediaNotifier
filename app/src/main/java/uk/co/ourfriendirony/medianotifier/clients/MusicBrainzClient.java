@@ -12,7 +12,7 @@ import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.autogen.music.*;
 
-import static uk.co.ourfriendirony.medianotifier.general.UrlHandler.urlCleaner;
+import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanUrl;
 
 public class MusicBrainzClient {
     public static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
@@ -27,14 +27,14 @@ public class MusicBrainzClient {
     private int statusCode;
 
     public List<MBArtist> queryArtist(String artist) throws IOException {
-        String url = URL_ARTIST_LOOKUP.replace("@ARTIST@", urlCleaner(artist));
+        String url = URL_ARTIST_LOOKUP.replace("@ARTIST@", cleanUrl(artist));
         httpGetRequest(url);
         QueryArtist query = OBJECT_MAPPER.readValue(payload, QueryArtist.class);
         return query.getArtists();
     }
 
     public void getArtist(String artistMBID) throws IOException {
-        String url = URL_GET_ARTIST.replace("@MBID@", urlCleaner(artistMBID));
+        String url = URL_GET_ARTIST.replace("@MBID@", cleanUrl(artistMBID));
         httpGetRequest(url);
         LookupArtist artist = OBJECT_MAPPER.readValue(payload, LookupArtist.class);
 
@@ -51,7 +51,7 @@ public class MusicBrainzClient {
     }
 
     public MBRelease getAlbumGB(String id) throws IOException {
-        String url = URL_GET_RELEASE_GROUP.replace("@MBID@", urlCleaner(id));
+        String url = URL_GET_RELEASE_GROUP.replace("@MBID@", cleanUrl(id));
         httpGetRequest(url);
         LookupReleaseGroup releaseGroup = OBJECT_MAPPER.readValue(payload, LookupReleaseGroup.class);
 
@@ -65,7 +65,7 @@ public class MusicBrainzClient {
     }
 
     private void getTracks(String id) throws IOException {
-        String url = URL_GET_ALBUM_WITH_TRACKS.replace("@MBID@", urlCleaner(id));
+        String url = URL_GET_ALBUM_WITH_TRACKS.replace("@MBID@", cleanUrl(id));
         httpGetRequest(url);
         LookupAlbum album = OBJECT_MAPPER.readValue(payload, LookupAlbum.class);
 

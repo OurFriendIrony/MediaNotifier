@@ -2,6 +2,7 @@ package uk.co.ourfriendirony.medianotifier.autogen.tvshow;
 
 import com.fasterxml.jackson.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,8 +20,9 @@ import java.util.Map;
 })
 public class TVEpisode {
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @JsonProperty("air_date")
-    private String airDate;
+    private Date airDate;
     @JsonProperty("episode_number")
     private Integer episodeNumber;
     @JsonProperty("name")
@@ -41,12 +43,12 @@ public class TVEpisode {
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("air_date")
-    public String getAirDate() {
+    public Date getAirDate() {
         return airDate;
     }
 
     @JsonProperty("air_date")
-    public void setAirDate(String airDate) {
+    public void setAirDate(Date airDate) {
         this.airDate = airDate;
     }
 
