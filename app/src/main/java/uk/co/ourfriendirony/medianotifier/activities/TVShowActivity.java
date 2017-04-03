@@ -20,7 +20,6 @@ import uk.co.ourfriendirony.medianotifier.listviewadapter.TVShowSeasonListAdapte
 
 public class TVShowActivity extends AppCompatActivity {
 
-    private TVShowDatabase database;
     private ListView showList;
     private ListView seasonList;
     private ListView episodeList;
@@ -36,8 +35,7 @@ public class TVShowActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tvlist);
 
-        TVShowDatabaseDefinition databaseHelper = new TVShowDatabaseDefinition(getApplicationContext());
-        database = new TVShowDatabase(databaseHelper);
+        TVShowDatabase database = new TVShowDatabase(new TVShowDatabaseDefinition(getApplicationContext()));
 
         showList = (ListView) findViewById(R.id.find_list_tv);
 
@@ -50,10 +48,7 @@ public class TVShowActivity extends AppCompatActivity {
         showList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (episodeListAdapter != null) {
-                    episodeListAdapter.clear();
-                    episodeListAdapter.notifyDataSetChanged();
-                }
+//                clearSeasonPage();
 
                 seasonList = (ListView) findViewById(R.id.find_list_seasons);
 
@@ -66,6 +61,8 @@ public class TVShowActivity extends AppCompatActivity {
                 seasonList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                        clearEpisodePage();
+
                         episodeList = (ListView) findViewById(R.id.find_list_episodes);
                         tvEpisodes = tvSeasons.get(position).getEpisodes();
                         if (tvEpisodes.size() > 0) {
@@ -78,5 +75,19 @@ public class TVShowActivity extends AppCompatActivity {
         });
     }
 
+    private void clearSeasonPage() {
+        if (seasonListAdapter != null) {
+            seasonListAdapter.clear();
+            seasonListAdapter.notifyDataSetChanged();
+        }
+//        clearEpisodePage();
+    }
+
+    private void clearEpisodePage() {
+        if (episodeListAdapter != null) {
+            episodeListAdapter.clear();
+            episodeListAdapter.notifyDataSetChanged();
+        }
+    }
 }
 

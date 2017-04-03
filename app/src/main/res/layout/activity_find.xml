@@ -55,8 +55,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/find_input_progress"
         android:background="@drawable/border_basic"
-        android:divider="@color/black"
-        android:dividerHeight="2dp"
+        android:listSelector="@drawable/border_alert"
         android:padding="6dp">
     </ListView>
 </RelativeLayout>

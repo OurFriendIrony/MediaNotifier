@@ -17,21 +17,21 @@ import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
 import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
 
 import static uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition.*;
+import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanDate;
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanTitle;
 
 public class TVShowDatabase {
 
     public static final String SELECT_TVSHOWS = "SELECT " + TT_RAWJSON + " FROM " + TABLE_TVSHOWS + " ORDER BY " + TT_TITLE + " ASC;";
-    private final SQLiteDatabase dbWritable;
-    private final SQLiteDatabase dbReadable;
+    private final TVShowDatabaseDefinition databaseHelper;
 
     public TVShowDatabase(TVShowDatabaseDefinition databaseHelper) {
-        dbWritable = databaseHelper.getWritableDatabase();
-        dbReadable = databaseHelper.getReadableDatabase();
+        this.databaseHelper = databaseHelper;
     }
 
     public void saveTVShow(int tvShowId) {
         MovieDatabaseClient client = new MovieDatabaseClient();
+        SQLiteDatabase dbWritable = databaseHelper.getWritableDatabase();
         TVShow tvShow;
         try {
             tvShow = client.getTVShow(tvShowId);
@@ -42,16 +42,17 @@ public class TVShowDatabase {
         for (TVSeason season : tvShow.getSeasons()) {
             for (TVEpisode episode : season.getEpisodes()) {
                 episode.setId(tvShow.getId());
-                insertTVShowEpisode(episode);
+                insertTVShowEpisode(dbWritable, episode);
             }
             season.setId(tvShow.getId());
-            insertTVShowSeason(season);
+            insertTVShowSeason(dbWritable, season);
         }
-        insertTVShow(tvShow);
+        insertTVShow(dbWritable, tvShow);
+        dbWritable.close();
     }
 
-    private void insertTVShow(TVShow tvShow) {
-        ObjectMapper mapper = new ObjectMapper();
+    private void insertTVShow(SQLiteDatabase dbWritable, TVShow tvShow) {
+
         String rawJson = null;
         try {
             rawJson = new ObjectMapper().writeValueAsString(tvShow);
@@ -62,27 +63,27 @@ public class TVShowDatabase {
         tvShowRow.put(TT_ID, tvShow.getId());
         tvShowRow.put(TT_TITLE, cleanTitle(tvShow.getName()));
         tvShowRow.put(TT_IMDB, tvShow.getExternalIds().getImdbId());
-        tvShowRow.put(TT_DATE, tvShow.getFirstAirDate().toString());
+        tvShowRow.put(TT_DATE, cleanDate(tvShow.getFirstAirDate()));
         tvShowRow.put(TT_OVERVIEW, tvShow.getOverview());
         tvShowRow.put(TT_RAWJSON, rawJson);
         dbWritable.insert(TABLE_TVSHOWS, null, tvShowRow);
     }
 
-    private void insertTVShowSeason(TVSeason season) {
+    private void insertTVShowSeason(SQLiteDatabase dbWritable, TVSeason season) {
         ContentValues seasonRow = new ContentValues();
         seasonRow.put(TTS_ID, season.getId());
         seasonRow.put(TTS_SEASON_NO, season.getSeasonNumber());
-        seasonRow.put(TTS_DATE, season.getAirDate().toString());
+        seasonRow.put(TTS_DATE, cleanDate(season.getAirDate()));
         dbWritable.insert(TABLE_TVSHOWS_SEASONS, null, seasonRow);
     }
 
-    private void insertTVShowEpisode(TVEpisode episode) {
+    private void insertTVShowEpisode(SQLiteDatabase dbWritable, TVEpisode episode) {
         ContentValues episodeRow = new ContentValues();
         episodeRow.put(TTSE_ID, episode.getId());
         episodeRow.put(TTSE_SEASON_NO, episode.getSeasonNumber());
         episodeRow.put(TTSE_EPISODE_NO, episode.getEpisodeNumber());
         episodeRow.put(TTSE_TITLE, episode.getName());
-        episodeRow.put(TTSE_DATE, episode.getAirDate().toString());
+        episodeRow.put(TTSE_DATE, cleanDate(episode.getAirDate()));
         episodeRow.put(TTSE_OVERVIEW, episode.getOverview());
         dbWritable.insert(TABLE_TVSHOWS_EPISODES, null, episodeRow);
     }
@@ -92,14 +93,16 @@ public class TVShowDatabase {
     }
 
     public void deleteAllTVShows() {
+        SQLiteDatabase dbWritable = databaseHelper.getWritableDatabase();
         dbWritable.execSQL("DELETE FROM " + TABLE_TVSHOWS + ";");
         dbWritable.execSQL("DELETE FROM " + TABLE_TVSHOWS_SEASONS + ";");
         dbWritable.execSQL("DELETE FROM " + TABLE_TVSHOWS_EPISODES + ";");
+        dbWritable.close();
     }
 
     public List<TVShow> getTVShows() {
         List<TVShow> tvShows = new ArrayList<>();
-
+        SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
         Cursor cursor = dbReadable.rawQuery(SELECT_TVSHOWS, null);
         try {
             while (cursor.moveToNext()) {
@@ -115,6 +118,7 @@ public class TVShowDatabase {
         } finally {
             cursor.close();
         }
+        dbReadable.close();
         return tvShows;
     }
 }

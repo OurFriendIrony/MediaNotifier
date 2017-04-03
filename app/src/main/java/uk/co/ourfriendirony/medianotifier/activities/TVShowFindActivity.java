@@ -21,22 +21,21 @@ import uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.TVShowListAdapter;
 
 public class TVShowFindActivity extends AppCompatActivity {
+    private TVShowDatabase database;
+    
     private TextView findTitle;
     private EditText findInput;
     private ProgressBar findProgressBar;
     private ListView findList;
-
     private List<TVShow> tvShows = new ArrayList<>();
     private MovieDatabaseClient client = new MovieDatabaseClient();
-    private TVShowDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find);
 
-        TVShowDatabaseDefinition databaseHelper = new TVShowDatabaseDefinition(getApplicationContext());
-        database = new TVShowDatabase(databaseHelper);
+        database = new TVShowDatabase(new TVShowDatabaseDefinition(getApplicationContext()));
 
         findTitle = (TextView) findViewById(R.id.find_title);
         findInput = (EditText) findViewById(R.id.find_input);
@@ -85,7 +84,7 @@ public class TVShowFindActivity extends AppCompatActivity {
         return (int) (dimensionDp * density + 0.5f);
     }
 
-    class TVShowFindAsyncTask extends AsyncTask<String, Void, List<TVShow>> {
+    private class TVShowFindAsyncTask extends AsyncTask<String, Void, List<TVShow>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -115,7 +114,7 @@ public class TVShowFindActivity extends AppCompatActivity {
         }
     }
 
-    class TVShowAddAsyncTask extends AsyncTask<String, Void, String> {
+    private class TVShowAddAsyncTask extends AsyncTask<String, Void, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();

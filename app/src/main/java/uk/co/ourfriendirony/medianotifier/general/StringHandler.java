@@ -2,9 +2,10 @@ package uk.co.ourfriendirony.medianotifier.general;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Date;
 
 public class StringHandler {
-    public static final String[] PREFIXES = new String[]{"A ", "The "};
+    private static final String[] PREFIXES = new String[]{"A ", "The "};
 
     public static String cleanUrl(String url) {
         try {
@@ -17,9 +18,15 @@ public class StringHandler {
     public static String cleanTitle(String string) {
         for (String prefix : PREFIXES) {
             if (string.startsWith(prefix)) {
-                return string.substring(prefix.length() - 1) + ", " + prefix.substring(0, prefix.length() - 1);
+                return string.substring(prefix.length()) + ", " + prefix.substring(0, prefix.length() - 1);
             }
         }
         return string;
+    }
+
+    public static String cleanDate(Date date) {
+        if (date == null)
+            return "";
+        return date.toString();
     }
 }
