@@ -27,6 +27,16 @@ public class TVShowFinds {
         this.results = results;
     }
 
+    public List<TVShow> getDatedResults() {
+        List<TVShow> tvShows = new ArrayList<>();
+        for (TVShow tvShow : getResults()) {
+            if (!("".equals(tvShow.getFirstAirDate())) && tvShow.getFirstAirDate() != null) {
+                tvShows.add(tvShow);
+            }
+        }
+        return tvShows;
+    }
+
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;

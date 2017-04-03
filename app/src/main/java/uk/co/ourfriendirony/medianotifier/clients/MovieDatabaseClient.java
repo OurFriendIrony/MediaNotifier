@@ -53,7 +53,7 @@ public class MovieDatabaseClient {
                 .replace("@NAME@", cleanUrl(tvShow))
         );
         TVShowFinds query = OBJECT_MAPPER.readValue(payload, TVShowFinds.class);
-        return query.getResults();
+        return query.getDatedResults();
     }
 
     public Movie getMovie(int movieID) throws IOException {
