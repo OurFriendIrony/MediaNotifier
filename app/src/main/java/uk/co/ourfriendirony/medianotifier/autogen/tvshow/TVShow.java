@@ -15,8 +15,6 @@ import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanTitl
         "in_production",
         "last_air_date",
         "name",
-        "number_of_episodes",
-        "number_of_seasons",
         "original_name",
         "overview",
         "popularity",
@@ -45,10 +43,6 @@ public class TVShow {
     private Date lastAirDate;
     @JsonProperty("name")
     private String name;
-    @JsonProperty("number_of_episodes")
-    private Integer numberOfEpisodes;
-    @JsonProperty("number_of_seasons")
-    private Integer numberOfSeasons;
     @JsonProperty("original_name")
     private String originalName;
     @JsonProperty("overview")
@@ -144,22 +138,16 @@ public class TVShow {
 
     @JsonProperty("number_of_episodes")
     public Integer getNumberOfEpisodes() {
-        return numberOfEpisodes;
-    }
-
-    @JsonProperty("number_of_episodes")
-    public void setNumberOfEpisodes(Integer numberOfEpisodes) {
-        this.numberOfEpisodes = numberOfEpisodes;
+        int noOfEpisodes = 0;
+        for (TVSeason season : this.getSeasons()) {
+            noOfEpisodes += season.getEpisodes().size();
+        }
+        return noOfEpisodes;
     }
 
     @JsonProperty("number_of_seasons")
     public Integer getNumberOfSeasons() {
-        return numberOfSeasons;
-    }
-
-    @JsonProperty("number_of_seasons")
-    public void setNumberOfSeasons(Integer numberOfSeasons) {
-        this.numberOfSeasons = numberOfSeasons;
+        return this.getSeasons().size();
     }
 
     @JsonProperty("original_name")

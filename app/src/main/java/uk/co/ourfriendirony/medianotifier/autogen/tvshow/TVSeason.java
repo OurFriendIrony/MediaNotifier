@@ -78,6 +78,10 @@ public class TVSeason {
         this.episodes = episodes;
     }
 
+    public Integer getNumberOfEpisodes() {
+        return this.getEpisodes().size();
+    }
+
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
@@ -87,5 +91,4 @@ public class TVSeason {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
-
 }
