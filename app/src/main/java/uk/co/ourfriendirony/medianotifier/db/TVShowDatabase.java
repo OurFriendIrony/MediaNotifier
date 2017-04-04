@@ -3,12 +3,14 @@ package uk.co.ourfriendirony.medianotifier.db;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVEpisode;
@@ -17,12 +19,17 @@ import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
 import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
 
 import static uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition.*;
-import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanDate;
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanTitle;
+import static uk.co.ourfriendirony.medianotifier.general.StringHandler.dateToString;
+import static uk.co.ourfriendirony.medianotifier.general.StringHandler.stringToDate;
 
 public class TVShowDatabase {
     private static final String SELECT_TVSHOWS = "SELECT " + TT_RAWJSON + " FROM " + TABLE_TVSHOWS + " ORDER BY " + TT_TITLE + " ASC;";
-    private static final String COUNT_UNWATCHED_EPISODES = "SELECT COUNT(*) FROM " + TABLE_TVSHOWS_EPISODES + " WHERE " + TTSE_DATE + " >= date('now');";
+    private static final String COUNT_UNWATCHED_EPISODES_UNAIRED = "SELECT COUNT(*) FROM " + TABLE_TVSHOWS_EPISODES + " WHERE " + TTSE_WATCHED + "=" + WATCHED_FALSE + " AND " + TTSE_DATE + " >= date('now');";
+    private static final String GET_UNWATCHED_EPISODES_UNAIRED = "SELECT * FROM " + TABLE_TVSHOWS_EPISODES + " WHERE " + TTSE_WATCHED + "=" + WATCHED_FALSE + " AND " + TTSE_DATE + " >= date('now') ORDER BY " + TTSE_DATE + " ASC;";
+    private static final String COUNT_UNWATCHED_EPISODES_AIRED = "SELECT COUNT(*) FROM " + TABLE_TVSHOWS_EPISODES + " WHERE " + TTSE_WATCHED + "=" + WATCHED_FALSE + " AND " + TTSE_DATE + " < date('now');";
+    private static final String GET_UNWATCHED_EPISODES_AIRED = "SELECT * FROM " + TABLE_TVSHOWS_EPISODES + " WHERE " + TTSE_WATCHED + "=" + WATCHED_FALSE + " AND " + TTSE_DATE + " < date('now') ORDER BY " + TTSE_DATE + " ASC;";
+
 
     private final TVShowDatabaseDefinition databaseHelper;
 
@@ -63,7 +70,7 @@ public class TVShowDatabase {
         tvShowRow.put(TT_ID, tvShow.getId());
         tvShowRow.put(TT_TITLE, cleanTitle(tvShow.getName()));
         tvShowRow.put(TT_IMDB, tvShow.getExternalIds().getImdbId());
-        tvShowRow.put(TT_DATE, cleanDate(tvShow.getFirstAirDate()));
+        tvShowRow.put(TT_DATE, dateToString(tvShow.getFirstAirDate()));
         tvShowRow.put(TT_OVERVIEW, tvShow.getOverview());
         tvShowRow.put(TT_RAWJSON, rawJson);
         dbWritable.insert(TABLE_TVSHOWS, null, tvShowRow);
@@ -73,7 +80,7 @@ public class TVShowDatabase {
         ContentValues seasonRow = new ContentValues();
         seasonRow.put(TTS_ID, season.getId());
         seasonRow.put(TTS_SEASON_NO, season.getSeasonNumber());
-        seasonRow.put(TTS_DATE, cleanDate(season.getAirDate()));
+        seasonRow.put(TTS_DATE, dateToString(season.getAirDate()));
         dbWritable.insert(TABLE_TVSHOWS_SEASONS, null, seasonRow);
     }
 
@@ -83,13 +90,14 @@ public class TVShowDatabase {
         episodeRow.put(TTSE_SEASON_NO, episode.getSeasonNumber());
         episodeRow.put(TTSE_EPISODE_NO, episode.getEpisodeNumber());
         episodeRow.put(TTSE_TITLE, episode.getName());
-        episodeRow.put(TTSE_DATE, cleanDate(episode.getAirDate()));
+        episodeRow.put(TTSE_DATE, dateToString(episode.getAirDate()));
         episodeRow.put(TTSE_OVERVIEW, episode.getOverview());
+        if (airsAfterToday(episode)) {
+            episodeRow.put(TTSE_WATCHED, WATCHED_FALSE);
+        } else {
+            episodeRow.put(TTSE_WATCHED, WATCHED_TRUE);
+        }
         dbWritable.insert(TABLE_TVSHOWS_EPISODES, null, episodeRow);
-    }
-
-    private String getColumnValue(Cursor cursor, String field) {
-        return cursor.getString(cursor.getColumnIndex(field));
     }
 
     public void deleteAllTVShows() {
@@ -102,14 +110,70 @@ public class TVShowDatabase {
 
     public int countUnwatchedEpisodes() {
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
-
-        Cursor cursor = dbReadable.rawQuery(COUNT_UNWATCHED_EPISODES, null);
+        Cursor cursor = dbReadable.rawQuery(COUNT_UNWATCHED_EPISODES_AIRED, null);
         cursor.moveToFirst();
         int count = cursor.getInt(0);
-
         cursor.close();
         dbReadable.close();
         return count;
+    }
+
+    public int countUnwatchedUnairedEpisodes() {
+        SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
+        Cursor cursor = dbReadable.rawQuery(COUNT_UNWATCHED_EPISODES_UNAIRED, null);
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+        dbReadable.close();
+        return count;
+    }
+
+    public List<TVEpisode> getUnwatchedEpisodes() {
+        List<TVEpisode> tvEpisodes = new ArrayList<>();
+        SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
+
+        Cursor cursor = dbReadable.rawQuery(GET_UNWATCHED_EPISODES_AIRED, null);
+        try {
+            while (cursor.moveToNext()) {
+                TVEpisode tvEpisode = new TVEpisode();
+                tvEpisode.setId(Integer.parseInt(getColumnValue(cursor, TTSE_ID)));
+                tvEpisode.setSeasonNumber(Integer.parseInt(getColumnValue(cursor, TTSE_SEASON_NO)));
+                tvEpisode.setEpisodeNumber(Integer.parseInt(getColumnValue(cursor, TTSE_EPISODE_NO)));
+                tvEpisode.setName(getColumnValue(cursor, TTSE_TITLE));
+                tvEpisode.setOverview(getColumnValue(cursor, TTSE_OVERVIEW));
+                tvEpisode.setAirDate(stringToDate(getColumnValue(cursor, TTSE_DATE)));
+                tvEpisodes.add(tvEpisode);
+                Log.v("*****IMHERE*****", "UNWATCHED AIRED EPISODES: Id=" + tvEpisode.getId() + "| S" + tvEpisode.getSeasonNumber() + "E" + tvEpisode.getEpisodeNumber() + " | Title=" + tvEpisode.getName() + " | Date=" + tvEpisode.getAirDate());
+            }
+        } finally {
+            cursor.close();
+        }
+        dbReadable.close();
+        return tvEpisodes;
+    }
+
+    public List<TVEpisode> getUnwatchedUnairedEpisodes() {
+        List<TVEpisode> tvEpisodes = new ArrayList<>();
+        SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
+
+        Cursor cursor = dbReadable.rawQuery(GET_UNWATCHED_EPISODES_UNAIRED, null);
+        try {
+            while (cursor.moveToNext()) {
+                TVEpisode tvEpisode = new TVEpisode();
+                tvEpisode.setId(Integer.parseInt(getColumnValue(cursor, TTSE_ID)));
+                tvEpisode.setSeasonNumber(Integer.parseInt(getColumnValue(cursor, TTSE_SEASON_NO)));
+                tvEpisode.setEpisodeNumber(Integer.parseInt(getColumnValue(cursor, TTSE_EPISODE_NO)));
+                tvEpisode.setName(getColumnValue(cursor, TTSE_TITLE));
+                tvEpisode.setOverview(getColumnValue(cursor, TTSE_OVERVIEW));
+                tvEpisode.setAirDate(stringToDate(getColumnValue(cursor, TTSE_DATE)));
+                tvEpisodes.add(tvEpisode);
+                Log.v("*****IMHERE*****", "UNWATCHED UNAIRED EPISODES: Id=" + tvEpisode.getId() + "| S" + tvEpisode.getSeasonNumber() + "E" + tvEpisode.getEpisodeNumber() + " | Title=" + tvEpisode.getName() + " | Date=" + tvEpisode.getAirDate());
+            }
+        } finally {
+            cursor.close();
+        }
+        dbReadable.close();
+        return tvEpisodes;
     }
 
     public List<TVShow> getTVShows() {
@@ -133,4 +197,13 @@ public class TVShowDatabase {
         dbReadable.close();
         return tvShows;
     }
+
+    private boolean airsAfterToday(TVEpisode episode) {
+        return episode.getAirDate().compareTo(new Date()) >= 0;
+    }
+
+    private String getColumnValue(Cursor cursor, String field) {
+        return cursor.getString(cursor.getColumnIndex(field));
+    }
+
 }

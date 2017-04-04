@@ -70,6 +70,11 @@ public class MainActivity extends AppCompatActivity {
         TVShowDatabase database = new TVShowDatabase(new TVShowDatabaseDefinition(getApplicationContext()));
         fab_notifaction_tv.setImageResource(getNumberImage(database.countUnwatchedEpisodes()));
 
+        // DEBUG
+        database.getUnwatchedEpisodes();
+        database.getUnwatchedUnairedEpisodes();
+        // DEBUG
+
         button_show_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

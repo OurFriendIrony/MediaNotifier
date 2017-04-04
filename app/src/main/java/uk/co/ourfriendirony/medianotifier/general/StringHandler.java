@@ -3,6 +3,7 @@ package uk.co.ourfriendirony.medianotifier.general;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -28,9 +29,17 @@ public class StringHandler {
         return string;
     }
 
-    public static String cleanDate(Date date) {
+    public static String dateToString(Date date) {
         if (date == null)
             return "";
         return dateFormat.format(date);
+    }
+
+    public static Date stringToDate(String date) {
+        try {
+            return dateFormat.parse(date);
+        } catch (ParseException e) {
+            return new Date();
+        }
     }
 }
