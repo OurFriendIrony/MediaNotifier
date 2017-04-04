@@ -16,6 +16,8 @@ import android.widget.Toast;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
 
+import static uk.co.ourfriendirony.medianotifier.general.ImageNumber.getNumberImage;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -32,6 +34,10 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton fab_find_tv = (FloatingActionButton) findViewById(R.id.fab_find_tv);
         FloatingActionButton fab_find_movie = (FloatingActionButton) findViewById(R.id.fab_find_movie);
         FloatingActionButton fab_find_music = (FloatingActionButton) findViewById(R.id.fab_find_music);
+
+        FloatingActionButton fab_notifaction_tv = (FloatingActionButton) findViewById(R.id.button_notification_tv);
+        FloatingActionButton fab_notifaction_movie = (FloatingActionButton) findViewById(R.id.button_notification_movie);
+        FloatingActionButton fab_notifaction_music = (FloatingActionButton) findViewById(R.id.button_notification_music);
 
         Button button_show_tv = (Button) findViewById(R.id.button_show_tv);
         Button button_show_movie = (Button) findViewById(R.id.button_show_movie);
@@ -54,9 +60,12 @@ public class MainActivity extends AppCompatActivity {
         fab_find_music.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), SettingsActivity.class));
+                Toast.makeText(MainActivity.this, "NOT YET IMPLEMENTED", Toast.LENGTH_SHORT).show();
+//                startActivity(new Intent(view.getContext(), SettingsActivity.class));
             }
         });
+
+        fab_notifaction_tv.setImageResource(getNumberImage(0));
 
         button_show_tv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,11 +87,13 @@ public class MainActivity extends AppCompatActivity {
 //                startActivity(new Intent(view.getContext(), TVShowActivity.class));
             }
         });
+
         tmdbImage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 startActivity(IntentGenerator.getWebPageIntent("https://www.themoviedb.org/"));
             }
         });
+
     }
 
     @Override

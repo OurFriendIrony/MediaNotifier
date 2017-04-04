@@ -42,6 +42,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -85,8 +86,10 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_margin="5dp"
-                        android:backgroundTint="@color/color_notification_off"
+                        android:backgroundTint="@color/white"
                         android:clickable="true"
+                        android:scaleType="center"
+                        android:src="@drawable/num_0_mini"
                         app:borderWidth="0dp"
                         />
                 </RelativeLayout>
@@ -134,8 +137,10 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_margin="5dp"
-                        android:backgroundTint="@color/color_notification_off"
+                        android:backgroundTint="@color/white"
                         android:clickable="true"
+                        android:scaleType="center"
+                        android:src="@drawable/num_0_mini"
                         app:borderWidth="0dp"
 
                         />
@@ -184,14 +189,16 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_margin="5dp"
-                        android:background="@color/aqua"
-                        android:backgroundTint="@color/color_notification_off"
+                        android:backgroundTint="@color/white"
                         android:clickable="true"
+                        android:scaleType="center"
+                        android:src="@drawable/num_0_mini"
                         app:borderWidth="0dp"
                         />
 
                 </RelativeLayout>
             </LinearLayout>
+
         </LinearLayout>
     </FrameLayout>
 
@@ -212,8 +219,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:paddingStart="5dp"
                 android:paddingEnd="5dp"
+                android:paddingStart="5dp"
                 android:text="Powered By:"
                 />
 
@@ -222,8 +229,8 @@
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
-                android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
                 android:contentDescription="@string/tvmb"
                 android:src="@drawable/img_tmdb"
                 />
