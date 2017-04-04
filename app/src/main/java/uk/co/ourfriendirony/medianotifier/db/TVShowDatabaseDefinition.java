@@ -6,35 +6,33 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 public class TVShowDatabaseDefinition extends SQLiteOpenHelper {
-    public static final String DATABASE_NAME = "tv_shows";
+    static final String TABLE_TVSHOWS = "tv_shows";
+    static final String TABLE_TVSHOWS_SEASONS = "tv_shows_seasons";
+    static final String TABLE_TVSHOWS_EPISODES = "tv_shows_episodes";
 
-    public static final String TABLE_TVSHOWS = "tv_shows";
-    public static final String TT_ID = "_id";
-    public static final String TT_TITLE = "title";
-    public static final String TT_IMDB = "imdb_id";
-    public static final String TT_DATE = "air_date";
-    public static final String TT_OVERVIEW = "overview";
-    public static final String TT_RAWJSON = "rawjson";
+    static final String TT_ID = "_id";
+    static final String TT_TITLE = "title";
+    static final String TT_IMDB = "imdb_id";
+    static final String TT_DATE = "air_date";
+    static final String TT_OVERVIEW = "overview";
+    static final String TT_RAWJSON = "rawjson";
 
-    public static final String TABLE_TVSHOWS_SEASONS = "tv_shows_seasons";
-    public static final String TTS_ID = "_id";
-    public static final String TTS_SEASON_NO = "season_no";
-    public static final String TTS_DATE = "air_date";
+    static final String TTS_ID = "_id";
+    static final String TTS_SEASON_NO = "season_no";
+    static final String TTS_DATE = "air_date";
 
-    public static final String TABLE_TVSHOWS_EPISODES = "tv_shows_episodes";
-    public static final String TTSE_ID = "_id";
-    public static final String TTSE_SEASON_NO = "season_no";
-    public static final String TTSE_EPISODE_NO = "episode_no";
-    public static final String TTSE_TITLE = "title";
-    public static final String TTSE_DATE = "air_date";
-    public static final String TTSE_OVERVIEW = "overview";
+    static final String TTSE_ID = "_id";
+    static final String TTSE_SEASON_NO = "season_no";
+    static final String TTSE_EPISODE_NO = "episode_no";
+    static final String TTSE_TITLE = "title";
+    static final String TTSE_DATE = "air_date";
+    static final String TTSE_OVERVIEW = "overview";
 
+    private static final String DATABASE_NAME = "tv_shows";
     private static final int DATABASE_VERSION = 1;
-    private final Context context;
 
     public TVShowDatabaseDefinition(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        this.context = context;
     }
 
     @Override
@@ -47,7 +45,7 @@ public class TVShowDatabaseDefinition extends SQLiteOpenHelper {
                 TT_IMDB + " TEXT, " +
                 TT_DATE + " TEXT, " +
                 TT_OVERVIEW + " TEXT, " +
-                TT_RAWJSON+ " TEXT, " +
+                TT_RAWJSON + " TEXT, " +
                 "PRIMARY KEY (" + TT_ID + ")" +
                 ")");
 

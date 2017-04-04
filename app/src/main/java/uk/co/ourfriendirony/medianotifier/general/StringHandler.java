@@ -2,10 +2,14 @@ package uk.co.ourfriendirony.medianotifier.general;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class StringHandler {
     private static final String[] PREFIXES = new String[]{"A ", "The "};
+
+    private static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public static String cleanUrl(String url) {
         try {
@@ -27,6 +31,6 @@ public class StringHandler {
     public static String cleanDate(Date date) {
         if (date == null)
             return "";
-        return date.toString();
+        return dateFormat.format(date);
     }
 }

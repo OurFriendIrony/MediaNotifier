@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import uk.co.ourfriendirony.medianotifier.R;
+import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
+import uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition;
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
 
 import static uk.co.ourfriendirony.medianotifier.general.ImageNumber.getNumberImage;
@@ -65,7 +67,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        fab_notifaction_tv.setImageResource(getNumberImage(0));
+        TVShowDatabase database = new TVShowDatabase(new TVShowDatabaseDefinition(getApplicationContext()));
+        fab_notifaction_tv.setImageResource(getNumberImage(database.countUnwatchedEpisodes()));
 
         button_show_tv.setOnClickListener(new View.OnClickListener() {
             @Override

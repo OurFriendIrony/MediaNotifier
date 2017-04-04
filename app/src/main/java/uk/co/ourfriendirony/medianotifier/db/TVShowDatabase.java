@@ -21,8 +21,9 @@ import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanDate
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanTitle;
 
 public class TVShowDatabase {
+    private static final String SELECT_TVSHOWS = "SELECT " + TT_RAWJSON + " FROM " + TABLE_TVSHOWS + " ORDER BY " + TT_TITLE + " ASC;";
+    private static final String COUNT_UNWATCHED_EPISODES = "SELECT COUNT(*) FROM " + TABLE_TVSHOWS_EPISODES + " WHERE " + TTSE_DATE + " >= date('now');";
 
-    public static final String SELECT_TVSHOWS = "SELECT " + TT_RAWJSON + " FROM " + TABLE_TVSHOWS + " ORDER BY " + TT_TITLE + " ASC;";
     private final TVShowDatabaseDefinition databaseHelper;
 
     public TVShowDatabase(TVShowDatabaseDefinition databaseHelper) {
@@ -52,7 +53,6 @@ public class TVShowDatabase {
     }
 
     private void insertTVShow(SQLiteDatabase dbWritable, TVShow tvShow) {
-
         String rawJson = null;
         try {
             rawJson = new ObjectMapper().writeValueAsString(tvShow);
@@ -98,6 +98,18 @@ public class TVShowDatabase {
         dbWritable.execSQL("DELETE FROM " + TABLE_TVSHOWS_SEASONS + ";");
         dbWritable.execSQL("DELETE FROM " + TABLE_TVSHOWS_EPISODES + ";");
         dbWritable.close();
+    }
+
+    public int countUnwatchedEpisodes() {
+        SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
+
+        Cursor cursor = dbReadable.rawQuery(COUNT_UNWATCHED_EPISODES, null);
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+
+        cursor.close();
+        dbReadable.close();
+        return count;
     }
 
     public List<TVShow> getTVShows() {

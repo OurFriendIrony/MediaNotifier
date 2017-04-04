@@ -22,7 +22,7 @@ import uk.co.ourfriendirony.medianotifier.listviewadapter.TVShowListAdapter;
 
 public class TVShowFindActivity extends AppCompatActivity {
     private TVShowDatabase database;
-    
+
     private TextView findTitle;
     private EditText findInput;
     private ProgressBar findProgressBar;
