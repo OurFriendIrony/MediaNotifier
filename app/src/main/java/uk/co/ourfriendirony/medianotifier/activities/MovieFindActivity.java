@@ -99,7 +99,7 @@ public class MovieFindActivity extends AppCompatActivity {
             findProgressBar.setVisibility(View.GONE);
 
             if (movies.size() > 0) {
-                MovieListViewAdapter adapter = new MovieListViewAdapter(getBaseContext(), R.layout.find_item, movies);
+                MovieListViewAdapter adapter = new MovieListViewAdapter(getBaseContext(), R.layout.list_item_tvshow, movies);
                 findList.setAdapter(adapter);
             } else {
                 Toast.makeText(getBaseContext(), R.string.find_no_results, Toast.LENGTH_LONG).show();

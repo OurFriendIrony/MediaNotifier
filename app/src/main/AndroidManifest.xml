@@ -26,6 +26,8 @@
         </activity>
         <activity android:name=".activities.TVShowActivity">
         </activity>
+        <activity android:name=".activities.TVShowNotificationsActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -58,7 +58,7 @@ public class TVShowActivity extends AppCompatActivity {
 
     private void displayShows() {
         if (tvShows.size() > 0) {
-            TVShowListAdapter tvShowListAdapter = new TVShowListAdapter(getBaseContext(), R.layout.find_item, tvShows);
+            TVShowListAdapter tvShowListAdapter = new TVShowListAdapter(getBaseContext(), R.layout.list_item_tvshow, tvShows);
             showList.setAdapter(tvShowListAdapter);
             showList.performItemClick(null, 0, 0);
             displaySeasons(0);
@@ -68,7 +68,7 @@ public class TVShowActivity extends AppCompatActivity {
     private void displaySeasons(int showPosition) {
         tvSeasons = tvShows.get(showPosition).getSeasons();
         if (tvSeasons.size() > 0) {
-            TVShowSeasonListAdapter seasonListAdapter = new TVShowSeasonListAdapter(getBaseContext(), R.layout.find_item_season, tvSeasons);
+            TVShowSeasonListAdapter seasonListAdapter = new TVShowSeasonListAdapter(getBaseContext(), R.layout.list_item_season, tvSeasons);
             seasonList.setAdapter(seasonListAdapter);
             seasonList.performItemClick(null, 0, 0);
             displayEpisodes(0);
@@ -78,7 +78,7 @@ public class TVShowActivity extends AppCompatActivity {
     private void displayEpisodes(int seasonPosition) {
         tvEpisodes = tvSeasons.get(seasonPosition).getEpisodes();
         if (tvEpisodes.size() > 0) {
-            TVShowEpisodeListAdapter episodeListAdapter = new TVShowEpisodeListAdapter(getBaseContext(), R.layout.find_item_episode, tvEpisodes);
+            TVShowEpisodeListAdapter episodeListAdapter = new TVShowEpisodeListAdapter(getBaseContext(), R.layout.list_item_episode, tvEpisodes);
             episodeList.setAdapter(episodeListAdapter);
             episodeList.performItemClick(null, 0, 0);
         }

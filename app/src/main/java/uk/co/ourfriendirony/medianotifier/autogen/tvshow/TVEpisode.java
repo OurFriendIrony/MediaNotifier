@@ -41,6 +41,7 @@ public class TVEpisode {
     private Integer voteCount;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private String title;
 
     @JsonProperty("air_date")
     public Date getAirDate() {
@@ -142,4 +143,11 @@ public class TVEpisode {
         this.additionalProperties.put(name, value);
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 }

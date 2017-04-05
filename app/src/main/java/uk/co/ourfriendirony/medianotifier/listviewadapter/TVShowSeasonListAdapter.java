@@ -37,7 +37,7 @@ public class TVShowSeasonListAdapter extends ArrayAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View v = convertView;
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        v = inflater.inflate(R.layout.find_item_season, null);
+        v = inflater.inflate(R.layout.list_item_season, null);
 
         TextView textTitle = (TextView) v.findViewById(R.id.find_item_season_title);
 

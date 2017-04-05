@@ -106,7 +106,7 @@ public class TVShowFindActivity extends AppCompatActivity {
             findProgressBar.setVisibility(View.GONE);
 
             if (tvShows.size() > 0) {
-                TVShowListAdapter adapter = new TVShowListAdapter(getBaseContext(), R.layout.find_item, tvShows);
+                TVShowListAdapter adapter = new TVShowListAdapter(getBaseContext(), R.layout.list_item_tvshow, tvShows);
                 findList.setAdapter(adapter);
             } else {
                 Toast.makeText(getBaseContext(), R.string.find_no_results, Toast.LENGTH_LONG).show();

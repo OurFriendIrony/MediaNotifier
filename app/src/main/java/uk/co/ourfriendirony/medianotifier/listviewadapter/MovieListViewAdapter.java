@@ -38,7 +38,7 @@ public class MovieListViewAdapter extends ArrayAdapter {
         Movie movie = movies.get(position);
 
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.find_item, null);
+        view = inflater.inflate(R.layout.list_item_tvshow, null);
         TextView textView1 = (TextView) view.findViewById(R.id.find_item_season_title);
         TextView textView2 = (TextView) view.findViewById(R.id.find_item_date);
         TextView textView3 = (TextView) view.findViewById(R.id.find_item_overview);

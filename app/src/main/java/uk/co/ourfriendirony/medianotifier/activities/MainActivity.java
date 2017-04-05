@@ -96,12 +96,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        tmdbImage.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                startActivity(IntentGenerator.getWebPageIntent("https://www.themoviedb.org/"));
+        fab_notifaction_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), TVShowNotificationsActivity.class));
             }
         });
 
+        tmdbImage.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                startActivity(IntentGenerator.getWebPageIntent("https://www.themoviedb.org/"));
+            }
+        });
     }
 
     @Override

@@ -38,7 +38,7 @@ public class TVShowListAdapter extends ArrayAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View v = convertView;
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        v = inflater.inflate(R.layout.find_item, null);
+        v = inflater.inflate(R.layout.list_item_tvshow, null);
 
         TextView textTitle = (TextView) v.findViewById(R.id.find_item_title);
         TextView textDate = (TextView) v.findViewById(R.id.find_item_date);

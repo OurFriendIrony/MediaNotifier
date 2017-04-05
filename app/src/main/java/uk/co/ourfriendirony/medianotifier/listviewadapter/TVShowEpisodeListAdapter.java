@@ -38,11 +38,11 @@ public class TVShowEpisodeListAdapter extends ArrayAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View v = convertView;
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        v = inflater.inflate(R.layout.find_item_episode, null);
+        v = inflater.inflate(R.layout.list_item_episode, null);
 
-        TextView textTitle = (TextView) v.findViewById(R.id.find_item_episode_title);
-        TextView textNumber = (TextView) v.findViewById(R.id.find_item_episode_number);
-        TextView textDate = (TextView) v.findViewById(R.id.find_item_episode_date);
+        TextView textTitle = (TextView) v.findViewById(R.id.list_item_notification_episode_title);
+        TextView textNumber = (TextView) v.findViewById(R.id.list_item_notification_number);
+        TextView textDate = (TextView) v.findViewById(R.id.list_item_notification_date);
         TVEpisode tvShowEpisode = tvShowEpisodes.get(position);
 
         String dateString = "";

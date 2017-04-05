@@ -25,11 +25,20 @@ import static uk.co.ourfriendirony.medianotifier.general.StringHandler.stringToD
 
 public class TVShowDatabase {
     private static final String SELECT_TVSHOWS = "SELECT " + TT_RAWJSON + " FROM " + TABLE_TVSHOWS + " ORDER BY " + TT_TITLE + " ASC;";
-    private static final String COUNT_UNWATCHED_EPISODES_UNAIRED = "SELECT COUNT(*) FROM " + TABLE_TVSHOWS_EPISODES + " WHERE " + TTSE_WATCHED + "=" + WATCHED_FALSE + " AND " + TTSE_DATE + " >= date('now');";
-    private static final String GET_UNWATCHED_EPISODES_UNAIRED = "SELECT * FROM " + TABLE_TVSHOWS_EPISODES + " WHERE " + TTSE_WATCHED + "=" + WATCHED_FALSE + " AND " + TTSE_DATE + " >= date('now') ORDER BY " + TTSE_DATE + " ASC;";
-    private static final String COUNT_UNWATCHED_EPISODES_AIRED = "SELECT COUNT(*) FROM " + TABLE_TVSHOWS_EPISODES + " WHERE " + TTSE_WATCHED + "=" + WATCHED_FALSE + " AND " + TTSE_DATE + " < date('now');";
-    private static final String GET_UNWATCHED_EPISODES_AIRED = "SELECT * FROM " + TABLE_TVSHOWS_EPISODES + " WHERE " + TTSE_WATCHED + "=" + WATCHED_FALSE + " AND " + TTSE_DATE + " < date('now') ORDER BY " + TTSE_DATE + " ASC;";
 
+    private static final String COUNT_UNWATCHED_EPISODES_UNAIRED = "SELECT COUNT(*) FROM " + TABLE_TVSHOWS_EPISODES + " " +
+            "WHERE " + TTSE_WATCHED + "=" + WATCHED_FALSE + " AND " + TTSE_DATE + " >= date('now');";
+    private static final String GET_UNWATCHED_EPISODES_UNAIRED = "SELECT " + TABLE_TVSHOWS + "." + TT_ID + "," + TTSE_SEASON_NO + "," + TTSE_EPISODE_NO + "," + TTSE_TITLE + "," + TTSE_OVERVIEW + "," + TTSE_DATE + "," + TT_TITLE + " " +
+            "FROM " + TABLE_TVSHOWS_EPISODES + " " +
+            "INNER JOIN " + TABLE_TVSHOWS + " ON " + TABLE_TVSHOWS + "." + TT_ID + " = " + TABLE_TVSHOWS_EPISODES + "." + TTSE_ID + " " +
+            "WHERE " + TTSE_WATCHED + "=" + WATCHED_FALSE + " AND " + TTSE_DATE + " >= date('now') ORDER BY " + TTSE_DATE + " ASC;";
+
+    private static final String COUNT_UNWATCHED_EPISODES_AIRED = "SELECT COUNT(*) FROM " + TABLE_TVSHOWS_EPISODES + " " +
+            "WHERE " + TTSE_WATCHED + "=" + WATCHED_FALSE + " AND " + TTSE_DATE + " < date('now');";
+    private static final String GET_UNWATCHED_EPISODES_AIRED = "SELECT " + TABLE_TVSHOWS + "." + TT_ID + "," + TTSE_SEASON_NO + "," + TTSE_EPISODE_NO + "," + TTSE_TITLE + "," + TTSE_OVERVIEW + "," + TTSE_DATE + "," + TT_TITLE + " " +
+            "FROM " + TABLE_TVSHOWS_EPISODES + " " +
+            "INNER JOIN " + TABLE_TVSHOWS + " ON " + TABLE_TVSHOWS + "." + TT_ID + " = " + TABLE_TVSHOWS_EPISODES + "." + TTSE_ID + " " +
+            "WHERE " + TTSE_WATCHED + "=" + WATCHED_FALSE + " AND " + TTSE_DATE + " < date('now') ORDER BY " + TTSE_DATE + " ASC;";
 
     private final TVShowDatabaseDefinition databaseHelper;
 
@@ -142,8 +151,9 @@ public class TVShowDatabase {
                 tvEpisode.setName(getColumnValue(cursor, TTSE_TITLE));
                 tvEpisode.setOverview(getColumnValue(cursor, TTSE_OVERVIEW));
                 tvEpisode.setAirDate(stringToDate(getColumnValue(cursor, TTSE_DATE)));
+                tvEpisode.setTitle(getColumnValue(cursor, TT_TITLE));
                 tvEpisodes.add(tvEpisode);
-                Log.v("*****IMHERE*****", "UNWATCHED AIRED EPISODES: Id=" + tvEpisode.getId() + "| S" + tvEpisode.getSeasonNumber() + "E" + tvEpisode.getEpisodeNumber() + " | Title=" + tvEpisode.getName() + " | Date=" + tvEpisode.getAirDate());
+                Log.v("*****IMHERE*****", "UNWATCHED AIRED EPISODES: Title=" + tvEpisode.getTitle() + " |Id=" + tvEpisode.getId() + "| S" + tvEpisode.getSeasonNumber() + "E" + tvEpisode.getEpisodeNumber() + " | Title=" + tvEpisode.getName() + " | Date=" + tvEpisode.getAirDate());
             }
         } finally {
             cursor.close();
@@ -166,8 +176,9 @@ public class TVShowDatabase {
                 tvEpisode.setName(getColumnValue(cursor, TTSE_TITLE));
                 tvEpisode.setOverview(getColumnValue(cursor, TTSE_OVERVIEW));
                 tvEpisode.setAirDate(stringToDate(getColumnValue(cursor, TTSE_DATE)));
+                tvEpisode.setTitle(getColumnValue(cursor, TT_TITLE));
                 tvEpisodes.add(tvEpisode);
-                Log.v("*****IMHERE*****", "UNWATCHED UNAIRED EPISODES: Id=" + tvEpisode.getId() + "| S" + tvEpisode.getSeasonNumber() + "E" + tvEpisode.getEpisodeNumber() + " | Title=" + tvEpisode.getName() + " | Date=" + tvEpisode.getAirDate());
+                Log.v("*****IMHERE*****", "UNWATCHED UNAIRED EPISODES: Title=" + tvEpisode.getTitle() + " |Id=" + tvEpisode.getId() + "| S" + tvEpisode.getSeasonNumber() + "E" + tvEpisode.getEpisodeNumber() + " | Title=" + tvEpisode.getName() + " | Date=" + tvEpisode.getAirDate());
             }
         } finally {
             cursor.close();
