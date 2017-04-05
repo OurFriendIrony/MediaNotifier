@@ -5,22 +5,35 @@
               android:layout_margin="7dp"
               android:orientation="vertical"
               android:weightSum="1.0">
-
-    <ListView
-        android:id="@+id/find_list_tv"
+    <ProgressBar
+        android:id="@+id/progress_tvlist"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        />
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="1dp"
-        android:layout_weight=".4"
-        android:background="@drawable/border_basic"
-        android:listSelector="@drawable/border_alert"
-        android:padding="6dp"
-        />
+        android:layout_weight=".35">
+
+        <ListView
+            android:id="@+id/find_list_tv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/border_basic"
+            android:listSelector="@drawable/border_alert"
+            android:padding="6dp"
+            />
+
+
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight=".6"
+        android:layout_weight=".65"
         android:weightSum="1.0">
 
         <ListView

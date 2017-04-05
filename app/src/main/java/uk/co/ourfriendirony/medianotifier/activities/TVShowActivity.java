@@ -1,10 +1,12 @@
 package uk.co.ourfriendirony.medianotifier.activities;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import java.util.List;
 
@@ -26,68 +28,81 @@ public class TVShowActivity extends AppCompatActivity {
     private List<TVShow> tvShows;
     private List<TVSeason> tvSeasons;
     private List<TVEpisode> tvEpisodes;
-    private TVShowEpisodeListAdapter episodeListAdapter;
-    private TVShowSeasonListAdapter seasonListAdapter;
-    private TVShowListAdapter tvShowListAdapter;
+    private ProgressBar showProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tvlist);
 
-        TVShowDatabase database = new TVShowDatabase(new TVShowDatabaseDefinition(getApplicationContext()));
-
         showList = (ListView) findViewById(R.id.find_list_tv);
-
-        tvShows = database.getTVShows();
-        if (tvShows.size() > 0) {
-            tvShowListAdapter = new TVShowListAdapter(getBaseContext(), R.layout.find_item, tvShows);
-            showList.setAdapter(tvShowListAdapter);
-        }
+        seasonList = (ListView) findViewById(R.id.find_list_seasons);
+        episodeList = (ListView) findViewById(R.id.find_list_episodes);
+        showProgressBar = (ProgressBar) findViewById(R.id.progress_tvlist);
+        new TVShowListAsyncTask().execute();
 
         showList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                clearSeasonPage();
-
-                seasonList = (ListView) findViewById(R.id.find_list_seasons);
-
-                tvSeasons = tvShows.get(position).getSeasons();
-                if (tvSeasons.size() > 0) {
-                    seasonListAdapter = new TVShowSeasonListAdapter(getBaseContext(), R.layout.find_item_season, tvSeasons);
-                    seasonList.setAdapter(seasonListAdapter);
-                }
+            public void onItemClick(AdapterView<?> parent, View view, int showPosition, long id) {
+                displaySeasons(showPosition);
 
                 seasonList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                        clearEpisodePage();
-
-                        episodeList = (ListView) findViewById(R.id.find_list_episodes);
-                        tvEpisodes = tvSeasons.get(position).getEpisodes();
-                        if (tvEpisodes.size() > 0) {
-                            episodeListAdapter = new TVShowEpisodeListAdapter(getBaseContext(), R.layout.find_item_episode, tvEpisodes);
-                            episodeList.setAdapter(episodeListAdapter);
-                        }
+                    public void onItemClick(AdapterView<?> parent, View view, int seasonPosition, long id) {
+                        displayEpisodes(seasonPosition);
                     }
                 });
             }
         });
     }
 
-    private void clearSeasonPage() {
-        if (seasonListAdapter != null) {
-            seasonListAdapter.clear();
-            seasonListAdapter.notifyDataSetChanged();
+    private void displayShows() {
+        if (tvShows.size() > 0) {
+            TVShowListAdapter tvShowListAdapter = new TVShowListAdapter(getBaseContext(), R.layout.find_item, tvShows);
+            showList.setAdapter(tvShowListAdapter);
+            showList.performItemClick(null, 0, 0);
+            displaySeasons(0);
         }
-//        clearEpisodePage();
     }
 
-    private void clearEpisodePage() {
-        if (episodeListAdapter != null) {
-            episodeListAdapter.clear();
-            episodeListAdapter.notifyDataSetChanged();
+    private void displaySeasons(int showPosition) {
+        tvSeasons = tvShows.get(showPosition).getSeasons();
+        if (tvSeasons.size() > 0) {
+            TVShowSeasonListAdapter seasonListAdapter = new TVShowSeasonListAdapter(getBaseContext(), R.layout.find_item_season, tvSeasons);
+            seasonList.setAdapter(seasonListAdapter);
+            seasonList.performItemClick(null, 0, 0);
+            displayEpisodes(0);
+        }
+    }
+
+    private void displayEpisodes(int seasonPosition) {
+        tvEpisodes = tvSeasons.get(seasonPosition).getEpisodes();
+        if (tvEpisodes.size() > 0) {
+            TVShowEpisodeListAdapter episodeListAdapter = new TVShowEpisodeListAdapter(getBaseContext(), R.layout.find_item_episode, tvEpisodes);
+            episodeList.setAdapter(episodeListAdapter);
+            episodeList.performItemClick(null, 0, 0);
+        }
+    }
+
+    private class TVShowListAsyncTask extends AsyncTask<String, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Void doInBackground(String... params) {
+            TVShowDatabase database = new TVShowDatabase(new TVShowDatabaseDefinition(getApplicationContext()));
+            tvShows = database.getTVShows();
+            return null;
+        }
+
+        protected void onPostExecute(Void x) {
+            showProgressBar.setVisibility(View.GONE);
+            displayShows();
+            displaySeasons(0);
+            displayEpisodes(0);
         }
     }
 }
-
