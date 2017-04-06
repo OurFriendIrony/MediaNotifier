@@ -14,27 +14,23 @@
         android:visibility="gone"
         />
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="1dp"
-        android:layout_weight=".35">
+        android:layout_weight=".35"
+        android:weightSum="1.0">
 
         <ListView
             android:id="@+id/find_list_tv"
-            android:layout_width="match_parent"
+
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight=".80"
             android:background="@drawable/border_basic"
             android:listSelector="@drawable/border_alert"
             android:padding="6dp"
             />
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".65"
-        android:weightSum="1.0">
 
         <ListView
             android:id="@+id/find_list_seasons"
@@ -44,16 +40,23 @@
             android:layout_weight=".2"
             android:background="@drawable/border_basic"
             android:listSelector="@drawable/border_alert"
-
             android:padding="6dp"
             />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".65"
+        >
+
 
         <ListView
             android:id="@+id/find_list_episodes"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="1dp"
-            android:layout_weight=".8"
+
             android:background="@drawable/border_basic"
             android:listSelector="@drawable/border_alert"
             android:padding="6dp"

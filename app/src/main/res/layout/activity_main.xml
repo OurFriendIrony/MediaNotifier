@@ -72,6 +72,7 @@
 
                     <Button
                         android:id="@+id/button_show_tv"
+                        style="@style/text_title_lesser"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -123,6 +124,7 @@
 
                     <Button
                         android:id="@+id/button_show_movie"
+                        style="@style/text_title_lesser"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -175,6 +177,7 @@
 
                     <Button
                         android:id="@+id/button_show_music"
+                        style="@style/text_title_lesser"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -221,6 +224,7 @@
                 android:layout_height="match_parent"
                 android:paddingEnd="5dp"
                 android:paddingStart="5dp"
+                style="@style/text_general"
                 android:text="Powered By:"
                 />
 

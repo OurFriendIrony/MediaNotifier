@@ -15,6 +15,8 @@ import java.util.List;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVEpisode;
 
+import static uk.co.ourfriendirony.medianotifier.general.StringHandler.pad;
+
 public class TVShowNotificationAdapter extends ArrayAdapter {
     private final List<TVEpisode> tvEpisodes;
 
@@ -42,7 +44,6 @@ public class TVShowNotificationAdapter extends ArrayAdapter {
 
         TextView showTitleView = (TextView) v.findViewById(R.id.list_item_notification_show_title);
         TextView episodeTitleView = (TextView) v.findViewById(R.id.list_item_notification_episode_title);
-        TextView textDate = (TextView) v.findViewById(R.id.list_item_notification_date);
         TextView textNumber = (TextView) v.findViewById(R.id.list_item_notification_number);
         TVEpisode tvEpisode = tvEpisodes.get(position);
 
@@ -53,13 +54,9 @@ public class TVShowNotificationAdapter extends ArrayAdapter {
 
         showTitleView.setText(tvEpisode.getTitle());
         episodeTitleView.setText(tvEpisode.getName());
-        textDate.setText(year);
-        textNumber.setText("S" + pad(tvEpisode.getSeasonNumber()) + " E" + pad(tvEpisode.getEpisodeNumber()));
+        textNumber.setText("S" + pad(tvEpisode.getSeasonNumber(), 2) + " E" + pad(tvEpisode.getEpisodeNumber(), 2));
 
         return v;
     }
 
-    private String pad(int num) {
-        return String.format("%02d", num);
-    }
 }

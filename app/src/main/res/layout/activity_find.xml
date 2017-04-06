@@ -9,15 +9,8 @@
 
     <TextView
         android:id="@+id/find_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/black"
-        android:padding="15dp"
+        style="@style/text_heading"
         android:text="Find Title"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="@dimen/title_size"
-        android:textStyle="bold"
         />
 
     <RelativeLayout
@@ -28,22 +21,16 @@
 
         <EditText
             android:id="@+id/find_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toStartOf="@+id/find_progress"
-            android:backgroundTint="@color/red"
-            android:imeOptions="actionSend"
-            android:inputType="text"
-            android:textSize="30sp"
-            />
+            style="@style/input"
+            android:layout_toStartOf="@+id/find_progress"/>
 
         <ProgressBar
             android:id="@+id/find_progress"
             style="?android:attr/progressBarStyleLarge"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
             android:layout_alignBottom="@+id/find_input"
+            android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/find_input"
             android:visibility="gone"
             />

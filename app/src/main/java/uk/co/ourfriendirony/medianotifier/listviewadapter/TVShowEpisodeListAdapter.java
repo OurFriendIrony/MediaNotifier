@@ -15,6 +15,8 @@ import java.util.List;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVEpisode;
 
+import static uk.co.ourfriendirony.medianotifier.general.StringHandler.pad;
+
 public class TVShowEpisodeListAdapter extends ArrayAdapter {
     private final List<TVEpisode> tvShowEpisodes;
 
@@ -51,7 +53,8 @@ public class TVShowEpisodeListAdapter extends ArrayAdapter {
             dateString = dateFormat.format(date);
 
         textTitle.setText(tvShowEpisode.getName());
-        textNumber.setText(tvShowEpisode.getEpisodeNumber() + ". ");
+
+        textNumber.setText("S" + pad(tvShowEpisode.getSeasonNumber(), 2) + " E" + pad(tvShowEpisode.getEpisodeNumber(), 2));
         textDate.setText(dateString);
 
         return v;

@@ -42,4 +42,8 @@ public class StringHandler {
             return new Date();
         }
     }
+
+    public static String pad(int num, int size) {
+        return String.format("%0" + size + "d", num);
+    }
 }
