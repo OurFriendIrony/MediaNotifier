@@ -2,10 +2,20 @@
 <resources>
     <!--grey scale-->
     <color name="white">#FFFFFF</color>
-    <color name="grey_lightest">#BBBBBB</color>
+    <color name="grey_lightest">#EEEEEE</color>
+    <color name="grey_lightest_1">#DDDDDD</color>
+    <color name="grey_lighter">#CCCCCC</color>
+    <color name="grey_lighter_1">#BBBBBB</color>
+    <color name="grey_lighter_2">#AAAAAA</color>
     <color name="grey_light">#999999</color>
+    <color name="grey_light_1">#888888</color>
+    <color name="grey_light_2">#777777</color>
     <color name="grey">#666666</color>
+    <color name="grey_1">#555555</color>
+    <color name="grey_2">#444444</color>
     <color name="grey_dark">#333333</color>
+    <color name="grey_dark_1">#222222</color>
+    <color name="grey_dark_2">#111111</color>
     <color name="black">#000000</color>
     <!--primary colours-->
     <color name="aqua">#00FFFF</color>

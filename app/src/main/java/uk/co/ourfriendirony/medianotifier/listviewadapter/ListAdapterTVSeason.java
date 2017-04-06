@@ -14,12 +14,12 @@ import java.util.List;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVSeason;
 
-public class TVShowSeasonListAdapter extends ArrayAdapter {
+public class ListAdapterTVSeason extends ArrayAdapter {
     private final List<TVSeason> tvShowSeasons;
 
     DateFormat dateFormat = new SimpleDateFormat("yyyy");
 
-    public TVShowSeasonListAdapter(Context context, int textViewResourceId, List<TVSeason> seasons) {
+    public ListAdapterTVSeason(Context context, int textViewResourceId, List<TVSeason> seasons) {
         super(context, textViewResourceId, seasons);
         tvShowSeasons = seasons;
     }
@@ -37,7 +37,7 @@ public class TVShowSeasonListAdapter extends ArrayAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View v = convertView;
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        v = inflater.inflate(R.layout.list_item_season, null);
+        v = inflater.inflate(R.layout.list_item_tv_season, null);
 
         TextView textTitle = (TextView) v.findViewById(R.id.find_item_season_title);
 

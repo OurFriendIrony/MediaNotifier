@@ -10,7 +10,7 @@ import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition;
 
-public class SettingsActivity extends AppCompatActivity {
+public class ActivitySettings extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,23 +27,23 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 TVShowDatabaseDefinition databaseHelper = new TVShowDatabaseDefinition(getApplicationContext());
                 new TVShowDatabase(databaseHelper).deleteAllTVShows();
-                Toast.makeText(SettingsActivity.this, R.string.settings_delete_response, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ActivitySettings.this, R.string.settings_delete_response, Toast.LENGTH_SHORT).show();
             }
         });
 
         buttonDeleteMovie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(SettingsActivity.this, "NOT YET IMPLEMENTED", Toast.LENGTH_SHORT).show();
-                Toast.makeText(SettingsActivity.this, R.string.settings_delete_response, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ActivitySettings.this, "NOT YET IMPLEMENTED", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ActivitySettings.this, R.string.settings_delete_response, Toast.LENGTH_SHORT).show();
             }
         });
 
         buttonDeleteMusic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(SettingsActivity.this, "NOT YET IMPLEMENTED", Toast.LENGTH_SHORT).show();
-                Toast.makeText(SettingsActivity.this, R.string.settings_delete_response, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ActivitySettings.this, "NOT YET IMPLEMENTED", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ActivitySettings.this, R.string.settings_delete_response, Toast.LENGTH_SHORT).show();
             }
         });
     }

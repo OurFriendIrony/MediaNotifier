@@ -10,24 +10,24 @@ import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVEpisode;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition;
-import uk.co.ourfriendirony.medianotifier.listviewadapter.TVShowNotificationAdapter;
+import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterTVNotification;
 
-public class TVShowNotificationsActivity extends AppCompatActivity {
+public class ActivityTVNotifications extends AppCompatActivity {
 
     private TVShowDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tvshow_notifications);
+        setContentView(R.layout.activity_tv_notifications);
 
         ListView seasonList = (ListView) findViewById(R.id.tvlist_notification_list);
 
         database = new TVShowDatabase(new TVShowDatabaseDefinition(getApplicationContext()));
         List<TVEpisode> tvEpisodes = database.getUnwatchedEpisodes();
         if (tvEpisodes.size() > 0) {
-            TVShowNotificationAdapter tvShowNotificationAdapter = new TVShowNotificationAdapter(getBaseContext(), R.layout.list_item_notification, tvEpisodes);
-            seasonList.setAdapter(tvShowNotificationAdapter);
+            ListAdapterTVNotification listAdapterTVNotification = new ListAdapterTVNotification(getBaseContext(), R.layout.list_item_tv_notifications, tvEpisodes);
+            seasonList.setAdapter(listAdapterTVNotification);
         }
     }
 }

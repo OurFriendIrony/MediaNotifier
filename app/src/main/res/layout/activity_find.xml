@@ -42,7 +42,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/find_input_progress"
         android:background="@drawable/border_basic"
-        android:listSelector="@drawable/border_alert"
+        android:listSelector="@drawable/border_selected"
         android:padding="6dp">
     </ListView>
 </RelativeLayout>

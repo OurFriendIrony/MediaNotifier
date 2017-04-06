@@ -16,11 +16,11 @@ import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVSeason;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition;
-import uk.co.ourfriendirony.medianotifier.listviewadapter.TVShowEpisodeListAdapter;
-import uk.co.ourfriendirony.medianotifier.listviewadapter.TVShowListAdapter;
-import uk.co.ourfriendirony.medianotifier.listviewadapter.TVShowSeasonListAdapter;
+import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterTVEpisode;
+import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterTV;
+import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterTVSeason;
 
-public class TVShowActivity extends AppCompatActivity {
+public class ActivityTV extends AppCompatActivity {
 
     private ListView showList;
     private ListView seasonList;
@@ -33,7 +33,7 @@ public class TVShowActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tvlist);
+        setContentView(R.layout.activity_tv);
 
         showList = (ListView) findViewById(R.id.find_list_tv);
         seasonList = (ListView) findViewById(R.id.find_list_seasons);
@@ -58,8 +58,8 @@ public class TVShowActivity extends AppCompatActivity {
 
     private void displayShows() {
         if (tvShows.size() > 0) {
-            TVShowListAdapter tvShowListAdapter = new TVShowListAdapter(getBaseContext(), R.layout.list_item_tvshow, tvShows);
-            showList.setAdapter(tvShowListAdapter);
+            ListAdapterTV listAdapterTV = new ListAdapterTV(getBaseContext(), R.layout.list_item_tv, tvShows);
+            showList.setAdapter(listAdapterTV);
             showList.performItemClick(null, 0, 0);
             displaySeasons(0);
         }
@@ -68,7 +68,7 @@ public class TVShowActivity extends AppCompatActivity {
     private void displaySeasons(int showPosition) {
         tvSeasons = tvShows.get(showPosition).getSeasons();
         if (tvSeasons.size() > 0) {
-            TVShowSeasonListAdapter seasonListAdapter = new TVShowSeasonListAdapter(getBaseContext(), R.layout.list_item_season, tvSeasons);
+            ListAdapterTVSeason seasonListAdapter = new ListAdapterTVSeason(getBaseContext(), R.layout.list_item_tv_season, tvSeasons);
             seasonList.setAdapter(seasonListAdapter);
             seasonList.performItemClick(null, 0, 0);
             displayEpisodes(0);
@@ -78,7 +78,7 @@ public class TVShowActivity extends AppCompatActivity {
     private void displayEpisodes(int seasonPosition) {
         tvEpisodes = tvSeasons.get(seasonPosition).getEpisodes();
         if (tvEpisodes.size() > 0) {
-            TVShowEpisodeListAdapter episodeListAdapter = new TVShowEpisodeListAdapter(getBaseContext(), R.layout.list_item_episode, tvEpisodes);
+            ListAdapterTVEpisode episodeListAdapter = new ListAdapterTVEpisode(getBaseContext(), R.layout.list_item_tv_episode, tvEpisodes);
             episodeList.setAdapter(episodeListAdapter);
             episodeList.performItemClick(null, 0, 0);
         }

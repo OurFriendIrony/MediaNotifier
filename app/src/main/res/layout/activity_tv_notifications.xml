@@ -22,8 +22,8 @@
 
         <TextView
             android:id="@+id/tvlist_notification_title"
-            android:text="TV Show Notifications"
-            style="@style/text_heading"/>
+            style="@style/text_heading"
+            android:text="TV Show Notifications"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -37,7 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/border_basic"
-            android:listSelector="@drawable/border_alert"
+            android:listSelector="@drawable/border_selected"
             android:padding="6dp">
         </ListView>
     </RelativeLayout>

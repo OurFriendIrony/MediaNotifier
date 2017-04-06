@@ -17,18 +17,18 @@ import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVEpisode;
 
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.pad;
 
-public class TVShowNotificationAdapter extends ArrayAdapter {
-    private final List<TVEpisode> tvEpisodes;
+public class ListAdapterTVEpisode extends ArrayAdapter {
+    private final List<TVEpisode> tvShowEpisodes;
 
     DateFormat dateFormat = new SimpleDateFormat("dd-MM-yy");
 
-    public TVShowNotificationAdapter(Context context, int textViewResourceId, List<TVEpisode> objects) {
-        super(context, textViewResourceId, objects);
-        tvEpisodes = objects;
+    public ListAdapterTVEpisode(Context context, int textViewResourceId, List<TVEpisode> episodes) {
+        super(context, textViewResourceId, episodes);
+        tvShowEpisodes = episodes;
     }
 
-    public List<TVEpisode> getTvEpisodes() {
-        return tvEpisodes;
+    public List<TVEpisode> getTvShowEpisodes() {
+        return tvShowEpisodes;
     }
 
     @Override
@@ -40,23 +40,23 @@ public class TVShowNotificationAdapter extends ArrayAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View v = convertView;
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        v = inflater.inflate(R.layout.list_item_notification, null);
+        v = inflater.inflate(R.layout.list_item_tv_episode, null);
 
-        TextView showTitleView = (TextView) v.findViewById(R.id.list_item_notification_show_title);
-        TextView episodeTitleView = (TextView) v.findViewById(R.id.list_item_notification_episode_title);
+        TextView textTitle = (TextView) v.findViewById(R.id.list_item_notification_episode_title);
         TextView textNumber = (TextView) v.findViewById(R.id.list_item_notification_number);
-        TVEpisode tvEpisode = tvEpisodes.get(position);
+        TextView textDate = (TextView) v.findViewById(R.id.list_item_notification_date);
+        TVEpisode tvShowEpisode = tvShowEpisodes.get(position);
 
-        String year = "";
-        Date date = tvEpisode.getAirDate();
+        String dateString = "";
+        Date date = tvShowEpisode.getAirDate();
         if (date != null)
-            year = dateFormat.format(date);
+            dateString = dateFormat.format(date);
 
-        showTitleView.setText(tvEpisode.getTitle());
-        episodeTitleView.setText(tvEpisode.getName());
-        textNumber.setText("S" + pad(tvEpisode.getSeasonNumber(), 2) + " E" + pad(tvEpisode.getEpisodeNumber(), 2));
+        textTitle.setText(tvShowEpisode.getName());
+
+        textNumber.setText("S" + pad(tvShowEpisode.getSeasonNumber(), 2) + " E" + pad(tvShowEpisode.getEpisodeNumber(), 2));
+        textDate.setText(dateString);
 
         return v;
     }
-
 }

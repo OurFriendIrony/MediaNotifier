@@ -16,12 +16,12 @@ import java.util.List;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.autogen.movie.Movie;
 
-public class MovieListViewAdapter extends ArrayAdapter {
+public class ListAdapterMovie extends ArrayAdapter {
     private final List<Movie> movies;
 
     DateFormat dateFormat = new SimpleDateFormat("yyyy");
 
-    public MovieListViewAdapter(Context context, int textViewResourceId, List<Movie> movies) {
+    public ListAdapterMovie(Context context, int textViewResourceId, List<Movie> movies) {
         super(context, textViewResourceId, movies);
         this.movies = movies;
     }
@@ -38,7 +38,7 @@ public class MovieListViewAdapter extends ArrayAdapter {
         Movie movie = movies.get(position);
 
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.list_item_tvshow, null);
+        view = inflater.inflate(R.layout.list_item_tv, null);
         TextView textView1 = (TextView) view.findViewById(R.id.find_item_season_title);
         TextView textView2 = (TextView) view.findViewById(R.id.find_item_date);
         TextView textView3 = (TextView) view.findViewById(R.id.find_item_overview);
@@ -54,7 +54,7 @@ public class MovieListViewAdapter extends ArrayAdapter {
         textView2.setText(year);
         textView3.setText(movie.getOverview());
         textView4.setText(String.valueOf(movie.getId()));
-        imageView.setImageResource(R.drawable.circle_off);
+        imageView.setImageResource(R.drawable.img_tilde);
         return view;
     }
 }

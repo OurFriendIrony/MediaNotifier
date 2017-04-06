@@ -14,17 +14,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.autogen.movie.Movie;
+import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
 import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
-import uk.co.ourfriendirony.medianotifier.listviewadapter.MovieListViewAdapter;
+import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
+import uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition;
+import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterTV;
 
-public class MovieFindActivity extends AppCompatActivity {
+public class ActivityTVFind extends AppCompatActivity {
+    private TVShowDatabase database;
+
     private TextView findTitle;
     private EditText findInput;
     private ProgressBar findProgressBar;
     private ListView findList;
-
-    private List<Movie> movies = new ArrayList<>();
+    private List<TVShow> tvShows = new ArrayList<>();
     private MovieDatabaseClient client = new MovieDatabaseClient();
 
     @Override
@@ -32,19 +35,21 @@ public class MovieFindActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find);
 
+        database = new TVShowDatabase(new TVShowDatabaseDefinition(getApplicationContext()));
+
         findTitle = (TextView) findViewById(R.id.find_title);
         findInput = (EditText) findViewById(R.id.find_input);
         findProgressBar = (ProgressBar) findViewById(R.id.find_progress);
         findList = (ListView) findViewById(R.id.find_list_tv);
 
-        findTitle.setText(R.string.find_title_movie);
+        findTitle.setText(R.string.find_title_tvshow);
 
         findInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_SEND) {
-                    new MovieFindAsyncTask().execute(textView.getText().toString());
+                    new TVShowFindAsyncTask().execute(textView.getText().toString());
                     handled = true;
                 }
                 return handled;
@@ -54,10 +59,13 @@ public class MovieFindActivity extends AppCompatActivity {
         findList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(MovieFindActivity.this, "NOT YET IMPLEMENTED", Toast.LENGTH_SHORT).show();
+                TextView textViewID = (TextView) view.findViewById(R.id.find_item_id);
+                TextView textViewTitle = (TextView) view.findViewById(R.id.find_item_title);
+                new TVShowAddAsyncTask().execute(textViewID.getText().toString(), textViewTitle.getText().toString());
+                ImageView img = (ImageView) view.findViewById(R.id.find_item_img);
+                img.setImageDrawable(getResources().getDrawable(R.drawable.img_tick));
             }
         });
-
 
         findList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -76,8 +84,7 @@ public class MovieFindActivity extends AppCompatActivity {
         return (int) (dimensionDp * density + 0.5f);
     }
 
-    class MovieFindAsyncTask extends AsyncTask<String, Void, List<Movie>> {
-
+    private class TVShowFindAsyncTask extends AsyncTask<String, Void, List<TVShow>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -85,25 +92,46 @@ public class MovieFindActivity extends AppCompatActivity {
         }
 
         @Override
-        protected List<Movie> doInBackground(String... strings) {
+        protected List<TVShow> doInBackground(String... strings) {
             String string = strings[0];
             try {
-                movies = client.queryMovie(string.toString());
+                tvShows = client.queryTVShow(string);
             } catch (IOException e) {
-                movies = new ArrayList<>();
+                tvShows = new ArrayList<>();
             }
-            return movies;
+            return tvShows;
         }
 
-        protected void onPostExecute(List<Movie> result) {
+        protected void onPostExecute(List<TVShow> result) {
             findProgressBar.setVisibility(View.GONE);
 
-            if (movies.size() > 0) {
-                MovieListViewAdapter adapter = new MovieListViewAdapter(getBaseContext(), R.layout.list_item_tvshow, movies);
+            if (tvShows.size() > 0) {
+                ListAdapterTV adapter = new ListAdapterTV(getBaseContext(), R.layout.list_item_tv, tvShows);
                 findList.setAdapter(adapter);
             } else {
                 Toast.makeText(getBaseContext(), R.string.find_no_results, Toast.LENGTH_LONG).show();
             }
+        }
+    }
+
+    private class TVShowAddAsyncTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            findProgressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String string = params[0];
+            database.saveTVShow(Integer.parseInt(string));
+            return params[1];
+        }
+
+        protected void onPostExecute(String title) {
+            findProgressBar.setVisibility(View.GONE);
+            String toastMsg = "'" + title + "' " + getResources().getString(R.string.find_add_to_db_done);
+            Toast.makeText(getApplicationContext(), toastMsg, Toast.LENGTH_SHORT).show();
         }
     }
 }
