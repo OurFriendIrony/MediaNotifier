@@ -27,18 +27,18 @@ public class TVShowDatabase {
     private static final String SELECT_TVSHOWS = "SELECT " + TT_RAWJSON + " FROM " + TABLE_TVSHOWS + " ORDER BY " + TT_TITLE + " ASC;";
 
     private static final String COUNT_UNWATCHED_EPISODES_UNAIRED = "SELECT COUNT(*) FROM " + TABLE_TVSHOWS_EPISODES + " " +
-            "WHERE " + TTSE_WATCHED + "=" + WATCHED_FALSE + " AND " + TTSE_DATE + " >= date('now');";
+            "WHERE " + TTSE_WATCHED + "=" + WATCHED_FALSE + " AND " + TTSE_DATE + " > date('now');";
     private static final String GET_UNWATCHED_EPISODES_UNAIRED = "SELECT " + TABLE_TVSHOWS + "." + TT_ID + "," + TTSE_SEASON_NO + "," + TTSE_EPISODE_NO + "," + TTSE_TITLE + "," + TTSE_OVERVIEW + "," + TTSE_DATE + "," + TT_TITLE + " " +
             "FROM " + TABLE_TVSHOWS_EPISODES + " " +
             "INNER JOIN " + TABLE_TVSHOWS + " ON " + TABLE_TVSHOWS + "." + TT_ID + " = " + TABLE_TVSHOWS_EPISODES + "." + TTSE_ID + " " +
-            "WHERE " + TTSE_WATCHED + "=" + WATCHED_FALSE + " AND " + TTSE_DATE + " >= date('now') ORDER BY " + TTSE_DATE + " ASC;";
+            "WHERE " + TTSE_WATCHED + "=" + WATCHED_FALSE + " AND " + TTSE_DATE + " > date('now') ORDER BY " + TTSE_DATE + " ASC;";
 
     private static final String COUNT_UNWATCHED_EPISODES_AIRED = "SELECT COUNT(*) FROM " + TABLE_TVSHOWS_EPISODES + " " +
-            "WHERE " + TTSE_WATCHED + "=" + WATCHED_FALSE + " AND " + TTSE_DATE + " < date('now');";
+            "WHERE " + TTSE_WATCHED + "=" + WATCHED_FALSE + " AND " + TTSE_DATE + " <= date('now');";
     private static final String GET_UNWATCHED_EPISODES_AIRED = "SELECT " + TABLE_TVSHOWS + "." + TT_ID + "," + TTSE_SEASON_NO + "," + TTSE_EPISODE_NO + "," + TTSE_TITLE + "," + TTSE_OVERVIEW + "," + TTSE_DATE + "," + TT_TITLE + " " +
             "FROM " + TABLE_TVSHOWS_EPISODES + " " +
             "INNER JOIN " + TABLE_TVSHOWS + " ON " + TABLE_TVSHOWS + "." + TT_ID + " = " + TABLE_TVSHOWS_EPISODES + "." + TTSE_ID + " " +
-            "WHERE " + TTSE_WATCHED + "=" + WATCHED_FALSE + " AND " + TTSE_DATE + " < date('now') ORDER BY " + TTSE_DATE + " ASC;";
+            "WHERE " + TTSE_WATCHED + "=" + WATCHED_FALSE + " AND " + TTSE_DATE + " <= date('now') ORDER BY " + TTSE_DATE + " ASC;";
 
     private final TVShowDatabaseDefinition databaseHelper;
 
