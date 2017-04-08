@@ -5,7 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -14,7 +16,11 @@ import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVEpisode;
+import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
+import uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition;
 
+import static uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition.WATCHED_FALSE;
+import static uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition.WATCHED_TRUE;
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.pad;
 
 public class ListAdapterTVNotification extends ArrayAdapter {
@@ -55,6 +61,19 @@ public class ListAdapterTVNotification extends ArrayAdapter {
         showTitleView.setText(tvEpisode.getTitle());
         episodeTitleView.setText(tvEpisode.getName());
         textNumber.setText("S" + pad(tvEpisode.getSeasonNumber(), 2) + " E" + pad(tvEpisode.getEpisodeNumber(), 2));
+
+        ToggleButton toggle = (ToggleButton) v.findViewById(R.id.list_item_notification_img);
+        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                TVShowDatabase database = new TVShowDatabase(new TVShowDatabaseDefinition(getContext()));
+                if (isChecked) {
+                    database.updateTVEpisodeWatchedStatus(tvEpisode, WATCHED_TRUE);
+                } else {
+                    database.updateTVEpisodeWatchedStatus(tvEpisode, WATCHED_FALSE);
+                }
+            }
+        });
 
         return v;
     }

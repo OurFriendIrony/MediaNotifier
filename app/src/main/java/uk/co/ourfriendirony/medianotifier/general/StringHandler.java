@@ -46,4 +46,17 @@ public class StringHandler {
     public static String pad(int num, int size) {
         return String.format("%0" + size + "d", num);
     }
+
+    public static String replaceTokens(String original, String token, String value) {
+        return replaceTokens(original, new String[]{token}, new String[]{value});
+    }
+
+    public static String replaceTokens(String string, String[] tokens, String[] values) {
+        if (tokens.length == values.length) {
+            for (int i = 0; i < tokens.length; i++) {
+                string = string.replace(tokens[i], values[i]);
+            }
+        }
+        return string;
+    }
 }

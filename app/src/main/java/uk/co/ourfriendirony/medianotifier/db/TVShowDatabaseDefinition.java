@@ -6,31 +6,30 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 public class TVShowDatabaseDefinition extends SQLiteOpenHelper {
-    static final String TABLE_TVSHOWS = "tv_shows";
-    static final String TT_ID = "show_id";
-    static final String TT_TITLE = "show_title";
-    static final String TT_IMDB = "show_imdb_id";
-    static final String TT_DATE = "show_air_date";
-    static final String TT_OVERVIEW = "show_overview";
-    static final String TT_RAWJSON = "show_rawjson";
+    public static final String TABLE_TVSHOWS = "tv_shows";
+    public static final String TT_ID = "show_id";
+    public static final String TT_TITLE = "show_title";
+    public static final String TT_IMDB = "show_imdb_id";
+    public static final String TT_DATE = "show_air_date";
+    public static final String TT_OVERVIEW = "show_overview";
+    public static final String TT_RAWJSON = "show_rawjson";
 
-    static final String TABLE_TVSHOWS_SEASONS = "tv_shows_seasons";
-    static final String TTS_ID = "show_id";
-    static final String TTS_SEASON_NO = "season_no";
-    static final String TTS_DATE = "season_air_date";
+    public static final String TABLE_TVSHOWS_SEASONS = "tv_shows_seasons";
+    public static final String TTS_ID = "show_id";
+    public static final String TTS_SEASON_NO = "season_no";
+    public static final String TTS_DATE = "season_air_date";
 
+    public static final String TABLE_TVSHOWS_EPISODES = "tv_shows_episodes";
+    public static final String TTSE_ID = "show_id";
+    public static final String TTSE_SEASON_NO = "episode_season_no";
+    public static final String TTSE_EPISODE_NO = "episode_no";
+    public static final String TTSE_TITLE = "episode_title";
+    public static final String TTSE_DATE = "episode_air_date";
+    public static final String TTSE_OVERVIEW = "episode_overview";
+    public static final String TTSE_WATCHED = "episode_watched";
 
-    static final String TABLE_TVSHOWS_EPISODES = "tv_shows_episodes";
-    static final String TTSE_ID = "show_id";
-    static final String TTSE_SEASON_NO = "episode_season_no";
-    static final String TTSE_EPISODE_NO = "episode_no";
-    static final String TTSE_TITLE = "episode_title";
-    static final String TTSE_DATE = "episode_air_date";
-    static final String TTSE_OVERVIEW = "episode_overview";
-    static final String TTSE_WATCHED = "episode_watched";
-
-    static final String WATCHED_FALSE = "0";
-    static final String WATCHED_TRUE = "1";
+    public static final String WATCHED_FALSE = "0";
+    public static final String WATCHED_TRUE = "1";
 
     private static final String DATABASE_NAME = "tv_shows";
     private static final int DATABASE_VERSION = 1;

@@ -20,6 +20,7 @@ import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShowFinds;
 
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanUrl;
+import static uk.co.ourfriendirony.medianotifier.general.StringHandler.replaceTokens;
 
 public class MovieDatabaseClient {
     private static final String API_KEY = "17e93178aefe463b7d42c6198ba78f30";
@@ -41,32 +42,32 @@ public class MovieDatabaseClient {
     private String headers;
 
     public List<Movie> queryMovie(String movie) throws IOException {
-        httpGetRequest(URL_MOVIE_QUERY
-                .replace("@NAME@", cleanUrl(movie))
+        httpGetRequest(
+                replaceTokens(URL_MOVIE_QUERY, "@NAME@", cleanUrl(movie))
         );
         MovieFinds query = OBJECT_MAPPER.readValue(payload, MovieFinds.class);
         return query.getResults();
     }
 
     public List<TVShow> queryTVShow(String tvShow) throws IOException {
-        httpGetRequest(URL_TVSHOW_QUERY
-                .replace("@NAME@", cleanUrl(tvShow))
+        httpGetRequest(
+                replaceTokens(URL_TVSHOW_QUERY, "@NAME@", cleanUrl(tvShow))
         );
         TVShowFinds query = OBJECT_MAPPER.readValue(payload, TVShowFinds.class);
         return query.getDatedResults();
     }
 
     public Movie getMovie(int movieID) throws IOException {
-        httpGetRequest(URL_MOVIE_ID
-                .replace("@ID@", Integer.toString(movieID))
+        httpGetRequest(
+                replaceTokens(URL_MOVIE_ID, "@ID@", Integer.toString(movieID))
         );
         Movie movie = OBJECT_MAPPER.readValue(payload, Movie.class);
         return movie;
     }
 
     public TVShow getTVShow(int tvShowID) throws IOException {
-        httpGetRequest(URL_TVSHOW_ID
-                .replace("@ID@", Integer.toString(tvShowID))
+        httpGetRequest(
+                replaceTokens(URL_TVSHOW_ID, "@ID@", Integer.toString(tvShowID))
         );
         TVShow tvShow = OBJECT_MAPPER.readValue(payload, TVShow.class);
         for (int i = tvShow.getSeasons().size() - 1; i >= 0; i--) {
@@ -81,9 +82,10 @@ public class MovieDatabaseClient {
     }
 
     public TVSeason getTVShowSeason(int tvShowID, int seasonNo) throws IOException {
-        httpGetRequest(URL_TVSHOW_ID_SEASON
-                .replace("@ID@", Integer.toString(tvShowID))
-                .replace("@SEASON@", Integer.toString(seasonNo))
+        httpGetRequest(
+                replaceTokens(URL_TVSHOW_ID_SEASON,
+                        new String[]{"@ID@", "@SEASON@"},
+                        new String[]{Integer.toString(tvShowID), Integer.toString(seasonNo)})
         );
         TVSeason tvShow = OBJECT_MAPPER.readValue(payload, TVSeason.class);
         return tvShow;

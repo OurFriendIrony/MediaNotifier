@@ -209,6 +209,16 @@ public class TVShowDatabase {
         return tvShows;
     }
 
+    public void updateTVEpisodeWatchedStatus(TVEpisode episode, String watchedStatus) {
+        SQLiteDatabase dbWriteable = databaseHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(TTSE_WATCHED, watchedStatus);
+        String where = TTSE_ID + "=? and " + TTSE_SEASON_NO + "=? and " + TTSE_EPISODE_NO + "=?";
+        String[] whereArgs = new String[]{String.valueOf(episode.getId()), String.valueOf(episode.getSeasonNumber()), String.valueOf(episode.getEpisodeNumber())};
+        dbWriteable.update(TABLE_TVSHOWS_EPISODES, values, where, whereArgs);
+        dbWriteable.close();
+    }
+
     private boolean airsAfterToday(TVEpisode episode) {
         return episode.getAirDate().compareTo(new Date()) >= 0;
     }
