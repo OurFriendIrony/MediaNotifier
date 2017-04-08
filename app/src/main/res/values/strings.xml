@@ -21,4 +21,6 @@
     <string name="settings_delete_response">Table cleared</string>
     <string name="tvmb">TVMB</string>
     <string name="action_contact">Contact</string>
+    <string name="notification_title">THIS IS MY NOTIFICATION</string>
+    <string name="notification_text">THIS IS MY NOTIFICATION TEXT</string>
 </resources>

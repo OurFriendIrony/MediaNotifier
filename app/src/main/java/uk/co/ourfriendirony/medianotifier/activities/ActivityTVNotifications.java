@@ -1,5 +1,7 @@
 package uk.co.ourfriendirony.medianotifier.activities;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
@@ -20,6 +22,8 @@ public class ActivityTVNotifications extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tv_notifications);
+        NotificationManager notifManager= (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        notifManager.cancelAll();
 
         ListView seasonList = (ListView) findViewById(R.id.tvlist_notification_list);
 

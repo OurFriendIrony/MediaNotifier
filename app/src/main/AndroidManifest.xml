@@ -3,6 +3,7 @@
           package="uk.co.ourfriendirony.medianotifier">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:allowBackup="true"
@@ -24,5 +25,22 @@
         <activity android:name=".activities.ActivityTV"/>
         <activity android:name=".activities.ActivityTVFind"/>
         <activity android:name=".activities.ActivityTVNotifications"/>
+
+        <!--<service android:name=".notifier.NotifierService">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="uk.co.ourfriendirony.NotifierService"/>-->
+        <!--</intent-filter>-->
+        <!--</service>-->
+
+        <!--<receiver-->
+        <!--android:name=".notifier.NotifierReceiver"-->
+        <!--android:enabled="true"-->
+        <!--android:exported="true"-->
+        <!--android:label="NotifierReceiver">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action.BOOT_COMPLETED"/>-->
+        <!--</intent-filter>-->
+        <!--</receiver>-->
+
     </application>
 </manifest>
