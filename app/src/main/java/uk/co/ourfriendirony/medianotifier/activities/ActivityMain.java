@@ -1,14 +1,10 @@
 package uk.co.ourfriendirony.medianotifier.activities;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,14 +32,6 @@ public class ActivityMain extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        doSomeNotificationShit();
-
-
-//        if (!isMyServiceRunning()){
-//            Intent serviceIntent = new Intent("uk.co.ourfriendirony.notifier.NotifierService");
-//            getApplicationContext().startService(serviceIntent);
-//        }
 
         TVShowDatabase database = new TVShowDatabase(new TVShowDatabaseDefinition(getApplicationContext()));
 
@@ -134,25 +122,6 @@ public class ActivityMain extends AppCompatActivity {
         // DEBUG
     }
 
-    private void doSomeNotificationShit() {
-        android.support.v4.app.NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.img_icon)
-                        .setContentTitle(getResources().getString(R.string.notification_title))
-                        .setContentText(getResources().getString(R.string.notification_text))
-                        .setDefaults(Notification.DEFAULT_ALL);
-
-        Intent resultIntent = new Intent(this, ActivityTVNotifications.class);
-        PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        mBuilder.setContentIntent(resultPendingIntent);
-
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        int notificationId = 001;
-        notificationManager.notify(notificationId, mBuilder.build());
-
-        // Cancel with "notificationManager.cancel(notificationId)"
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -171,14 +140,4 @@ public class ActivityMain extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-//
-//    private boolean isMyServiceRunning() {
-//        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-//        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-//            if (NotifierService.class.getName().equals(service.service.getClassName())) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
 }
