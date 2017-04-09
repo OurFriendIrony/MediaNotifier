@@ -20,10 +20,9 @@ public class BootReceiver extends BroadcastReceiver {
 
             Calendar triggerTime = Calendar.getInstance();
             triggerTime.set(Calendar.HOUR_OF_DAY, 21);
+            triggerTime.set(Calendar.MINUTE, 0);
 
-            long triggerAtMillis = System.currentTimeMillis();
-//            alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, triggerAtMillis, AlarmManager.INTERVAL_DAY, pendingIntent);
-            alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, triggerTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+            alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, triggerTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         }
     }
 }
