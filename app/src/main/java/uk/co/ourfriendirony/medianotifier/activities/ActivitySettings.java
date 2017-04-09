@@ -1,6 +1,7 @@
 package uk.co.ourfriendirony.medianotifier.activities;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
@@ -12,6 +13,11 @@ import android.widget.*;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition;
+
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getHour;
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getMinute;
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setHour;
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setMinute;
 
 public class ActivitySettings extends AppCompatActivity {
     private PopupWindow popupWindow;
@@ -55,6 +61,8 @@ public class ActivitySettings extends AppCompatActivity {
         buttonNotifyTimer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences settings = getSharedPreferences(String.valueOf(R.string.app_name), 0);
+
                 LayoutInflater inflater = (LayoutInflater) ActivitySettings.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View layout = inflater.inflate(R.layout.popup_time_selector, (ViewGroup) findViewById(R.id.popup));
 
@@ -63,12 +71,15 @@ public class ActivitySettings extends AppCompatActivity {
 
                 TimePicker timePicker = (TimePicker) popupWindow.getContentView().findViewById(R.id.popup_time_picker);
                 timePicker.setIs24HourView(true);
-                timePicker.setCurrentHour(21);
-                timePicker.setCurrentMinute(0);
+                timePicker.setCurrentHour(getHour(getApplicationContext()));
+                timePicker.setCurrentMinute(getMinute(getApplicationContext()));
+
                 Button buttonOk = (Button) popupWindow.getContentView().findViewById(R.id.popup_ok);
                 buttonOk.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        setHour(getApplicationContext(), timePicker.getCurrentHour());
+                        setMinute(getApplicationContext(), timePicker.getCurrentMinute());
                         popupWindow.dismiss();
                     }
                 });
