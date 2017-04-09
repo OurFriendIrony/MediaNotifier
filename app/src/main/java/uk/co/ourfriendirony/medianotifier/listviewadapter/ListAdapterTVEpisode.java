@@ -27,7 +27,7 @@ public class ListAdapterTVEpisode extends ArrayAdapter {
     private final List<TVEpisode> tvShowEpisodes;
 
     DateFormat dateFormat = new SimpleDateFormat("dd-MM-yy");
-
+    TVShowDatabase database = new TVShowDatabase(new TVShowDatabaseDefinition(getContext()));
     public ListAdapterTVEpisode(Context context, int textViewResourceId, List<TVEpisode> episodes) {
         super(context, textViewResourceId, episodes);
         tvShowEpisodes = episodes;
@@ -64,10 +64,10 @@ public class ListAdapterTVEpisode extends ArrayAdapter {
         textDate.setText(dateString);
 
         ToggleButton toggle = (ToggleButton) v.findViewById(R.id.list_item_notification_img);
-        toggle.setChecked(true);
+        toggle.setChecked(database.getEpisodeWatchedStatus(tvEpisode));
+
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                TVShowDatabase database = new TVShowDatabase(new TVShowDatabaseDefinition(getContext()));
                 if (isChecked) {
                     database.updateTVEpisodeWatchedStatus(tvEpisode, WATCHED_TRUE);
                 } else {

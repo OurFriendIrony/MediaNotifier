@@ -25,7 +25,7 @@ import static uk.co.ourfriendirony.medianotifier.general.StringHandler.pad;
 
 public class ListAdapterTVNotification extends ArrayAdapter {
     private final List<TVEpisode> tvEpisodes;
-
+    TVShowDatabase database = new TVShowDatabase(new TVShowDatabaseDefinition(getContext()));
     DateFormat dateFormat = new SimpleDateFormat("dd-MM-yy");
 
     public ListAdapterTVNotification(Context context, int textViewResourceId, List<TVEpisode> objects) {
@@ -63,10 +63,10 @@ public class ListAdapterTVNotification extends ArrayAdapter {
         textNumber.setText("S" + pad(tvEpisode.getSeasonNumber(), 2) + " E" + pad(tvEpisode.getEpisodeNumber(), 2));
 
         ToggleButton toggle = (ToggleButton) v.findViewById(R.id.list_item_notification_img);
-        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        toggle.setChecked(database.getEpisodeWatchedStatus(tvEpisode));
 
+        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                TVShowDatabase database = new TVShowDatabase(new TVShowDatabaseDefinition(getContext()));
                 if (isChecked) {
                     database.updateTVEpisodeWatchedStatus(tvEpisode, WATCHED_TRUE);
                 } else {
