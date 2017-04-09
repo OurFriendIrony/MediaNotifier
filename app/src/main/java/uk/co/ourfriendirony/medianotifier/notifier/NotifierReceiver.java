@@ -10,23 +10,35 @@ import android.support.v4.app.NotificationCompat;
 
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.activities.ActivityTVNotifications;
+import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
+import uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition;
 
 public class NotifierReceiver extends BroadcastReceiver {
+    int unwatchedEpisodes = 0;
+
     @Override
     public void onReceive(Context context, Intent intent) {
-        android.support.v4.app.NotificationCompat.Builder notification =
-                new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.img_icon)
-                        .setContentTitle(context.getString(R.string.notification_title))
-                        .setContentText(context.getString(R.string.notification_text))
-                        .setDefaults(Notification.DEFAULT_ALL);
+        TVShowDatabase database = new TVShowDatabase(new TVShowDatabaseDefinition(context));
+        unwatchedEpisodes = database.countUnwatchedEpisodes();
 
-        Intent activityTVNotification = new Intent(context, ActivityTVNotifications.class);
-        PendingIntent notificationIntent = PendingIntent.getActivity(context, 0, activityTVNotification, PendingIntent.FLAG_UPDATE_CURRENT);
-        notification.setContentIntent(notificationIntent);
+        if (unwatchedEpisodes > 0) {
+            NotificationCompat.Builder notification = getBuilder(context);
 
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
-        int notificationId = 1;
-        notificationManager.notify(notificationId, notification.build());
+            Intent activityTVNotification = new Intent(context, ActivityTVNotifications.class);
+            PendingIntent notificationIntent = PendingIntent.getActivity(context, 0, activityTVNotification, PendingIntent.FLAG_UPDATE_CURRENT);
+            notification.setContentIntent(notificationIntent);
+
+            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            int notificationId = 1;
+            notificationManager.notify(notificationId, notification.build());
+        }
+    }
+
+    private NotificationCompat.Builder getBuilder(Context context) {
+        return new NotificationCompat.Builder(context)
+                .setSmallIcon(R.drawable.img_icon)
+                .setContentTitle(context.getString(R.string.notification_title))
+                .setContentText(context.getString(R.string.notification_text) + unwatchedEpisodes)
+                .setDefaults(Notification.DEFAULT_ALL);
     }
 }
