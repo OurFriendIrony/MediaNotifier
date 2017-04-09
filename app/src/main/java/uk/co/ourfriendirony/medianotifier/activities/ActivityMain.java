@@ -19,6 +19,7 @@ import uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition;
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
 
 import static uk.co.ourfriendirony.medianotifier.general.ImageNumber.getNumberImage;
+import static uk.co.ourfriendirony.medianotifier.general.IntentGenerator.getContactEmailIntent;
 
 public class ActivityMain extends AppCompatActivity {
 
@@ -148,6 +149,9 @@ public class ActivityMain extends AppCompatActivity {
         if (id == R.id.action_settings) {
             Intent intent = new Intent(this, ActivitySettings.class);
             startActivity(intent);
+            return true;
+        } else if (id == R.id.action_contact) {
+            startActivity(getContactEmailIntent());
             return true;
         }
 

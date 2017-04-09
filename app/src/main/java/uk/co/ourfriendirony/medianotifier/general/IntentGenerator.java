@@ -13,4 +13,16 @@ public class IntentGenerator {
         intent.setData(Uri.parse(webAddress));
         return intent;
     }
+
+    public static Intent getContactEmailIntent() {
+        String emailToAddress = "ourfriendirony@gmail.com";
+        String emailSubject = "[MediaNotifier] I've got this to say about your app...";
+        Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+
+        emailIntent.setType("plain/text");
+        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{emailToAddress});
+        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, emailSubject);
+
+        return emailIntent;
+    }
 }
