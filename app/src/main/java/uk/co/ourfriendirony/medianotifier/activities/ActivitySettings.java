@@ -13,6 +13,7 @@ import android.widget.*;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition;
+import uk.co.ourfriendirony.medianotifier.notifier.AlarmScheduler;
 
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getHour;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getMinute;
@@ -80,6 +81,7 @@ public class ActivitySettings extends AppCompatActivity {
                     public void onClick(View v) {
                         setHour(getApplicationContext(), timePicker.getCurrentHour());
                         setMinute(getApplicationContext(), timePicker.getCurrentMinute());
+                        AlarmScheduler.reschedule(getApplicationContext());
                         popupWindow.dismiss();
                     }
                 });
