@@ -22,11 +22,7 @@ public class ListAdapterTV extends ArrayAdapter {
 
     public ListAdapterTV(Context context, int textViewResourceId, List<TVShow> objects) {
         super(context, textViewResourceId, objects);
-        tvShows = objects;
-    }
-
-    public List<TVShow> getTvShows() {
-        return tvShows;
+        this.tvShows = objects;
     }
 
     @Override
@@ -36,14 +32,14 @@ public class ListAdapterTV extends ArrayAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View v = convertView;
+        View view = convertView;
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        v = inflater.inflate(R.layout.list_item_tv, null);
+        view = inflater.inflate(R.layout.list_item_find, null);
 
-        TextView textTitle = (TextView) v.findViewById(R.id.find_item_title);
-        TextView textDate = (TextView) v.findViewById(R.id.find_item_date);
-        TextView textOverview = (TextView) v.findViewById(R.id.find_item_overview);
-        TextView textId = (TextView) v.findViewById(R.id.find_item_id);
+        TextView textId = (TextView) view.findViewById(R.id.find_item_id);
+        TextView textTitle = (TextView) view.findViewById(R.id.find_item_title);
+        TextView textDate = (TextView) view.findViewById(R.id.find_item_date);
+        TextView textOverview = (TextView) view.findViewById(R.id.find_item_overview);
 
         TVShow tvShow = tvShows.get(position);
 
@@ -52,11 +48,11 @@ public class ListAdapterTV extends ArrayAdapter {
         if (date != null)
             year = dateFormat.format(date);
 
+        textId.setText(String.valueOf(tvShow.getId()));
         textTitle.setText(tvShow.getName());
         textDate.setText(year);
         textOverview.setText(tvShow.getOverview());
-        textId.setText(String.valueOf(tvShow.getId()));
 
-        return v;
+        return view;
     }
 }

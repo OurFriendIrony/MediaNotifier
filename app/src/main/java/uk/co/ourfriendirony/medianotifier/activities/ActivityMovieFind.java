@@ -57,18 +57,6 @@ public class ActivityMovieFind extends AppCompatActivity {
                 Toast.makeText(ActivityMovieFind.this, "NOT YET IMPLEMENTED", Toast.LENGTH_SHORT).show();
             }
         });
-
-
-        findList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                RelativeLayout layout = (RelativeLayout) view.findViewById(R.id.find_item_secondarybar);
-                ViewGroup.LayoutParams params = layout.getLayoutParams();
-                params.height = (params.height > 0) ? 0 : pdToPx(40);
-                layout.setLayoutParams(params);
-                return true;
-            }
-        });
     }
 
     public int pdToPx(int dimensionDp) {
@@ -76,7 +64,7 @@ public class ActivityMovieFind extends AppCompatActivity {
         return (int) (dimensionDp * density + 0.5f);
     }
 
-    class MovieFindAsyncTask extends AsyncTask<String, Void, List<Movie>> {
+    private class MovieFindAsyncTask extends AsyncTask<String, Void, List<Movie>> {
 
         @Override
         protected void onPreExecute() {
@@ -88,7 +76,7 @@ public class ActivityMovieFind extends AppCompatActivity {
         protected List<Movie> doInBackground(String... strings) {
             String string = strings[0];
             try {
-                movies = client.queryMovie(string.toString());
+                movies = client.queryMovie(string);
             } catch (IOException e) {
                 movies = new ArrayList<>();
             }
@@ -99,7 +87,7 @@ public class ActivityMovieFind extends AppCompatActivity {
             findProgressBar.setVisibility(View.GONE);
 
             if (movies.size() > 0) {
-                ListAdapterMovie adapter = new ListAdapterMovie(getBaseContext(), R.layout.list_item_tv, movies);
+                ListAdapterMovie adapter = new ListAdapterMovie(getBaseContext(), R.layout.list_item_find, movies);
                 findList.setAdapter(adapter);
             } else {
                 Toast.makeText(getBaseContext(), R.string.find_no_results, Toast.LENGTH_LONG).show();

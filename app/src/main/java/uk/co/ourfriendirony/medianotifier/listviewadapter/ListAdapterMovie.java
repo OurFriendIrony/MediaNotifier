@@ -21,9 +21,9 @@ public class ListAdapterMovie extends ArrayAdapter {
 
     DateFormat dateFormat = new SimpleDateFormat("yyyy");
 
-    public ListAdapterMovie(Context context, int textViewResourceId, List<Movie> movies) {
-        super(context, textViewResourceId, movies);
-        this.movies = movies;
+    public ListAdapterMovie(Context context, int textViewResourceId, List<Movie> objects) {
+        super(context, textViewResourceId, objects);
+        this.movies = objects;
     }
 
     @Override
@@ -38,23 +38,23 @@ public class ListAdapterMovie extends ArrayAdapter {
         Movie movie = movies.get(position);
 
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.list_item_tv, null);
-        TextView textView1 = (TextView) view.findViewById(R.id.find_item_season_title);
-        TextView textView2 = (TextView) view.findViewById(R.id.find_item_date);
-        TextView textView3 = (TextView) view.findViewById(R.id.find_item_overview);
-        TextView textView4 = (TextView) view.findViewById(R.id.find_item_id);
-        ImageView imageView = (ImageView) view.findViewById(R.id.find_item_season_img);
+        view = inflater.inflate(R.layout.list_item_find, null);
+
+        TextView textId = (TextView) view.findViewById(R.id.find_item_id);
+        TextView textTitle = (TextView) view.findViewById(R.id.find_item_title);
+        TextView textDate = (TextView) view.findViewById(R.id.find_item_date);
+        TextView textOverview = (TextView) view.findViewById(R.id.find_item_overview);
 
         String year = "";
         Date date = movie.getReleaseDate();
         if (date != null)
             year = dateFormat.format(date);
 
-        textView1.setText(movie.getTitle());
-        textView2.setText(year);
-        textView3.setText(movie.getOverview());
-        textView4.setText(String.valueOf(movie.getId()));
-        imageView.setImageResource(R.drawable.img_tilde);
+        textId.setText(String.valueOf(movie.getId()));
+        textTitle.setText(movie.getTitle());
+        textDate.setText(year);
+        textOverview.setText(movie.getOverview());
+
         return view;
     }
 }
