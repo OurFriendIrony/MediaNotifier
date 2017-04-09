@@ -51,7 +51,7 @@
         <ListView
             android:id="@+id/find_list_episodes"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_margin="1dp"
             android:background="@drawable/border_basic"
             android:listSelector="@drawable/border_selected"

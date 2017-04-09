@@ -16,8 +16,8 @@ import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVSeason;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition;
-import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterTVEpisode;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterTV;
+import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterTVEpisode;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterTVSeason;
 
 public class ActivityTV extends AppCompatActivity {
@@ -101,8 +101,6 @@ public class ActivityTV extends AppCompatActivity {
         protected void onPostExecute(Void x) {
             showProgressBar.setVisibility(View.GONE);
             displayShows();
-            displaySeasons(0);
-            displayEpisodes(0);
         }
     }
 }
