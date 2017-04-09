@@ -22,6 +22,11 @@ import static uk.co.ourfriendirony.medianotifier.general.ImageNumber.getNumberIm
 
 public class ActivityMain extends AppCompatActivity {
 
+    private TVShowDatabase database;
+    private FloatingActionButton main_button_tv_notification;
+    private FloatingActionButton main_button_movie_notification;
+    private FloatingActionButton main_button_music_notification;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (android.os.Build.VERSION.SDK_INT > 9) {
@@ -33,15 +38,15 @@ public class ActivityMain extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        TVShowDatabase database = new TVShowDatabase(new TVShowDatabaseDefinition(getApplicationContext()));
+        database = new TVShowDatabase(new TVShowDatabaseDefinition(getApplicationContext()));
 
         FloatingActionButton main_button_tv_find = (FloatingActionButton) findViewById(R.id.main_button_tv_find);
         FloatingActionButton main_button_movie_find = (FloatingActionButton) findViewById(R.id.main_button_movie_find);
         FloatingActionButton main_button_music_find = (FloatingActionButton) findViewById(R.id.main_button_music_find);
 
-        FloatingActionButton main_button_tv_notification = (FloatingActionButton) findViewById(R.id.main_button_tv_notification);
-        FloatingActionButton main_button_movie_notification = (FloatingActionButton) findViewById(R.id.main_button_movie_notification);
-        FloatingActionButton main_button_music_notification = (FloatingActionButton) findViewById(R.id.main_button_music_notification);
+        main_button_tv_notification = (FloatingActionButton) findViewById(R.id.main_button_tv_notification);
+        main_button_movie_notification = (FloatingActionButton) findViewById(R.id.main_button_movie_notification);
+        main_button_music_notification = (FloatingActionButton) findViewById(R.id.main_button_music_notification);
 
         Button main_button_tv = (Button) findViewById(R.id.main_button_tv);
         Button main_button_movie = (Button) findViewById(R.id.main_button_movie);
@@ -120,6 +125,14 @@ public class ActivityMain extends AppCompatActivity {
         database.getUnwatchedEpisodes();
         database.getUnwatchedUnairedEpisodes();
         // DEBUG
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        main_button_tv_notification.setImageResource(getNumberImage(database.countUnwatchedEpisodes()));
+        main_button_movie_notification.setImageResource(getNumberImage(0));
+        main_button_music_notification.setImageResource(getNumberImage(0));
     }
 
     @Override
