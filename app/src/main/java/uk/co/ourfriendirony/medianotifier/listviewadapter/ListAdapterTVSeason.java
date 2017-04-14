@@ -16,12 +16,14 @@ import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVSeason;
 
 public class ListAdapterTVSeason extends ArrayAdapter {
     private final List<TVSeason> tvShowSeasons;
+    private final Context context;
 
     DateFormat dateFormat = new SimpleDateFormat("yyyy");
 
-    public ListAdapterTVSeason(Context context, int textViewResourceId, List<TVSeason> seasons) {
-        super(context, textViewResourceId, seasons);
-        tvShowSeasons = seasons;
+    public ListAdapterTVSeason(Context context, int textViewResourceId, List<TVSeason> objects) {
+        super(context, textViewResourceId, objects);
+        this.context = context;
+        this.tvShowSeasons = objects;
     }
 
     public List<TVSeason> getTvShowSeasons() {
@@ -35,6 +37,21 @@ public class ListAdapterTVSeason extends ArrayAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        View v = convertView;
+        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        v = inflater.inflate(R.layout.list_item_tv_season, null);
+
+        TextView textTitle = (TextView) v.findViewById(R.id.find_item_season_title);
+
+        TVSeason tvShowSeason = tvShowSeasons.get(position);
+
+        textTitle.setText(String.valueOf(tvShowSeason.getSeasonNumber()));
+
+        return v;
+    }
+
+    @Override
+    public View getDropDownView(int position, View convertView, ViewGroup parent) {
         View v = convertView;
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         v = inflater.inflate(R.layout.list_item_tv_season, null);

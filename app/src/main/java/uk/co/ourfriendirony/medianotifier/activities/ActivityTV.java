@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 
 import java.util.List;
 
@@ -22,8 +23,8 @@ import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterTVSeason;
 
 public class ActivityTV extends AppCompatActivity {
 
-    private ListView showList;
-    private ListView seasonList;
+    private Spinner showList;
+    private Spinner seasonList;
     private ListView episodeList;
     private List<TVShow> tvShows;
     private List<TVSeason> tvSeasons;
@@ -35,23 +36,31 @@ public class ActivityTV extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tv);
 
-        showList = (ListView) findViewById(R.id.find_list_tv);
-        seasonList = (ListView) findViewById(R.id.find_list_seasons);
+        showList = (Spinner) findViewById(R.id.find_list_tv);
+        seasonList = (Spinner) findViewById(R.id.find_list_seasons);
         episodeList = (ListView) findViewById(R.id.find_list_episodes);
         showProgressBar = (ProgressBar) findViewById(R.id.progress_tvlist);
         new TVShowListAsyncTask().execute();
 
-        showList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        showList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int showPosition, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, int showPosition, long id) {
                 displaySeasons(showPosition);
 
-                seasonList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                seasonList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int seasonPosition, long id) {
+                    public void onItemSelected(AdapterView<?> parent, View view, int seasonPosition, long id) {
                         displayEpisodes(seasonPosition);
                     }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
                 });
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
             }
         });
     }
