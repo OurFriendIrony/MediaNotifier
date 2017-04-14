@@ -26,7 +26,7 @@
     <style name="input">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:backgroundTint">@color/red</item>
+        <item name="android:backgroundTint">@color/red_bright</item>
         <item name="android:imeOptions">actionSend</item>
         <item name="android:inputType">text</item>
         <item name="android:textSize">30sp</item>

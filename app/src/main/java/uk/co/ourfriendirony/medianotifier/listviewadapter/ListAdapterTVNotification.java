@@ -62,7 +62,7 @@ public class ListAdapterTVNotification extends ArrayAdapter {
         episodeTitleView.setText(tvEpisode.getName());
         textNumber.setText("S" + pad(tvEpisode.getSeasonNumber(), 2) + " E" + pad(tvEpisode.getEpisodeNumber(), 2));
 
-        ToggleButton toggle = (ToggleButton) v.findViewById(R.id.list_item_notification_img);
+        ToggleButton toggle = (ToggleButton) v.findViewById(R.id.button_toggle);
         toggle.setChecked(database.getEpisodeWatchedStatus(tvEpisode));
 
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

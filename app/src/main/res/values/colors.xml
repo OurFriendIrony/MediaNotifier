@@ -19,16 +19,29 @@
     <color name="black">#000000</color>
 
     <!--primary colours-->
-    <color name="aqua">#00FFFF</color>
-    <color name="fuchsia">#FF00FF</color>
-    <color name="green">#008000</color>
-    <color name="maroon">#800000</color>
-    <color name="navy">#000080</color>
-    <color name="olive">#808000</color>
-    <color name="red">#FF0000</color>
-    <color name="silver">#C0C0C0</color>
-    <color name="teal">#008080</color>
-    <color name="yellow">#FFFF00</color>
+    <color name="green_dark">#006600</color>
+    <color name="green">#00AA00</color>
+    <color name="green_bright">#00FF00</color>
+
+    <color name="blue_dark">#000066</color>
+    <color name="blue">#0000AA</color>
+    <color name="blue_bright">#0000FF</color>
+
+    <color name="red_dark">#660000</color>
+    <color name="red_regular">#AA0000</color>
+    <color name="red_bright">#FF0000</color>
+
+    <color name="yellow_dark">#666600</color>
+    <color name="yellow">#AAAA00</color>
+    <color name="yellow_bright">#FFFF00</color>
+
+    <color name="cyan_dark">#006666</color>
+    <color name="cyan">#00AAAA</color>
+    <color name="cyan_bright">#00FFFF</color>
+
+    <color name="purple_dark">#660066</color>
+    <color name="purple">#AA00AA</color>
+    <color name="purple_bright">#FF00FF</color>
 
     <!--styles-->
     <color name="app_header">#444444</color>
