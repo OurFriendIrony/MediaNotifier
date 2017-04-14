@@ -22,8 +22,10 @@ public class ActivityTVNotifications extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tv_notifications);
-        NotificationManager notifManager= (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        notifManager.cancelAll();
+        getSupportActionBar().setTitle(R.string.title_notifications);
+
+        NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancelAll();
 
         ListView seasonList = (ListView) findViewById(R.id.tvlist_notification_list);
 

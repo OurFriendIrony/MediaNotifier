@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:layout_margin="7dp"
+              android:layout_margin="5dp"
               android:orientation="vertical"
               android:weightSum="1.0">
 
@@ -17,7 +17,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="1dp"
         android:layout_weight=".1"
         android:weightSum="1.0">
 
@@ -27,18 +26,14 @@
             android:layout_height="match_parent"
             android:layout_weight=".85"
             android:background="@drawable/border_basic"
-            android:listSelector="@drawable/border_selected"
-            android:padding="6dp"
             />
+
         <Spinner
             android:id="@+id/find_list_seasons"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
             android:layout_weight=".15"
             android:background="@drawable/border_basic"
-            android:listSelector="@drawable/border_selected"
-            android:padding="6dp"
             />
     </LinearLayout>
 
@@ -47,14 +42,12 @@
         android:layout_height="0dp"
         android:layout_weight=".9"
         >
+
         <ListView
             android:id="@+id/find_list_episodes"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
             android:background="@drawable/border_basic"
-            android:listSelector="@drawable/border_selected"
-            android:padding="6dp"
             />
     </LinearLayout>
 </LinearLayout>

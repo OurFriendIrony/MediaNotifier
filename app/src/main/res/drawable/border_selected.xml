@@ -5,9 +5,9 @@
         />
     <stroke
         android:width="3dp"
-        android:color="@color/grey"
+        android:color="@color/grey_09"
         />
     <solid
-        android:color="@color/grey_lightest"
+        android:color="@color/grey_01"
         />
 </shape>

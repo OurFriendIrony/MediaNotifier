@@ -27,6 +27,7 @@ public class ActivitySettings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        getSupportActionBar().setTitle(R.string.title_settings);
 
         Button buttonDeleteTV = (Button) findViewById(R.id.settings_button_delete_tv_all);
         Button buttonDeleteMovie = (Button) findViewById(R.id.settings_button_delete_movie_all);
@@ -39,7 +40,7 @@ public class ActivitySettings extends AppCompatActivity {
             public void onClick(View v) {
                 TVShowDatabaseDefinition databaseHelper = new TVShowDatabaseDefinition(getApplicationContext());
                 new TVShowDatabase(databaseHelper).deleteAllTVShows();
-                Toast.makeText(ActivitySettings.this, R.string.settings_delete_response, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ActivitySettings.this, R.string.toast_db_table_cleared, Toast.LENGTH_SHORT).show();
             }
         });
 

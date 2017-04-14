@@ -35,6 +35,7 @@ public class ActivityTV extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tv);
+        getSupportActionBar().setTitle(R.string.title_library_tvshow);
 
         showList = (Spinner) findViewById(R.id.find_list_tv);
         seasonList = (Spinner) findViewById(R.id.find_list_seasons);

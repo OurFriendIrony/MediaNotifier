@@ -8,6 +8,6 @@
         android:color="@color/red"
         />
     <solid
-        android:color="@color/grey_lighter"
+        android:color="@color/grey_03"
         />
 </shape>

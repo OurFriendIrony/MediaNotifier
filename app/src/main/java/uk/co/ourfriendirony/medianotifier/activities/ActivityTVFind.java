@@ -23,7 +23,6 @@ import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterTV;
 public class ActivityTVFind extends AppCompatActivity {
     private TVShowDatabase database;
 
-    private TextView findTitle;
     private EditText findInput;
     private ProgressBar findProgressBar;
     private ListView findList;
@@ -34,15 +33,13 @@ public class ActivityTVFind extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find);
+        getSupportActionBar().setTitle(R.string.title_find_tvshow);
 
         database = new TVShowDatabase(new TVShowDatabaseDefinition(getApplicationContext()));
 
-        findTitle = (TextView) findViewById(R.id.find_title);
         findInput = (EditText) findViewById(R.id.find_input);
         findProgressBar = (ProgressBar) findViewById(R.id.find_progress);
         findList = (ListView) findViewById(R.id.find_list_tv);
-
-        findTitle.setText(R.string.find_title_tvshow);
 
         findInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -109,7 +106,7 @@ public class ActivityTVFind extends AppCompatActivity {
                 ListAdapterTV adapter = new ListAdapterTV(getBaseContext(), R.layout.list_item_tv, tvShows);
                 findList.setAdapter(adapter);
             } else {
-                Toast.makeText(getBaseContext(), R.string.find_no_results, Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), R.string.toast_no_results, Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -130,7 +127,7 @@ public class ActivityTVFind extends AppCompatActivity {
 
         protected void onPostExecute(String title) {
             findProgressBar.setVisibility(View.GONE);
-            String toastMsg = "'" + title + "' " + getResources().getString(R.string.find_add_to_db_done);
+            String toastMsg = "'" + title + "' " + getResources().getString(R.string.toast_db_added);
             Toast.makeText(getApplicationContext(), toastMsg, Toast.LENGTH_SHORT).show();
         }
     }

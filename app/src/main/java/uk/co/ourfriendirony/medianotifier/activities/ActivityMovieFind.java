@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.*;
 
@@ -31,13 +30,13 @@ public class ActivityMovieFind extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find);
+        getSupportActionBar().setTitle(R.string.title_find_movie);
 
-        findTitle = (TextView) findViewById(R.id.find_title);
+
         findInput = (EditText) findViewById(R.id.find_input);
         findProgressBar = (ProgressBar) findViewById(R.id.find_progress);
         findList = (ListView) findViewById(R.id.find_list_tv);
 
-        findTitle.setText(R.string.find_title_movie);
 
         findInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -90,7 +89,7 @@ public class ActivityMovieFind extends AppCompatActivity {
                 ListAdapterMovie adapter = new ListAdapterMovie(getBaseContext(), R.layout.list_item_find, movies);
                 findList.setAdapter(adapter);
             } else {
-                Toast.makeText(getBaseContext(), R.string.find_no_results, Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), R.string.toast_no_results, Toast.LENGTH_LONG).show();
             }
         }
     }

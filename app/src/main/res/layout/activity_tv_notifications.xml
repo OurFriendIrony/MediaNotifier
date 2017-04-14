@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin">
+                android:layout_height="match_parent">
 
     <ProgressBar
         android:id="@+id/progress_tvlist_notification"
@@ -16,29 +12,15 @@
         />
 
     <RelativeLayout
-        android:id="@+id/tvlist_notification_title_l"
-        android:layout_width="match_parent"
-        android:layout_height="80dp">
-
-        <TextView
-            android:id="@+id/tvlist_notification_title"
-            style="@style/text_heading"
-            android:text="TV Show Notifications"/>
-    </RelativeLayout>
-
-    <RelativeLayout
         android:id="@+id/tvlist_notification_list_l"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvlist_notification_title_l">
+        android:layout_height="wrap_content">
 
         <ListView
             android:id="@+id/tvlist_notification_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/border_basic"
-            android:listSelector="@drawable/border_selected"
-            android:padding="6dp">
+            android:background="@drawable/border_basic">
         </ListView>
     </RelativeLayout>
 </RelativeLayout>
