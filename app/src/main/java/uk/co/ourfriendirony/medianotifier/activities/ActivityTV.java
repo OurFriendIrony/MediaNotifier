@@ -19,6 +19,7 @@ import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterTV;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterTVEpisode;
+import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterTVNotification;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterTVSeason;
 
 public class ActivityTV extends AppCompatActivity {
@@ -88,7 +89,7 @@ public class ActivityTV extends AppCompatActivity {
     private void displayEpisodes(int seasonPosition) {
         tvEpisodes = tvSeasons.get(seasonPosition).getEpisodes();
         if (tvEpisodes.size() > 0) {
-            ListAdapterTVEpisode episodeListAdapter = new ListAdapterTVEpisode(getBaseContext(), R.layout.list_item_tv_episode, tvEpisodes);
+            ListAdapterTVNotification episodeListAdapter = new ListAdapterTVNotification(getBaseContext(), R.layout.list_item_tv_notifications, tvEpisodes, false);
             episodeList.setAdapter(episodeListAdapter);
             episodeList.performItemClick(null, 0, 0);
         }
