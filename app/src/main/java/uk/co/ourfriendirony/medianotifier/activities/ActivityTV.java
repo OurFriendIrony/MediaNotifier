@@ -9,6 +9,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
@@ -18,9 +19,7 @@ import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterTV;
-import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterTVEpisode;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterTVNotification;
-import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterTVSeason;
 
 public class ActivityTV extends AppCompatActivity {
 
@@ -47,18 +46,7 @@ public class ActivityTV extends AppCompatActivity {
         showList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int showPosition, long id) {
-                displaySeasons(showPosition);
-
-                seasonList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int seasonPosition, long id) {
-                        displayEpisodes(seasonPosition);
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-                    }
-                });
+                displayEpisodes(showPosition);
             }
 
             @Override
@@ -72,22 +60,16 @@ public class ActivityTV extends AppCompatActivity {
             ListAdapterTV listAdapterTV = new ListAdapterTV(getBaseContext(), R.layout.list_item_tv_title, tvShows);
             showList.setAdapter(listAdapterTV);
             showList.performItemClick(null, 0, 0);
-            displaySeasons(0);
-        }
-    }
-
-    private void displaySeasons(int showPosition) {
-        tvSeasons = tvShows.get(showPosition).getSeasons();
-        if (tvSeasons.size() > 0) {
-            ListAdapterTVSeason seasonListAdapter = new ListAdapterTVSeason(getBaseContext(), R.layout.list_item_tv_season, tvSeasons);
-            seasonList.setAdapter(seasonListAdapter);
-            seasonList.performItemClick(null, 0, 0);
             displayEpisodes(0);
         }
     }
 
-    private void displayEpisodes(int seasonPosition) {
-        tvEpisodes = tvSeasons.get(seasonPosition).getEpisodes();
+    private void displayEpisodes(int showPosition) {
+        tvSeasons = tvShows.get(showPosition).getSeasons();
+        tvEpisodes = new ArrayList<>();
+        for (TVSeason season : tvSeasons) {
+            tvEpisodes.addAll(season.getEpisodes());
+        }
         if (tvEpisodes.size() > 0) {
             ListAdapterTVNotification episodeListAdapter = new ListAdapterTVNotification(getBaseContext(), R.layout.list_item_tv_notifications, tvEpisodes, false);
             episodeList.setAdapter(episodeListAdapter);
