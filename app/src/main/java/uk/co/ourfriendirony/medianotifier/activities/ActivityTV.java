@@ -68,7 +68,7 @@ public class ActivityTV extends AppCompatActivity {
 
     private void displayShows() {
         if (tvShows.size() > 0) {
-            ListAdapterTV listAdapterTV = new ListAdapterTV(getBaseContext(), R.layout.list_item_tv, tvShows);
+            ListAdapterTV listAdapterTV = new ListAdapterTV(getBaseContext(), R.layout.list_item_tv_title, tvShows);
             showList.setAdapter(listAdapterTV);
             showList.performItemClick(null, 0, 0);
             displaySeasons(0);
