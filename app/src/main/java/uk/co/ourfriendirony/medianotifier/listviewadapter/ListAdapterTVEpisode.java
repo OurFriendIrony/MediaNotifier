@@ -25,15 +25,15 @@ import static uk.co.ourfriendirony.medianotifier.general.StringHandler.pad;
 
 public class ListAdapterTVEpisode extends ArrayAdapter {
     private final List<TVEpisode> tvShowEpisodes;
-    private final int defaultLayoutId;
+    private final Boolean includeTitle;
 
     DateFormat dateFormat = new SimpleDateFormat("dd-MM-yy");
     TVShowDatabase database = new TVShowDatabase(new TVShowDatabaseDefinition(getContext()));
 
-    public ListAdapterTVEpisode(Context context, int defaultLayoutId, List<TVEpisode> objects) {
+    public ListAdapterTVEpisode(Context context, int defaultLayoutId, List<TVEpisode> objects, Boolean includeTitle) {
         super(context, defaultLayoutId, objects);
-        this.defaultLayoutId = defaultLayoutId;
         this.tvShowEpisodes = objects;
+        this.includeTitle = includeTitle;
     }
 
     public List<TVEpisode> getTvShowEpisodes() {
@@ -51,8 +51,16 @@ public class ListAdapterTVEpisode extends ArrayAdapter {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         v = inflater.inflate(R.layout.list_item_tv_episode, null);
 
-        TextView textEpisodeTitle = (TextView) v.findViewById(R.id.list_item_notification_episode_title);
-        TextView textEpisodeNumber = (TextView) v.findViewById(R.id.list_item_notification_number);
+        TextView showTitleView = (TextView) v.findViewById(R.id.list_item_notification_show_title);
+        if (includeTitle) {
+            TextView seperatorBar = (TextView) v.findViewById(R.id.list_item_tv_separatorbar);
+            seperatorBar.setBackgroundColor(getContext().getResources().getColor(R.color.black));
+        } else {
+            showTitleView.setHeight(0);
+        }
+
+        TextView episodeTitleView = (TextView) v.findViewById(R.id.list_item_notification_episode_title);
+        TextView textNumber = (TextView) v.findViewById(R.id.list_item_notification_number);
         TextView textDate = (TextView) v.findViewById(R.id.list_item_notification_date);
         TVEpisode tvEpisode = tvShowEpisodes.get(position);
 
@@ -61,8 +69,9 @@ public class ListAdapterTVEpisode extends ArrayAdapter {
         if (date != null)
             dateString = dateFormat.format(date);
 
-        textEpisodeTitle.setText(tvEpisode.getName());
-        textEpisodeNumber.setText("S" + pad(tvEpisode.getSeasonNumber(), 2) + " E" + pad(tvEpisode.getEpisodeNumber(), 2));
+        showTitleView.setText(tvEpisode.getTitle());
+        episodeTitleView.setText(tvEpisode.getName());
+        textNumber.setText("S" + pad(tvEpisode.getSeasonNumber(), 2) + " E" + pad(tvEpisode.getEpisodeNumber(), 2));
         textDate.setText(dateString);
 
         ToggleButton toggle = (ToggleButton) v.findViewById(R.id.button_toggle);
