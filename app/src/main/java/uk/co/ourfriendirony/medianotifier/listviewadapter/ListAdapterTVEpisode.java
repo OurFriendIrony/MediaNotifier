@@ -27,8 +27,8 @@ public class ListAdapterTVEpisode extends ArrayAdapter {
     private final List<TVEpisode> tvShowEpisodes;
     private final Boolean includeTitle;
 
-    DateFormat dateFormat = new SimpleDateFormat("dd-MM-yy");
-    TVShowDatabase database = new TVShowDatabase(new TVShowDatabaseDefinition(getContext()));
+    private DateFormat dateFormat = new SimpleDateFormat("dd-MM-yy");
+    private TVShowDatabase database = new TVShowDatabase(new TVShowDatabaseDefinition(getContext()));
 
     public ListAdapterTVEpisode(Context context, int defaultLayoutId, List<TVEpisode> objects, Boolean includeTitle) {
         super(context, defaultLayoutId, objects);

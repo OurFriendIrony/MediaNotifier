@@ -20,7 +20,9 @@
             android:id="@+id/tvlist_notification_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/border_basic">
-        </ListView>
+            android:background="@drawable/border_basic"
+            android:padding="2dp"
+            />
+
     </RelativeLayout>
 </RelativeLayout>

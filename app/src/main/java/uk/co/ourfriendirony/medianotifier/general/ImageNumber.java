@@ -5,6 +5,8 @@ import uk.co.ourfriendirony.medianotifier.R;
 public class ImageNumber {
     public static int getNumberImage(int num) {
         switch (num) {
+            case 0:
+                return R.drawable.num_0_mini;
             case 1:
                 return R.drawable.num_1_mini;
             case 2:
@@ -24,11 +26,7 @@ public class ImageNumber {
             case 9:
                 return R.drawable.num_9_mini;
             default:
-                if (num > 9) {
-                    return R.drawable.num_plus_mini;
-                } else {
-                    return R.drawable.num_0_mini;
-                }
+                return R.drawable.num_plus_mini;
         }
     }
 }

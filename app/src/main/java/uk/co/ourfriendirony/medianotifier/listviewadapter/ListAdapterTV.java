@@ -18,15 +18,13 @@ import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
 
 public class ListAdapterTV extends ArrayAdapter {
     private final List<TVShow> tvShows;
-    private final Context context;
     private final int defaultLayoutId;
 
-    DateFormat dateFormat = new SimpleDateFormat("yyyy");
+    private DateFormat dateFormat = new SimpleDateFormat("yyyy");
 
     public ListAdapterTV(Context context, int defaultLayoutId, List<TVShow> objects) {
         super(context, defaultLayoutId, objects);
         this.defaultLayoutId = defaultLayoutId;
-        this.context = context;
         this.tvShows = objects;
     }
 

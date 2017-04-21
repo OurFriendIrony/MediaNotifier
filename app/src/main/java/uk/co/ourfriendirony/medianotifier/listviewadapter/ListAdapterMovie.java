@@ -19,7 +19,7 @@ import uk.co.ourfriendirony.medianotifier.autogen.movie.Movie;
 public class ListAdapterMovie extends ArrayAdapter {
     private final List<Movie> movies;
 
-    DateFormat dateFormat = new SimpleDateFormat("yyyy");
+    private DateFormat dateFormat = new SimpleDateFormat("yyyy");
 
     public ListAdapterMovie(Context context, int textViewResourceId, List<Movie> objects) {
         super(context, textViewResourceId, objects);
