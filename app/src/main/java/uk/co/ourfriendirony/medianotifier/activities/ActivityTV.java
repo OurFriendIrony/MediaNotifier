@@ -24,11 +24,8 @@ import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterTVNotificat
 public class ActivityTV extends AppCompatActivity {
 
     private Spinner showList;
-    private Spinner seasonList;
     private ListView episodeList;
     private List<TVShow> tvShows;
-    private List<TVSeason> tvSeasons;
-    private List<TVEpisode> tvEpisodes;
     private ProgressBar showProgressBar;
 
     @Override
@@ -38,7 +35,6 @@ public class ActivityTV extends AppCompatActivity {
         getSupportActionBar().setTitle(R.string.title_library_tvshow);
 
         showList = (Spinner) findViewById(R.id.find_list_tv);
-        seasonList = (Spinner) findViewById(R.id.find_list_seasons);
         episodeList = (ListView) findViewById(R.id.find_list_episodes);
         showProgressBar = (ProgressBar) findViewById(R.id.progress_tvlist);
         new TVShowListAsyncTask().execute();
@@ -59,21 +55,19 @@ public class ActivityTV extends AppCompatActivity {
         if (tvShows.size() > 0) {
             ListAdapterTV listAdapterTV = new ListAdapterTV(getBaseContext(), R.layout.list_item_tv_title, tvShows);
             showList.setAdapter(listAdapterTV);
-            showList.performItemClick(null, 0, 0);
             displayEpisodes(0);
         }
     }
 
     private void displayEpisodes(int showPosition) {
-        tvSeasons = tvShows.get(showPosition).getSeasons();
-        tvEpisodes = new ArrayList<>();
-        for (TVSeason season : tvSeasons) {
+        List<TVEpisode> tvEpisodes = new ArrayList<>();
+        for (TVSeason season : tvShows.get(showPosition).getSeasons()) {
             tvEpisodes.addAll(season.getEpisodes());
         }
         if (tvEpisodes.size() > 0) {
             ListAdapterTVNotification episodeListAdapter = new ListAdapterTVNotification(getBaseContext(), R.layout.list_item_tv_notifications, tvEpisodes, false);
             episodeList.setAdapter(episodeListAdapter);
-            episodeList.performItemClick(null, 0, 0);
+            episodeList.setSelection(tvEpisodes.size());
         }
     }
 
