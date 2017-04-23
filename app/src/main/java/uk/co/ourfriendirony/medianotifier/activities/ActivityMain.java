@@ -144,17 +144,18 @@ public class ActivityMain extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Intent intent = new Intent(this, ActivitySettings.class);
+                startActivity(intent);
+                return true;
 
-        if (id == R.id.action_settings) {
-            Intent intent = new Intent(this, ActivitySettings.class);
-            startActivity(intent);
-            return true;
-        } else if (id == R.id.action_contact) {
-            startActivity(getContactEmailIntent());
-            return true;
+            case R.id.action_contact:
+                startActivity(getContactEmailIntent());
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 }

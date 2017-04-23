@@ -31,4 +31,6 @@
     <string name="notification_text">New media count: </string>
 
     <string name="tvmb">TVMB</string>
+    <string name="action_remove">Remove Item</string>
+    <string name="action_refresh">Refresh</string>
 </resources>
