@@ -9,7 +9,21 @@
                 android:width="40dp"
                 android:height="40dp"/>
             <corners android:radius="3dp"/>
-            <solid android:color="@color/grey_10"/>
+            <solid android:color="@color/grey_08"/>
+        </shape>
+    </item>
+
+    <item
+        android:bottom="1dp"
+        android:left="1dp"
+        android:right="1dp"
+        android:top="1dp">
+        <shape android:shape="rectangle">
+            <size
+                android:width="40dp"
+                android:height="40dp"/>
+            <corners android:radius="3dp"/>
+            <solid android:color="@color/grey_08"/>
         </shape>
     </item>
 

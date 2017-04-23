@@ -14,23 +14,38 @@
     </item>
 
     <item
-        android:top="2dp"
-        android:left="2dp">
+        android:left="2dp"
+        android:top="2dp">
         <shape android:shape="rectangle">
             <size
                 android:width="40dp"
                 android:height="40dp"/>
             <corners android:radius="3dp"/>
+            <solid android:color="@color/grey_08"/>
+        </shape>
+    </item>
+
+    <item
+        android:left="4dp"
+        android:top="4dp">
+        <shape android:shape="rectangle">
+            <size
+                android:width="40dp"
+                android:height="40dp"/>
+            <corners
+                android:bottomLeftRadius="0dp"
+                android:radius="3dp"
+                android:topRightRadius="0dp"/>
             <solid android:color="@color/grey_10"/>
         </shape>
     </item>
 
     <item
         android:bottom="3dp"
-        android:left="2dp"
-        android:top="35dp">
+        android:left="4dp"
+        android:top="37dp">
         <shape android:shape="rectangle">
-            <solid android:color="@color/red_dark"/>
+            <solid android:color="@color/red_bright"/>
         </shape>
     </item>
 
