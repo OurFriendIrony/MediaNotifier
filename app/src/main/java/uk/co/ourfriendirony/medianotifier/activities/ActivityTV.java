@@ -25,7 +25,9 @@ public class ActivityTV extends AppCompatActivity {
     private Spinner showList;
     private ListView episodeList;
     private List<TVShow> tvShows;
-    private ProgressBar showProgressBar;
+    private ProgressBar loadPageProgressBar;
+    private int currentShowPosition;
+    private TVShowDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +35,11 @@ public class ActivityTV extends AppCompatActivity {
         setContentView(R.layout.activity_tv);
         getSupportActionBar().setTitle(R.string.title_library_tvshow);
 
+        database = new TVShowDatabase(new TVShowDatabaseDefinition(getApplicationContext()));
+
         showList = (Spinner) findViewById(R.id.find_list_tv);
         episodeList = (ListView) findViewById(R.id.find_list_episodes);
-        showProgressBar = (ProgressBar) findViewById(R.id.progress_tvlist);
+        loadPageProgressBar = (ProgressBar) findViewById(R.id.progress_tvlist);
         new TVShowListAsyncTask().execute();
 
         showList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -64,7 +68,8 @@ public class ActivityTV extends AppCompatActivity {
                 return true;
 
             case R.id.action_remove:
-                Toast.makeText(this, "Remove Pressed", Toast.LENGTH_SHORT).show();
+                database.deleteTVShow(tvShows.get(currentShowPosition).getId());
+                restart();
                 return true;
 
             default:
@@ -81,6 +86,7 @@ public class ActivityTV extends AppCompatActivity {
     }
 
     private void displayEpisodes(int showPosition) {
+        currentShowPosition = showPosition;
         List<TVEpisode> tvEpisodes = new ArrayList<>();
         for (TVSeason season : tvShows.get(showPosition).getSeasons()) {
             tvEpisodes.addAll(season.getEpisodes());
@@ -92,11 +98,16 @@ public class ActivityTV extends AppCompatActivity {
         }
     }
 
+    private void restart() {
+        finish();
+        startActivity(getIntent());
+    }
+
     private class TVShowListAsyncTask extends AsyncTask<String, Void, Void> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            showProgressBar.setVisibility(View.VISIBLE);
+            loadPageProgressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -107,7 +118,7 @@ public class ActivityTV extends AppCompatActivity {
         }
 
         protected void onPostExecute(Void x) {
-            showProgressBar.setVisibility(View.GONE);
+            loadPageProgressBar.setVisibility(View.GONE);
             displayShows();
         }
     }

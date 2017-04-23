@@ -118,6 +118,14 @@ public class TVShowDatabase {
         dbWritable.close();
     }
 
+    public void deleteTVShow(Integer showId) {
+        SQLiteDatabase dbWritable = databaseHelper.getWritableDatabase();
+        dbWritable.execSQL("DELETE FROM " + TABLE_TVSHOWS + " WHERE " + TT_ID + "=" + showId + ";");
+        dbWritable.execSQL("DELETE FROM " + TABLE_TVSHOWS_SEASONS + " WHERE " + TTS_ID + "=" + showId + ";");
+        dbWritable.execSQL("DELETE FROM " + TABLE_TVSHOWS_EPISODES + " WHERE " + TTSE_ID + "=" + showId + ";");
+        dbWritable.close();
+    }
+
     public int countUnwatchedEpisodes() {
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
         Cursor cursor = dbReadable.rawQuery(COUNT_UNWATCHED_EPISODES_AIRED, null);
