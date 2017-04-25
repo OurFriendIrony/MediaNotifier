@@ -36,7 +36,7 @@ public class NotifierReceiver extends BroadcastReceiver {
 
     private NotificationCompat.Builder getBuilder(Context context) {
         return new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.img_icon)
+                .setSmallIcon(R.drawable.img_app_icon)
                 .setContentTitle(context.getString(R.string.notification_title))
                 .setContentText(context.getString(R.string.notification_text) + unwatchedEpisodes)
                 .setDefaults(Notification.DEFAULT_ALL);

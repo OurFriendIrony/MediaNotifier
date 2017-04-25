@@ -6,27 +6,27 @@ public class ImageNumber {
     public static int getNumberImage(int num) {
         switch (num) {
             case 0:
-                return R.drawable.num_0_mini;
+                return R.drawable.img_num0;
             case 1:
-                return R.drawable.num_1_mini;
+                return R.drawable.img_num1;
             case 2:
-                return R.drawable.num_2_mini;
+                return R.drawable.img_num2;
             case 3:
-                return R.drawable.num_3_mini;
+                return R.drawable.img_num3;
             case 4:
-                return R.drawable.num_4_mini;
+                return R.drawable.img_num4;
             case 5:
-                return R.drawable.num_5_mini;
+                return R.drawable.img_num5;
             case 6:
-                return R.drawable.num_6_mini;
+                return R.drawable.img_num6;
             case 7:
-                return R.drawable.num_7_mini;
+                return R.drawable.img_num7;
             case 8:
-                return R.drawable.num_8_mini;
+                return R.drawable.img_num8;
             case 9:
-                return R.drawable.num_9_mini;
+                return R.drawable.img_num9;
             default:
-                return R.drawable.num_plus_mini;
+                return R.drawable.img_num_plus;
         }
     }
 }

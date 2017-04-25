@@ -16,7 +16,7 @@
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_imdb"
-        android:icon="@drawable/img_imdb"
+        android:icon="@drawable/img_external_imdb"
         android:orderInCategory="3"
         android:title="@string/action_imdb"
         app:showAsAction="ifRoom"/>
