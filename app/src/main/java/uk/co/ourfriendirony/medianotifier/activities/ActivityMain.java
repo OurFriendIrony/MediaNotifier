@@ -40,6 +40,7 @@ public class ActivityMain extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         database = new TVShowDatabase(new TVShowDatabaseDefinition(getApplicationContext()));
+        database.debugDatabaseEntry();
 
         FloatingActionButton main_button_tv_find = (FloatingActionButton) findViewById(R.id.main_button_tv_find);
         FloatingActionButton main_button_movie_find = (FloatingActionButton) findViewById(R.id.main_button_movie_find);
@@ -152,6 +153,10 @@ public class ActivityMain extends AppCompatActivity {
 
             case R.id.action_contact:
                 startActivity(getContactEmailIntent());
+                return true;
+
+            case R.id.action_debug:
+                database.debug();
                 return true;
 
             default:

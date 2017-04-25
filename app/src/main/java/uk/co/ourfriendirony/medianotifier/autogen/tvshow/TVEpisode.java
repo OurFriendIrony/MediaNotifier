@@ -13,10 +13,7 @@ import java.util.Map;
         "name",
         "overview",
         "id",
-        "season_number",
-        "still_path",
-        "vote_average",
-        "vote_count"
+        "season_number"
 })
 public class TVEpisode {
 
@@ -33,15 +30,8 @@ public class TVEpisode {
     private Integer id;
     @JsonProperty("season_number")
     private Integer seasonNumber;
-    @JsonProperty("still_path")
-    private String stillPath;
-    @JsonProperty("vote_average")
-    private Double voteAverage;
-    @JsonProperty("vote_count")
-    private Integer voteCount;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-    private String title;
 
     @JsonProperty("air_date")
     public Date getAirDate() {
@@ -103,36 +93,6 @@ public class TVEpisode {
         this.seasonNumber = seasonNumber;
     }
 
-    @JsonProperty("still_path")
-    public String getStillPath() {
-        return stillPath;
-    }
-
-    @JsonProperty("still_path")
-    public void setStillPath(String stillPath) {
-        this.stillPath = stillPath;
-    }
-
-    @JsonProperty("vote_average")
-    public Double getVoteAverage() {
-        return voteAverage;
-    }
-
-    @JsonProperty("vote_average")
-    public void setVoteAverage(Double voteAverage) {
-        this.voteAverage = voteAverage;
-    }
-
-    @JsonProperty("vote_count")
-    public Integer getVoteCount() {
-        return voteCount;
-    }
-
-    @JsonProperty("vote_count")
-    public void setVoteCount(Integer voteCount) {
-        this.voteCount = voteCount;
-    }
-
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
@@ -141,13 +101,5 @@ public class TVEpisode {
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 }

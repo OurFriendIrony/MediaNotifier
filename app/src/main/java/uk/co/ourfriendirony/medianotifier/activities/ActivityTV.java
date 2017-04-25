@@ -3,6 +3,7 @@ package uk.co.ourfriendirony.medianotifier.activities;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -89,6 +90,7 @@ public class ActivityTV extends AppCompatActivity {
         currentShowPosition = showPosition;
         List<TVEpisode> tvEpisodes = new ArrayList<>();
         for (TVSeason season : tvShows.get(showPosition).getSeasons()) {
+            Log.w("LISTING SEASON:", "Season: " + season.getSeasonNumber() + " Episodes: " + season.getEpisodes().size());
             tvEpisodes.addAll(season.getEpisodes());
         }
         if (tvEpisodes.size() > 0) {
@@ -113,7 +115,7 @@ public class ActivityTV extends AppCompatActivity {
         @Override
         protected Void doInBackground(String... params) {
             TVShowDatabase database = new TVShowDatabase(new TVShowDatabaseDefinition(getApplicationContext()));
-            tvShows = database.getTVShows();
+            tvShows = database.getAllTVShows();
             return null;
         }
 
