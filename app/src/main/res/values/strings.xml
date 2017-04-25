@@ -24,6 +24,7 @@
 
     <string name="toast_db_adding">Adding to Database</string>
     <string name="toast_db_added">Added</string>
+    <string name="toast_db_updated">Updated</string>
     <string name="toast_db_table_cleared">Table cleared</string>
     <string name="toast_no_results">No Matches</string>
 

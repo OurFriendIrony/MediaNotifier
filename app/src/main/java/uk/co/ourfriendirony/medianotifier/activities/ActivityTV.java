@@ -63,13 +63,14 @@ public class ActivityTV extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        TVShow currentShow = tvShows.get(currentShowPosition);
         switch (item.getItemId()) {
             case R.id.action_refresh:
-                Toast.makeText(this, "Refresh Pressed", Toast.LENGTH_SHORT).show();
+                new TVShowUpdateAsyncTask().execute(String.valueOf(currentShow.getId()), currentShow.getName());
                 return true;
 
             case R.id.action_remove:
-                database.deleteTVShow(tvShows.get(currentShowPosition).getId());
+                database.deleteTVShow(currentShow.getId());
                 restart();
                 return true;
 
@@ -122,6 +123,29 @@ public class ActivityTV extends AppCompatActivity {
         protected void onPostExecute(Void x) {
             loadPageProgressBar.setVisibility(View.GONE);
             displayShows();
+        }
+    }
+
+
+    private class TVShowUpdateAsyncTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+//            findProgressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String tvShowId = params[0];
+            String tvShowTitle = params[1];
+            database.saveTVShow(Integer.parseInt(tvShowId));
+            return tvShowTitle;
+        }
+
+        protected void onPostExecute(String tvShowTitle) {
+//            findProgressBar.setVisibility(View.GONE);
+            String toastMsg = "'" + tvShowTitle + "' " + getResources().getString(R.string.toast_db_updated);
+            Toast.makeText(getApplicationContext(), toastMsg, Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -89,10 +89,10 @@ public class ActivityTVFind extends AppCompatActivity {
         }
 
         @Override
-        protected List<TVShow> doInBackground(String... strings) {
-            String string = strings[0];
+        protected List<TVShow> doInBackground(String... params) {
+            String tvShowTitle = params[0];
             try {
-                tvShows = client.queryTVShow(string);
+                tvShows = client.queryTVShow(tvShowTitle);
             } catch (IOException e) {
                 tvShows = new ArrayList<>();
             }
@@ -120,14 +120,15 @@ public class ActivityTVFind extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            String string = params[0];
-            database.saveTVShow(Integer.parseInt(string));
-            return params[1];
+            String tvShowId = params[0];
+            String tvShowTitle = params[1];
+            database.saveTVShow(Integer.parseInt(tvShowId));
+            return tvShowTitle;
         }
 
-        protected void onPostExecute(String title) {
+        protected void onPostExecute(String tvShowTitle) {
             findProgressBar.setVisibility(View.GONE);
-            String toastMsg = "'" + title + "' " + getResources().getString(R.string.toast_db_added);
+            String toastMsg = "'" + tvShowTitle + "' " + getResources().getString(R.string.toast_db_added);
             Toast.makeText(getApplicationContext(), toastMsg, Toast.LENGTH_SHORT).show();
         }
     }

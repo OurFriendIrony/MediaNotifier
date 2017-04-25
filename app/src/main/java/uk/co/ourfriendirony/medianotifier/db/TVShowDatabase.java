@@ -78,7 +78,8 @@ public class TVShowDatabase {
         tvShowRow.put(TT_IMDB, tvShow.getExternalIds().getImdbId());
         tvShowRow.put(TT_DATE, dateToString(tvShow.getFirstAirDate()));
         tvShowRow.put(TT_OVERVIEW, tvShow.getOverview());
-        dbWritable.insert(TABLE_TVSHOWS, null, tvShowRow);
+//        dbWritable.insert(TABLE_TVSHOWS, null, tvShowRow);
+        dbWritable.replace(TABLE_TVSHOWS, null, tvShowRow);
     }
 
     private void insertTVShowSeason(SQLiteDatabase dbWritable, TVSeason season) {
@@ -86,7 +87,8 @@ public class TVShowDatabase {
         seasonRow.put(TTS_ID, season.getId());
         seasonRow.put(TTS_SEASON_NO, season.getSeasonNumber());
         seasonRow.put(TTS_DATE, dateToString(season.getAirDate()));
-        dbWritable.insert(TABLE_TVSHOWS_SEASONS, null, seasonRow);
+//        dbWritable.insert(TABLE_TVSHOWS_SEASONS, null, seasonRow);
+        dbWritable.replace(TABLE_TVSHOWS_SEASONS, null, seasonRow);
     }
 
     private void insertTVShowEpisode(SQLiteDatabase dbWritable, TVEpisode episode) {
@@ -97,12 +99,13 @@ public class TVShowDatabase {
         episodeRow.put(TTSE_TITLE, episode.getName());
         episodeRow.put(TTSE_DATE, dateToString(episode.getAirDate()));
         episodeRow.put(TTSE_OVERVIEW, episode.getOverview());
-        if (airsAfterToday(episode)) {
+        if (releasedAfterToday(episode)) {
             episodeRow.put(TTSE_WATCHED, WATCHED_FALSE);
         } else {
             episodeRow.put(TTSE_WATCHED, WATCHED_TRUE);
         }
-        dbWritable.insert(TABLE_TVSHOWS_EPISODES, null, episodeRow);
+//        dbWritable.insert(TABLE_TVSHOWS_EPISODES, null, episodeRow);
+        dbWritable.replace(TABLE_TVSHOWS_EPISODES, null, episodeRow);
     }
 
     public void deleteAllTVShows() {
@@ -302,7 +305,7 @@ public class TVShowDatabase {
         return watchedStatus;
     }
 
-    private boolean airsAfterToday(TVEpisode episode) {
+    private boolean releasedAfterToday(TVEpisode episode) {
         return episode.getAirDate().compareTo(new Date()) >= 0;
     }
 
