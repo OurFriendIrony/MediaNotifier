@@ -1,5 +1,6 @@
 package uk.co.ourfriendirony.medianotifier.activities;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVSeason;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition;
+import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterTV;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterTVEpisode;
 
@@ -67,11 +69,17 @@ public class ActivityTV extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_refresh:
                 new TVShowUpdateAsyncTask().execute(String.valueOf(currentShow.getId()), currentShow.getName());
+                restart();
                 return true;
 
             case R.id.action_remove:
                 database.deleteTVShow(currentShow.getId());
                 restart();
+                return true;
+
+            case R.id.action_imdb:
+                Intent intent = IntentGenerator.getWebPageIntent("http://www.imdb.com/title/" + currentShow.getExternalIds().getImdbId() + "/");
+                startActivity(intent);
                 return true;
 
             default:
