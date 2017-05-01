@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:background="@drawable/border_new_item_tile"
+                style="@style/style_list_item"
                 android:padding="4dp">
 
     <include layout="@layout/button_toggle"/>
@@ -22,7 +22,7 @@
 
     <TextView
         android:id="@+id/list_item_tv_separatorbar"
-        style="@style/seperator_NEW"
+        style="@style/HorizontalLine"
         android:layout_width="wrap_content"
         android:layout_height="1dp"
         android:layout_alignEnd="@+id/list_item_notification_show_title"

@@ -20,7 +20,7 @@
             android:id="@+id/tvlist_notification_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            style="@style/list_new"
+            style="@style/style_list"
             />
 
     </RelativeLayout>

@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/border_new_item_tile"
+                style="@style/style_list_item"
                 android:orientation="horizontal"
                 android:padding="4dp">
 
@@ -53,8 +53,7 @@
         android:layout_height="1dp"
         android:layout_below="@+id/find_item_primarybar"
         android:id="@+id/find_item_seperator"
-        style="@style/seperator_NEW"
-
+        style="@style/HorizontalLine"
         />
 
     <RelativeLayout
