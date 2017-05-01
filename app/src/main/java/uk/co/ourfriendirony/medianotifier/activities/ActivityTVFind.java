@@ -36,7 +36,7 @@ public class ActivityTVFind extends AppCompatActivity {
         setContentView(R.layout.activity_find);
         getSupportActionBar().setTitle(R.string.title_find_tvshow);
 
-        database = new TVShowDatabase(new TVShowDatabaseDefinition(getApplicationContext()));
+        database = new TVShowDatabase(new TVShowDatabaseDefinition(getApplicationContext()), getApplicationContext());
 
         findInput = (EditText) findViewById(R.id.find_input);
         findProgressBar = (ProgressBar) findViewById(R.id.find_progress);

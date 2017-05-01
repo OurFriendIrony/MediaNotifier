@@ -39,7 +39,7 @@ public class ActivityMain extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        database = new TVShowDatabase(new TVShowDatabaseDefinition(getApplicationContext()));
+        database = new TVShowDatabase(new TVShowDatabaseDefinition(getApplicationContext()), getApplicationContext());
         database.debugDatabaseEntry();
 
         FloatingActionButton main_button_tv_find = (FloatingActionButton) findViewById(R.id.main_button_tv_find);
@@ -94,7 +94,7 @@ public class ActivityMain extends AppCompatActivity {
             }
         });
 
-        main_button_tv_notification.setImageResource(getNumberImage(database.countUnwatchedEpisodes()));
+        main_button_tv_notification.setImageResource(getNumberImage(database.countUnwatchedReleasedEpisodes()));
         main_button_movie_notification.setImageResource(getNumberImage(0));
         main_button_music_notification.setImageResource(getNumberImage(0));
 
@@ -124,15 +124,15 @@ public class ActivityMain extends AppCompatActivity {
         });
 
         // DEBUG
-        database.getUnwatchedEpisodes();
-        database.getUnwatchedUnairedEpisodes();
+        database.getUnwatchedReleasedEpisodes();
+        database.getUnwatchedUnreleasedEpisodes();
         // DEBUG
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        main_button_tv_notification.setImageResource(getNumberImage(database.countUnwatchedEpisodes()));
+        main_button_tv_notification.setImageResource(getNumberImage(database.countUnwatchedReleasedEpisodes()));
         main_button_movie_notification.setImageResource(getNumberImage(0));
         main_button_music_notification.setImageResource(getNumberImage(0));
     }

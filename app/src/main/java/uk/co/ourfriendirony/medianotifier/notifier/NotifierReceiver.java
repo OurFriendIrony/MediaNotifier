@@ -18,8 +18,8 @@ public class NotifierReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        TVShowDatabase database = new TVShowDatabase(new TVShowDatabaseDefinition(context));
-        unwatchedEpisodes = database.countUnwatchedEpisodes();
+        TVShowDatabase database = new TVShowDatabase(new TVShowDatabaseDefinition(context), context);
+        unwatchedEpisodes = database.countUnwatchedReleasedEpisodes();
 
         if (unwatchedEpisodes > 0) {
             NotificationCompat.Builder notification = getBuilder(context);

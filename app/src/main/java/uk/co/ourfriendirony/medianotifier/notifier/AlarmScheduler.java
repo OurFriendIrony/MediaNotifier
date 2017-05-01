@@ -7,8 +7,8 @@ import android.content.Intent;
 
 import java.util.Calendar;
 
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getHour;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getMinute;
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationHour;
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationMinute;
 
 public class AlarmScheduler {
     public static void reschedule(Context context) {
@@ -18,8 +18,8 @@ public class AlarmScheduler {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, dialogIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         Calendar triggerTime = Calendar.getInstance();
-        triggerTime.set(Calendar.HOUR_OF_DAY, getHour(context));
-        triggerTime.set(Calendar.MINUTE, getMinute(context));
+        triggerTime.set(Calendar.HOUR_OF_DAY, getNotificationHour(context));
+        triggerTime.set(Calendar.MINUTE, getNotificationMinute(context));
 
         alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, triggerTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
     }

@@ -14,9 +14,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:gravity="center"
         android:padding="10dp"
-        android:text="Select a Time"
-        android:timePickerMode="spinner"
+        android:text="Select a Time\n[and day offset]"
         />
 
     <TimePicker
@@ -24,20 +24,37 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/popup_text"
-        android:layout_centerHorizontal="true"
         android:background="@drawable/border_basic"
         android:timePickerMode="spinner"
         />
+
+    <LinearLayout
+        android:id="@+id/popup_date_picker_border"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/popup_time_picker"
+        android:layout_alignTop="@+id/popup_time_picker"
+        android:layout_below="@id/popup_text"
+        android:layout_toEndOf="@+id/popup_time_picker"
+        android:background="@drawable/border_basic"
+        android:padding="10dp">
+
+        <NumberPicker
+            android:id="@+id/popup_date_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            />
+    </LinearLayout>
 
     <Button
         android:id="@+id/popup_ok"
         style="@style/text_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/popup_time_picker"
+        android:layout_alignEnd="@+id/popup_date_picker_border"
         android:layout_alignStart="@+id/popup_time_picker"
         android:layout_below="@+id/popup_time_picker"
         android:text="OK"
         />
-
 </RelativeLayout>

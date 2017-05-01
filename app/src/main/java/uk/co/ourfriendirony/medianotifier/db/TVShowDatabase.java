@@ -1,6 +1,7 @@
 package uk.co.ourfriendirony.medianotifier.db;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
@@ -14,7 +15,9 @@ import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVEpisode;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVSeason;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShowExternalIds;
+import uk.co.ourfriendirony.medianotifier.general.StringHandler;
 
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffset;
 import static uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition.*;
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanTitle;
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.dateToString;
@@ -29,24 +32,26 @@ public class TVShowDatabase {
 
     private static final String GET_TVEPISODE_WATCHED_STATUS = "SELECT " + TTSE_WATCHED + " FROM " + TABLE_TVSHOWS_EPISODES + " WHERE " + TTSE_ID + "=? AND " + TTSE_SEASON_NO + "=? AND " + TTSE_EPISODE_NO + "=?;";
 
-    private static final String COUNT_UNWATCHED_EPISODES_UNAIRED = "SELECT COUNT(*) FROM " + TABLE_TVSHOWS_EPISODES + " " +
-            "WHERE " + TTSE_WATCHED + "=" + WATCHED_FALSE + " AND " + TTSE_DATE + " > date('now');";
-    private static final String GET_UNWATCHED_EPISODES_UNAIRED = "SELECT " + TABLE_TVSHOWS + "." + TT_ID + "," + TTSE_SEASON_NO + "," + TTSE_EPISODE_NO + "," + TTSE_TITLE + "," + TTSE_OVERVIEW + "," + TTSE_DATE + "," + TT_TITLE + " " +
+    private static final String COUNT_UNWATCHED_EPISODES_UNRELEASED = "SELECT COUNT(*) FROM " + TABLE_TVSHOWS_EPISODES + " " +
+            "WHERE " + TTSE_WATCHED + "=" + WATCHED_FALSE + " AND " + TTSE_DATE + " > @OFFSET@;";
+    private static final String GET_UNWATCHED_EPISODES_UNRELEASED = "SELECT " + TABLE_TVSHOWS + "." + TT_ID + "," + TTSE_SEASON_NO + "," + TTSE_EPISODE_NO + "," + TTSE_TITLE + "," + TTSE_OVERVIEW + "," + TTSE_DATE + "," + TT_TITLE + " " +
             "FROM " + TABLE_TVSHOWS_EPISODES + " " +
             "INNER JOIN " + TABLE_TVSHOWS + " ON " + TABLE_TVSHOWS + "." + TT_ID + " = " + TABLE_TVSHOWS_EPISODES + "." + TTSE_ID + " " +
-            "WHERE " + TTSE_WATCHED + "=" + WATCHED_FALSE + " AND " + TTSE_DATE + " > date('now') ORDER BY " + TTSE_DATE + " ASC;";
+            "WHERE " + TTSE_WATCHED + "=" + WATCHED_FALSE + " AND " + TTSE_DATE + " > @OFFSET@ ORDER BY " + TTSE_DATE + " ASC;";
 
-    private static final String COUNT_UNWATCHED_EPISODES_AIRED = "SELECT COUNT(*) FROM " + TABLE_TVSHOWS_EPISODES + " " +
-            "WHERE " + TTSE_WATCHED + "=" + WATCHED_FALSE + " AND " + TTSE_DATE + " <= date('now');";
-    private static final String GET_UNWATCHED_EPISODES_AIRED = "SELECT " + TABLE_TVSHOWS + "." + TT_ID + "," + TTSE_SEASON_NO + "," + TTSE_EPISODE_NO + "," + TTSE_TITLE + "," + TTSE_OVERVIEW + "," + TTSE_DATE + "," + TT_TITLE + " " +
+    private static final String COUNT_UNWATCHED_EPISODES_RELEASED = "SELECT COUNT(*) FROM " + TABLE_TVSHOWS_EPISODES + " " +
+            "WHERE " + TTSE_WATCHED + "=" + WATCHED_FALSE + " AND " + TTSE_DATE + " <= @OFFSET@;";
+    private static final String GET_UNWATCHED_EPISODES_RELEASED = "SELECT " + TABLE_TVSHOWS + "." + TT_ID + "," + TTSE_SEASON_NO + "," + TTSE_EPISODE_NO + "," + TTSE_TITLE + "," + TTSE_OVERVIEW + "," + TTSE_DATE + "," + TT_TITLE + " " +
             "FROM " + TABLE_TVSHOWS_EPISODES + " " +
             "INNER JOIN " + TABLE_TVSHOWS + " ON " + TABLE_TVSHOWS + "." + TT_ID + " = " + TABLE_TVSHOWS_EPISODES + "." + TTSE_ID + " " +
-            "WHERE " + TTSE_WATCHED + "=" + WATCHED_FALSE + " AND " + TTSE_DATE + " <= date('now') ORDER BY " + TTSE_DATE + " ASC;";
+            "WHERE " + TTSE_WATCHED + "=" + WATCHED_FALSE + " AND " + TTSE_DATE + " <= @OFFSET@ ORDER BY " + TTSE_DATE + " ASC;";
 
     private final TVShowDatabaseDefinition databaseHelper;
+    private final Context context;
 
-    public TVShowDatabase(TVShowDatabaseDefinition databaseHelper) {
+    public TVShowDatabase(TVShowDatabaseDefinition databaseHelper, Context context) {
         this.databaseHelper = databaseHelper;
+        this.context = context;
     }
 
     public void addTVShow(TVShow tvShow) {
@@ -96,7 +101,7 @@ public class TVShowDatabase {
     }
 
     private void insertTVShowEpisode(SQLiteDatabase dbWritable, TVEpisode episode, boolean newShow) {
-        String currentWatchedStatus = getEpisodeWatchedStatus(dbWritable,episode);
+        String currentWatchedStatus = getEpisodeWatchedStatus(dbWritable, episode);
         ContentValues episodeRow = new ContentValues();
         episodeRow.put(TTSE_ID, episode.getId());
         episodeRow.put(TTSE_SEASON_NO, episode.getSeasonNumber());
@@ -163,26 +168,6 @@ public class TVShowDatabase {
         dbWritable.close();
     }
 
-    public int countUnwatchedEpisodes() {
-        SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
-        Cursor cursor = dbReadable.rawQuery(COUNT_UNWATCHED_EPISODES_AIRED, null);
-        cursor.moveToFirst();
-        int count = cursor.getInt(0);
-        cursor.close();
-        dbReadable.close();
-        return count;
-    }
-
-    public int countUnwatchedUnairedEpisodes() {
-        SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
-        Cursor cursor = dbReadable.rawQuery(COUNT_UNWATCHED_EPISODES_UNAIRED, null);
-        cursor.moveToFirst();
-        int count = cursor.getInt(0);
-        cursor.close();
-        dbReadable.close();
-        return count;
-    }
-
     public String getTitleById(int showId) {
         String title = "";
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
@@ -198,11 +183,39 @@ public class TVShowDatabase {
         return title;
     }
 
-    public List<TVEpisode> getUnwatchedEpisodes() {
+    public int countUnwatchedReleasedEpisodes() {
+        String offset = "date('now','-" + getNotificationDayOffset(context) + " days')";
+        String query = StringHandler.replaceTokens(COUNT_UNWATCHED_EPISODES_RELEASED, "@OFFSET@", offset);
+        SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
+
+        Cursor cursor = dbReadable.rawQuery(query, null);
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+        dbReadable.close();
+        return count;
+    }
+
+    public int countUnwatchedUnreleasedEpisodes() {
+        String offset = "date('now','-" + getNotificationDayOffset(context) + " days')";
+        String query = StringHandler.replaceTokens(COUNT_UNWATCHED_EPISODES_UNRELEASED, "@OFFSET@", offset);
+        SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
+
+        Cursor cursor = dbReadable.rawQuery(query, null);
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+        dbReadable.close();
+        return count;
+    }
+
+    public List<TVEpisode> getUnwatchedReleasedEpisodes() {
+        String offset = "date('now','-" + getNotificationDayOffset(context) + " days')";
+        String query = StringHandler.replaceTokens(GET_UNWATCHED_EPISODES_RELEASED, "@OFFSET@", offset);
         List<TVEpisode> tvEpisodes = new ArrayList<>();
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
 
-        Cursor cursor = dbReadable.rawQuery(GET_UNWATCHED_EPISODES_AIRED, null);
+        Cursor cursor = dbReadable.rawQuery(query, null);
         try {
             while (cursor.moveToNext()) {
                 TVEpisode tvEpisode = buildTVEpisode(cursor);
@@ -216,11 +229,13 @@ public class TVShowDatabase {
         return tvEpisodes;
     }
 
-    public List<TVEpisode> getUnwatchedUnairedEpisodes() {
+    public List<TVEpisode> getUnwatchedUnreleasedEpisodes() {
+        String offset = "date('now','-" + getNotificationDayOffset(context) + " days')";
+        String query = StringHandler.replaceTokens(GET_UNWATCHED_EPISODES_UNRELEASED, "@OFFSET@", offset);
         List<TVEpisode> tvEpisodes = new ArrayList<>();
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
 
-        Cursor cursor = dbReadable.rawQuery(GET_UNWATCHED_EPISODES_UNAIRED, null);
+        Cursor cursor = dbReadable.rawQuery(query, null);
         try {
             while (cursor.moveToNext()) {
                 TVEpisode tvEpisode = buildTVEpisode(cursor);
@@ -321,7 +336,7 @@ public class TVShowDatabase {
         ContentValues values = new ContentValues();
         values.put(TTSE_WATCHED, watchedStatus);
         String where = TTSE_ID + "=? and " + TTSE_SEASON_NO + "=? and " + TTSE_EPISODE_NO + "=?";
-        String[] whereArgs = new String[]{String.valueOf(episode.getId()), String.valueOf(episode.getSeasonNumber()), String.valueOf(episode.getEpisodeNumber())};
+        String[] whereArgs = new String[]{episode.getIdAsString(), episode.getSeasonNumberAsString(), episode.getEpisodeNumberAsString()};
         dbWriteable.update(TABLE_TVSHOWS_EPISODES, values, where, whereArgs);
         dbWriteable.close();
     }

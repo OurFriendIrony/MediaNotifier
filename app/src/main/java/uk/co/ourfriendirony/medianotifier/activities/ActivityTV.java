@@ -41,7 +41,7 @@ public class ActivityTV extends AppCompatActivity {
         setContentView(R.layout.activity_tv);
         getSupportActionBar().setTitle(R.string.title_library_tvshow);
 
-        database = new TVShowDatabase(new TVShowDatabaseDefinition(getApplicationContext()));
+        database = new TVShowDatabase(new TVShowDatabaseDefinition(getApplicationContext()), getApplicationContext());
 
         showList = (Spinner) findViewById(R.id.find_list_tv);
         episodeList = (ListView) findViewById(R.id.find_list_episodes);
@@ -130,7 +130,7 @@ public class ActivityTV extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(String... params) {
-            TVShowDatabase database = new TVShowDatabase(new TVShowDatabaseDefinition(getApplicationContext()));
+            TVShowDatabase database = new TVShowDatabase(new TVShowDatabaseDefinition(getApplicationContext()), getApplicationContext());
             tvShows = database.getAllTVShows();
             return null;
         }

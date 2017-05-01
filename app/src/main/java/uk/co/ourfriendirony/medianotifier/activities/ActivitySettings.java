@@ -1,7 +1,6 @@
 package uk.co.ourfriendirony.medianotifier.activities;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
@@ -15,10 +14,7 @@ import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition;
 import uk.co.ourfriendirony.medianotifier.notifier.AlarmScheduler;
 
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getHour;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getMinute;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setHour;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setMinute;
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.*;
 
 public class ActivitySettings extends AppCompatActivity {
     private PopupWindow popupWindow;
@@ -33,13 +29,12 @@ public class ActivitySettings extends AppCompatActivity {
         Button buttonDeleteMovie = (Button) findViewById(R.id.settings_button_delete_movie_all);
         Button buttonDeleteMusic = (Button) findViewById(R.id.settings_button_delete_music_all);
 
-        Button buttonNotifyTimer = (Button) findViewById(R.id.settings_time_picker_button);
+        Button buttonNotifyTimer = (Button) findViewById(R.id.settings_notification_time_button);
 
         buttonDeleteTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TVShowDatabaseDefinition databaseHelper = new TVShowDatabaseDefinition(getApplicationContext());
-                new TVShowDatabase(databaseHelper).deleteAllTVShows();
+                new TVShowDatabase(new TVShowDatabaseDefinition(getApplicationContext()), getApplicationContext()).deleteAllTVShows();
                 Toast.makeText(ActivitySettings.this, R.string.toast_db_table_cleared, Toast.LENGTH_SHORT).show();
             }
         });
@@ -63,8 +58,6 @@ public class ActivitySettings extends AppCompatActivity {
         buttonNotifyTimer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences settings = getSharedPreferences(String.valueOf(R.string.app_name), 0);
-
                 LayoutInflater inflater = (LayoutInflater) ActivitySettings.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View layout = inflater.inflate(R.layout.popup_time_selector, (ViewGroup) findViewById(R.id.popup));
 
@@ -73,15 +66,22 @@ public class ActivitySettings extends AppCompatActivity {
 
                 TimePicker timePicker = (TimePicker) popupWindow.getContentView().findViewById(R.id.popup_time_picker);
                 timePicker.setIs24HourView(true);
-                timePicker.setCurrentHour(getHour(getApplicationContext()));
-                timePicker.setCurrentMinute(getMinute(getApplicationContext()));
+                timePicker.setCurrentHour(getNotificationHour(getApplicationContext()));
+                timePicker.setCurrentMinute(getNotificationMinute(getApplicationContext()));
+
+                NumberPicker picker = (NumberPicker) popupWindow.getContentView().findViewById(R.id.popup_date_picker);
+                picker.setMaxValue(getNotificationDayOffsetMax());
+                picker.setMinValue(getNotificationDayOffsetMin());
+                picker.setValue(getNotificationDayOffset(getApplicationContext()));
+                picker.setWrapSelectorWheel(false);
 
                 Button buttonOk = (Button) popupWindow.getContentView().findViewById(R.id.popup_ok);
                 buttonOk.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        setHour(getApplicationContext(), timePicker.getCurrentHour());
-                        setMinute(getApplicationContext(), timePicker.getCurrentMinute());
+                        setNotificationHour(getApplicationContext(), timePicker.getCurrentHour());
+                        setNotificationMinute(getApplicationContext(), timePicker.getCurrentMinute());
+                        setNotificationDayOffset(getApplicationContext(), picker.getValue());
                         AlarmScheduler.reschedule(getApplicationContext());
                         popupWindow.dismiss();
                     }

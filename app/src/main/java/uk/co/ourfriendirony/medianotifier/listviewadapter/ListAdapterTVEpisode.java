@@ -28,7 +28,7 @@ public class ListAdapterTVEpisode extends ArrayAdapter {
     private final Boolean includeTitle;
 
     private DateFormat dateFormat = new SimpleDateFormat("dd-MM-yy");
-    private TVShowDatabase database = new TVShowDatabase(new TVShowDatabaseDefinition(getContext()));
+    private TVShowDatabase database = new TVShowDatabase(new TVShowDatabaseDefinition(getContext()), getContext());
 
     public ListAdapterTVEpisode(Context context, int defaultLayoutId, List<TVEpisode> objects, Boolean includeTitle) {
         super(context, defaultLayoutId, objects);
@@ -50,7 +50,7 @@ public class ListAdapterTVEpisode extends ArrayAdapter {
         View v = convertView;
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         v = inflater.inflate(R.layout.list_item_tv_episode, null);
-        TVShowDatabase database = new TVShowDatabase(new TVShowDatabaseDefinition(getContext()));
+        TVShowDatabase database = new TVShowDatabase(new TVShowDatabaseDefinition(getContext()), getContext());
 
         TextView showTitleView = (TextView) v.findViewById(R.id.list_item_notification_show_title);
         if (includeTitle) {

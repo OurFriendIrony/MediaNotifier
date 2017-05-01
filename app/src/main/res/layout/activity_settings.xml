@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/settings"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
                 tools:context=".activities.ActivitySettings">
-
 
     <RelativeLayout
         android:id="@+id/settings_delete_all"
@@ -41,11 +40,10 @@
     </RelativeLayout>
 
     <Button
-        android:id="@+id/settings_time_picker_button"
+        android:id="@+id/settings_notification_time_button"
         style="@style/text_title_lesser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_below="@+id/settings_delete_all"
         android:layout_centerHorizontal="true"
         android:text="Set Notification Time"
