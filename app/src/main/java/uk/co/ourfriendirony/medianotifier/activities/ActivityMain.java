@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
-import uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition;
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
 
 import static uk.co.ourfriendirony.medianotifier.general.ImageNumber.getNumberImage;
@@ -39,7 +38,7 @@ public class ActivityMain extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        database = new TVShowDatabase(new TVShowDatabaseDefinition(getApplicationContext()), getApplicationContext());
+        database = new TVShowDatabase(getApplicationContext());
         database.debugDatabaseEntry();
 
         FloatingActionButton main_button_tv_find = (FloatingActionButton) findViewById(R.id.main_button_tv_find);

@@ -17,7 +17,6 @@ import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
 import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
-import uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterTV;
 
 public class ActivityTVFind extends AppCompatActivity {
@@ -35,7 +34,7 @@ public class ActivityTVFind extends AppCompatActivity {
         setContentView(R.layout.activity_find);
         getSupportActionBar().setTitle(R.string.title_find_tvshow);
 
-        database = new TVShowDatabase(new TVShowDatabaseDefinition(getApplicationContext()), getApplicationContext());
+        database = new TVShowDatabase(getApplicationContext());
 
         findInput = (EditText) findViewById(R.id.find_input);
         findProgressBar = (ProgressBar) findViewById(R.id.find_progress);

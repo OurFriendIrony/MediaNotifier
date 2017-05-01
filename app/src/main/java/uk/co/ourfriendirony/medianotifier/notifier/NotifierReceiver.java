@@ -11,14 +11,13 @@ import android.support.v4.app.NotificationCompat;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.activities.ActivityTVNotifications;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
-import uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition;
 
 public class NotifierReceiver extends BroadcastReceiver {
     int unwatchedEpisodes = 0;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        TVShowDatabase database = new TVShowDatabase(new TVShowDatabaseDefinition(context), context);
+        TVShowDatabase database = new TVShowDatabase(context);
         unwatchedEpisodes = database.countUnwatchedReleasedEpisodes();
 
         if (unwatchedEpisodes > 0) {

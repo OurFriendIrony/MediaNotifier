@@ -20,7 +20,6 @@ import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVSeason;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
 import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
-import uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition;
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterTV;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterTVEpisode;
@@ -41,7 +40,7 @@ public class ActivityTV extends AppCompatActivity {
         setContentView(R.layout.activity_tv);
         getSupportActionBar().setTitle(R.string.title_library_tvshow);
 
-        database = new TVShowDatabase(new TVShowDatabaseDefinition(getApplicationContext()), getApplicationContext());
+        database = new TVShowDatabase(getApplicationContext());
 
         showList = (Spinner) findViewById(R.id.find_list_tv);
         episodeList = (ListView) findViewById(R.id.find_list_episodes);
@@ -130,7 +129,6 @@ public class ActivityTV extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(String... params) {
-            TVShowDatabase database = new TVShowDatabase(new TVShowDatabaseDefinition(getApplicationContext()), getApplicationContext());
             tvShows = database.getAllTVShows();
             return null;
         }

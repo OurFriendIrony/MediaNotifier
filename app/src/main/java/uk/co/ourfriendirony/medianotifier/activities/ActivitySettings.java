@@ -11,7 +11,6 @@ import android.widget.*;
 
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
-import uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition;
 import uk.co.ourfriendirony.medianotifier.notifier.AlarmScheduler;
 
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.*;
@@ -34,7 +33,7 @@ public class ActivitySettings extends AppCompatActivity {
         buttonDeleteTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new TVShowDatabase(new TVShowDatabaseDefinition(getApplicationContext()), getApplicationContext()).deleteAllTVShows();
+                new TVShowDatabase(getApplicationContext()).deleteAllTVShows();
                 Toast.makeText(ActivitySettings.this, R.string.toast_db_table_cleared, Toast.LENGTH_SHORT).show();
             }
         });

@@ -49,8 +49,8 @@ public class TVShowDatabase {
     private final TVShowDatabaseDefinition databaseHelper;
     private final Context context;
 
-    public TVShowDatabase(TVShowDatabaseDefinition databaseHelper, Context context) {
-        this.databaseHelper = databaseHelper;
+    public TVShowDatabase(Context context) {
+        this.databaseHelper = new TVShowDatabaseDefinition(context);
         this.context = context;
     }
 

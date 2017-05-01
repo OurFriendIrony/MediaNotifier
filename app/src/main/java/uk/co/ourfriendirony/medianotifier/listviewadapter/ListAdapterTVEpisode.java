@@ -17,7 +17,6 @@ import java.util.List;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVEpisode;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
-import uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition;
 
 import static uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition.WATCHED_FALSE;
 import static uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition.WATCHED_TRUE;
@@ -28,7 +27,6 @@ public class ListAdapterTVEpisode extends ArrayAdapter {
     private final Boolean includeTitle;
 
     private DateFormat dateFormat = new SimpleDateFormat("dd-MM-yy");
-    private TVShowDatabase database = new TVShowDatabase(new TVShowDatabaseDefinition(getContext()), getContext());
 
     public ListAdapterTVEpisode(Context context, int defaultLayoutId, List<TVEpisode> objects, Boolean includeTitle) {
         super(context, defaultLayoutId, objects);
@@ -50,7 +48,7 @@ public class ListAdapterTVEpisode extends ArrayAdapter {
         View v = convertView;
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         v = inflater.inflate(R.layout.list_item_tv_episode, null);
-        TVShowDatabase database = new TVShowDatabase(new TVShowDatabaseDefinition(getContext()), getContext());
+        TVShowDatabase database = new TVShowDatabase(getContext());
 
         TextView showTitleView = (TextView) v.findViewById(R.id.list_item_notification_show_title);
         if (includeTitle) {
