@@ -6,7 +6,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,7 +14,6 @@ import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVEpisode;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVSeason;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShowExternalIds;
-import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
 
 import static uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition.*;
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanTitle;
@@ -28,6 +26,8 @@ public class TVShowDatabase {
     private static final String SELECT_TVEPISODES = "SELECT * FROM " + TABLE_TVSHOWS_EPISODES + " WHERE " + TTSE_ID + "=? AND " + TTSE_SEASON_NO + "=? ORDER BY " + TTSE_EPISODE_NO + " ASC;";
 
     private static final String GET_TVSHOW_TITLE_BY_ID = "SELECT " + TT_TITLE + " FROM " + TABLE_TVSHOWS + " WHERE " + TT_ID + "=?;";
+
+    private static final String GET_TVEPISODE_WATCHED_STATUS = "SELECT " + TTSE_WATCHED + " FROM " + TABLE_TVSHOWS_EPISODES + " WHERE " + TTSE_ID + "=? AND " + TTSE_SEASON_NO + "=? AND " + TTSE_EPISODE_NO + "=?;";
 
     private static final String COUNT_UNWATCHED_EPISODES_UNAIRED = "SELECT COUNT(*) FROM " + TABLE_TVSHOWS_EPISODES + " " +
             "WHERE " + TTSE_WATCHED + "=" + WATCHED_FALSE + " AND " + TTSE_DATE + " > date('now');";
@@ -49,12 +49,26 @@ public class TVShowDatabase {
         this.databaseHelper = databaseHelper;
     }
 
-    public void saveTVShow(TVShow tvShow) {
+    public void addTVShow(TVShow tvShow) {
         SQLiteDatabase dbWritable = databaseHelper.getWritableDatabase();
         for (TVSeason season : tvShow.getSeasons()) {
             for (TVEpisode episode : season.getEpisodes()) {
                 episode.setId(tvShow.getId());
-                insertTVShowEpisode(dbWritable, episode);
+                insertTVShowEpisode(dbWritable, episode, true);
+            }
+            season.setId(tvShow.getId());
+            insertTVShowSeason(dbWritable, season);
+        }
+        insertTVShow(dbWritable, tvShow);
+        dbWritable.close();
+    }
+
+    public void updateTVShow(TVShow tvShow) {
+        SQLiteDatabase dbWritable = databaseHelper.getWritableDatabase();
+        for (TVSeason season : tvShow.getSeasons()) {
+            for (TVEpisode episode : season.getEpisodes()) {
+                episode.setId(tvShow.getId());
+                insertTVShowEpisode(dbWritable, episode, false);
             }
             season.setId(tvShow.getId());
             insertTVShowSeason(dbWritable, season);
@@ -81,7 +95,8 @@ public class TVShowDatabase {
         dbWritable.replace(TABLE_TVSHOWS_SEASONS, null, seasonRow);
     }
 
-    private void insertTVShowEpisode(SQLiteDatabase dbWritable, TVEpisode episode) {
+    private void insertTVShowEpisode(SQLiteDatabase dbWritable, TVEpisode episode, boolean newShow) {
+        String currentWatchedStatus = getEpisodeWatchedStatus(dbWritable,episode);
         ContentValues episodeRow = new ContentValues();
         episodeRow.put(TTSE_ID, episode.getId());
         episodeRow.put(TTSE_SEASON_NO, episode.getSeasonNumber());
@@ -89,12 +104,47 @@ public class TVShowDatabase {
         episodeRow.put(TTSE_TITLE, episode.getName());
         episodeRow.put(TTSE_DATE, dateToString(episode.getAirDate()));
         episodeRow.put(TTSE_OVERVIEW, episode.getOverview());
-        if (releasedAfterToday(episode)) {
-            episodeRow.put(TTSE_WATCHED, WATCHED_FALSE);
-        } else {
+        if (newShow && alreadyReleased(episode)) {
             episodeRow.put(TTSE_WATCHED, WATCHED_TRUE);
+        } else {
+            episodeRow.put(TTSE_WATCHED, currentWatchedStatus);
         }
+
         dbWritable.replace(TABLE_TVSHOWS_EPISODES, null, episodeRow);
+    }
+
+    public String getEpisodeWatchedStatus(SQLiteDatabase dbReadable, TVEpisode episode) {
+        String[] args = new String[]{episode.getIdAsString(), episode.getSeasonNumberAsString(), episode.getEpisodeNumberAsString()};
+        Cursor cursor = dbReadable.rawQuery(GET_TVEPISODE_WATCHED_STATUS, args);
+        String watchedStatus = WATCHED_FALSE;
+
+        try {
+            while (cursor.moveToNext()) {
+                watchedStatus = getColumnValue(cursor, TTSE_WATCHED);
+            }
+        } finally {
+            cursor.close();
+        }
+
+        return watchedStatus;
+    }
+
+    public boolean getEpisodeWatchedStatusAsBoolean(TVEpisode episode) {
+        SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
+        String[] args = new String[]{episode.getIdAsString(), episode.getSeasonNumberAsString(), episode.getEpisodeNumberAsString()};
+        Cursor cursor = dbReadable.rawQuery(GET_TVEPISODE_WATCHED_STATUS, args);
+        String watchedStatus = WATCHED_FALSE;
+
+        try {
+            while (cursor.moveToNext()) {
+                watchedStatus = getColumnValue(cursor, TTSE_WATCHED);
+            }
+        } finally {
+            cursor.close();
+        }
+
+        dbReadable.close();
+        return WATCHED_TRUE.equals(watchedStatus);
     }
 
     public void deleteAllTVShows() {
@@ -275,27 +325,27 @@ public class TVShowDatabase {
         dbWriteable.update(TABLE_TVSHOWS_EPISODES, values, where, whereArgs);
         dbWriteable.close();
     }
+//
+//    public boolean getEpisodeWatchedStatus(TVEpisode tvEpisode) {
+//        SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
+//        String sql = "SELECT " + TTSE_WATCHED + " FROM " + TABLE_TVSHOWS_EPISODES + " " +
+//                "WHERE " + TTSE_ID + "=" + tvEpisode.getId() + " AND " + TTSE_SEASON_NO + "=" + tvEpisode.getSeasonNumber() + " AND " + TTSE_EPISODE_NO + "=" + tvEpisode.getEpisodeNumber() + ";";
+//        Cursor cursor = dbReadable.rawQuery(sql, null);
+//        boolean watchedStatus = false;
+//        try {
+//            while (cursor.moveToNext()) {
+//                watchedStatus = cursor.getInt(0) == 1;
+//            }
+//        } finally {
+//            cursor.close();
+//        }
+//
+//        dbReadable.close();
+//        return watchedStatus;
+//    }
 
-    public boolean getEpisodeWatchedStatus(TVEpisode tvEpisode) {
-        SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
-        String sql = "SELECT " + TTSE_WATCHED + " FROM " + TABLE_TVSHOWS_EPISODES + " " +
-                "WHERE " + TTSE_ID + "=" + tvEpisode.getId() + " AND " + TTSE_SEASON_NO + "=" + tvEpisode.getSeasonNumber() + " AND " + TTSE_EPISODE_NO + "=" + tvEpisode.getEpisodeNumber() + ";";
-        Cursor cursor = dbReadable.rawQuery(sql, null);
-        boolean watchedStatus = false;
-        try {
-            while (cursor.moveToNext()) {
-                watchedStatus = cursor.getInt(0) == 1;
-            }
-        } finally {
-            cursor.close();
-        }
-
-        dbReadable.close();
-        return watchedStatus;
-    }
-
-    private boolean releasedAfterToday(TVEpisode episode) {
-        return episode.getAirDate().compareTo(new Date()) >= 0;
+    private boolean alreadyReleased(TVEpisode episode) {
+        return episode.getAirDate().compareTo(new Date()) < 0;
     }
 
     private String getColumnValue(Cursor cursor, String field) {

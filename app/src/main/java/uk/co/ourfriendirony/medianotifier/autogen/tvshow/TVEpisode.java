@@ -83,6 +83,7 @@ public class TVEpisode {
         this.id = id;
     }
 
+
     @JsonProperty("season_number")
     public Integer getSeasonNumber() {
         return seasonNumber;
@@ -102,4 +103,17 @@ public class TVEpisode {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
+
+    public String getIdAsString() {
+        return String.valueOf(id);
+    }
+
+    public String getSeasonNumberAsString() {
+        return String.valueOf(seasonNumber);
+    }
+
+    public String getEpisodeNumberAsString() {
+        return String.valueOf(episodeNumber);
+    }
+
 }

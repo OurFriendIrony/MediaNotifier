@@ -159,7 +159,7 @@ public class ActivityTV extends AppCompatActivity {
             TVShow tvShow;
             try {
                 tvShow = client.getTVShow(Integer.parseInt(tvShowId));
-                database.saveTVShow(tvShow);
+                database.updateTVShow(tvShow);
             } catch (IOException e) {
                 Log.e(String.valueOf(this.getClass()), "Failed to update: " + e.getMessage());
             }

@@ -135,7 +135,7 @@ public class ActivityTVFind extends AppCompatActivity {
             TVShow tvShow;
             try {
                 tvShow = client.getTVShow(Integer.parseInt(tvShowId));
-                database.saveTVShow(tvShow);
+                database.addTVShow(tvShow);
             } catch (IOException e) {
                 Log.e(String.valueOf(this.getClass()), "Failed to add: " + e.getMessage());
             }
