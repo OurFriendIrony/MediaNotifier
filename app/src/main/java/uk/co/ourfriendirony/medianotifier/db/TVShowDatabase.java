@@ -49,16 +49,8 @@ public class TVShowDatabase {
         this.databaseHelper = databaseHelper;
     }
 
-    public void saveTVShow(int tvShowId) {
-        MovieDatabaseClient client = new MovieDatabaseClient();
+    public void saveTVShow(TVShow tvShow) {
         SQLiteDatabase dbWritable = databaseHelper.getWritableDatabase();
-        TVShow tvShow;
-        try {
-            tvShow = client.getTVShow(tvShowId);
-        } catch (IOException e) {
-            tvShow = new TVShow();
-        }
-
         for (TVSeason season : tvShow.getSeasons()) {
             for (TVEpisode episode : season.getEpisodes()) {
                 episode.setId(tvShow.getId());
@@ -78,7 +70,6 @@ public class TVShowDatabase {
         tvShowRow.put(TT_IMDB, tvShow.getExternalIds().getImdbId());
         tvShowRow.put(TT_DATE, dateToString(tvShow.getFirstAirDate()));
         tvShowRow.put(TT_OVERVIEW, tvShow.getOverview());
-//        dbWritable.insert(TABLE_TVSHOWS, null, tvShowRow);
         dbWritable.replace(TABLE_TVSHOWS, null, tvShowRow);
     }
 
@@ -87,7 +78,6 @@ public class TVShowDatabase {
         seasonRow.put(TTS_ID, season.getId());
         seasonRow.put(TTS_SEASON_NO, season.getSeasonNumber());
         seasonRow.put(TTS_DATE, dateToString(season.getAirDate()));
-//        dbWritable.insert(TABLE_TVSHOWS_SEASONS, null, seasonRow);
         dbWritable.replace(TABLE_TVSHOWS_SEASONS, null, seasonRow);
     }
 
@@ -104,7 +94,6 @@ public class TVShowDatabase {
         } else {
             episodeRow.put(TTSE_WATCHED, WATCHED_TRUE);
         }
-//        dbWritable.insert(TABLE_TVSHOWS_EPISODES, null, episodeRow);
         dbWritable.replace(TABLE_TVSHOWS_EPISODES, null, episodeRow);
     }
 

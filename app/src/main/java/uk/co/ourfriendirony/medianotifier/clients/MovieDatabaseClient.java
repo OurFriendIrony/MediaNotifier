@@ -54,7 +54,7 @@ public class MovieDatabaseClient {
                 replaceTokens(URL_TVSHOW_QUERY, "@NAME@", cleanUrl(tvShow))
         );
         TVShowFinds query = OBJECT_MAPPER.readValue(payload, TVShowFinds.class);
-        return query.getDatedResults();
+        return query.getTVShowsWithDates();
     }
 
     public Movie getMovie(int movieID) throws IOException {

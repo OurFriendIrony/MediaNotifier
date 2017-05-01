@@ -13,23 +13,23 @@ import java.util.Map;
 })
 public class TVShowFinds {
     @JsonProperty("results")
-    private List<TVShow> results = new ArrayList<>();
+    private List<TVShow> tvShows = new ArrayList<>();
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("results")
-    public List<TVShow> getResults() {
-        return results;
+    private List<TVShow> getTVShows() {
+        return tvShows;
     }
 
     @JsonProperty("results")
-    public void setResults(List<TVShow> results) {
-        this.results = results;
+    public void setTVShows(List<TVShow> tvShows) {
+        this.tvShows = tvShows;
     }
 
-    public List<TVShow> getDatedResults() {
+    public List<TVShow> getTVShowsWithDates() {
         List<TVShow> tvShows = new ArrayList<>();
-        for (TVShow tvShow : getResults()) {
+        for (TVShow tvShow : getTVShows()) {
             if (!("".equals(tvShow.getFirstAirDate())) && tvShow.getFirstAirDate() != null) {
                 tvShows.add(tvShow);
             }

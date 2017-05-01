@@ -3,6 +3,7 @@ package uk.co.ourfriendirony.medianotifier.activities;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,6 +83,9 @@ public class ActivityTVFind extends AppCompatActivity {
     }
 
     private class TVShowFindAsyncTask extends AsyncTask<String, Void, List<TVShow>> {
+        /* Looks up and returns tvshow using API
+         */
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -95,10 +99,12 @@ public class ActivityTVFind extends AppCompatActivity {
                 tvShows = client.queryTVShow(tvShowTitle);
             } catch (IOException e) {
                 tvShows = new ArrayList<>();
+                Log.e(String.valueOf(this.getClass()), "Failed to query: " + e.getMessage());
             }
             return tvShows;
         }
 
+        @Override
         protected void onPostExecute(List<TVShow> result) {
             findProgressBar.setVisibility(View.GONE);
 
@@ -112,6 +118,9 @@ public class ActivityTVFind extends AppCompatActivity {
     }
 
     private class TVShowAddAsyncTask extends AsyncTask<String, Void, String> {
+        /* Adds new item to database
+         */
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -122,10 +131,18 @@ public class ActivityTVFind extends AppCompatActivity {
         protected String doInBackground(String... params) {
             String tvShowId = params[0];
             String tvShowTitle = params[1];
-            database.saveTVShow(Integer.parseInt(tvShowId));
+
+            TVShow tvShow;
+            try {
+                tvShow = client.getTVShow(Integer.parseInt(tvShowId));
+                database.saveTVShow(tvShow);
+            } catch (IOException e) {
+                Log.e(String.valueOf(this.getClass()), "Failed to add: " + e.getMessage());
+            }
             return tvShowTitle;
         }
 
+        @Override
         protected void onPostExecute(String tvShowTitle) {
             findProgressBar.setVisibility(View.GONE);
             String toastMsg = "'" + tvShowTitle + "' " + getResources().getString(R.string.toast_db_added);

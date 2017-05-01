@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVEpisode;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVSeason;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
+import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition;
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
@@ -31,6 +33,7 @@ public class ActivityTV extends AppCompatActivity {
     private ProgressBar loadPageProgressBar;
     private int currentShowPosition;
     private TVShowDatabase database;
+    private MovieDatabaseClient client = new MovieDatabaseClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +118,10 @@ public class ActivityTV extends AppCompatActivity {
     }
 
     private class TVShowListAsyncTask extends AsyncTask<String, Void, Void> {
+        /* Responsible for retrieving all tv shows
+         * and displaying them
+         */
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -128,30 +135,39 @@ public class ActivityTV extends AppCompatActivity {
             return null;
         }
 
+        @Override
         protected void onPostExecute(Void x) {
             loadPageProgressBar.setVisibility(View.GONE);
             displayShows();
         }
     }
 
-
     private class TVShowUpdateAsyncTask extends AsyncTask<String, Void, String> {
+        /* Background Task to Update an existing item
+         */
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-//            findProgressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
         protected String doInBackground(String... params) {
             String tvShowId = params[0];
             String tvShowTitle = params[1];
-            database.saveTVShow(Integer.parseInt(tvShowId));
+
+            TVShow tvShow;
+            try {
+                tvShow = client.getTVShow(Integer.parseInt(tvShowId));
+                database.saveTVShow(tvShow);
+            } catch (IOException e) {
+                Log.e(String.valueOf(this.getClass()), "Failed to update: " + e.getMessage());
+            }
             return tvShowTitle;
         }
 
+        @Override
         protected void onPostExecute(String tvShowTitle) {
-//            findProgressBar.setVisibility(View.GONE);
             String toastMsg = "'" + tvShowTitle + "' " + getResources().getString(R.string.toast_db_updated);
             Toast.makeText(getApplicationContext(), toastMsg, Toast.LENGTH_SHORT).show();
         }
