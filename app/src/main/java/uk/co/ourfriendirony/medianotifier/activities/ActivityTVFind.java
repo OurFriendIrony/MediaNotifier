@@ -43,9 +43,13 @@ public class ActivityTVFind extends AppCompatActivity {
         findInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
+
                 switch (actionId) {
                     case EditorInfo.IME_ACTION_SEND:
-                        new TVShowFindAsyncTask().execute(textView.getText().toString());
+                        String input = textView.getText().toString();
+                        if (!"".equals(input)) {
+                            new TVShowFindAsyncTask().execute(input);
+                        }
                         return true;
 
                     default:

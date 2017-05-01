@@ -52,7 +52,7 @@
     <item
         android:bottom="3dp"
         android:left="4dp"
-        android:top="37dp">
+        android:top="36dp">
         <shape android:shape="rectangle">
             <solid android:color="@color/red_bright"/>
         </shape>
