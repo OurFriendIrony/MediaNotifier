@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.*;
 
@@ -45,12 +44,14 @@ public class ActivityTVFind extends AppCompatActivity {
         findInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
-                boolean handled = false;
-                if (actionId == EditorInfo.IME_ACTION_SEND) {
-                    new TVShowFindAsyncTask().execute(textView.getText().toString());
-                    handled = true;
+                switch (actionId) {
+                    case EditorInfo.IME_ACTION_SEND:
+                        new TVShowFindAsyncTask().execute(textView.getText().toString());
+                        return true;
+
+                    default:
+                        return true;
                 }
-                return handled;
             }
         });
 
@@ -60,26 +61,8 @@ public class ActivityTVFind extends AppCompatActivity {
                 TextView textViewID = (TextView) view.findViewById(R.id.find_item_id);
                 TextView textViewTitle = (TextView) view.findViewById(R.id.find_item_title);
                 new TVShowAddAsyncTask().execute(textViewID.getText().toString(), textViewTitle.getText().toString());
-                ImageView img = (ImageView) view.findViewById(R.id.find_item_img);
-                img.setImageDrawable(getResources().getDrawable(R.drawable.img_tick));
             }
         });
-
-        findList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                RelativeLayout layout = (RelativeLayout) view.findViewById(R.id.find_item_secondarybar);
-                ViewGroup.LayoutParams params = layout.getLayoutParams();
-                params.height = (params.height > 0) ? 0 : pdToPx(40);
-                layout.setLayoutParams(params);
-                return true;
-            }
-        });
-    }
-
-    public int pdToPx(int dimensionDp) {
-        float density = getResources().getDisplayMetrics().density;
-        return (int) (dimensionDp * density + 0.5f);
     }
 
     private class TVShowFindAsyncTask extends AsyncTask<String, Void, List<TVShow>> {

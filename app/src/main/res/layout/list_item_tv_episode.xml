@@ -2,14 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:background="@drawable/border_basic_dotted"
+                android:background="@drawable/border_new_item_tile"
                 android:padding="4dp">
 
     <include layout="@layout/button_toggle"/>
 
     <TextView
         android:id="@+id/list_item_notification_show_title"
-        style="@style/text_title"
+        style="@style/text_NEW_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -22,6 +22,7 @@
 
     <TextView
         android:id="@+id/list_item_tv_separatorbar"
+        style="@style/seperator_NEW"
         android:layout_width="wrap_content"
         android:layout_height="1dp"
         android:layout_alignEnd="@+id/list_item_notification_show_title"
@@ -31,7 +32,7 @@
 
     <TextView
         android:id="@+id/list_item_notification_number"
-        style="@style/text_title_lesser"
+        style="@style/text_NEW_title_lesser"
         android:layout_width="40dp"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
@@ -43,7 +44,7 @@
 
     <TextView
         android:id="@+id/list_item_notification_episode_title"
-        style="@style/text_title"
+        style="@style/text_NEW_title"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
@@ -56,7 +57,7 @@
 
     <TextView
         android:id="@+id/list_item_notification_date"
-        style="@style/text_title_lesser"
+        style="@style/text_NEW_title_lesser"
         android:layout_width="60dp"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"

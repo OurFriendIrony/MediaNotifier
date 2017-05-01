@@ -10,8 +10,9 @@
 
         <EditText
             android:id="@+id/find_input"
-            style="@style/input"
-            android:layout_toStartOf="@+id/find_progress"/>
+            style="@style/input_NEW"
+            android:layout_toStartOf="@+id/find_progress"
+            />
 
         <ProgressBar
             android:id="@+id/find_progress"
@@ -26,11 +27,10 @@
     </RelativeLayout>
 
     <ListView
+        style="@style/list_new"
         android:id="@+id/find_list_tv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/find_input_progress"
-        android:background="@drawable/border_basic"
-        android:padding="2dp">
+        android:layout_below="@+id/find_input_progress">
     </ListView>
 </RelativeLayout>

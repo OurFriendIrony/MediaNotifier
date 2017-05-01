@@ -80,4 +80,74 @@
         <item name="android:textStyle">normal</item>
         <item name="android:typeface">monospace</item>
     </style>
+
+    <!--                                           -->
+
+    <style name="input_NEW">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:backgroundTint">@color/red_bright</item>
+        <item name="android:imeOptions">actionSend</item>
+        <item name="android:inputType">text</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:typeface">monospace</item>
+    </style>
+
+    <style name="text_NEW_heading">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/black</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/grey_04</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:typeface">monospace</item>
+    </style>
+
+    <style name="text_NEW_title_large">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/grey_04</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:typeface">monospace</item>
+    </style>
+
+    <style name="text_NEW_title">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/grey_04</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:typeface">monospace</item>
+    </style>
+
+    <style name="text_NEW_title_lesser">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:typeface">monospace</item>
+    </style>
+
+    <style name="text_NEW_subtitle">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">8sp</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:typeface">monospace</item>
+    </style>
+
+    <style name="text_NEW_general">
+        <item name="android:textColor">@color/grey_04</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:typeface">monospace</item>
+    </style>
+
+    <style name="list_new">
+        <item name="android:background">@drawable/border_new_list_tile</item>
+        <item name="android:divider">@color/black</item>
+        <item name="android:dividerHeight">3dp</item>
+    </style>
+
+    <style name="seperator_NEW">
+        <item name="android:background">@color/black</item>
+    </style>
 </resources>
