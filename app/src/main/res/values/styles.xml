@@ -86,7 +86,7 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:textStyle">bold</item>
         <item name="android:typeface">monospace</item>
-        <item name="android:background">@drawable/border_new_input</item>
+        <item name="android:background">@drawable/background_heading</item>
     </style>
 
     <style name="dropdown_NEW">
@@ -98,7 +98,7 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textAlignment">center</item>
         <item name="android:typeface">monospace</item>
-        <item name="android:background">@drawable/border_new_input</item>
+        <item name="android:background">@drawable/background_heading</item>
     </style>
 
     <style name="text_NEW_heading">
@@ -149,11 +149,15 @@
     </style>
 
     <style name="style_list">
-        <item name="android:background">@drawable/border_new_list_tile</item>
+        <item name="android:background">@drawable/background_list</item>
     </style>
 
     <style name="style_list_item">
-        <item name="android:background">@drawable/border_new_item_tile</item>
+        <item name="android:background">@drawable/background_list_item</item>
+    </style>
+
+    <style name="style_heading">
+        <item name="android:background">@drawable/background_heading</item>
     </style>
 
     <style name="HorizontalLine">

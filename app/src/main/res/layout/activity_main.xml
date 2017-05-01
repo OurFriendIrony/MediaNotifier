@@ -36,12 +36,11 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <LinearLayout
+            <RelativeLayout
+                style="@style/style_heading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_margin="3dp"
-                android:background="@drawable/border_basic_dotted"
                 android:orientation="horizontal">
 
                 <android.support.design.widget.FloatingActionButton
@@ -54,46 +53,37 @@
                     app:borderWidth="0dp"
                     />
 
-                <RelativeLayout
+                <Button
+                    android:id="@+id/main_button_tv"
+                    style="@style/text_title_lesser"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@drawable/border_basic"
-                    android:orientation="horizontal"
-                    android:padding="5dp">
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="15dp"
+                    android:layout_toEndOf="@id/main_button_tv_find"
+                    android:text="@string/button_tvshows"
+                    />
 
-                    <Button
-                        android:id="@+id/main_button_tv"
-                        style="@style/text_title_lesser"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="15dp"
-                        android:text="@string/button_tvshows"
-                        />
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/main_button_tv_notification"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="5dp"
+                    android:backgroundTint="@color/white"
+                    android:clickable="true"
+                    android:scaleType="center"
+                    android:src="@drawable/img_num0"
+                    app:borderWidth="0dp"
+                    />
+            </RelativeLayout>
 
-                    <android.support.design.widget.FloatingActionButton
-                        android:id="@+id/main_button_tv_notification"
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_margin="5dp"
-                        android:backgroundTint="@color/white"
-                        android:clickable="true"
-                        android:scaleType="center"
-                        android:src="@drawable/img_num0"
-                        app:borderWidth="0dp"
-                        />
-                </RelativeLayout>
-            </LinearLayout>
-
-            <LinearLayout
+            <RelativeLayout
+                style="@style/style_heading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_margin="3dp"
-                android:background="@drawable/border_basic_dotted"
                 android:orientation="horizontal">
 
                 <android.support.design.widget.FloatingActionButton
@@ -106,47 +96,38 @@
                     android:src="@android:drawable/ic_search_category_default"
                     app:borderWidth="0dp"/>
 
-                <RelativeLayout
+                <Button
+                    android:id="@+id/main_button_movie"
+                    style="@style/text_title_lesser"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@drawable/border_basic"
-                    android:orientation="horizontal"
-                    android:padding="5dp">
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="15dp"
+                    android:layout_toEndOf="@id/main_button_movie_find"
+                    android:text="@string/button_movies"
+                    />
 
-                    <Button
-                        android:id="@+id/main_button_movie"
-                        style="@style/text_title_lesser"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="15dp"
-                        android:text="@string/button_movies"
-                        />
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/main_button_movie_notification"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="5dp"
+                    android:backgroundTint="@color/white"
+                    android:clickable="true"
+                    android:scaleType="center"
+                    android:src="@drawable/img_num0"
+                    app:borderWidth="0dp"
+                    />
 
-                    <android.support.design.widget.FloatingActionButton
-                        android:id="@+id/main_button_movie_notification"
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_margin="5dp"
-                        android:backgroundTint="@color/white"
-                        android:clickable="true"
-                        android:scaleType="center"
-                        android:src="@drawable/img_num0"
-                        app:borderWidth="0dp"
+            </RelativeLayout>
 
-                        />
-                </RelativeLayout>
-            </LinearLayout>
-
-            <LinearLayout
+            <RelativeLayout
+                style="@style/style_heading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_margin="3dp"
-                android:background="@drawable/border_basic_dotted"
                 android:orientation="horizontal">
 
                 <android.support.design.widget.FloatingActionButton
@@ -159,40 +140,32 @@
                     app:borderWidth="0dp"
                     />
 
-                <RelativeLayout
+                <Button
+                    android:id="@+id/main_button_music"
+                    style="@style/text_title_lesser"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@drawable/border_basic"
-                    android:orientation="horizontal"
-                    android:padding="5dp">
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="15dp"
+                    android:layout_toEndOf="@id/main_button_music_find"
+                    android:text="@string/button_artists"
+                    />
 
-                    <Button
-                        android:id="@+id/main_button_music"
-                        style="@style/text_title_lesser"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="15dp"
-                        android:text="@string/button_artists"
-                        />
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/main_button_music_notification"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="5dp"
+                    android:backgroundTint="@color/white"
+                    android:clickable="true"
+                    android:scaleType="center"
+                    android:src="@drawable/img_num0"
+                    app:borderWidth="0dp"
+                    />
 
-                    <android.support.design.widget.FloatingActionButton
-                        android:id="@+id/main_button_music_notification"
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_margin="5dp"
-                        android:backgroundTint="@color/white"
-                        android:clickable="true"
-                        android:scaleType="center"
-                        android:src="@drawable/img_num0"
-                        app:borderWidth="0dp"
-                        />
-
-                </RelativeLayout>
-            </LinearLayout>
+            </RelativeLayout>
 
         </LinearLayout>
     </FrameLayout>
