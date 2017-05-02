@@ -26,7 +26,7 @@ public class ActivityTVNotifications extends AppCompatActivity {
         NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancelAll();
 
-        ListView seasonList = (ListView) findViewById(R.id.tvlist_notification_list);
+        ListView seasonList = (ListView) findViewById(R.id.tv_notification_list);
 
         database = new TVShowDatabase(getApplicationContext());
         List<TVEpisode> tvEpisodes = database.getUnwatchedReleasedEpisodes();

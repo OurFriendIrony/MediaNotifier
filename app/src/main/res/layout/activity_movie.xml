@@ -7,7 +7,7 @@
               android:weightSum="1.0">
 
     <ProgressBar
-        android:id="@+id/tv_progress"
+        android:id="@+id/movie_progress"
         android:background="@color/black"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,7 +22,7 @@
         android:orientation="horizontal">
 
         <Spinner
-            android:id="@+id/tv_spinner"
+            android:id="@+id/movie_spinner"
             style="@style/dropdown_NEW"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -36,7 +36,7 @@
         android:layout_weight=".9">
 
         <ListView
-            android:id="@+id/tv_list"
+            android:id="@+id/movie_list"
             style="@style/style_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

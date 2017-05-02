@@ -42,9 +42,9 @@ public class ActivityTV extends AppCompatActivity {
 
         database = new TVShowDatabase(getApplicationContext());
 
-        showList = (Spinner) findViewById(R.id.find_list_tv);
-        episodeList = (ListView) findViewById(R.id.find_list_episodes);
-        loadPageProgressBar = (ProgressBar) findViewById(R.id.progress_tvlist);
+        showList = (Spinner) findViewById(R.id.tv_spinner);
+        episodeList = (ListView) findViewById(R.id.tv_list);
+        loadPageProgressBar = (ProgressBar) findViewById(R.id.tv_progress);
         new TVShowListAsyncTask().execute();
 
         showList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -61,7 +61,7 @@ public class ActivityTV extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.library_menu, menu);
+        getMenuInflater().inflate(R.menu.menu_library, menu);
         return true;
     }
 

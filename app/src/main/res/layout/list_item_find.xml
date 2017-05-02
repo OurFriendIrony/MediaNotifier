@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                style="@style/style_list_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/style_list_item"
                 android:orientation="horizontal"
                 android:padding="4dp">
 
@@ -49,11 +49,11 @@
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/find_item_seperator"
+        style="@style/HorizontalLine"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/find_item_primarybar"
-        android:id="@+id/find_item_seperator"
-        style="@style/HorizontalLine"
         />
 
     <RelativeLayout
@@ -73,6 +73,4 @@
             android:textSize="10sp"
             />
     </RelativeLayout>
-
-
 </RelativeLayout>

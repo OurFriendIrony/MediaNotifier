@@ -4,7 +4,7 @@
                 android:layout_height="match_parent">
 
     <ProgressBar
-        android:id="@+id/progress_tvlist_notification"
+        android:id="@+id/tv_notification_progress"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
@@ -12,12 +12,12 @@
         />
 
     <RelativeLayout
-        android:id="@+id/tvlist_notification_list_l"
+        android:id="@+id/tv_notification_list_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ListView
-            android:id="@+id/tvlist_notification_list"
+            android:id="@+id/tv_notification_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             style="@style/style_list"

@@ -15,10 +15,8 @@ import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.autogen.movie.Movie;
-import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
 import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
 import uk.co.ourfriendirony.medianotifier.db.MovieDatabase;
-import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterMovie;
 
 public class ActivityMovieFind extends AppCompatActivity {
@@ -40,7 +38,7 @@ public class ActivityMovieFind extends AppCompatActivity {
 
         findInput = (EditText) findViewById(R.id.find_input);
         findProgressBar = (ProgressBar) findViewById(R.id.find_progress);
-        findList = (ListView) findViewById(R.id.find_list_tv);
+        findList = (ListView) findViewById(R.id.find_list);
 
         findInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
