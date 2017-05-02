@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.*;
 
 import uk.co.ourfriendirony.medianotifier.R;
+import uk.co.ourfriendirony.medianotifier.db.MovieDatabase;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.notifier.AlarmScheduler;
 
@@ -41,8 +42,8 @@ public class ActivitySettings extends AppCompatActivity {
         buttonDeleteMovie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ActivitySettings.this, "NOT YET IMPLEMENTED", Toast.LENGTH_SHORT).show();
-//                Toast.makeText(ActivitySettings.this, R.string.settings_delete_response, Toast.LENGTH_SHORT).show();
+                new MovieDatabase(getApplicationContext()).deleteAllMovies();
+                Toast.makeText(ActivitySettings.this, R.string.toast_db_table_cleared, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -50,7 +51,7 @@ public class ActivitySettings extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(ActivitySettings.this, "NOT YET IMPLEMENTED", Toast.LENGTH_SHORT).show();
-//                Toast.makeText(ActivitySettings.this, R.string.settings_delete_response, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(ActivitySettings.this, R.string.toast_db_table_cleared, Toast.LENGTH_SHORT).show();
             }
         });
 

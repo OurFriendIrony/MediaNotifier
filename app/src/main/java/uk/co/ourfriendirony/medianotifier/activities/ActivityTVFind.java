@@ -43,7 +43,6 @@ public class ActivityTVFind extends AppCompatActivity {
         findInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
-
                 switch (actionId) {
                     case EditorInfo.IME_ACTION_SEND:
                         String input = textView.getText().toString();
@@ -53,7 +52,7 @@ public class ActivityTVFind extends AppCompatActivity {
                         return true;
 
                     default:
-                        return true;
+                        return false;
                 }
             }
         });

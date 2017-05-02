@@ -18,7 +18,7 @@ public class MovieFinds {
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("results")
-    public List<Movie> getResults() {
+    public List<Movie> getMovies() {
         return results;
     }
 
@@ -27,6 +27,15 @@ public class MovieFinds {
         this.results = results;
     }
 
+    public List<Movie> getMoviesWithDates() {
+        List<Movie> movies = new ArrayList<>();
+        for (Movie movie : getMovies()) {
+            if (!("".equals(movie.getReleaseDate())) && movie.getReleaseDate() != null) {
+                movies.add(movie);
+            }
+        }
+        return movies;
+    }
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;

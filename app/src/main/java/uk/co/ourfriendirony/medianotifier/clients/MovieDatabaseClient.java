@@ -46,7 +46,7 @@ public class MovieDatabaseClient {
                 replaceTokens(URL_MOVIE_QUERY, "@NAME@", cleanUrl(movie))
         );
         MovieFinds query = OBJECT_MAPPER.readValue(payload, MovieFinds.class);
-        return query.getResults();
+        return query.getMovies();
     }
 
     public List<TVShow> queryTVShow(String tvShow) throws IOException {

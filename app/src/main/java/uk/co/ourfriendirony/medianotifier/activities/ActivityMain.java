@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import uk.co.ourfriendirony.medianotifier.R;
+import uk.co.ourfriendirony.medianotifier.db.MovieDatabase;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
 
@@ -22,7 +23,9 @@ import static uk.co.ourfriendirony.medianotifier.general.IntentGenerator.getCont
 
 public class ActivityMain extends AppCompatActivity {
 
-    private TVShowDatabase database;
+    private TVShowDatabase tvShowDatabase;
+    private MovieDatabase movieDatabase;
+
     private FloatingActionButton main_button_tv_notification;
     private FloatingActionButton main_button_movie_notification;
     private FloatingActionButton main_button_music_notification;
@@ -38,8 +41,8 @@ public class ActivityMain extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        database = new TVShowDatabase(getApplicationContext());
-        database.debugDatabaseEntry();
+        tvShowDatabase = new TVShowDatabase(getApplicationContext());
+        movieDatabase = new MovieDatabase(getApplicationContext());
 
         FloatingActionButton main_button_tv_find = (FloatingActionButton) findViewById(R.id.main_button_tv_find);
         FloatingActionButton main_button_movie_find = (FloatingActionButton) findViewById(R.id.main_button_movie_find);
@@ -93,8 +96,8 @@ public class ActivityMain extends AppCompatActivity {
             }
         });
 
-        main_button_tv_notification.setImageResource(getNumberImage(database.countUnwatchedReleasedEpisodes()));
-        main_button_movie_notification.setImageResource(getNumberImage(0));
+        main_button_tv_notification.setImageResource(getNumberImage(tvShowDatabase.countUnwatchedReleasedEpisodes()));
+        main_button_movie_notification.setImageResource(getNumberImage(movieDatabase.countUnwatchedReleasedMovies()));
         main_button_music_notification.setImageResource(getNumberImage(0));
 
         main_button_tv_notification.setOnClickListener(new View.OnClickListener() {
@@ -123,16 +126,16 @@ public class ActivityMain extends AppCompatActivity {
         });
 
         // DEBUG
-        database.getUnwatchedReleasedEpisodes();
-        database.getUnwatchedUnreleasedEpisodes();
+        tvShowDatabase.getUnwatchedReleasedEpisodes();
+        tvShowDatabase.getUnwatchedUnreleasedEpisodes();
         // DEBUG
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        main_button_tv_notification.setImageResource(getNumberImage(database.countUnwatchedReleasedEpisodes()));
-        main_button_movie_notification.setImageResource(getNumberImage(0));
+        main_button_tv_notification.setImageResource(getNumberImage(tvShowDatabase.countUnwatchedReleasedEpisodes()));
+        main_button_movie_notification.setImageResource(getNumberImage(movieDatabase.countUnwatchedReleasedMovies()));
         main_button_music_notification.setImageResource(getNumberImage(0));
     }
 
@@ -155,7 +158,7 @@ public class ActivityMain extends AppCompatActivity {
                 return true;
 
             case R.id.action_debug:
-                database.debug();
+                tvShowDatabase.debug();
                 return true;
 
             default:

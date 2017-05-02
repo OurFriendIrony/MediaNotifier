@@ -2,7 +2,9 @@ package uk.co.ourfriendirony.medianotifier.autogen.movie;
 
 import com.fasterxml.jackson.annotation.*;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -23,68 +25,38 @@ import java.util.*;
         "vote_count"
 })
 public class Movie {
-    @JsonProperty("backdrop_path")
-    private String backdropPath;
     @JsonProperty("belongs_to_collection")
-    private Object belongsToCollection;
-    @JsonProperty("genres")
-    private List<MovieGenre> genres = new ArrayList<>();
+    private Collection belongsToCollection;
     @JsonProperty("id")
     private Integer id;
     @JsonProperty("imdb_id")
     private String imdbId;
     @JsonProperty("overview")
     private String overview;
-    @JsonProperty("popularity")
-    private Double popularity;
-    @JsonProperty("poster_path")
-    private String posterPath;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @JsonProperty("release_date")
     private Date releaseDate;
-    @JsonProperty("runtime")
-    private Integer runtime;
-    @JsonProperty("status")
-    private String status;
     @JsonProperty("tagline")
     private String tagline;
     @JsonProperty("title")
     private String title;
     @JsonProperty("vote_average")
     private Double voteAverage;
-    @JsonProperty("vote_count")
-    private Integer voteCount;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("backdrop_path")
-    public String getBackdropPath() {
-        return backdropPath;
-    }
-
-    @JsonProperty("backdrop_path")
-    public void setBackdropPath(String backdropPath) {
-        this.backdropPath = backdropPath;
-    }
-
     @JsonProperty("belongs_to_collection")
-    public Object getBelongsToCollection() {
+    public Collection getBelongsToCollection() {
         return belongsToCollection;
     }
 
     @JsonProperty("belongs_to_collection")
-    public void setBelongsToCollection(Object belongsToCollection) {
+    public void setBelongsToCollection(Collection belongsToCollection) {
+        if (belongsToCollection == null) {
+            belongsToCollection = new Collection();
+            belongsToCollection.setCollectionName("");
+        }
         this.belongsToCollection = belongsToCollection;
-    }
-
-    @JsonProperty("genres")
-    public List<MovieGenre> getGenres() {
-        return genres;
-    }
-
-    @JsonProperty("genres")
-    public void setGenres(List<MovieGenre> genres) {
-        this.genres = genres;
     }
 
     @JsonProperty("id")
@@ -117,26 +89,6 @@ public class Movie {
         this.overview = overview;
     }
 
-    @JsonProperty("popularity")
-    public Double getPopularity() {
-        return popularity;
-    }
-
-    @JsonProperty("popularity")
-    public void setPopularity(Double popularity) {
-        this.popularity = popularity;
-    }
-
-    @JsonProperty("poster_path")
-    public String getPosterPath() {
-        return posterPath;
-    }
-
-    @JsonProperty("poster_path")
-    public void setPosterPath(String posterPath) {
-        this.posterPath = posterPath;
-    }
-
     @JsonProperty("release_date")
     public Date getReleaseDate() {
         return releaseDate;
@@ -145,26 +97,6 @@ public class Movie {
     @JsonProperty("release_date")
     public void setReleaseDate(Date releaseDate) {
         this.releaseDate = releaseDate;
-    }
-
-    @JsonProperty("runtime")
-    public Integer getRuntime() {
-        return runtime;
-    }
-
-    @JsonProperty("runtime")
-    public void setRuntime(Integer runtime) {
-        this.runtime = runtime;
-    }
-
-    @JsonProperty("status")
-    public String getStatus() {
-        return status;
-    }
-
-    @JsonProperty("status")
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     @JsonProperty("tagline")
@@ -197,16 +129,6 @@ public class Movie {
         this.voteAverage = voteAverage;
     }
 
-    @JsonProperty("vote_count")
-    public Integer getVoteCount() {
-        return voteCount;
-    }
-
-    @JsonProperty("vote_count")
-    public void setVoteCount(Integer voteCount) {
-        this.voteCount = voteCount;
-    }
-
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
@@ -215,5 +137,9 @@ public class Movie {
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
+    }
+
+    public String getIdAsString() {
+        return String.valueOf(id);
     }
 }

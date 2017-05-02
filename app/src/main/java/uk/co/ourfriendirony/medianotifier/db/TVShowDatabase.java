@@ -340,24 +340,6 @@ public class TVShowDatabase {
         dbWriteable.update(TABLE_TVSHOWS_EPISODES, values, where, whereArgs);
         dbWriteable.close();
     }
-//
-//    public boolean getEpisodeWatchedStatus(TVEpisode tvEpisode) {
-//        SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
-//        String sql = "SELECT " + TTSE_WATCHED + " FROM " + TABLE_TVSHOWS_EPISODES + " " +
-//                "WHERE " + TTSE_ID + "=" + tvEpisode.getId() + " AND " + TTSE_SEASON_NO + "=" + tvEpisode.getSeasonNumber() + " AND " + TTSE_EPISODE_NO + "=" + tvEpisode.getEpisodeNumber() + ";";
-//        Cursor cursor = dbReadable.rawQuery(sql, null);
-//        boolean watchedStatus = false;
-//        try {
-//            while (cursor.moveToNext()) {
-//                watchedStatus = cursor.getInt(0) == 1;
-//            }
-//        } finally {
-//            cursor.close();
-//        }
-//
-//        dbReadable.close();
-//        return watchedStatus;
-//    }
 
     private boolean alreadyReleased(TVEpisode episode) {
         return episode.getAirDate().compareTo(new Date()) < 0;
@@ -372,10 +354,6 @@ public class TVShowDatabase {
         int seasonId = 5;
 
         SQLiteDatabase dbWritable = databaseHelper.getWritableDatabase();
-//        dbWritable.execSQL("DELETE FROM " + TABLE_TVSHOWS + " WHERE " + TT_ID + "=" + batesMotelId + ";");
-//        dbWritable.execSQL("DELETE FROM " + TABLE_TVSHOWS_SEASONS + " WHERE " + TTS_ID + "=" + batesMotelId + ";");
-//        dbWritable.execSQL("DELETE FROM " + TABLE_TVSHOWS_EPISODES + " WHERE " + TTSE_ID + "=" + batesMotelId + ";");
-
         dbWritable.execSQL("DELETE FROM " + TABLE_TVSHOWS_SEASONS + " WHERE " + TTS_ID + "=" + batesMotelId + " AND " + TTS_SEASON_NO + "=" + seasonId + ";");
         dbWritable.execSQL("DELETE FROM " + TABLE_TVSHOWS_EPISODES + " WHERE " + TTSE_ID + "=" + batesMotelId + " AND " + TTSE_SEASON_NO + "=" + seasonId + ";");
 
