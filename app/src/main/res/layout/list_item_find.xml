@@ -71,6 +71,7 @@
             android:layout_height="match_parent"
             android:text="Find Item Overview"
             android:textSize="10sp"
+            android:padding="3dp"
             />
     </RelativeLayout>
 </RelativeLayout>
