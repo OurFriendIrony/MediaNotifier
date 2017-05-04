@@ -5,7 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerInParent="true"
-    android:background="@drawable/border_popup"
+    android:background="@drawable/background_popup"
     android:padding="10dp">
 
     <TextView
@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/popup_text"
-        android:background="@drawable/border_basic"
+        android:background="@drawable/background_spinner"
         android:timePickerMode="spinner"
         />
 
@@ -36,7 +36,7 @@
         android:layout_alignTop="@+id/popup_time_picker"
         android:layout_below="@id/popup_text"
         android:layout_toEndOf="@+id/popup_time_picker"
-        android:background="@drawable/border_basic"
+        android:background="@drawable/background_spinner"
         android:padding="10dp">
 
         <NumberPicker
