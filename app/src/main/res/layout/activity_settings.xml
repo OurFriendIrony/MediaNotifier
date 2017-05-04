@@ -11,7 +11,7 @@
         android:id="@+id/settings_delete_all"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/border_alert">
+        android:background="@drawable/background_warning">
 
         <Button
             android:id="@+id/settings_button_delete_tv_all"
