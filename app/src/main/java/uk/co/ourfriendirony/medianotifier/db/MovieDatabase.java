@@ -114,7 +114,7 @@ public class MovieDatabase {
 
     public void deleteAllMovies() {
         SQLiteDatabase dbWritable = databaseHelper.getWritableDatabase();
-        dbWritable.execSQL("DROP TABLE IF EXISTS " + TABLE_MOVIES + ";");
+        dbWritable.execSQL("DELETE FROM " + TABLE_MOVIES + ";");
         dbWritable.close();
     }
 

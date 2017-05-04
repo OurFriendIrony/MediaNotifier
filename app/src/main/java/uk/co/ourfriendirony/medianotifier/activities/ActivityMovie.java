@@ -19,7 +19,7 @@ import uk.co.ourfriendirony.medianotifier.autogen.movie.Movie;
 import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
 import uk.co.ourfriendirony.medianotifier.db.MovieDatabase;
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
-import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterMovie;
+import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummaryMovie;
 
 public class ActivityMovie extends AppCompatActivity {
 
@@ -88,16 +88,16 @@ public class ActivityMovie extends AppCompatActivity {
 
     private void displayMovies() {
         if (movies.size() > 0) {
-            ListAdapterMovie listAdapterMovie = new ListAdapterMovie(getBaseContext(), R.layout.list_item_movie_title, movies);
-            movieSpinner.setAdapter(listAdapterMovie);
+            ListAdapterSummaryMovie listAdapterSummaryMovie = new ListAdapterSummaryMovie(getBaseContext(), R.layout.list_item_movie_title, movies);
+            movieSpinner.setAdapter(listAdapterSummaryMovie);
             displayMovies(0);
         }
     }
 
     private void displayMovies(int moviePosition) {
-//        currentMoviePosition = moviePosition;
-//        ListAdapterMovie movieListAdapter = new ListAdapterMovie(getBaseContext(), R.layout.list_item_movie, Collections.singletonList(movies.get(moviePosition)));
-//        movieList.setAdapter(movieListAdapter);
+        currentMoviePosition = moviePosition;
+        ListAdapterSummaryMovie movieListAdapter = new ListAdapterSummaryMovie(getBaseContext(), R.layout.list_item_find, Collections.singletonList(movies.get(moviePosition)));
+        movieList.setAdapter(movieListAdapter);
     }
 
     private void restart() {

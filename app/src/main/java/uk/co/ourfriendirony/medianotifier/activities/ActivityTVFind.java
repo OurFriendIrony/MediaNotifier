@@ -17,7 +17,7 @@ import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
 import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
-import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterTV;
+import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummaryTV;
 
 public class ActivityTVFind extends AppCompatActivity {
     private TVShowDatabase database;
@@ -94,7 +94,7 @@ public class ActivityTVFind extends AppCompatActivity {
             findProgressBar.setVisibility(View.GONE);
 
             if (tvShows.size() > 0) {
-                ListAdapterTV adapter = new ListAdapterTV(getBaseContext(), R.layout.list_item_find, tvShows);
+                ListAdapterSummaryTV adapter = new ListAdapterSummaryTV(getBaseContext(), R.layout.list_item_find, tvShows);
                 findList.setAdapter(adapter);
             } else {
                 Toast.makeText(getBaseContext(), R.string.toast_no_results, Toast.LENGTH_LONG).show();

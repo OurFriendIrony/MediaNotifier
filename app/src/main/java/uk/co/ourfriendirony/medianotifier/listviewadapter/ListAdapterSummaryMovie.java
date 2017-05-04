@@ -2,6 +2,7 @@ package uk.co.ourfriendirony.medianotifier.listviewadapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +17,13 @@ import java.util.List;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.autogen.movie.Movie;
 
-public class ListAdapterMovie extends ArrayAdapter {
+public class ListAdapterSummaryMovie extends ArrayAdapter {
     private final List<Movie> movies;
     private final int defaultLayoutId;
 
     private DateFormat dateFormat = new SimpleDateFormat("yyyy");
 
-    public ListAdapterMovie(Context context, int defaultLayoutId, List<Movie> objects) {
+    public ListAdapterSummaryMovie(Context context, int defaultLayoutId, List<Movie> objects) {
         super(context, defaultLayoutId, objects);
         this.defaultLayoutId = defaultLayoutId;
         this.movies = objects;

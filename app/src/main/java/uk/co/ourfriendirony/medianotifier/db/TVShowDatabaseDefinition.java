@@ -40,7 +40,7 @@ public class TVShowDatabaseDefinition extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.v(String.valueOf(this.getClass()), "TV.onCreate");
+        Log.v(String.valueOf(this.getClass()), "onCreate");
 
         db.execSQL("CREATE TABLE " + TABLE_TVSHOWS + " (" +
                 TT_ID + " INTEGER, " +
@@ -73,7 +73,7 @@ public class TVShowDatabaseDefinition extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.v(String.valueOf(this.getClass()), "TV.onUpdate: old=" + oldVersion + " new=" + newVersion);
+        Log.v(String.valueOf(this.getClass()), "onUpdate: old=" + oldVersion + " new=" + newVersion);
 
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TVSHOWS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TVSHOWS_SEASONS);

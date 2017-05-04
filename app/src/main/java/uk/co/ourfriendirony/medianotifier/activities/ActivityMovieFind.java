@@ -17,7 +17,7 @@ import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.autogen.movie.Movie;
 import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
 import uk.co.ourfriendirony.medianotifier.db.MovieDatabase;
-import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterMovie;
+import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummaryMovie;
 
 public class ActivityMovieFind extends AppCompatActivity {
     private MovieDatabase database;
@@ -92,7 +92,7 @@ public class ActivityMovieFind extends AppCompatActivity {
             findProgressBar.setVisibility(View.GONE);
 
             if (movies.size() > 0) {
-                ListAdapterMovie adapter = new ListAdapterMovie(getBaseContext(), R.layout.list_item_find, movies);
+                ListAdapterSummaryMovie adapter = new ListAdapterSummaryMovie(getBaseContext(), R.layout.list_item_find, movies);
                 findList.setAdapter(adapter);
             } else {
                 Toast.makeText(getBaseContext(), R.string.toast_no_results, Toast.LENGTH_LONG).show();

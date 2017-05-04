@@ -16,13 +16,13 @@ import java.util.List;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
 
-public class ListAdapterTV extends ArrayAdapter {
+public class ListAdapterSummaryTV extends ArrayAdapter {
     private final List<TVShow> tvShows;
     private final int defaultLayoutId;
 
     private DateFormat dateFormat = new SimpleDateFormat("yyyy");
 
-    public ListAdapterTV(Context context, int defaultLayoutId, List<TVShow> objects) {
+    public ListAdapterSummaryTV(Context context, int defaultLayoutId, List<TVShow> objects) {
         super(context, defaultLayoutId, objects);
         this.defaultLayoutId = defaultLayoutId;
         this.tvShows = objects;
