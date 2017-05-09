@@ -45,7 +45,7 @@
         android:right="3dp"
         android:top="40dp">
         <shape android:shape="rectangle">
-            <solid android:color="@color/red_bright"/>
+            <solid android:color="@color/red_dark"/>
         </shape>
     </item>
 </layer-list>
