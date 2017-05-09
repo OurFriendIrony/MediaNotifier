@@ -64,19 +64,20 @@
                     android:text="@string/button_tvshows"
                     />
 
-                <android.support.design.widget.FloatingActionButton
+                <TextView
                     android:id="@+id/main_button_tv_notification"
+                    style="@style/text_notification"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_margin="5dp"
-                    android:backgroundTint="@color/white"
                     android:clickable="true"
-                    android:scaleType="center"
-                    android:src="@drawable/img_num0"
-                    app:borderWidth="0dp"
+                    android:elevation="10dp"
+                    android:gravity="center"
+                    android:text="0"
                     />
+
             </RelativeLayout>
 
             <RelativeLayout
@@ -107,18 +108,18 @@
                     android:text="@string/button_movies"
                     />
 
-                <android.support.design.widget.FloatingActionButton
+                <TextView
                     android:id="@+id/main_button_movie_notification"
+                    style="@style/text_notification"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_margin="5dp"
-                    android:backgroundTint="@color/white"
                     android:clickable="true"
-                    android:scaleType="center"
-                    android:src="@drawable/img_num0"
-                    app:borderWidth="0dp"
+                    android:elevation="10dp"
+                    android:gravity="center"
+                    android:text="0"
                     />
 
             </RelativeLayout>
@@ -151,18 +152,18 @@
                     android:text="@string/button_artists"
                     />
 
-                <android.support.design.widget.FloatingActionButton
+                <TextView
                     android:id="@+id/main_button_music_notification"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    style="@style/text_notification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_margin="5dp"
-                    android:backgroundTint="@color/white"
                     android:clickable="true"
-                    android:scaleType="center"
-                    android:src="@drawable/img_num0"
-                    app:borderWidth="0dp"
+                    android:elevation="10dp"
+                    android:gravity="center"
+                    android:text="0"
                     />
 
             </RelativeLayout>

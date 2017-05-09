@@ -59,4 +59,10 @@ public class StringHandler {
         }
         return string;
     }
+
+    public static String getNotificationNumber(int num) {
+        if (num > 9)
+            return "9+";
+        return String.valueOf(num);
+    }
 }

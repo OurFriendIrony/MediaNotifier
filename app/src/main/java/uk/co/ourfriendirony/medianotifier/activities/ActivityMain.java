@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import uk.co.ourfriendirony.medianotifier.R;
@@ -18,17 +19,17 @@ import uk.co.ourfriendirony.medianotifier.db.MovieDatabase;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
 
-import static uk.co.ourfriendirony.medianotifier.general.ImageNumber.getNumberImage;
 import static uk.co.ourfriendirony.medianotifier.general.IntentGenerator.getContactEmailIntent;
+import static uk.co.ourfriendirony.medianotifier.general.StringHandler.getNotificationNumber;
 
 public class ActivityMain extends AppCompatActivity {
 
     private TVShowDatabase tvShowDatabase;
     private MovieDatabase movieDatabase;
 
-    private FloatingActionButton main_button_tv_notification;
-    private FloatingActionButton main_button_movie_notification;
-    private FloatingActionButton main_button_music_notification;
+    private TextView main_button_tv_notification;
+    private TextView main_button_movie_notification;
+    private TextView main_button_music_notification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +49,9 @@ public class ActivityMain extends AppCompatActivity {
         FloatingActionButton main_button_movie_find = (FloatingActionButton) findViewById(R.id.main_button_movie_find);
         FloatingActionButton main_button_music_find = (FloatingActionButton) findViewById(R.id.main_button_music_find);
 
-        main_button_tv_notification = (FloatingActionButton) findViewById(R.id.main_button_tv_notification);
-        main_button_movie_notification = (FloatingActionButton) findViewById(R.id.main_button_movie_notification);
-        main_button_music_notification = (FloatingActionButton) findViewById(R.id.main_button_music_notification);
+        main_button_tv_notification = (TextView) findViewById(R.id.main_button_tv_notification);
+        main_button_movie_notification = (TextView) findViewById(R.id.main_button_movie_notification);
+        main_button_music_notification = (TextView) findViewById(R.id.main_button_music_notification);
 
         Button main_button_tv = (Button) findViewById(R.id.main_button_tv);
         Button main_button_movie = (Button) findViewById(R.id.main_button_movie);
@@ -96,9 +97,9 @@ public class ActivityMain extends AppCompatActivity {
             }
         });
 
-        main_button_tv_notification.setImageResource(getNumberImage(tvShowDatabase.countUnwatchedReleasedEpisodes()));
-        main_button_movie_notification.setImageResource(getNumberImage(movieDatabase.countUnwatchedReleasedMovies()));
-        main_button_music_notification.setImageResource(getNumberImage(0));
+        main_button_tv_notification.setText(getNotificationNumber(tvShowDatabase.countUnwatchedReleasedEpisodes()));
+        main_button_movie_notification.setText(getNotificationNumber(movieDatabase.countUnwatchedReleasedMovies()));
+        main_button_music_notification.setText(getNotificationNumber(0));
 
         main_button_tv_notification.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,19 +125,14 @@ public class ActivityMain extends AppCompatActivity {
                 startActivity(IntentGenerator.getWebPageIntent("https://www.themoviedb.org/"));
             }
         });
-
-        // DEBUG
-        tvShowDatabase.getUnwatchedReleasedEpisodes();
-        tvShowDatabase.getUnwatchedUnreleasedEpisodes();
-        // DEBUG
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        main_button_tv_notification.setImageResource(getNumberImage(tvShowDatabase.countUnwatchedReleasedEpisodes()));
-        main_button_movie_notification.setImageResource(getNumberImage(movieDatabase.countUnwatchedReleasedMovies()));
-        main_button_music_notification.setImageResource(getNumberImage(0));
+        main_button_tv_notification.setText(getNotificationNumber(tvShowDatabase.countUnwatchedReleasedEpisodes()));
+        main_button_movie_notification.setText(getNotificationNumber(movieDatabase.countUnwatchedReleasedMovies()));
+        main_button_music_notification.setText(getNotificationNumber(0));
     }
 
     @Override

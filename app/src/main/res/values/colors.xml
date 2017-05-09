@@ -43,10 +43,15 @@
     <color name="purple_regular">#AA00AA</color>
     <color name="purple_bright">#FF00FF</color>
 
+    <!--transparent-->
+    <color name="transparent">#00000000</color>
+    <color name="transparent_01">#30000000</color>
+    <color name="transparent_02">#60000000</color>
+    <color name="transparent_03">#90000000</color>
+    <color name="transparent_04">#B0000000</color>
+
     <!--styles-->
     <color name="app_header">#444444</color>
     <color name="app_taskbar">#222222</color>
     <color name="color_default_complex_accent">#00AA00</color>
-    <color name="transparent">#00000000</color>
-    <!--<color name="color_default_complex_accent">#00F000</color>    -->
 </resources>
