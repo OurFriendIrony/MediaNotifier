@@ -12,7 +12,7 @@ public class TVShowDatabaseDefinition extends SQLiteOpenHelper {
     static final String TT_IMDB = "show_imdb_id";
     static final String TT_DATE = "show_air_date";
     static final String TT_OVERVIEW = "show_overview";
-    private static final String TT_RAWJSON = "show_rawjson";
+    static final String TT_RAWJSON = "show_rawjson";
 
     static final String TABLE_TVSHOWS_SEASONS = "tv_shows_seasons";
     static final String TTS_ID = "show_id";

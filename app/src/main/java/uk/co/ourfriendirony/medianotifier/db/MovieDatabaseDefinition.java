@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-class MovieDatabaseDefinition extends SQLiteOpenHelper {
+public class MovieDatabaseDefinition extends SQLiteOpenHelper {
 
     static final String TABLE_MOVIES = "movies";
     static final String TM_ID = "movie_id";
@@ -17,8 +17,8 @@ class MovieDatabaseDefinition extends SQLiteOpenHelper {
     static final String TM_TAGLINE = "movie_tagline";
     static final String TM_COLLECTION = "movie_collection";
 
-    static final String WATCHED_FALSE = "0";
-    static final String WATCHED_TRUE = "1";
+    public static final String WATCHED_FALSE = "0";
+    public static final String WATCHED_TRUE = "1";
 
     private static final String DATABASE_NAME = "movies";
     private static final int DATABASE_VERSION = 3;
