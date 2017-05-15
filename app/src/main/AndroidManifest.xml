@@ -24,6 +24,7 @@
         <activity android:name=".activities.ActivitySettings"/>
         <activity android:name=".activities.ActivityMovie"/>
         <activity android:name=".activities.ActivityMovieFind"/>
+        <activity android:name=".activities.ActivityMovieNotifications"/>
         <activity android:name=".activities.ActivityTV"/>
         <activity android:name=".activities.ActivityTVFind"/>
         <activity android:name=".activities.ActivityTVNotifications"/>

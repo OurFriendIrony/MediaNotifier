@@ -110,7 +110,7 @@ public class ActivityMain extends AppCompatActivity {
         main_button_movie_notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(ActivityMain.this, "NOT YET IMPLEMENTED", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(view.getContext(), ActivityMovieNotifications.class));
             }
         });
         main_button_music_notification.setOnClickListener(new View.OnClickListener() {
