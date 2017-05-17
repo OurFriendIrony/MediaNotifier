@@ -64,12 +64,12 @@ public class ActivitySettings extends AppCompatActivity {
                 popupWindow = new PopupWindow(layout, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true);
                 popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
 
-                TimePicker timePicker = (TimePicker) popupWindow.getContentView().findViewById(R.id.popup_time_picker);
+                final TimePicker timePicker = (TimePicker) popupWindow.getContentView().findViewById(R.id.popup_time_picker);
                 timePicker.setIs24HourView(true);
                 timePicker.setCurrentHour(getNotificationHour(getApplicationContext()));
                 timePicker.setCurrentMinute(getNotificationMinute(getApplicationContext()));
 
-                NumberPicker picker = (NumberPicker) popupWindow.getContentView().findViewById(R.id.popup_date_picker);
+                final NumberPicker picker = (NumberPicker) popupWindow.getContentView().findViewById(R.id.popup_date_picker);
                 picker.setMaxValue(getNotificationDayOffsetMax());
                 picker.setMinValue(getNotificationDayOffsetMin());
                 picker.setValue(getNotificationDayOffset(getApplicationContext()));

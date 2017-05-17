@@ -1,0 +1,32 @@
+language: android
+jdk: oraclejdk8
+
+android:
+  components:
+
+    # Version used in project 
+    - build-tools-25.0.0
+
+    # SDK used to compile project
+    - android-23
+
+    # Additional Components
+    - extra-google-google_play_services
+    - extra-google-m2repository
+    - extra-android-m2repository
+
+    # System Image (for emulation)
+    - sys-img-$rmeabi-v7a-android-23
+
+before_install:
+  # Get past license bug
+  - mkdir "$ANDROID_HOME/licenses" || true
+  - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
+  - echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
+
+script:
+  - ./gradlew build jacocoTestReport assembleAndroidTest 
+#  - ./gradlew connectedCheck
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)

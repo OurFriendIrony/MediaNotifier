@@ -48,7 +48,7 @@ public class ListAdapterTVEpisode extends ArrayAdapter {
         View v = convertView;
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         v = inflater.inflate(R.layout.list_item_tv_episode, null);
-        TVShowDatabase database = new TVShowDatabase(getContext());
+        final TVShowDatabase database = new TVShowDatabase(getContext());
 
         TextView showTitleView = (TextView) v.findViewById(R.id.list_item_notification_show_title);
         if (includeTitle) {
@@ -61,7 +61,7 @@ public class ListAdapterTVEpisode extends ArrayAdapter {
         TextView episodeTitleView = (TextView) v.findViewById(R.id.list_item_notification_episode_title);
         TextView textNumber = (TextView) v.findViewById(R.id.list_item_notification_number);
         TextView textDate = (TextView) v.findViewById(R.id.list_item_notification_date);
-        TVEpisode tvEpisode = tvShowEpisodes.get(position);
+        final TVEpisode tvEpisode = tvShowEpisodes.get(position);
 
         String dateString = "";
         Date date = tvEpisode.getAirDate();

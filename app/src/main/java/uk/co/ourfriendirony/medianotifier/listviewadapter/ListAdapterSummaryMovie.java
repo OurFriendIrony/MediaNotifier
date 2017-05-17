@@ -89,14 +89,14 @@ public class ListAdapterSummaryMovie extends ArrayAdapter {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(R.layout.list_item_movie, null);
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        MovieDatabase database = new MovieDatabase(getContext());
+        final MovieDatabase database = new MovieDatabase(getContext());
 
         TextView textTitle = (TextView) view.findViewById(R.id.list_item_title);
         TextView textSubTitle = (TextView) view.findViewById(R.id.list_item_sub_title);
         TextView textDate = (TextView) view.findViewById(R.id.list_item_date);
         TextView textOverview = (TextView) view.findViewById(R.id.list_item_overview);
 
-        Movie movie = movies.get(position);
+        final Movie movie = movies.get(position);
 
         String year = "";
         Date date = movie.getReleaseDate();
