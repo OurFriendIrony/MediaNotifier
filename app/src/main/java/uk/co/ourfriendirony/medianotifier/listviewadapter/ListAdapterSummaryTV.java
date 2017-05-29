@@ -39,7 +39,7 @@ public class ListAdapterSummaryTV extends ArrayAdapter {
         if (defaultLayoutId == R.layout.list_item_find) {
             view = getFindView(position, view);
         } else {
-            view = getSimpleView(position, view);
+            view = getTitleView(position, view);
         }
         return view;
     }
@@ -77,7 +77,7 @@ public class ListAdapterSummaryTV extends ArrayAdapter {
     }
 
     @NonNull
-    private View getSimpleView(int position, View view) {
+    private View getTitleView(int position, View view) {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(defaultLayoutId, null);
 
