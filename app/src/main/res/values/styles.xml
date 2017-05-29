@@ -17,80 +17,8 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
-    <style name="input">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:imeOptions">actionSend</item>
-        <item name="android:inputType">text</item>
-        <item name="android:textSize">30sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:typeface">monospace</item>
-    </style>
-
-    <style name="text_heading">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@color/black</item>
-        <item name="android:padding">5dp</item>
-        <item name="android:textAlignment">center</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">30sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:typeface">monospace</item>
-    </style>
-
-    <style name="text_title_large">
-        <item name="android:textSize">24sp</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:typeface">monospace</item>
-    </style>
-
-    <style name="text_title">
-        <item name="android:textSize">18sp</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:typeface">monospace</item>
-    </style>
-
-    <style name="text_title_lesser">
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:typeface">monospace</item>
-    </style>
-
-    <style name="text_subtitle">
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">8sp</item>
-        <item name="android:textStyle">italic</item>
-        <item name="android:typeface">monospace</item>
-    </style>
-
-    <style name="text_general">
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:typeface">monospace</item>
-    </style>
-
-    <!--                                           -->
-
-    <style name="input_NEW">
-        <item name="android:imeOptions">actionSend</item>
-        <item name="android:inputType">text</item>
-        <item name="android:background">@drawable/background_heading</item>
-        <item name="android:paddingTop">10dp</item>
-        <item name="android:paddingBottom">10dp</item>
-        <item name="android:paddingLeft">5dp</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:typeface">monospace</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">30sp</item>
-    </style>
-
-    <style name="dropdown_NEW">
-        <item name="android:background">@drawable/background_heading</item>
+    <style name="DRK_input">
+        <item name="android:background">@drawable/background_input</item>
         <item name="android:paddingTop">10dp</item>
         <item name="android:paddingBottom">10dp</item>
         <item name="android:paddingLeft">5dp</item>
@@ -101,54 +29,49 @@
         <item name="android:textSize">30sp</item>
     </style>
 
-    <style name="text_NEW_heading">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@color/black</item>
-        <item name="android:padding">5dp</item>
-        <item name="android:textAlignment">center</item>
-        <item name="android:textColor">@color/grey_04</item>
-        <item name="android:typeface">monospace</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">30sp</item>
-    </style>
-
-    <style name="text_NEW_title_large">
+    <style name="DRK_text_title">
         <item name="android:textColor">@color/grey_04</item>
         <item name="android:typeface">monospace</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">24sp</item>
     </style>
 
-    <style name="text_NEW_title">
+    <style name="DRK_text_h1">
         <item name="android:textColor">@color/grey_04</item>
         <item name="android:typeface">monospace</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="text_NEW_title_lesser">
+    <style name="DRK_text_h2">
         <item name="android:textColor">@color/white</item>
         <item name="android:typeface">monospace</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="text_NEW_general">
+    <style name="DRK_text_h2_contrast">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="DRK_text">
         <item name="android:textColor">@color/grey_04</item>
         <item name="android:typeface">monospace</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">10sp</item>
     </style>
 
-    <style name="text_NEW_subtitle">
+    <style name="DRK_text_subtitle">
         <item name="android:textColor">@color/white</item>
         <item name="android:typeface">monospace</item>
         <item name="android:textStyle">italic</item>
         <item name="android:textSize">8sp</item>
     </style>
 
-    <style name="text_notification">
+    <style name="DRK_text_notification">
         <item name="android:background">@drawable/background_notification</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:typeface">monospace</item>
@@ -164,8 +87,8 @@
         <item name="android:background">@drawable/background_list_item</item>
     </style>
 
-    <style name="style_heading">
-        <item name="android:background">@drawable/background_heading</item>
+    <style name="style_input">
+        <item name="android:background">@drawable/background_input</item>
     </style>
 
     <style name="HorizontalLine">

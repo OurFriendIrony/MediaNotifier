@@ -13,7 +13,7 @@
 
         <TextView
             android:id="@+id/find_item_id"
-            style="@style/text_NEW_subtitle"
+            style="@style/DRK_text_subtitle"
             android:layout_width="30dp"
             android:layout_height="wrap_content"
             android:gravity="bottom|end"
@@ -25,7 +25,7 @@
 
         <TextView
             android:id="@+id/find_item_title"
-            style="@style/text_NEW_title"
+            style="@style/DRK_text_h1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/find_item_id"
@@ -38,7 +38,7 @@
 
         <TextView
             android:id="@+id/find_item_date"
-            style="@style/text_NEW_title_lesser"
+            style="@style/DRK_text_h2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -66,7 +66,7 @@
 
         <TextView
             android:id="@+id/find_item_overview"
-            style="@style/text_NEW_general"
+            style="@style/DRK_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Find Item Overview"

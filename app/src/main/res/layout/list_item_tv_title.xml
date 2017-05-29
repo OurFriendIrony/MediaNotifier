@@ -11,7 +11,7 @@
 
         <TextView
             android:id="@+id/find_item_title"
-            style="@style/text_title_large"
+            style="@style/DRK_text_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"

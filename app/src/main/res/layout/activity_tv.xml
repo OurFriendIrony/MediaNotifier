@@ -23,7 +23,7 @@
 
         <Spinner
             android:id="@+id/tv_spinner"
-            style="@style/dropdown_NEW"
+            style="@style/DRK_input"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             />
