@@ -20,7 +20,7 @@ public class ListAdapterSummaryTV extends ArrayAdapter {
     private final List<TVShow> tvShows;
     private final int defaultLayoutId;
 
-    private DateFormat dateFormat = new SimpleDateFormat("yyyy");
+    private DateFormat yearFormatter = new SimpleDateFormat("yyyy");
 
     public ListAdapterSummaryTV(Context context, int defaultLayoutId, List<TVShow> objects) {
         super(context, defaultLayoutId, objects);
@@ -48,7 +48,6 @@ public class ListAdapterSummaryTV extends ArrayAdapter {
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
         view = getFindView(position, view);
-
         return view;
     }
 
@@ -56,22 +55,21 @@ public class ListAdapterSummaryTV extends ArrayAdapter {
     private View getFindView(int position, View view) {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(R.layout.list_item_find, null);
+        final TVShow tvShow = tvShows.get(position);
 
         TextView textId = (TextView) view.findViewById(R.id.find_item_id);
         TextView textTitle = (TextView) view.findViewById(R.id.find_item_title);
         TextView textDate = (TextView) view.findViewById(R.id.find_item_date);
         TextView textOverview = (TextView) view.findViewById(R.id.find_item_overview);
 
-        TVShow tvShow = tvShows.get(position);
-
-        String year = "";
+        String dateString = "";
         Date date = tvShow.getFirstAirDate();
         if (date != null)
-            year = dateFormat.format(date);
+            dateString = yearFormatter.format(date);
 
         textId.setText(String.valueOf(tvShow.getId()));
         textTitle.setText(tvShow.getName());
-        textDate.setText(year);
+        textDate.setText(dateString);
         textOverview.setText(tvShow.getOverview());
         return view;
     }
@@ -80,11 +78,11 @@ public class ListAdapterSummaryTV extends ArrayAdapter {
     private View getTitleView(int position, View view) {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(defaultLayoutId, null);
+        TVShow tvShow = tvShows.get(position);
 
         TextView textTitle = (TextView) view.findViewById(R.id.find_item_title);
-        TVShow tvShow = tvShows.get(position);
-        textTitle.setText(tvShow.getName());
 
+        textTitle.setText(tvShow.getName());
         return view;
     }
 }

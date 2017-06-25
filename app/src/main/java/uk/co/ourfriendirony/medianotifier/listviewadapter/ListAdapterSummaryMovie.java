@@ -14,14 +14,19 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import static uk.co.ourfriendirony.medianotifier.db.MovieDatabaseDefinition.*;
+
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.autogen.movie.Movie;
 import uk.co.ourfriendirony.medianotifier.db.MovieDatabase;
 
+import static uk.co.ourfriendirony.medianotifier.db.MovieDatabaseDefinition.WATCHED_FALSE;
+import static uk.co.ourfriendirony.medianotifier.db.MovieDatabaseDefinition.WATCHED_TRUE;
+
 public class ListAdapterSummaryMovie extends ArrayAdapter {
     private final List<Movie> movies;
     private final int defaultLayoutId;
+    private DateFormat yearFormatter = new SimpleDateFormat("yyyy");
+    private DateFormat dateFormatter = new SimpleDateFormat("dd/MM/yy");
 
     public ListAdapterSummaryMovie(Context context, int defaultLayoutId, List<Movie> objects) {
         super(context, defaultLayoutId, objects);
@@ -63,7 +68,7 @@ public class ListAdapterSummaryMovie extends ArrayAdapter {
     private View getFindView(int position, View view) {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(R.layout.list_item_find, null);
-        DateFormat dateFormat = new SimpleDateFormat("yyyy");
+
 
         TextView textId = (TextView) view.findViewById(R.id.find_item_id);
         TextView textTitle = (TextView) view.findViewById(R.id.find_item_title);
@@ -75,7 +80,7 @@ public class ListAdapterSummaryMovie extends ArrayAdapter {
         String year = "";
         Date date = movie.getReleaseDate();
         if (date != null)
-            year = dateFormat.format(date);
+            year = yearFormatter.format(date);
 
         textId.setText(movie.getIdAsString());
         textTitle.setText(movie.getTitle());
@@ -88,7 +93,6 @@ public class ListAdapterSummaryMovie extends ArrayAdapter {
     private View getChecklistView(int position, View view) {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(R.layout.list_item_movie, null);
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         final MovieDatabase database = new MovieDatabase(getContext());
 
         TextView textTitle = (TextView) view.findViewById(R.id.list_item_title);
@@ -101,10 +105,10 @@ public class ListAdapterSummaryMovie extends ArrayAdapter {
         String year = "";
         Date date = movie.getReleaseDate();
         if (date != null)
-            year = dateFormat.format(date);
+            year = dateFormatter.format(date);
 
         String collection = movie.getBelongsToCollection().getCollectionName();
-        if ("".equals(collection)) {
+        if (collection.isEmpty()) {
             textSubTitle.setHeight(0);
         } else {
             collection = "[" + collection + "]";

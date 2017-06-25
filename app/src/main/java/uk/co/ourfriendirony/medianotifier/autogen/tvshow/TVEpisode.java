@@ -3,6 +3,7 @@ package uk.co.ourfriendirony.medianotifier.autogen.tvshow;
 import com.fasterxml.jackson.annotation.*;
 
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ import java.util.Map;
         "season_number"
 })
 public class TVEpisode {
+    private Date defaultDate = new GregorianCalendar(9999, 0, 1).getTime();
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @JsonProperty("air_date")
@@ -40,6 +42,8 @@ public class TVEpisode {
 
     @JsonProperty("air_date")
     public void setAirDate(Date airDate) {
+        if (airDate == null)
+            airDate = defaultDate;
         this.airDate = airDate;
     }
 
@@ -83,7 +87,6 @@ public class TVEpisode {
         this.id = id;
     }
 
-
     @JsonProperty("season_number")
     public Integer getSeasonNumber() {
         return seasonNumber;
@@ -115,5 +118,4 @@ public class TVEpisode {
     public String getEpisodeNumberAsString() {
         return String.valueOf(episodeNumber);
     }
-
 }

@@ -1,6 +1,5 @@
 package uk.co.ourfriendirony.medianotifier.autogen.fault;
 
-
 import com.fasterxml.jackson.annotation.*;
 
 import java.util.HashMap;

@@ -27,6 +27,8 @@ import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanTitl
         "external_ids"
 })
 public class TVShow {
+    private Date defaultDate = new GregorianCalendar(9999, 0, 1).getTime();
+
     @JsonProperty("backdrop_path")
     private String backdropPath;
     @JsonProperty("episode_run_time")
@@ -93,6 +95,8 @@ public class TVShow {
 
     @JsonProperty("first_air_date")
     public void setFirstAirDate(Date firstAirDate) {
+        if (firstAirDate == null)
+            firstAirDate = defaultDate;
         this.firstAirDate = firstAirDate;
     }
 
@@ -123,6 +127,8 @@ public class TVShow {
 
     @JsonProperty("last_air_date")
     public void setLastAirDate(Date lastAirDate) {
+        if (lastAirDate == null)
+            lastAirDate = defaultDate;
         this.lastAirDate = lastAirDate;
     }
 
@@ -258,5 +264,9 @@ public class TVShow {
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
+    }
+
+    public String getIdAsString() {
+        return String.valueOf(id);
     }
 }

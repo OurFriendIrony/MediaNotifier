@@ -13,6 +13,7 @@ import java.util.*;
         "episodes"
 })
 public class TVSeason {
+    private Date defaultDate = new GregorianCalendar(9999, 0, 1).getTime();
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @JsonProperty("air_date")
@@ -35,6 +36,8 @@ public class TVSeason {
 
     @JsonProperty("air_date")
     public void setAirDate(Date airDate) {
+        if (airDate == null)
+            airDate = defaultDate;
         this.airDate = airDate;
     }
 

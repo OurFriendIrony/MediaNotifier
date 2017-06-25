@@ -80,9 +80,7 @@ public class MusicBrainzClient {
     private boolean isStudioAlbum(MBReleaseGroup group) {
         if (!"Album".equals(group.getPrimaryType()))
             return false;
-        if (group.getSecondaryTypes().size() > 0)
-            return false;
-        return true;
+        return group.getSecondaryTypes().size() <= 0;
     }
 
     private void httpGetRequest(String url) throws IOException {

@@ -10,11 +10,8 @@ import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.autogen.movie.Movie;
-import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVEpisode;
 import uk.co.ourfriendirony.medianotifier.db.MovieDatabase;
-import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummaryMovie;
-import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterTVEpisode;
 
 public class ActivityMovieNotifications extends AppCompatActivity {
 

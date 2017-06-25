@@ -1,6 +1,7 @@
 package uk.co.ourfriendirony.medianotifier.listviewadapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,12 +25,14 @@ import static uk.co.ourfriendirony.medianotifier.general.StringHandler.pad;
 
 public class ListAdapterTVEpisode extends ArrayAdapter {
     private final List<TVEpisode> tvShowEpisodes;
+    private final int defaultLayoutId;
     private final Boolean includeTitle;
-
-    private DateFormat dateFormat = new SimpleDateFormat("dd-MM-yy");
+    private final TVShowDatabase database = new TVShowDatabase(getContext());
+    private DateFormat dateFormatter = new SimpleDateFormat("dd/MM/yy");
 
     public ListAdapterTVEpisode(Context context, int defaultLayoutId, List<TVEpisode> objects, Boolean includeTitle) {
         super(context, defaultLayoutId, objects);
+        this.defaultLayoutId = defaultLayoutId;
         this.tvShowEpisodes = objects;
         this.includeTitle = includeTitle;
     }
@@ -45,35 +48,39 @@ public class ListAdapterTVEpisode extends ArrayAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View v = convertView;
+        View view = convertView;
+        view = getFindView(position, view);
+        return view;
+    }
+
+    @NonNull
+    private View getFindView(int position, View view) {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        v = inflater.inflate(R.layout.list_item_tv_episode, null);
-        final TVShowDatabase database = new TVShowDatabase(getContext());
-
-        TextView showTitleView = (TextView) v.findViewById(R.id.list_item_notification_show_title);
-        if (includeTitle) {
-            TextView seperatorBar = (TextView) v.findViewById(R.id.list_item_tv_separatorbar);
-            seperatorBar.setBackgroundColor(getContext().getResources().getColor(R.color.black));
-        } else {
-            showTitleView.setHeight(0);
-        }
-
-        TextView episodeTitleView = (TextView) v.findViewById(R.id.list_item_notification_episode_title);
-        TextView textNumber = (TextView) v.findViewById(R.id.list_item_notification_number);
-        TextView textDate = (TextView) v.findViewById(R.id.list_item_notification_date);
+        view = inflater.inflate(R.layout.list_item_tv_episode, null);
         final TVEpisode tvEpisode = tvShowEpisodes.get(position);
+
+        TextView textTitle = (TextView) view.findViewById(R.id.list_item_notification_episode_title);
+        TextView textSubTitle = (TextView) view.findViewById(R.id.list_item_notification_show_title);
+        TextView textOverview = (TextView) view.findViewById(R.id.list_item_notification_overview);
+        TextView textNumber = (TextView) view.findViewById(R.id.list_item_notification_number);
+        TextView textDate = (TextView) view.findViewById(R.id.list_item_notification_date);
+
+        if (!includeTitle) {
+            textSubTitle.setHeight(0);
+        }
 
         String dateString = "";
         Date date = tvEpisode.getAirDate();
         if (date != null)
-            dateString = dateFormat.format(date);
+            dateString = dateFormatter.format(date);
 
-        showTitleView.setText(database.getTitleById(tvEpisode.getId()));
-        episodeTitleView.setText(tvEpisode.getName());
+        textTitle.setText(tvEpisode.getName());
+        textSubTitle.setText("[" + database.getTitleById(tvEpisode.getId()) + "]");
+        textOverview.setText(tvEpisode.getOverview());
         textNumber.setText("S" + pad(tvEpisode.getSeasonNumber(), 2) + " E" + pad(tvEpisode.getEpisodeNumber(), 2));
         textDate.setText(dateString);
 
-        ToggleButton toggle = (ToggleButton) v.findViewById(R.id.button_toggle);
+        ToggleButton toggle = (ToggleButton) view.findViewById(R.id.button_toggle);
         toggle.setChecked(database.getEpisodeWatchedStatusAsBoolean(tvEpisode));
 
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -86,6 +93,6 @@ public class ListAdapterTVEpisode extends ArrayAdapter {
             }
         });
 
-        return v;
+        return view;
     }
 }

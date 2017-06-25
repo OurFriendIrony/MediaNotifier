@@ -70,7 +70,7 @@ public class ActivityTV extends AppCompatActivity {
         TVShow currentShow = tvShows.get(currentShowPosition);
         switch (item.getItemId()) {
             case R.id.action_refresh:
-                new TVShowUpdateAsyncTask().execute(String.valueOf(currentShow.getId()), currentShow.getName());
+                new TVShowUpdateAsyncTask().execute(currentShow.getIdAsString(), currentShow.getName());
                 restart();
                 return true;
 

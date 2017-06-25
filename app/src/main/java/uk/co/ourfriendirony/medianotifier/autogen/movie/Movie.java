@@ -3,6 +3,7 @@ package uk.co.ourfriendirony.medianotifier.autogen.movie;
 import com.fasterxml.jackson.annotation.*;
 
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,6 +26,8 @@ import java.util.Map;
         "vote_count"
 })
 public class Movie {
+    private Date defaultDate = new GregorianCalendar(9999, 0, 1).getTime();
+
     @JsonProperty("belongs_to_collection")
     private Collection belongsToCollection;
     @JsonProperty("id")
@@ -96,6 +99,8 @@ public class Movie {
 
     @JsonProperty("release_date")
     public void setReleaseDate(Date releaseDate) {
+        if (releaseDate == null)
+            releaseDate = defaultDate;
         this.releaseDate = releaseDate;
     }
 
