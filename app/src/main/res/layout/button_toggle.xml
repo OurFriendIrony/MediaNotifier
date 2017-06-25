@@ -4,9 +4,9 @@
     android:id="@+id/button_toggle"
     android:layout_width="40dp"
     android:layout_height="40dp"
-    android:padding="3dp"
     android:background="@drawable/button_toggle"
     android:gravity="center"
+    android:padding="3dp"
     android:textOff=""
     android:textOn=""
     />

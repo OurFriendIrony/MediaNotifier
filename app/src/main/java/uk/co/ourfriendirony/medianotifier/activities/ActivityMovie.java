@@ -4,17 +4,19 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
+import uk.co.ourfriendirony.medianotifier.async.MovieUpdateAsyncTask;
 import uk.co.ourfriendirony.medianotifier.autogen.movie.Movie;
 import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
 import uk.co.ourfriendirony.medianotifier.db.MovieDatabase;
@@ -67,7 +69,7 @@ public class ActivityMovie extends AppCompatActivity {
         Movie currentMovie = movies.get(currentMoviePosition);
         switch (item.getItemId()) {
             case R.id.action_refresh:
-                new MovieUpdateAsyncTask().execute(String.valueOf(currentMovie.getId()), currentMovie.getTitle());
+                new MovieUpdateAsyncTask().execute(currentMovie);
                 restart();
                 return true;
 
@@ -126,37 +128,6 @@ public class ActivityMovie extends AppCompatActivity {
         protected void onPostExecute(Void x) {
             loadPageProgressBar.setVisibility(View.GONE);
             displayMovies();
-        }
-    }
-
-    private class MovieUpdateAsyncTask extends AsyncTask<String, Void, String> {
-        /* Background Task to Update an existing item
-         */
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            String movieId = params[0];
-            String movieTitle = params[1];
-
-            Movie movie;
-            try {
-                movie = client.getMovie(Integer.parseInt(movieId));
-                database.updateMovie(movie);
-            } catch (IOException e) {
-                Log.e(String.valueOf(this.getClass()), "Failed to update: " + e.getMessage());
-            }
-            return movieTitle;
-        }
-
-        @Override
-        protected void onPostExecute(String movieTitle) {
-            String toastMsg = "'" + movieTitle + "' " + getResources().getString(R.string.toast_db_updated);
-            Toast.makeText(getApplicationContext(), toastMsg, Toast.LENGTH_SHORT).show();
         }
     }
 }

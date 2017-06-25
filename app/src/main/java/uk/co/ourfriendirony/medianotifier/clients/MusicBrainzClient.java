@@ -90,7 +90,6 @@ public class MusicBrainzClient {
         statusCode = getStatusCode(httpResponse);
     }
 
-
     private void sleep() {
         try {
             Thread.sleep(1000);

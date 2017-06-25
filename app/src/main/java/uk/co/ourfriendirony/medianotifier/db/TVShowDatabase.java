@@ -89,7 +89,9 @@ public class TVShowDatabase {
         tvShowRow.put(TT_IMDB, tvShow.getExternalIds().getImdbId());
         tvShowRow.put(TT_DATE, dateToString(tvShow.getFirstAirDate()));
         tvShowRow.put(TT_OVERVIEW, tvShow.getOverview());
+
         dbWritable.replace(TABLE_TVSHOWS, null, tvShowRow);
+        Log.d("INSERT_TV_SHOW:", tvShow.getName());
     }
 
     private void insertTVShowSeason(SQLiteDatabase dbWritable, TVSeason season) {
@@ -97,7 +99,9 @@ public class TVShowDatabase {
         seasonRow.put(TTS_ID, season.getId());
         seasonRow.put(TTS_SEASON_NO, season.getSeasonNumber());
         seasonRow.put(TTS_DATE, dateToString(season.getAirDate()));
+
         dbWritable.replace(TABLE_TVSHOWS_SEASONS, null, seasonRow);
+        Log.d("INSERT_TV_SEASON", "S" + season.getSeasonNumber());
     }
 
     private void insertTVShowEpisode(SQLiteDatabase dbWritable, TVEpisode episode, boolean newShow) {
@@ -116,6 +120,7 @@ public class TVShowDatabase {
         }
 
         dbWritable.replace(TABLE_TVSHOWS_EPISODES, null, episodeRow);
+        Log.d("INSERT_TV_EPISODE", "S" + episode.getSeasonNumberAsString() + " E" + episode.getEpisodeNumberAsString());
     }
 
     public String getEpisodeWatchedStatus(SQLiteDatabase dbReadable, TVEpisode episode) {
@@ -220,7 +225,7 @@ public class TVShowDatabase {
             while (cursor.moveToNext()) {
                 TVEpisode tvEpisode = buildTVEpisode(cursor);
                 tvEpisodes.add(tvEpisode);
-                Log.v("*****IMHERE*****", "UNWATCHED AIRED EPISODES: Id=" + tvEpisode.getId() + "| S" + tvEpisode.getSeasonNumber() + "E" + tvEpisode.getEpisodeNumber() + " | Title=" + tvEpisode.getName() + " | Date=" + tvEpisode.getAirDate());
+                Log.d("UNWATCHED AIRED", "Id=" + tvEpisode.getId() + "| S" + tvEpisode.getSeasonNumber() + "E" + tvEpisode.getEpisodeNumber() + " | Title=" + tvEpisode.getName() + " | Date=" + tvEpisode.getAirDate());
             }
         } finally {
             cursor.close();
@@ -240,7 +245,7 @@ public class TVShowDatabase {
             while (cursor.moveToNext()) {
                 TVEpisode tvEpisode = buildTVEpisode(cursor);
                 tvEpisodes.add(tvEpisode);
-                Log.v("*****IMHERE*****", "UNWATCHED UNAIRED EPISODES: Id=" + tvEpisode.getId() + "| S" + tvEpisode.getSeasonNumber() + "E" + tvEpisode.getEpisodeNumber() + " | Title=" + tvEpisode.getName() + " | Date=" + tvEpisode.getAirDate());
+                Log.d("UNWATCHED UNAIRED", "Id=" + tvEpisode.getId() + "| S" + tvEpisode.getSeasonNumber() + "E" + tvEpisode.getEpisodeNumber() + " | Title=" + tvEpisode.getName() + " | Date=" + tvEpisode.getAirDate());
             }
         } finally {
             cursor.close();
@@ -258,7 +263,8 @@ public class TVShowDatabase {
         tvEpisode.setName(getColumnValue(cursor, TTSE_TITLE));
         tvEpisode.setOverview(getColumnValue(cursor, TTSE_OVERVIEW));
         tvEpisode.setAirDate(stringToDate(getColumnValue(cursor, TTSE_DATE)));
-        Log.w("BUILD_TV_EPISODE", tvEpisode.getId() + " " + tvEpisode.getName());
+
+        Log.d("BUILD_TV_EPISODE", tvEpisode.getId() + " " + tvEpisode.getName());
         return tvEpisode;
     }
 
@@ -267,7 +273,6 @@ public class TVShowDatabase {
         TVSeason tvSeason = new TVSeason();
         tvSeason.setId(Integer.parseInt(getColumnValue(tvSeasonCursor, TTS_ID)));
         tvSeason.setSeasonNumber(Integer.parseInt(getColumnValue(tvSeasonCursor, TTS_SEASON_NO)));
-        Log.w("BUILD_TV_SEASON", tvSeason.getId() + " " + tvSeason.getSeasonNumber());
 
         List<TVEpisode> tvEpisodes = new ArrayList<>();
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
@@ -282,6 +287,7 @@ public class TVShowDatabase {
         dbReadable.close();
         tvSeason.setEpisodes(tvEpisodes);
 
+        Log.d("BUILD_TV_SEASON", tvSeason.getId() + " " + tvSeason.getSeasonNumber());
         return tvSeason;
     }
 
@@ -298,8 +304,6 @@ public class TVShowDatabase {
         externalIds.setImdbId(getColumnValue(tvShowCursor, TT_IMDB));
         tvShow.setExternalIds(externalIds);
 
-        Log.w("BUILD_TV_SHOW", tvShow.getId() + " " + tvShow.getName());
-
         List<TVSeason> tvSeasons = new ArrayList<>();
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
         Cursor tvSeasonCursor = dbReadable.rawQuery(SELECT_TVSEASONS, new String[]{String.valueOf(tvShow.getId())});
@@ -313,6 +317,7 @@ public class TVShowDatabase {
         dbReadable.close();
         tvShow.setSeasons(tvSeasons);
 
+        Log.d("BUILD_TV_SHOW", tvShow.getId() + " " + tvShow.getName());
         return tvShow;
     }
 
@@ -360,45 +365,44 @@ public class TVShowDatabase {
         dbWritable.close();
     }
 
-
     public void debugDatabaseEntry() {
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
-        Log.w("DATABASE_RESULT", "_START_");
+        Log.d("DATABASE_RESULT", "_START_");
         String[] sqlArgs = new String[]{"46786"};
 
-        Log.w("DATABASE_RESULT", "****EPISODE****");
+        Log.d("DATABASE_RESULT", "****EPISODE****");
         String sql = "SELECT * FROM " + TABLE_TVSHOWS_EPISODES + " WHERE " + TTSE_ID + "=?;";
         Cursor cursor = dbReadable.rawQuery(sql, sqlArgs);
         try {
             while (cursor.moveToNext()) {
-                Log.w("DATABASE_EPISODE", getColumnValue(cursor, TTSE_ID) + " " + getColumnValue(cursor, TTSE_SEASON_NO) + " " + getColumnValue(cursor, TTSE_EPISODE_NO));
+                Log.d("DATABASE_EPISODE", getColumnValue(cursor, TTSE_ID) + " " + getColumnValue(cursor, TTSE_SEASON_NO) + " " + getColumnValue(cursor, TTSE_EPISODE_NO));
             }
         } finally {
             cursor.close();
         }
 
-        Log.w("DATABASE_RESULT", "****SEASON****");
+        Log.d("DATABASE_RESULT", "****SEASON****");
         sql = "SELECT * FROM " + TABLE_TVSHOWS_SEASONS + " WHERE " + TTS_ID + "=?;";
         cursor = dbReadable.rawQuery(sql, sqlArgs);
         try {
             while (cursor.moveToNext()) {
-                Log.w("DATABASE_RESULT_SEASON", getColumnValue(cursor, TTS_ID) + " " + getColumnValue(cursor, TTS_SEASON_NO));
+                Log.d("DATABASE_RESULT_SEASON", getColumnValue(cursor, TTS_ID) + " " + getColumnValue(cursor, TTS_SEASON_NO));
             }
         } finally {
             cursor.close();
         }
 
-        Log.w("DATABASE_RESULT", "****SHOW****");
+        Log.d("DATABASE_RESULT", "****SHOW****");
         sql = "SELECT * FROM " + TABLE_TVSHOWS + " WHERE " + TT_ID + "=?;";
         cursor = dbReadable.rawQuery(sql, sqlArgs);
         try {
             while (cursor.moveToNext()) {
-                Log.w("DATABASE_RESULT_SHOW", getColumnValue(cursor, TT_ID));
+                Log.d("DATABASE_RESULT_SHOW", getColumnValue(cursor, TT_ID));
             }
         } finally {
             cursor.close();
         }
-        Log.w("DATABASE_RESULT", "_END_");
+        Log.d("DATABASE_RESULT", "_END_");
         dbReadable.close();
     }
 }

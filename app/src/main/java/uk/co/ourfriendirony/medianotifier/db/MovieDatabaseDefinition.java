@@ -7,6 +7,8 @@ import android.util.Log;
 
 public class MovieDatabaseDefinition extends SQLiteOpenHelper {
 
+    public static final String WATCHED_FALSE = "0";
+    public static final String WATCHED_TRUE = "1";
     static final String TABLE_MOVIES = "movies";
     static final String TM_ID = "movie_id";
     static final String TM_TITLE = "movie_title";
@@ -16,10 +18,6 @@ public class MovieDatabaseDefinition extends SQLiteOpenHelper {
     static final String TM_WATCHED = "movie_watched";
     static final String TM_TAGLINE = "movie_tagline";
     static final String TM_COLLECTION = "movie_collection";
-
-    public static final String WATCHED_FALSE = "0";
-    public static final String WATCHED_TRUE = "1";
-
     private static final String DATABASE_NAME = "movies";
     private static final int DATABASE_VERSION = 3;
 

@@ -18,9 +18,9 @@
 
         <ListView
             android:id="@+id/tv_notification_list"
+            style="@style/style_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            style="@style/style_list"
             />
 
     </RelativeLayout>

@@ -14,7 +14,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
 import uk.co.ourfriendirony.medianotifier.R;
+import uk.co.ourfriendirony.medianotifier.async.MovieUpdateAsyncTask;
+import uk.co.ourfriendirony.medianotifier.async.TVShowUpdateAsyncTask;
+import uk.co.ourfriendirony.medianotifier.autogen.movie.Movie;
+import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
 import uk.co.ourfriendirony.medianotifier.db.MovieDatabase;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
@@ -157,8 +163,22 @@ public class ActivityMain extends AppCompatActivity {
                 tvShowDatabase.debug();
                 return true;
 
+            case R.id.action_refresh:
+                List<TVShow> tvShows = tvShowDatabase.getAllTVShows();
+                TVShow[] tvShowsArray = new TVShow[tvShows.size()];
+                tvShows.toArray(tvShowsArray); // fill the array
+                new TVShowUpdateAsyncTask().execute(tvShowsArray);
+
+                List<Movie> movies = movieDatabase.getAllMovies();
+                Movie[] moviesArray = new Movie[movies.size()];
+                movies.toArray(moviesArray);
+                new MovieUpdateAsyncTask().execute(moviesArray);
+
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+
 }

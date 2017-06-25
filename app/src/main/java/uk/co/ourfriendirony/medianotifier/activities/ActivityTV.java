@@ -8,13 +8,16 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
+import uk.co.ourfriendirony.medianotifier.async.TVShowUpdateAsyncTask;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVEpisode;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVSeason;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
@@ -70,7 +73,7 @@ public class ActivityTV extends AppCompatActivity {
         TVShow currentShow = tvShows.get(currentShowPosition);
         switch (item.getItemId()) {
             case R.id.action_refresh:
-                new TVShowUpdateAsyncTask().execute(currentShow.getIdAsString(), currentShow.getName());
+                new TVShowUpdateAsyncTask().execute(currentShow);
                 restart();
                 return true;
 
@@ -101,7 +104,7 @@ public class ActivityTV extends AppCompatActivity {
         currentShowPosition = showPosition;
         List<TVEpisode> tvEpisodes = new ArrayList<>();
         for (TVSeason season : tvShows.get(showPosition).getSeasons()) {
-            Log.w("LISTING SEASON:", "Season: " + season.getSeasonNumber() + " Episodes: " + season.getEpisodes().size());
+            Log.d("LISTING_SEASON:", "Season: " + season.getSeasonNumber() + " Episodes: " + season.getEpisodes().size());
             tvEpisodes.addAll(season.getEpisodes());
         }
         if (tvEpisodes.size() > 0) {
@@ -137,37 +140,6 @@ public class ActivityTV extends AppCompatActivity {
         protected void onPostExecute(Void x) {
             loadPageProgressBar.setVisibility(View.GONE);
             displayShows();
-        }
-    }
-
-    private class TVShowUpdateAsyncTask extends AsyncTask<String, Void, String> {
-        /* Background Task to Update an existing item
-         */
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            String tvShowId = params[0];
-            String tvShowTitle = params[1];
-
-            TVShow tvShow;
-            try {
-                tvShow = client.getTVShow(Integer.parseInt(tvShowId));
-                database.updateTVShow(tvShow);
-            } catch (IOException e) {
-                Log.e(String.valueOf(this.getClass()), "Failed to update: " + e.getMessage());
-            }
-            return tvShowTitle;
-        }
-
-        @Override
-        protected void onPostExecute(String tvShowTitle) {
-            String toastMsg = "'" + tvShowTitle + "' " + getResources().getString(R.string.toast_db_updated);
-            Toast.makeText(getApplicationContext(), toastMsg, Toast.LENGTH_SHORT).show();
         }
     }
 }

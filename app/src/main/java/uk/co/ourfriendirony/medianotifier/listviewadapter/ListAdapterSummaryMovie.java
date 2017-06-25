@@ -69,7 +69,6 @@ public class ListAdapterSummaryMovie extends ArrayAdapter {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(R.layout.list_item_find, null);
 
-
         TextView textId = (TextView) view.findViewById(R.id.find_item_id);
         TextView textTitle = (TextView) view.findViewById(R.id.find_item_title);
         TextView textDate = (TextView) view.findViewById(R.id.find_item_date);

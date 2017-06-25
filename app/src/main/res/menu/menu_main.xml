@@ -2,12 +2,19 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
       tools:context=".activities.ActivityMain">
+
     <item
         android:id="@+id/action_debug"
         android:icon="@android:drawable/ic_dialog_alert"
         android:orderInCategory="1"
-        app:showAsAction="ifRoom"
-        android:title="DEBUG"/>
+        android:title="DEBUG"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_refresh"
+        android:icon="@android:drawable/ic_menu_rotate"
+        android:orderInCategory="2"
+        android:title="@string/action_refresh"
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_settings"
         android:icon="@android:drawable/ic_menu_preferences"

@@ -1,6 +1,5 @@
 package uk.co.ourfriendirony.medianotifier.general;
 
-
 import org.junit.Test;
 
 import java.text.DateFormat;

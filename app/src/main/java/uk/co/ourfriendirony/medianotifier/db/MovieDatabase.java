@@ -220,7 +220,7 @@ public class MovieDatabase {
         movie.setTagline(getColumnValue(cursor, TM_TAGLINE));
         movie.setBelongsToCollection(movieCollection);
 
-        Log.w("BUILD_MOVIE", movie.getId() + " " + movie.getTitle());
+        Log.d("BUILD_MOVIE", movie.getId() + " " + movie.getTitle());
 
         return movie;
     }

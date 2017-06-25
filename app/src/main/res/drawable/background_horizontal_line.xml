@@ -1,7 +1,9 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:height="4dp">
         <shape android:shape="rectangle">
-            <padding android:bottom="2dp" android:top="2dp"/>
+            <padding
+                android:bottom="2dp"
+                android:top="2dp"/>
             <solid android:color="@color/transparent"/>
         </shape>
     </item>
