@@ -1,53 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/settings"
-                android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/settings"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".activities.ActivitySettings">
+
+    <!-- ################################################################# -->
+
+    <RelativeLayout
+        android:id="@+id/settings_notification_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_popup">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:weightSum="1">
+
+            <TextView
+                android:id="@+id/settings_notification_time_text"
+                style="@style/DRK_text_h2_contrast"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|start"
+                android:layout_margin="5dp"
+                android:layout_weight=".5"
+                android:text="Notification Time" />
+
+            <Button
+                android:id="@+id/settings_notification_time_button"
+                style="@style/DRK_text_h2_contrast"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:text="ALL" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <!-- ################################################################# -->
+
+    <RelativeLayout
+        android:id="@+id/settings_notification_day_offset"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/settings_notification_time"
+        android:background="@drawable/background_popup">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@color/black"
-                tools:context=".activities.ActivitySettings">
+                android:layout_weight=".5">
+
+                <TextView
+                    android:id="@+id/settings_notification_day_offset_text"
+                    style="@style/DRK_text_h2_contrast"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|start"
+                    android:layout_margin="5dp"
+                    android:text="Notification Offsets" />
+            </LinearLayout>
+
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5">
+
+                <Button
+                    android:id="@+id/settings_notification_day_offset_tv_button"
+                    style="@style/DRK_text_h2_contrast"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="TV SHOWS" />
+
+                <Button
+                    android:id="@+id/settings_notification_day_offset_movie_button"
+                    style="@style/DRK_text_h2_contrast"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/settings_notification_day_offset_tv_button"
+                    android:layout_centerHorizontal="true"
+                    android:text="MOVIES" />
+
+                <Button
+                    android:id="@+id/settings_notification_day_offset_artist_button"
+                    style="@style/DRK_text_h2_contrast"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/settings_notification_day_offset_movie_button"
+                    android:layout_centerHorizontal="true"
+                    android:text="ARTISTS" />
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <!-- ################################################################# -->
+
+    <RelativeLayout
+        android:id="@+id/settings_filler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/settings_notification_day_offset">
+
+    </RelativeLayout>
+
+    <!-- ################################################################# -->
 
     <RelativeLayout
         android:id="@+id/settings_delete_all"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:background="@drawable/background_warning">
 
-        <Button
-            android:id="@+id/settings_button_delete_tv_all"
-            style="@style/DRK_text_h2_contrast"
-            android:layout_width="match_parent"
+        <RelativeLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/button_delete_tv_all"
-            />
+            android:layout_margin="5dp">
 
-        <Button
-            android:id="@+id/settings_button_delete_movie_all"
-            style="@style/DRK_text_h2_contrast"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/settings_button_delete_tv_all"
-            android:text="@string/button_delete_movie_all"
-            />
+            <Button
+                android:id="@+id/settings_button_delete_tv_all"
+                style="@style/DRK_text_h2_contrast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_delete_tv_all" />
 
-        <Button
-            android:id="@+id/settings_button_delete_music_all"
-            style="@style/DRK_text_h2_contrast"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/settings_button_delete_movie_all"
-            android:text="@string/button_delete_music_all"
-            />
+            <Button
+                android:id="@+id/settings_button_delete_movie_all"
+                style="@style/DRK_text_h2_contrast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/settings_button_delete_tv_all"
+                android:text="@string/button_delete_movie_all" />
+
+            <Button
+                android:id="@+id/settings_button_delete_music_all"
+                style="@style/DRK_text_h2_contrast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/settings_button_delete_movie_all"
+                android:text="@string/button_delete_music_all" />
+        </RelativeLayout>
     </RelativeLayout>
-
-    <Button
-        android:id="@+id/settings_notification_time_button"
-        style="@style/DRK_text_h2_contrast"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/settings_delete_all"
-        android:layout_centerHorizontal="true"
-        android:text="Set Notification Time"
-        />
 
 </RelativeLayout>

@@ -30,6 +30,9 @@ public class ActivitySettings extends AppCompatActivity {
         Button buttonDeleteMusic = (Button) findViewById(R.id.settings_button_delete_music_all);
 
         Button buttonNotifyTimer = (Button) findViewById(R.id.settings_notification_time_button);
+        Button buttonNotifyOffsetTV = (Button) findViewById(R.id.settings_notification_day_offset_tv_button);
+        Button buttonNotifyOffsetMovie = (Button) findViewById(R.id.settings_notification_day_offset_movie_button);
+        Button buttonNotifyOffsetMusic = (Button) findViewById(R.id.settings_notification_day_offset_artist_button);
 
         buttonDeleteTV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,7 +54,6 @@ public class ActivitySettings extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(ActivitySettings.this, "NOT YET IMPLEMENTED", Toast.LENGTH_SHORT).show();
-//                Toast.makeText(ActivitySettings.this, R.string.toast_db_table_cleared, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -69,20 +71,65 @@ public class ActivitySettings extends AppCompatActivity {
                 timePicker.setCurrentHour(getNotificationHour(getApplicationContext()));
                 timePicker.setCurrentMinute(getNotificationMinute(getApplicationContext()));
 
-                final NumberPicker picker = (NumberPicker) popupWindow.getContentView().findViewById(R.id.popup_date_picker);
-                picker.setMaxValue(getNotificationDayOffsetMax());
-                picker.setMinValue(getNotificationDayOffsetMin());
-                picker.setValue(getNotificationDayOffset(getApplicationContext()));
-                picker.setWrapSelectorWheel(false);
-
                 Button buttonOk = (Button) popupWindow.getContentView().findViewById(R.id.popup_ok);
                 buttonOk.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         setNotificationHour(getApplicationContext(), timePicker.getCurrentHour());
                         setNotificationMinute(getApplicationContext(), timePicker.getCurrentMinute());
-                        setNotificationDayOffset(getApplicationContext(), picker.getValue());
                         AlarmScheduler.reschedule(getApplicationContext());
+                        popupWindow.dismiss();
+                    }
+                });
+            }
+        });
+
+        buttonNotifyOffsetTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater inflater = (LayoutInflater) ActivitySettings.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View layout = inflater.inflate(R.layout.popup_offset_selector, (ViewGroup) findViewById(R.id.popup));
+
+                popupWindow = new PopupWindow(layout, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true);
+                popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+
+                final NumberPicker picker = (NumberPicker) popupWindow.getContentView().findViewById(R.id.popup_date_picker);
+                picker.setMaxValue(getNotificationDayOffsetMax());
+                picker.setMinValue(getNotificationDayOffsetMin());
+                picker.setValue(getNotificationDayOffsetTV(getApplicationContext()));
+                picker.setWrapSelectorWheel(false);
+
+                Button buttonOk = (Button) popupWindow.getContentView().findViewById(R.id.popup_ok);
+                buttonOk.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setNotificationDayOffsetTV(getApplicationContext(), picker.getValue());
+                        popupWindow.dismiss();
+                    }
+                });
+            }
+        });
+
+        buttonNotifyOffsetMovie.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater inflater = (LayoutInflater) ActivitySettings.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View layout = inflater.inflate(R.layout.popup_offset_selector, (ViewGroup) findViewById(R.id.popup));
+
+                popupWindow = new PopupWindow(layout, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true);
+                popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+
+                final NumberPicker picker = (NumberPicker) popupWindow.getContentView().findViewById(R.id.popup_date_picker);
+                picker.setMaxValue(getNotificationDayOffsetMax());
+                picker.setMinValue(getNotificationDayOffsetMin());
+                picker.setValue(getNotificationDayOffsetMovie(getApplicationContext()));
+                picker.setWrapSelectorWheel(false);
+
+                Button buttonOk = (Button) popupWindow.getContentView().findViewById(R.id.popup_ok);
+                buttonOk.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setNotificationDayOffsetMovie(getApplicationContext(), picker.getValue());
                         popupWindow.dismiss();
                     }
                 });

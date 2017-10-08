@@ -17,7 +17,7 @@ import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShowExternalIds;
 import uk.co.ourfriendirony.medianotifier.general.StringHandler;
 
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffset;
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetTV;
 import static uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition.*;
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanTitle;
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.dateToString;
@@ -189,7 +189,7 @@ public class TVShowDatabase {
     }
 
     public int countUnwatchedReleasedEpisodes() {
-        String offset = "date('now','-" + getNotificationDayOffset(context) + " days')";
+        String offset = "date('now','-" + getNotificationDayOffsetTV(context) + " days')";
         String query = StringHandler.replaceTokens(COUNT_UNWATCHED_EPISODES_RELEASED, "@OFFSET@", offset);
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
 
@@ -202,7 +202,7 @@ public class TVShowDatabase {
     }
 
     public int countUnwatchedUnreleasedEpisodes() {
-        String offset = "date('now','-" + getNotificationDayOffset(context) + " days')";
+        String offset = "date('now','-" + getNotificationDayOffsetTV(context) + " days')";
         String query = StringHandler.replaceTokens(COUNT_UNWATCHED_EPISODES_UNRELEASED, "@OFFSET@", offset);
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
 
@@ -215,7 +215,7 @@ public class TVShowDatabase {
     }
 
     public List<TVEpisode> getUnwatchedReleasedEpisodes() {
-        String offset = "date('now','-" + getNotificationDayOffset(context) + " days')";
+        String offset = "date('now','-" + getNotificationDayOffsetTV(context) + " days')";
         String query = StringHandler.replaceTokens(GET_UNWATCHED_EPISODES_RELEASED, "@OFFSET@", offset);
         List<TVEpisode> tvEpisodes = new ArrayList<>();
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
@@ -235,7 +235,7 @@ public class TVShowDatabase {
     }
 
     public List<TVEpisode> getUnwatchedUnreleasedEpisodes() {
-        String offset = "date('now','-" + getNotificationDayOffset(context) + " days')";
+        String offset = "date('now','-" + getNotificationDayOffsetTV(context) + " days')";
         String query = StringHandler.replaceTokens(GET_UNWATCHED_EPISODES_UNRELEASED, "@OFFSET@", offset);
         List<TVEpisode> tvEpisodes = new ArrayList<>();
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();

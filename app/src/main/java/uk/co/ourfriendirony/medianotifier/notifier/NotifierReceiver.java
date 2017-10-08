@@ -6,31 +6,49 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 
 import uk.co.ourfriendirony.medianotifier.R;
+import uk.co.ourfriendirony.medianotifier.activities.ActivityMovieNotifications;
 import uk.co.ourfriendirony.medianotifier.activities.ActivityTVNotifications;
+import uk.co.ourfriendirony.medianotifier.db.MovieDatabase;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
 
 public class NotifierReceiver extends BroadcastReceiver {
     int unwatchedEpisodes = 0;
+    int unwatchedMovies = 0;
+    int unwatchedTotal = 0;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        TVShowDatabase database = new TVShowDatabase(context);
-        unwatchedEpisodes = database.countUnwatchedReleasedEpisodes();
+        unwatchedEpisodes = new TVShowDatabase(context).countUnwatchedReleasedEpisodes();
+        unwatchedMovies = new MovieDatabase(context).countUnwatchedReleasedMovies();
+        unwatchedTotal = unwatchedEpisodes + unwatchedMovies;
 
-        if (unwatchedEpisodes > 0) {
+        if (unwatchedTotal > 0) {
             NotificationCompat.Builder notification = getBuilder(context);
 
-            Intent activityTVNotification = new Intent(context, ActivityTVNotifications.class);
-            PendingIntent notificationIntent = PendingIntent.getActivity(context, 0, activityTVNotification, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent notificationIntent = PendingIntent.getActivity(
+                    context, 0,
+                    getNotificationIntent(context),
+                    PendingIntent.FLAG_UPDATE_CURRENT
+            );
             notification.setContentIntent(notificationIntent);
 
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             int notificationId = 1;
             notificationManager.notify(notificationId, notification.build());
         }
+    }
+
+    @NonNull
+    private Intent getNotificationIntent(Context context) {
+        if (unwatchedEpisodes > 0)
+            return new Intent(context, ActivityTVNotifications.class);
+        else if (unwatchedMovies > 0)
+            return new Intent(context, ActivityMovieNotifications.class);
+        return new Intent(context, ActivityTVNotifications.class);
     }
 
     private NotificationCompat.Builder getBuilder(Context context) {

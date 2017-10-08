@@ -16,7 +16,7 @@ import uk.co.ourfriendirony.medianotifier.autogen.movie.Movie;
 import uk.co.ourfriendirony.medianotifier.general.StringHandler;
 
 import static uk.co.ourfriendirony.medianotifier.db.MovieDatabaseDefinition.*;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffset;
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetMovie;
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanTitle;
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.dateToString;
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.stringToDate;
@@ -140,7 +140,7 @@ public class MovieDatabase {
     }
 
     public int countUnwatchedReleasedMovies() {
-        String offset = "date('now','-" + getNotificationDayOffset(context) + " days')";
+        String offset = "date('now','-" + getNotificationDayOffsetMovie(context) + " days')";
         String query = StringHandler.replaceTokens(COUNT_UNWATCHED_MOVIES_RELEASED, "@OFFSET@", offset);
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
 
@@ -153,7 +153,7 @@ public class MovieDatabase {
     }
 
     public int countUnwatchedUnreleasedMovies() {
-        String offset = "date('now','-" + getNotificationDayOffset(context) + " days')";
+        String offset = "date('now','-" + getNotificationDayOffsetMovie(context) + " days')";
         String query = StringHandler.replaceTokens(COUNT_UNWATCHED_MOVIES_UNRELEASED, "@OFFSET@", offset);
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
 
@@ -166,7 +166,7 @@ public class MovieDatabase {
     }
 
     public List<Movie> getUnwatchedReleasedMovies() {
-        String offset = "date('now','-" + getNotificationDayOffset(context) + " days')";
+        String offset = "date('now','-" + getNotificationDayOffsetMovie(context) + " days')";
         String query = StringHandler.replaceTokens(GET_UNWATCHED_MOVIES_RELEASED, "@OFFSET@", offset);
         List<Movie> movies = new ArrayList<>();
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
@@ -186,7 +186,7 @@ public class MovieDatabase {
     }
 
     public List<Movie> getUnwatchedUnreleasedMovies() {
-        String offset = "date('now','-" + getNotificationDayOffset(context) + " days')";
+        String offset = "date('now','-" + getNotificationDayOffsetMovie(context) + " days')";
         String query = StringHandler.replaceTokens(GET_UNWATCHED_MOVIES_UNRELEASED, "@OFFSET@", offset);
         List<Movie> movies = new ArrayList<>();
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
