@@ -54,9 +54,9 @@ public class NotifierReceiver extends BroadcastReceiver {
     }
 
     private NotificationCompat.Builder getBuilder(Context context) {
-        String text = MessageFormat.format("{1} {2} ({3}/{4}/{5})",
+        String text = MessageFormat.format("Episodes: {1}  /  Movies: {2}  /  Albums: {3}",
                 context.getString(R.string.notification_text),
-                unwatchedTotal, unwatchedEpisodes, unwatchedMovies, 0
+                unwatchedEpisodes, unwatchedMovies, 0
         );
         return new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.img_app_icon)
