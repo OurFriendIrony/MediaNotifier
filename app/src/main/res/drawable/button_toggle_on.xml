@@ -9,8 +9,8 @@
     </item>
     <item
         android:bottom="2dp"
-        android:left="7dp"
-        android:right="2dp"
+        android:left="2dp"
+        android:right="7dp"
         android:top="7dp">
         <shape android:shape="rectangle">
             <solid android:color="@color/black"/>
@@ -19,8 +19,8 @@
     </item>
     <item
         android:bottom="3dp"
-        android:left="8dp"
-        android:right="3dp"
+        android:left="3dp"
+        android:right="8dp"
         android:top="8dp">
         <shape android:shape="rectangle">
             <solid android:color="@color/grey_08"/>
@@ -29,8 +29,8 @@
     </item>
     <item
         android:bottom="4dp"
-        android:left="7dp"
-        android:right="4dp"
+        android:left="4dp"
+        android:right="7dp"
         android:top="7dp">
         <shape android:shape="rectangle">
             <solid android:color="@color/grey_08"/>
@@ -39,21 +39,12 @@
     </item>
     <item
         android:bottom="5dp"
-        android:left="6dp"
-        android:right="5dp"
+        android:left="5dp"
+        android:right="6dp"
         android:top="6dp">
         <shape android:shape="rectangle">
             <solid android:color="@color/grey_02"/>
             <corners android:radius="4dp"/>
-        </shape>
-    </item>
-    <item
-        android:bottom="12dp"
-        android:left="6dp"
-        android:right="5dp"
-        android:top="35dp">
-        <shape android:shape="rectangle">
-            <solid android:color="@color/green_bright"/>
         </shape>
     </item>
 </layer-list>
