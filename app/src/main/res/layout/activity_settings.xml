@@ -146,12 +146,12 @@
                 android:text="@string/button_delete_movie_all" />
 
             <Button
-                android:id="@+id/settings_button_delete_music_all"
+                android:id="@+id/settings_button_delete_artist_all"
                 style="@style/DRK_text_h2_contrast"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/settings_button_delete_movie_all"
-                android:text="@string/button_delete_music_all" />
+                android:text="@string/button_delete_artist_all" />
         </RelativeLayout>
     </RelativeLayout>
 

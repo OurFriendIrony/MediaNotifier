@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                 xmlns:tools="http://schemas.android.com/tools"
-                                                 android:layout_width="match_parent"
-                                                 android:layout_height="match_parent"
-                                                 android:fitsSystemWindows="true"
-                                                 tools:context=".activities.ActivityMain">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".activities.ActivityMain">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay"/>
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
 
@@ -28,8 +28,7 @@
         android:background="@color/black"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context=".activities.ActivityMain"
-        tools:showIn="@layout/activity_main"
-        >
+        tools:showIn="@layout/activity_main">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,8 +49,7 @@
                     android:layout_margin="8dp"
                     android:backgroundTint="@color/grey_01"
                     android:src="@android:drawable/ic_search_category_default"
-                    app:borderWidth="0dp"
-                    />
+                    app:borderWidth="0dp" />
 
                 <Button
                     android:id="@+id/main_button_tv"
@@ -61,8 +59,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="15dp"
                     android:layout_toEndOf="@id/main_button_tv_find"
-                    android:text="@string/button_tvshows"
-                    />
+                    android:text="@string/button_tvshows" />
 
                 <TextView
                     android:id="@+id/main_button_tv_notification"
@@ -75,8 +72,7 @@
                     android:clickable="true"
                     android:elevation="10dp"
                     android:gravity="center"
-                    android:text="0"
-                    />
+                    android:text="0" />
 
             </RelativeLayout>
 
@@ -95,7 +91,7 @@
                     android:layout_margin="8dp"
                     android:backgroundTint="@color/grey_01"
                     android:src="@android:drawable/ic_search_category_default"
-                    app:borderWidth="0dp"/>
+                    app:borderWidth="0dp" />
 
                 <Button
                     android:id="@+id/main_button_movie"
@@ -105,8 +101,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="15dp"
                     android:layout_toEndOf="@id/main_button_movie_find"
-                    android:text="@string/button_movies"
-                    />
+                    android:text="@string/button_movies" />
 
                 <TextView
                     android:id="@+id/main_button_movie_notification"
@@ -119,8 +114,7 @@
                     android:clickable="true"
                     android:elevation="10dp"
                     android:gravity="center"
-                    android:text="0"
-                    />
+                    android:text="0" />
 
             </RelativeLayout>
 
@@ -132,28 +126,26 @@
                 android:orientation="horizontal">
 
                 <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/main_button_music_find"
+                    android:id="@+id/main_button_artist_find"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:backgroundTint="@color/grey_01"
                     android:src="@android:drawable/ic_search_category_default"
-                    app:borderWidth="0dp"
-                    />
+                    app:borderWidth="0dp" />
 
                 <Button
-                    android:id="@+id/main_button_music"
+                    android:id="@+id/main_button_artist"
                     style="@style/DRK_text_h2_contrast"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="15dp"
-                    android:layout_toEndOf="@id/main_button_music_find"
-                    android:text="@string/button_artists"
-                    />
+                    android:layout_toEndOf="@id/main_button_artist_find"
+                    android:text="@string/button_artists" />
 
                 <TextView
-                    android:id="@+id/main_button_music_notification"
+                    android:id="@+id/main_button_artist_notification"
                     style="@style/DRK_text_notification"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -163,8 +155,7 @@
                     android:clickable="true"
                     android:elevation="10dp"
                     android:gravity="center"
-                    android:text="0"
-                    />
+                    android:text="0" />
 
             </RelativeLayout>
 
@@ -174,15 +165,13 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_gravity="bottom"
-        >
+        android:layout_gravity="bottom">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/background_footer"
-            android:paddingTop="5dp"
-            >
+            android:paddingTop="5dp">
 
             <TextView
                 style="@style/DRK_text_h2_contrast"
@@ -190,19 +179,27 @@
                 android:layout_height="match_parent"
                 android:paddingEnd="5dp"
                 android:paddingStart="5dp"
-                android:text="Powered By:"
-                />
+                android:text="Powered By:" />
 
             <ImageView
                 android:id="@+id/badge_tmdb"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_toStartOf="@+id/badge_discogs"
+                android:contentDescription="@string/tvmb"
+                android:src="@drawable/img_external_tmdb" />
+
+            <ImageView
+                android:id="@+id/badge_discogs"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="5dp"
                 android:layout_marginStart="5dp"
-                android:contentDescription="@string/tvmb"
-                android:src="@drawable/img_external_tmdb"
-                />
+                android:contentDescription="@string/discogs"
+                android:src="@drawable/img_external_discogs" />
         </RelativeLayout>
     </FrameLayout>
 </android.support.design.widget.CoordinatorLayout>

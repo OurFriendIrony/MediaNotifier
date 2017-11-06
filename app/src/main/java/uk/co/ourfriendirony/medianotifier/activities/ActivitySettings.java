@@ -15,16 +15,19 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import uk.co.ourfriendirony.medianotifier.R;
+import uk.co.ourfriendirony.medianotifier.db.ArtistDatabase;
 import uk.co.ourfriendirony.medianotifier.db.MovieDatabase;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.notifier.AlarmScheduler;
 
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetArtist;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetMax;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetMin;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetMovie;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetTV;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationHour;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationMinute;
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationDayOffsetArtist;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationDayOffsetMovie;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationDayOffsetTV;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationHour;
@@ -41,12 +44,12 @@ public class ActivitySettings extends AppCompatActivity {
 
         Button buttonDeleteTV = (Button) findViewById(R.id.settings_button_delete_tv_all);
         Button buttonDeleteMovie = (Button) findViewById(R.id.settings_button_delete_movie_all);
-        Button buttonDeleteMusic = (Button) findViewById(R.id.settings_button_delete_music_all);
+        Button buttonDeleteArtist = (Button) findViewById(R.id.settings_button_delete_artist_all);
 
         Button buttonNotifyTimer = (Button) findViewById(R.id.settings_notification_time_button);
         Button buttonNotifyOffsetTV = (Button) findViewById(R.id.settings_notification_day_offset_tv_button);
         Button buttonNotifyOffsetMovie = (Button) findViewById(R.id.settings_notification_day_offset_movie_button);
-        Button buttonNotifyOffsetMusic = (Button) findViewById(R.id.settings_notification_day_offset_artist_button);
+        Button buttonNotifyOffsetArtist = (Button) findViewById(R.id.settings_notification_day_offset_artist_button);
 
         buttonDeleteTV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,10 +67,11 @@ public class ActivitySettings extends AppCompatActivity {
             }
         });
 
-        buttonDeleteMusic.setOnClickListener(new View.OnClickListener() {
+        buttonDeleteArtist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ActivitySettings.this, "NOT YET IMPLEMENTED", Toast.LENGTH_SHORT).show();
+                new ArtistDatabase(getApplicationContext()).deleteAllArtists();
+                Toast.makeText(ActivitySettings.this, R.string.toast_db_table_cleared, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -144,6 +148,32 @@ public class ActivitySettings extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         setNotificationDayOffsetMovie(getApplicationContext(), picker.getValue());
+                        popupWindow.dismiss();
+                    }
+                });
+            }
+        });
+
+        buttonNotifyOffsetArtist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater inflater = (LayoutInflater) ActivitySettings.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View layout = inflater.inflate(R.layout.popup_offset_selector, (ViewGroup) findViewById(R.id.popup));
+
+                popupWindow = new PopupWindow(layout, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true);
+                popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+
+                final NumberPicker picker = (NumberPicker) popupWindow.getContentView().findViewById(R.id.popup_date_picker);
+                picker.setMaxValue(getNotificationDayOffsetMax());
+                picker.setMinValue(getNotificationDayOffsetMin());
+                picker.setValue(getNotificationDayOffsetArtist(getApplicationContext()));
+                picker.setWrapSelectorWheel(false);
+
+                Button buttonOk = (Button) popupWindow.getContentView().findViewById(R.id.popup_ok);
+                buttonOk.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setNotificationDayOffsetArtist(getApplicationContext(), picker.getValue());
                         popupWindow.dismiss();
                     }
                 });

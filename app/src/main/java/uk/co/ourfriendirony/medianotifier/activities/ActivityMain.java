@@ -21,6 +21,7 @@ import uk.co.ourfriendirony.medianotifier.async.MovieUpdateAsyncTask;
 import uk.co.ourfriendirony.medianotifier.async.TVShowUpdateAsyncTask;
 import uk.co.ourfriendirony.medianotifier.autogen.movie.Movie;
 import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
+import uk.co.ourfriendirony.medianotifier.db.ArtistDatabase;
 import uk.co.ourfriendirony.medianotifier.db.MovieDatabase;
 import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
@@ -32,10 +33,11 @@ public class ActivityMain extends AppCompatActivity {
 
     private TVShowDatabase tvShowDatabase;
     private MovieDatabase movieDatabase;
+    private ArtistDatabase artistDatabase;
 
     private TextView main_button_tv_notification;
     private TextView main_button_movie_notification;
-    private TextView main_button_music_notification;
+    private TextView main_button_artist_notification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,20 +52,22 @@ public class ActivityMain extends AppCompatActivity {
 
         tvShowDatabase = new TVShowDatabase(getApplicationContext());
         movieDatabase = new MovieDatabase(getApplicationContext());
+        artistDatabase = new ArtistDatabase(getApplicationContext());
 
         FloatingActionButton main_button_tv_find = (FloatingActionButton) findViewById(R.id.main_button_tv_find);
         FloatingActionButton main_button_movie_find = (FloatingActionButton) findViewById(R.id.main_button_movie_find);
-        FloatingActionButton main_button_music_find = (FloatingActionButton) findViewById(R.id.main_button_music_find);
+        FloatingActionButton main_button_artist_find = (FloatingActionButton) findViewById(R.id.main_button_artist_find);
 
         main_button_tv_notification = (TextView) findViewById(R.id.main_button_tv_notification);
         main_button_movie_notification = (TextView) findViewById(R.id.main_button_movie_notification);
-        main_button_music_notification = (TextView) findViewById(R.id.main_button_music_notification);
+        main_button_artist_notification = (TextView) findViewById(R.id.main_button_artist_notification);
 
         Button main_button_tv = (Button) findViewById(R.id.main_button_tv);
         Button main_button_movie = (Button) findViewById(R.id.main_button_movie);
-        Button main_button_music = (Button) findViewById(R.id.main_button_music);
+        Button main_button_artist = (Button) findViewById(R.id.main_button_artist);
 
         ImageView tmdbImage = (ImageView) findViewById(R.id.badge_tmdb);
+        ImageView discogsImage = (ImageView) findViewById(R.id.badge_discogs);
 
         main_button_tv_find.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,10 +81,10 @@ public class ActivityMain extends AppCompatActivity {
                 startActivity(new Intent(view.getContext(), ActivityMovieFind.class));
             }
         });
-        main_button_music_find.setOnClickListener(new View.OnClickListener() {
+        main_button_artist_find.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(ActivityMain.this, "NOT YET IMPLEMENTED", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(view.getContext(), ActivityArtistFind.class));
             }
         });
 
@@ -96,16 +100,16 @@ public class ActivityMain extends AppCompatActivity {
                 startActivity(new Intent(view.getContext(), ActivityMovie.class));
             }
         });
-        main_button_music.setOnClickListener(new View.OnClickListener() {
+        main_button_artist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(ActivityMain.this, "NOT YET IMPLEMENTED", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(view.getContext(), ActivityArtist.class));
             }
         });
 
         main_button_tv_notification.setText(getNotificationNumber(tvShowDatabase.countUnwatchedReleasedEpisodes()));
         main_button_movie_notification.setText(getNotificationNumber(movieDatabase.countUnwatchedReleasedMovies()));
-        main_button_music_notification.setText(getNotificationNumber(0));
+        main_button_artist_notification.setText(getNotificationNumber(0));
 
         main_button_tv_notification.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,7 +123,7 @@ public class ActivityMain extends AppCompatActivity {
                 startActivity(new Intent(view.getContext(), ActivityMovieNotifications.class));
             }
         });
-        main_button_music_notification.setOnClickListener(new View.OnClickListener() {
+        main_button_artist_notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(ActivityMain.this, "NOT YET IMPLEMENTED", Toast.LENGTH_SHORT).show();
@@ -131,6 +135,11 @@ public class ActivityMain extends AppCompatActivity {
                 startActivity(IntentGenerator.getWebPageIntent("https://www.themoviedb.org/"));
             }
         });
+        discogsImage.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                startActivity(IntentGenerator.getWebPageIntent("https://www.discogs.com/"));
+            }
+        });
     }
 
     @Override
@@ -138,7 +147,7 @@ public class ActivityMain extends AppCompatActivity {
         super.onResume();
         main_button_tv_notification.setText(getNotificationNumber(tvShowDatabase.countUnwatchedReleasedEpisodes()));
         main_button_movie_notification.setText(getNotificationNumber(movieDatabase.countUnwatchedReleasedMovies()));
-        main_button_music_notification.setText(getNotificationNumber(0));
+        main_button_artist_notification.setText(getNotificationNumber(0));
     }
 
     @Override
@@ -160,7 +169,7 @@ public class ActivityMain extends AppCompatActivity {
                 return true;
 
             case R.id.action_debug:
-                tvShowDatabase.debug();
+                Toast.makeText(ActivityMain.this, "NOT YET IMPLEMENTED", Toast.LENGTH_SHORT).show();
                 return true;
 
             case R.id.action_refresh:
