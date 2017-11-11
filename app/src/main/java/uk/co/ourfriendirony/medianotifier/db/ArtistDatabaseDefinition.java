@@ -12,9 +12,10 @@ public class ArtistDatabaseDefinition extends SQLiteOpenHelper {
     static final String TABLE_ARTISTS = "artists";
     static final String TA_ID = "artist_id";
     static final String TA_TITLE = "artist_title";
+    static final String TA_OVERVIEW = "artist_overview";
     static final String TA_WATCHED = "artist_watched";
     private static final String DATABASE_NAME = "artists";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
 
     ArtistDatabaseDefinition(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -27,6 +28,7 @@ public class ArtistDatabaseDefinition extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " + TABLE_ARTISTS + " (" +
                 TA_ID + " INTEGER, " +
                 TA_TITLE + " TEXT, " +
+                TA_OVERVIEW + " TEXT, " +
                 TA_WATCHED + " INTEGER DEFAULT " + WATCHED_FALSE + ", " +
                 "PRIMARY KEY (" + TA_ID + ")" +
                 ")");

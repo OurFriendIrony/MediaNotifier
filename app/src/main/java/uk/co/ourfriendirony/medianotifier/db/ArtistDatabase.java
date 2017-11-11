@@ -14,10 +14,12 @@ import uk.co.ourfriendirony.medianotifier.autogen.artist.Artist;
 
 import static uk.co.ourfriendirony.medianotifier.db.ArtistDatabaseDefinition.TABLE_ARTISTS;
 import static uk.co.ourfriendirony.medianotifier.db.ArtistDatabaseDefinition.TA_ID;
+import static uk.co.ourfriendirony.medianotifier.db.ArtistDatabaseDefinition.TA_OVERVIEW;
 import static uk.co.ourfriendirony.medianotifier.db.ArtistDatabaseDefinition.TA_TITLE;
 import static uk.co.ourfriendirony.medianotifier.db.ArtistDatabaseDefinition.TA_WATCHED;
 import static uk.co.ourfriendirony.medianotifier.db.ArtistDatabaseDefinition.WATCHED_FALSE;
 import static uk.co.ourfriendirony.medianotifier.db.ArtistDatabaseDefinition.WATCHED_TRUE;
+import static uk.co.ourfriendirony.medianotifier.db.MovieDatabaseDefinition.TM_WATCHED;
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanTitle;
 
 public class ArtistDatabase {
@@ -53,8 +55,8 @@ public class ArtistDatabase {
 
         artistRow.put(TA_ID, artist.getId());
         artistRow.put(TA_TITLE, cleanTitle(artist.getTitle()));
+        artistRow.put(TA_OVERVIEW, artist.getOverview());
         artistRow.put(TA_WATCHED, currentWatchedStatus);
-
         dbWritable.replace(TABLE_ARTISTS, null, artistRow);
     }
 
@@ -166,6 +168,7 @@ public class ArtistDatabase {
 
         artist.setId(Integer.parseInt(getColumnValue(cursor, TA_ID)));
         artist.setTitle(getColumnValue(cursor, TA_TITLE));
+        artist.setOverview(getColumnValue(cursor, TA_OVERVIEW));
 
         Log.d("BUILD_ARTIST", artist.getId() + " " + artist.getTitle());
 
