@@ -1,4 +1,4 @@
-package uk.co.ourfriendirony.medianotifier.db;
+package uk.co.ourfriendirony.medianotifier.db.artist;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

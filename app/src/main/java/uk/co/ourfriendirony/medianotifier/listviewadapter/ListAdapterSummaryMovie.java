@@ -17,10 +17,10 @@ import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.autogen.movie.Movie;
-import uk.co.ourfriendirony.medianotifier.db.MovieDatabase;
+import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
 
-import static uk.co.ourfriendirony.medianotifier.db.MovieDatabaseDefinition.WATCHED_FALSE;
-import static uk.co.ourfriendirony.medianotifier.db.MovieDatabaseDefinition.WATCHED_TRUE;
+import static uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabaseDefinition.WATCHED_FALSE;
+import static uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabaseDefinition.WATCHED_TRUE;
 
 public class ListAdapterSummaryMovie extends ArrayAdapter {
     private final List<Movie> movies;

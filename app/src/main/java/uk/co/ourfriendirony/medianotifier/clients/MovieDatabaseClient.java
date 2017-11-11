@@ -7,9 +7,9 @@ import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.autogen.movie.Movie;
 import uk.co.ourfriendirony.medianotifier.autogen.movie.MovieFinds;
-import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVSeason;
-import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
-import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShowFinds;
+import uk.co.ourfriendirony.medianotifier.autogen.tv.TVSeason;
+import uk.co.ourfriendirony.medianotifier.autogen.tv.TVShow;
+import uk.co.ourfriendirony.medianotifier.autogen.tv.TVShowFinds;
 
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanUrl;
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.replaceTokens;

@@ -17,13 +17,21 @@ import android.widget.Toast;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
+import uk.co.ourfriendirony.medianotifier.activities.artist.ActivityArtist;
+import uk.co.ourfriendirony.medianotifier.activities.artist.ActivityArtistFind;
+import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovie;
+import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovieFind;
+import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovieNotifications;
+import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTV;
+import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVFind;
+import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVNotifications;
 import uk.co.ourfriendirony.medianotifier.async.MovieUpdateAsyncTask;
 import uk.co.ourfriendirony.medianotifier.async.TVShowUpdateAsyncTask;
 import uk.co.ourfriendirony.medianotifier.autogen.movie.Movie;
-import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
-import uk.co.ourfriendirony.medianotifier.db.ArtistDatabase;
-import uk.co.ourfriendirony.medianotifier.db.MovieDatabase;
-import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
+import uk.co.ourfriendirony.medianotifier.autogen.tv.TVShow;
+import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
+import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
+import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
 
 import static uk.co.ourfriendirony.medianotifier.general.IntentGenerator.getContactEmailIntent;

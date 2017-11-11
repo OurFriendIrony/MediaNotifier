@@ -16,11 +16,11 @@ import java.util.Date;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVEpisode;
-import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
+import uk.co.ourfriendirony.medianotifier.autogen.tv.TVEpisode;
+import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
 
-import static uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition.WATCHED_FALSE;
-import static uk.co.ourfriendirony.medianotifier.db.TVShowDatabaseDefinition.WATCHED_TRUE;
+import static uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabaseDefinition.WATCHED_FALSE;
+import static uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabaseDefinition.WATCHED_TRUE;
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.pad;
 
 public class ListAdapterTVEpisode extends ArrayAdapter {

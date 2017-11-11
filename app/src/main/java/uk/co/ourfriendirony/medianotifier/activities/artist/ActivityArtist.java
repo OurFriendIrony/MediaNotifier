@@ -1,6 +1,5 @@
-package uk.co.ourfriendirony.medianotifier.activities;
+package uk.co.ourfriendirony.medianotifier.activities.artist;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,8 +18,7 @@ import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.async.ArtistUpdateAsyncTask;
 import uk.co.ourfriendirony.medianotifier.autogen.artist.Artist;
 import uk.co.ourfriendirony.medianotifier.clients.DiscogsDatabaseClient;
-import uk.co.ourfriendirony.medianotifier.db.ArtistDatabase;
-import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
+import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummaryArtist;
 
 public class ActivityArtist extends AppCompatActivity {

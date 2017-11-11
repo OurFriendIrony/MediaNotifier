@@ -15,9 +15,9 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.db.ArtistDatabase;
-import uk.co.ourfriendirony.medianotifier.db.MovieDatabase;
-import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
+import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
+import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
+import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.notifier.AlarmScheduler;
 
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetArtist;

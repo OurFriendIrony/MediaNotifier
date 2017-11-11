@@ -1,4 +1,4 @@
-package uk.co.ourfriendirony.medianotifier.activities;
+package uk.co.ourfriendirony.medianotifier.activities.artist;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -7,34 +7,39 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.autogen.movie.Movie;
-import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
-import uk.co.ourfriendirony.medianotifier.db.MovieDatabase;
-import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummaryMovie;
+import uk.co.ourfriendirony.medianotifier.autogen.artist.Artist;
+import uk.co.ourfriendirony.medianotifier.clients.DiscogsDatabaseClient;
+import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
+import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummaryArtist;
 
-public class ActivityMovieFind extends AppCompatActivity {
-    private MovieDatabase database;
+public class ActivityArtistFind extends AppCompatActivity {
+    private ArtistDatabase database;
 
     private EditText findInput;
     private ProgressBar findProgressBar;
     private ListView findList;
-    private List<Movie> movies = new ArrayList<>();
-    private MovieDatabaseClient client = new MovieDatabaseClient();
+    private List<Artist> artists = new ArrayList<>();
+    private DiscogsDatabaseClient client = new DiscogsDatabaseClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find);
-        getSupportActionBar().setTitle(R.string.title_find_movie);
+        getSupportActionBar().setTitle(R.string.title_find_artist);
 
-        database = new MovieDatabase(getApplicationContext());
+        database = new ArtistDatabase(getApplicationContext());
 
         findInput = (EditText) findViewById(R.id.find_input);
         findProgressBar = (ProgressBar) findViewById(R.id.find_progress);
@@ -47,7 +52,7 @@ public class ActivityMovieFind extends AppCompatActivity {
                     case EditorInfo.IME_ACTION_SEND:
                         String input = textView.getText().toString();
                         if (!"".equals(input)) {
-                            new MovieFindAsyncTask().execute(input);
+                            new ArtistFindAsyncTask().execute(input);
                         }
                         return true;
 
@@ -62,12 +67,12 @@ public class ActivityMovieFind extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView textViewID = (TextView) view.findViewById(R.id.find_item_id);
                 TextView textViewTitle = (TextView) view.findViewById(R.id.find_item_title);
-                new MovieAddAsyncTask().execute(textViewID.getText().toString(), textViewTitle.getText().toString());
+                new ArtistAddAsyncTask().execute(textViewID.getText().toString(), textViewTitle.getText().toString());
             }
         });
     }
 
-    private class MovieFindAsyncTask extends AsyncTask<String, Void, List<Movie>> {
+    private class ArtistFindAsyncTask extends AsyncTask<String, Void, List<Artist>> {
 
         @Override
         protected void onPreExecute() {
@@ -76,23 +81,26 @@ public class ActivityMovieFind extends AppCompatActivity {
         }
 
         @Override
-        protected List<Movie> doInBackground(String... params) {
+        protected List<Artist> doInBackground(String... params) {
             String string = params[0];
             try {
-                movies = client.queryMovie(string);
+                artists = client.queryArtist(string);
+                for (int i = 0; i < artists.size(); i++) {
+                    artists.set(i, client.getArtist(artists.get(i).getId()));
+                }
             } catch (IOException e) {
-                movies = new ArrayList<>();
+                artists = new ArrayList<>();
                 Log.e(String.valueOf(this.getClass()), "Failed to query: " + e.getMessage());
             }
-            return movies;
+            return artists;
         }
 
         @Override
-        protected void onPostExecute(List<Movie> result) {
+        protected void onPostExecute(List<Artist> result) {
             findProgressBar.setVisibility(View.GONE);
 
-            if (movies.size() > 0) {
-                ListAdapterSummaryMovie adapter = new ListAdapterSummaryMovie(getBaseContext(), R.layout.list_item_find, movies);
+            if (artists.size() > 0) {
+                ListAdapterSummaryArtist adapter = new ListAdapterSummaryArtist(getBaseContext(), R.layout.list_item_find, artists);
                 findList.setAdapter(adapter);
             } else {
                 Toast.makeText(getBaseContext(), R.string.toast_no_results, Toast.LENGTH_LONG).show();
@@ -100,7 +108,7 @@ public class ActivityMovieFind extends AppCompatActivity {
         }
     }
 
-    private class MovieAddAsyncTask extends AsyncTask<String, Void, String> {
+    private class ArtistAddAsyncTask extends AsyncTask<String, Void, String> {
         /* Adds new item to database
          */
 
@@ -112,23 +120,23 @@ public class ActivityMovieFind extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            String movieId = params[0];
-            String movieTitle = params[1];
+            String artistId = params[0];
+            String artistTitle = params[1];
 
-            Movie movie;
+            Artist artist;
             try {
-                movie = client.getMovie(Integer.parseInt(movieId));
-                database.addMovie(movie);
+                artist = client.getArtist(Integer.parseInt(artistId));
+                database.addArtist(artist);
             } catch (IOException e) {
                 Log.e(String.valueOf(this.getClass()), "Failed to add: " + e.getMessage());
             }
-            return movieTitle;
+            return artistTitle;
         }
 
         @Override
-        protected void onPostExecute(String movieTitle) {
+        protected void onPostExecute(String artistTitle) {
             findProgressBar.setVisibility(View.GONE);
-            String toastMsg = "'" + movieTitle + "' " + getResources().getString(R.string.toast_db_added);
+            String toastMsg = "'" + artistTitle + "' " + getResources().getString(R.string.toast_db_added);
             Toast.makeText(getApplicationContext(), toastMsg, Toast.LENGTH_SHORT).show();
         }
     }

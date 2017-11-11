@@ -6,7 +6,7 @@ import android.widget.Toast;
 
 import uk.co.ourfriendirony.medianotifier.autogen.movie.Movie;
 import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
-import uk.co.ourfriendirony.medianotifier.db.MovieDatabase;
+import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
 
 import static uk.co.ourfriendirony.medianotifier.general.StaticContext.getStaticContext;
 

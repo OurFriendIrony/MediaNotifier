@@ -16,10 +16,10 @@ import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.autogen.artist.Artist;
-import uk.co.ourfriendirony.medianotifier.db.ArtistDatabase;
+import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
 
-import static uk.co.ourfriendirony.medianotifier.db.ArtistDatabaseDefinition.WATCHED_FALSE;
-import static uk.co.ourfriendirony.medianotifier.db.ArtistDatabaseDefinition.WATCHED_TRUE;
+import static uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabaseDefinition.WATCHED_FALSE;
+import static uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabaseDefinition.WATCHED_TRUE;
 
 public class ListAdapterSummaryArtist extends ArrayAdapter {
     private final List<Artist> artists;

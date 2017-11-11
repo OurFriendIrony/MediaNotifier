@@ -1,4 +1,4 @@
-package uk.co.ourfriendirony.medianotifier.activities;
+package uk.co.ourfriendirony.medianotifier.activities.movie;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -19,7 +19,7 @@ import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.async.MovieUpdateAsyncTask;
 import uk.co.ourfriendirony.medianotifier.autogen.movie.Movie;
 import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
-import uk.co.ourfriendirony.medianotifier.db.MovieDatabase;
+import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummaryMovie;
 

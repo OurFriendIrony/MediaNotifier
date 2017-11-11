@@ -1,4 +1,4 @@
-package uk.co.ourfriendirony.medianotifier.activities;
+package uk.co.ourfriendirony.medianotifier.activities.tv;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -18,11 +18,11 @@ import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.async.TVShowUpdateAsyncTask;
-import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVEpisode;
-import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVSeason;
-import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
+import uk.co.ourfriendirony.medianotifier.autogen.tv.TVEpisode;
+import uk.co.ourfriendirony.medianotifier.autogen.tv.TVSeason;
+import uk.co.ourfriendirony.medianotifier.autogen.tv.TVShow;
 import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
-import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
+import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummaryTV;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterTVEpisode;

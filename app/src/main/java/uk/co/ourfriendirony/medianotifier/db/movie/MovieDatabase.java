@@ -1,4 +1,4 @@
-package uk.co.ourfriendirony.medianotifier.db;
+package uk.co.ourfriendirony.medianotifier.db.movie;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -15,30 +15,29 @@ import uk.co.ourfriendirony.medianotifier.autogen.movie.Collection;
 import uk.co.ourfriendirony.medianotifier.autogen.movie.Movie;
 import uk.co.ourfriendirony.medianotifier.general.StringHandler;
 
-import static uk.co.ourfriendirony.medianotifier.db.MovieDatabaseDefinition.*;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetMovie;
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanTitle;
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.dateToString;
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.stringToDate;
 
 public class MovieDatabase {
-    private static final String SELECT_MOVIES = "SELECT * FROM " + TABLE_MOVIES + " ORDER BY " + TM_TITLE + " ASC;";
+    private static final String SELECT_MOVIES = "SELECT * FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " ORDER BY " + MovieDatabaseDefinition.TM_TITLE + " ASC;";
 
-    private static final String GET_MOVIE_TITLE_BY_ID = "SELECT " + TM_TITLE + " FROM " + TABLE_MOVIES + " WHERE " + TM_ID + "=?;";
+    private static final String GET_MOVIE_TITLE_BY_ID = "SELECT " + MovieDatabaseDefinition.TM_TITLE + " FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " WHERE " + MovieDatabaseDefinition.TM_ID + "=?;";
 
-    private static final String GET_MOVIE_WATCHED_STATUS = "SELECT " + TM_WATCHED + " FROM " + TABLE_MOVIES + " WHERE " + TM_ID + "=?;";
+    private static final String GET_MOVIE_WATCHED_STATUS = "SELECT " + MovieDatabaseDefinition.TM_WATCHED + " FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " WHERE " + MovieDatabaseDefinition.TM_ID + "=?;";
 
-    private static final String COUNT_UNWATCHED_MOVIES_UNRELEASED = "SELECT COUNT(*) FROM " + TABLE_MOVIES + " " +
-            "WHERE " + TM_WATCHED + "=" + WATCHED_FALSE + " AND " + TM_DATE + " > @OFFSET@;";
+    private static final String COUNT_UNWATCHED_MOVIES_UNRELEASED = "SELECT COUNT(*) FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " " +
+            "WHERE " + MovieDatabaseDefinition.TM_WATCHED + "=" + MovieDatabaseDefinition.WATCHED_FALSE + " AND " + MovieDatabaseDefinition.TM_DATE + " > @OFFSET@;";
     private static final String GET_UNWATCHED_MOVIES_UNRELEASED = "SELECT * " +
-            "FROM " + TABLE_MOVIES + " " +
-            "WHERE " + TM_WATCHED + "=" + WATCHED_FALSE + " AND " + TM_DATE + " > @OFFSET@ ORDER BY " + TM_DATE + " ASC;";
+            "FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " " +
+            "WHERE " + MovieDatabaseDefinition.TM_WATCHED + "=" + MovieDatabaseDefinition.WATCHED_FALSE + " AND " + MovieDatabaseDefinition.TM_DATE + " > @OFFSET@ ORDER BY " + MovieDatabaseDefinition.TM_DATE + " ASC;";
 
-    private static final String COUNT_UNWATCHED_MOVIES_RELEASED = "SELECT COUNT(*) FROM " + TABLE_MOVIES + " " +
-            "WHERE " + TM_WATCHED + "=" + WATCHED_FALSE + " AND " + TM_DATE + " <= @OFFSET@;";
+    private static final String COUNT_UNWATCHED_MOVIES_RELEASED = "SELECT COUNT(*) FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " " +
+            "WHERE " + MovieDatabaseDefinition.TM_WATCHED + "=" + MovieDatabaseDefinition.WATCHED_FALSE + " AND " + MovieDatabaseDefinition.TM_DATE + " <= @OFFSET@;";
     private static final String GET_UNWATCHED_MOVIES_RELEASED = "SELECT * " +
-            "FROM " + TABLE_MOVIES + " " +
-            "WHERE " + TM_WATCHED + "=" + WATCHED_FALSE + " AND " + TM_DATE + " <= @OFFSET@ ORDER BY " + TM_DATE + " ASC;";
+            "FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " " +
+            "WHERE " + MovieDatabaseDefinition.TM_WATCHED + "=" + MovieDatabaseDefinition.WATCHED_FALSE + " AND " + MovieDatabaseDefinition.TM_DATE + " <= @OFFSET@ ORDER BY " + MovieDatabaseDefinition.TM_DATE + " ASC;";
 
     private final MovieDatabaseDefinition databaseHelper;
     private final Context context;
@@ -63,29 +62,29 @@ public class MovieDatabase {
     private void insertMovie(SQLiteDatabase dbWritable, Movie movie, boolean newMovie) {
         String currentWatchedStatus = getMovieWatchedStatus(dbWritable, movie);
         ContentValues movieRow = new ContentValues();
-        movieRow.put(TM_ID, movie.getId());
-        movieRow.put(TM_TITLE, cleanTitle(movie.getTitle()));
-        movieRow.put(TM_IMDB, movie.getImdbId());
-        movieRow.put(TM_DATE, dateToString(movie.getReleaseDate()));
-        movieRow.put(TM_OVERVIEW, movie.getOverview());
-        movieRow.put(TM_TAGLINE, movie.getTagline());
-        movieRow.put(TM_COLLECTION, movie.getBelongsToCollection().getCollectionName());
+        movieRow.put(MovieDatabaseDefinition.TM_ID, movie.getId());
+        movieRow.put(MovieDatabaseDefinition.TM_TITLE, cleanTitle(movie.getTitle()));
+        movieRow.put(MovieDatabaseDefinition.TM_IMDB, movie.getImdbId());
+        movieRow.put(MovieDatabaseDefinition.TM_DATE, dateToString(movie.getReleaseDate()));
+        movieRow.put(MovieDatabaseDefinition.TM_OVERVIEW, movie.getOverview());
+        movieRow.put(MovieDatabaseDefinition.TM_TAGLINE, movie.getTagline());
+        movieRow.put(MovieDatabaseDefinition.TM_COLLECTION, movie.getBelongsToCollection().getCollectionName());
         if (newMovie && alreadyReleased(movie)) {
-            movieRow.put(TM_WATCHED, WATCHED_TRUE);
+            movieRow.put(MovieDatabaseDefinition.TM_WATCHED, MovieDatabaseDefinition.WATCHED_TRUE);
         } else {
-            movieRow.put(TM_WATCHED, currentWatchedStatus);
+            movieRow.put(MovieDatabaseDefinition.TM_WATCHED, currentWatchedStatus);
         }
-        dbWritable.replace(TABLE_MOVIES, null, movieRow);
+        dbWritable.replace(MovieDatabaseDefinition.TABLE_MOVIES, null, movieRow);
     }
 
     public String getMovieWatchedStatus(SQLiteDatabase dbReadable, Movie movie) {
         String[] args = new String[]{movie.getIdAsString()};
         Cursor cursor = dbReadable.rawQuery(GET_MOVIE_WATCHED_STATUS, args);
-        String watchedStatus = WATCHED_FALSE;
+        String watchedStatus = MovieDatabaseDefinition.WATCHED_FALSE;
 
         try {
             while (cursor.moveToNext()) {
-                watchedStatus = getColumnValue(cursor, TM_WATCHED);
+                watchedStatus = getColumnValue(cursor, MovieDatabaseDefinition.TM_WATCHED);
             }
         } finally {
             cursor.close();
@@ -98,29 +97,29 @@ public class MovieDatabase {
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
         String[] args = new String[]{movie.getIdAsString()};
         Cursor cursor = dbReadable.rawQuery(GET_MOVIE_WATCHED_STATUS, args);
-        String watchedStatus = WATCHED_FALSE;
+        String watchedStatus = MovieDatabaseDefinition.WATCHED_FALSE;
 
         try {
             while (cursor.moveToNext()) {
-                watchedStatus = getColumnValue(cursor, TM_WATCHED);
+                watchedStatus = getColumnValue(cursor, MovieDatabaseDefinition.TM_WATCHED);
             }
         } finally {
             cursor.close();
         }
 
         dbReadable.close();
-        return WATCHED_TRUE.equals(watchedStatus);
+        return MovieDatabaseDefinition.WATCHED_TRUE.equals(watchedStatus);
     }
 
     public void deleteAllMovies() {
         SQLiteDatabase dbWritable = databaseHelper.getWritableDatabase();
-        dbWritable.execSQL("DELETE FROM " + TABLE_MOVIES + ";");
+        dbWritable.execSQL("DELETE FROM " + MovieDatabaseDefinition.TABLE_MOVIES + ";");
         dbWritable.close();
     }
 
     public void deleteMovie(Integer movieId) {
         SQLiteDatabase dbWritable = databaseHelper.getWritableDatabase();
-        dbWritable.execSQL("DELETE FROM " + TABLE_MOVIES + " WHERE " + TM_ID + "=" + movieId + ";");
+        dbWritable.execSQL("DELETE FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " WHERE " + MovieDatabaseDefinition.TM_ID + "=" + movieId + ";");
         dbWritable.close();
     }
 
@@ -130,7 +129,7 @@ public class MovieDatabase {
         Cursor cursor = dbReadable.rawQuery(GET_MOVIE_TITLE_BY_ID, new String[]{String.valueOf(movieId)});
         try {
             while (cursor.moveToNext()) {
-                title = getColumnValue(cursor, TM_TITLE);
+                title = getColumnValue(cursor, MovieDatabaseDefinition.TM_TITLE);
             }
         } finally {
             cursor.close();
@@ -210,14 +209,14 @@ public class MovieDatabase {
         Movie movie = new Movie();
 
         Collection movieCollection = new Collection();
-        movieCollection.setCollectionName(getColumnValue(cursor, TM_COLLECTION));
+        movieCollection.setCollectionName(getColumnValue(cursor, MovieDatabaseDefinition.TM_COLLECTION));
 
-        movie.setId(Integer.parseInt(getColumnValue(cursor, TM_ID)));
-        movie.setTitle(getColumnValue(cursor, TM_TITLE));
-        movie.setOverview(getColumnValue(cursor, TM_OVERVIEW));
-        movie.setReleaseDate(stringToDate(getColumnValue(cursor, TM_DATE)));
-        movie.setImdbId(getColumnValue(cursor, TM_IMDB));
-        movie.setTagline(getColumnValue(cursor, TM_TAGLINE));
+        movie.setId(Integer.parseInt(getColumnValue(cursor, MovieDatabaseDefinition.TM_ID)));
+        movie.setTitle(getColumnValue(cursor, MovieDatabaseDefinition.TM_TITLE));
+        movie.setOverview(getColumnValue(cursor, MovieDatabaseDefinition.TM_OVERVIEW));
+        movie.setReleaseDate(stringToDate(getColumnValue(cursor, MovieDatabaseDefinition.TM_DATE)));
+        movie.setImdbId(getColumnValue(cursor, MovieDatabaseDefinition.TM_IMDB));
+        movie.setTagline(getColumnValue(cursor, MovieDatabaseDefinition.TM_TAGLINE));
         movie.setBelongsToCollection(movieCollection);
 
         Log.d("BUILD_MOVIE", movie.getId() + " " + movie.getTitle());
@@ -243,10 +242,10 @@ public class MovieDatabase {
     public void updateMovieWatchedStatus(Movie movie, String watchedStatus) {
         SQLiteDatabase dbWriteable = databaseHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(TM_WATCHED, watchedStatus);
-        String where = TM_ID + "=?";
+        values.put(MovieDatabaseDefinition.TM_WATCHED, watchedStatus);
+        String where = MovieDatabaseDefinition.TM_ID + "=?";
         String[] whereArgs = new String[]{movie.getIdAsString()};
-        dbWriteable.update(TABLE_MOVIES, values, where, whereArgs);
+        dbWriteable.update(MovieDatabaseDefinition.TABLE_MOVIES, values, where, whereArgs);
         dbWriteable.close();
     }
 

@@ -1,4 +1,4 @@
-package uk.co.ourfriendirony.medianotifier.activities;
+package uk.co.ourfriendirony.medianotifier.activities.tv;
 
 import android.app.NotificationManager;
 import android.content.Context;
@@ -9,8 +9,8 @@ import android.widget.ListView;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVEpisode;
-import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
+import uk.co.ourfriendirony.medianotifier.autogen.tv.TVEpisode;
+import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterTVEpisode;
 
 public class ActivityTVNotifications extends AppCompatActivity {

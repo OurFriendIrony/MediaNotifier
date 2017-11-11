@@ -7,7 +7,7 @@ import android.widget.Toast;
 
 import uk.co.ourfriendirony.medianotifier.autogen.artist.Artist;
 import uk.co.ourfriendirony.medianotifier.clients.DiscogsDatabaseClient;
-import uk.co.ourfriendirony.medianotifier.db.ArtistDatabase;
+import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
 
 import static uk.co.ourfriendirony.medianotifier.general.StaticContext.getStaticContext;
 

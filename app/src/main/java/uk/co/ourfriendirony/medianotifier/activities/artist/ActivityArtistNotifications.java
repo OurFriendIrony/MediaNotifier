@@ -1,4 +1,4 @@
-package uk.co.ourfriendirony.medianotifier.activities;
+package uk.co.ourfriendirony.medianotifier.activities.artist;
 
 import android.app.NotificationManager;
 import android.content.Context;
@@ -10,7 +10,7 @@ import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.autogen.artist.Artist;
-import uk.co.ourfriendirony.medianotifier.db.ArtistDatabase;
+import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummaryArtist;
 
 public class ActivityArtistNotifications extends AppCompatActivity {

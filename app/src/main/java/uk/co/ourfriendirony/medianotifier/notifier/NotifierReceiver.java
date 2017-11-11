@@ -12,10 +12,10 @@ import android.support.v4.app.NotificationCompat;
 import java.text.MessageFormat;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.activities.ActivityMovieNotifications;
-import uk.co.ourfriendirony.medianotifier.activities.ActivityTVNotifications;
-import uk.co.ourfriendirony.medianotifier.db.MovieDatabase;
-import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
+import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovieNotifications;
+import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVNotifications;
+import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
+import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
 
 public class NotifierReceiver extends BroadcastReceiver {
     int unwatchedEpisodes = 0;

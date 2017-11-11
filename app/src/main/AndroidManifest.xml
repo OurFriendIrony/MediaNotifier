@@ -23,15 +23,15 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.ActivitySettings"/>
-        <activity android:name=".activities.ActivityMovie"/>
-        <activity android:name=".activities.ActivityMovieFind"/>
-        <activity android:name=".activities.ActivityMovieNotifications"/>
-        <activity android:name=".activities.ActivityTV"/>
-        <activity android:name=".activities.ActivityTVFind"/>
-        <activity android:name=".activities.ActivityTVNotifications"/>
-        <activity android:name=".activities.ActivityArtist"/>
-        <activity android:name=".activities.ActivityArtistFind"/>
-        <activity android:name=".activities.ActivityArtistNotifications"/>
+        <activity android:name=".activities.movie.ActivityMovie"/>
+        <activity android:name=".activities.movie.ActivityMovieFind"/>
+        <activity android:name=".activities.movie.ActivityMovieNotifications"/>
+        <activity android:name=".activities.tv.ActivityTV"/>
+        <activity android:name=".activities.tv.ActivityTVFind"/>
+        <activity android:name=".activities.tv.ActivityTVNotifications"/>
+        <activity android:name=".activities.artist.ActivityArtist"/>
+        <activity android:name=".activities.artist.ActivityArtistFind"/>
+        <activity android:name=".activities.artist.ActivityArtistNotifications"/>
 
         <receiver android:name=".notifier.BootReceiver">
             <intent-filter>

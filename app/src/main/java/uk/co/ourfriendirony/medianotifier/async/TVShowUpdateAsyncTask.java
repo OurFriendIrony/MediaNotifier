@@ -4,9 +4,9 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
+import uk.co.ourfriendirony.medianotifier.autogen.tv.TVShow;
 import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
-import uk.co.ourfriendirony.medianotifier.db.TVShowDatabase;
+import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
 
 import static uk.co.ourfriendirony.medianotifier.general.StaticContext.getStaticContext;
 

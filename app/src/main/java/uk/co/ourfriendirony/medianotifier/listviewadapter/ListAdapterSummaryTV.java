@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.autogen.tvshow.TVShow;
+import uk.co.ourfriendirony.medianotifier.autogen.tv.TVShow;
 
 public class ListAdapterSummaryTV extends ArrayAdapter {
     private final List<TVShow> tvShows;
