@@ -85,6 +85,9 @@ public class ActivityArtistFind extends AppCompatActivity {
             String string = params[0];
             try {
                 artists = client.queryArtist(string);
+                for (int i = 0; i < artists.size(); i++) {
+                    artists.set(i, client.getArtist(artists.get(i).getId()));
+                }
             } catch (IOException e) {
                 artists = new ArrayList<>();
                 Log.e(String.valueOf(this.getClass()), "Failed to query: " + e.getMessage());

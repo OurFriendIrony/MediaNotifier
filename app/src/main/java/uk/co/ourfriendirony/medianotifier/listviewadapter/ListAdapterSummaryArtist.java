@@ -70,10 +70,15 @@ public class ListAdapterSummaryArtist extends ArrayAdapter {
 
         TextView textId = (TextView) view.findViewById(R.id.find_item_id);
         TextView textTitle = (TextView) view.findViewById(R.id.find_item_title);
+        TextView textDate = (TextView) view.findViewById(R.id.find_item_date);
+        TextView textOverview = (TextView) view.findViewById(R.id.find_item_overview);
 
         Artist artist = artists.get(position);
+
         textId.setText(artist.getIdAsString());
         textTitle.setText(artist.getTitle());
+        textDate.setText("");
+        textOverview.setText(artist.getOverview());
 
         return view;
     }
@@ -85,10 +90,16 @@ public class ListAdapterSummaryArtist extends ArrayAdapter {
         final ArtistDatabase database = new ArtistDatabase(getContext());
 
         TextView textTitle = (TextView) view.findViewById(R.id.list_item_title);
+        TextView textSubTitle = (TextView) view.findViewById(R.id.list_item_sub_title);
+        TextView textDate = (TextView) view.findViewById(R.id.list_item_date);
+        TextView textOverview = (TextView) view.findViewById(R.id.list_item_overview);
 
         final Artist artist = artists.get(position);
 
         textTitle.setText(artist.getTitle());
+        textSubTitle.setHeight(0);
+        textDate.setText("");
+        textOverview.setText(artist.getOverview());
 
         ToggleButton toggle = (ToggleButton) view.findViewById(R.id.button_toggle);
         toggle.setChecked(database.getArtistWatchedStatusAsBoolean(artist));

@@ -13,19 +13,17 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "id",
-        "title",
         "name",
-        "profile"
+        "profile",
+        "date"
 })
 public class Artist {
     @JsonProperty("id")
     private Integer id;
-    @JsonProperty("title")
-    private String title;
     @JsonProperty("name")
     private String name;
     @JsonProperty("profile")
-    private String profile;
+    private String overview;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -41,16 +39,12 @@ public class Artist {
 
     @JsonProperty("title")
     public String getTitle() {
-        if ("".equals(title)) {
-            return name;
-        } else {
-            return title;
-        }
+        return name;
     }
 
     @JsonProperty("title")
     public void setTitle(String title) {
-        this.title = title;
+        this.name = title;
     }
 
     @JsonProperty("name")
@@ -64,13 +58,13 @@ public class Artist {
     }
 
     @JsonProperty("profile")
-    public String getProfile() {
-        return profile;
+    public String getOverview() {
+        return overview;
     }
 
     @JsonProperty("profile")
-    public void setProfile(String profile) {
-        this.profile = profile;
+    public void setOverview(String profile) {
+        this.overview = profile;
     }
 
     @JsonAnyGetter

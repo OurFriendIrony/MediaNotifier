@@ -13,8 +13,8 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 import java.util.List;
 
-import uk.co.ourfriendirony.medianotifier.autogen.artist.ArtistFinds;
 import uk.co.ourfriendirony.medianotifier.autogen.artist.Artist;
+import uk.co.ourfriendirony.medianotifier.autogen.artist.ArtistFinds;
 
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanUrl;
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.replaceTokens;
@@ -25,8 +25,9 @@ public class DiscogsDatabaseClient {
     private static final String API_SECRET = "ZbUHjTuBkPFLaJFaiJIDnFESiqEOequW";
     private static final String URL_AUTH = "?key=" + API_KEY + "&secret=" + API_SECRET;
 
-    private static final String URL_ARTIST_QUERY = HOST + "database/search" + URL_AUTH + "&type=artist&title=@NAME@";
+    private static final String URL_ARTIST_QUERY = HOST + "database/search" + URL_AUTH + "&type=artist&title=@NAME@&per_page=10";
     private static final String URL_ARTIST_ID = HOST + "artists/@ID@" + URL_AUTH;
+    private static final String URL_ARTIST_RELEASE_ID = HOST + "artists/@ID@/releases" + URL_AUTH;
 
     private static final DefaultHttpClient client = new DefaultHttpClient();
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
