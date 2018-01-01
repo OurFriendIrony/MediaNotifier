@@ -206,6 +206,18 @@ public class TVShowDatabase {
         return countUnwatchedEpisodes(COUNT_UNWATCHED_EPISODES_TOTAL);
     }
 
+    public List<TVEpisode> getUnwatchedEpisodesReleased() {
+        return getUnwatchedEpisodes(GET_UNWATCHED_EPISODES_RELEASED, "UNWATCHED RELEASED");
+    }
+
+    public List<TVEpisode> getUnwatchedEpisodesUnReleased() {
+        return getUnwatchedEpisodes(GET_UNWATCHED_EPISODES_UNRELEASED, "UNWATCHED UNRELEASED");
+    }
+
+    public List<TVEpisode> getUnwatchedEpisodesTotal() {
+        return getUnwatchedEpisodes(GET_UNWATCHED_EPISODES_TOTAL, "UNWATCHED TOTAL");
+    }
+
     private int countUnwatchedEpisodes(String countQuery) {
         String offset = "date('now','-" + getNotificationDayOffsetTV(context) + " days')";
         String query = StringHandler.replaceTokens(countQuery, "@OFFSET@", offset);
@@ -217,18 +229,6 @@ public class TVShowDatabase {
         cursor.close();
         dbReadable.close();
         return count;
-    }
-
-    public List<TVEpisode> getUnwatchedEpisodesReleased() {
-        return getUnwatchedEpisodes(GET_UNWATCHED_EPISODES_RELEASED, "UNWATCHED RELEASED");
-    }
-
-    public List<TVEpisode> getUnwatchedEpisodesUnReleased() {
-        return getUnwatchedEpisodes(GET_UNWATCHED_EPISODES_RELEASED, "UNWATCHED UNRELEASED");
-    }
-
-    public List<TVEpisode> getUnwatchedEpisodesTotal() {
-        return getUnwatchedEpisodes(GET_UNWATCHED_EPISODES_TOTAL, "UNWATCHED TOTAL");
     }
 
     @NonNull
