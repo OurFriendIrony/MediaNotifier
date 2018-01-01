@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import uk.co.ourfriendirony.medianotifier.autogen.movie.Collection;
-import uk.co.ourfriendirony.medianotifier.autogen.movie.Movie;
+import uk.co.ourfriendirony.medianotifier._objects.movie.Collection;
+import uk.co.ourfriendirony.medianotifier._objects.movie.Movie;
 import uk.co.ourfriendirony.medianotifier.general.StringHandler;
 
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetMovie;

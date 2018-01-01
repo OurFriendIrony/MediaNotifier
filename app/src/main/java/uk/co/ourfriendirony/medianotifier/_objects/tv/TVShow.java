@@ -1,4 +1,4 @@
-package uk.co.ourfriendirony.medianotifier.autogen.tv;
+package uk.co.ourfriendirony.medianotifier._objects.tv;
 
 import com.fasterxml.jackson.annotation.*;
 

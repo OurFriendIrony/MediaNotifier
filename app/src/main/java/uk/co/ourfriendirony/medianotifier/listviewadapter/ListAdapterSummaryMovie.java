@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.autogen.movie.Movie;
+import uk.co.ourfriendirony.medianotifier._objects.movie.Movie;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
 
 import static uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabaseDefinition.WATCHED_FALSE;

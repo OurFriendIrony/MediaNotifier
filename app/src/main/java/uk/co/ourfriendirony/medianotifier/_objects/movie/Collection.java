@@ -1,4 +1,4 @@
-package uk.co.ourfriendirony.medianotifier.autogen.tv;
+package uk.co.ourfriendirony.medianotifier._objects.movie;
 
 import com.fasterxml.jackson.annotation.*;
 
@@ -7,23 +7,22 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-        "imdb_id"
+        "name"
 })
-public class TVShowExternalIds {
-
-    @JsonProperty("imdb_id")
-    private String imdbId;
+public class Collection {
+    @JsonProperty("name")
+    private String collectionName;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("imdb_id")
-    public String getImdbId() {
-        return imdbId;
+    @JsonProperty("name")
+    public String getCollectionName() {
+        return collectionName;
     }
 
-    @JsonProperty("imdb_id")
-    public void setImdbId(String imdbId) {
-        this.imdbId = imdbId;
+    @JsonProperty("name")
+    public void setCollectionName(String collectionName) {
+        this.collectionName = collectionName;
     }
 
     @JsonAnyGetter

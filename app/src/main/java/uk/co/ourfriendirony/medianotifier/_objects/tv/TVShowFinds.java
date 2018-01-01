@@ -1,4 +1,4 @@
-package uk.co.ourfriendirony.medianotifier.autogen.movie;
+package uk.co.ourfriendirony.medianotifier._objects.tv;
 
 import com.fasterxml.jackson.annotation.*;
 
@@ -11,30 +11,30 @@ import java.util.Map;
 @JsonPropertyOrder({
         "results"
 })
-public class MovieFinds {
+public class TVShowFinds {
     @JsonProperty("results")
-    private List<Movie> results = new ArrayList<>();
+    private List<TVShow> tvShows = new ArrayList<>();
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("results")
-    public List<Movie> getMovies() {
-        return results;
+    private List<TVShow> getTVShows() {
+        return tvShows;
     }
 
     @JsonProperty("results")
-    public void setResults(List<Movie> results) {
-        this.results = results;
+    public void setTVShows(List<TVShow> tvShows) {
+        this.tvShows = tvShows;
     }
 
-    public List<Movie> getMoviesWithDates() {
-        List<Movie> movies = new ArrayList<>();
-        for (Movie movie : getMovies()) {
-            if (!("".equals(movie.getReleaseDate())) && movie.getReleaseDate() != null) {
-                movies.add(movie);
+    public List<TVShow> getTVShowsWithDates() {
+        List<TVShow> tvShows = new ArrayList<>();
+        for (TVShow tvShow : getTVShows()) {
+            if (!("".equals(tvShow.getFirstAirDate())) && tvShow.getFirstAirDate() != null) {
+                tvShows.add(tvShow);
             }
         }
-        return movies;
+        return tvShows;
     }
 
     @JsonAnyGetter

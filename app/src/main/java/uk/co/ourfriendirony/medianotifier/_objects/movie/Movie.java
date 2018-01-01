@@ -1,4 +1,4 @@
-package uk.co.ourfriendirony.medianotifier.autogen.movie;
+package uk.co.ourfriendirony.medianotifier._objects.movie;
 
 import com.fasterxml.jackson.annotation.*;
 

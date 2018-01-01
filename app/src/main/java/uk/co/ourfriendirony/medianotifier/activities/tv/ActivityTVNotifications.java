@@ -9,7 +9,7 @@ import android.widget.ListView;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.autogen.tv.TVEpisode;
+import uk.co.ourfriendirony.medianotifier._objects.tv.TVEpisode;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterTVEpisode;
 

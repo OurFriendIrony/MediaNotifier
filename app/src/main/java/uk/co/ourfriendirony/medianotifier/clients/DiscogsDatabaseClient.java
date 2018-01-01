@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.List;
 
-import uk.co.ourfriendirony.medianotifier.autogen.artist.Artist;
-import uk.co.ourfriendirony.medianotifier.autogen.artist.ArtistFinds;
+import uk.co.ourfriendirony.medianotifier._objects.artist.Artist;
+import uk.co.ourfriendirony.medianotifier._objects.artist.ArtistFinds;
 
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanUrl;
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.replaceTokens;

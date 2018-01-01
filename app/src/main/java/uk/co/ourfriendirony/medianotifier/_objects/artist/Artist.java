@@ -1,4 +1,4 @@
-package uk.co.ourfriendirony.medianotifier.autogen.artist;
+package uk.co.ourfriendirony.medianotifier._objects.artist;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;

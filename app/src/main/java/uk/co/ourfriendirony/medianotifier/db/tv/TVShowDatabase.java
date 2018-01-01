@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import uk.co.ourfriendirony.medianotifier.autogen.tv.TVEpisode;
-import uk.co.ourfriendirony.medianotifier.autogen.tv.TVSeason;
-import uk.co.ourfriendirony.medianotifier.autogen.tv.TVShow;
-import uk.co.ourfriendirony.medianotifier.autogen.tv.TVShowExternalIds;
+import uk.co.ourfriendirony.medianotifier._objects.tv.TVEpisode;
+import uk.co.ourfriendirony.medianotifier._objects.tv.TVSeason;
+import uk.co.ourfriendirony.medianotifier._objects.tv.TVShow;
+import uk.co.ourfriendirony.medianotifier._objects.tv.TVShowExternalIds;
 import uk.co.ourfriendirony.medianotifier.general.StringHandler;
 
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetTV;

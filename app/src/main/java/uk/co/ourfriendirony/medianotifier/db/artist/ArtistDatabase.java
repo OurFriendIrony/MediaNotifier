@@ -10,7 +10,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import uk.co.ourfriendirony.medianotifier.autogen.artist.Artist;
+import uk.co.ourfriendirony.medianotifier._objects.artist.Artist;
 
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanTitle;
 

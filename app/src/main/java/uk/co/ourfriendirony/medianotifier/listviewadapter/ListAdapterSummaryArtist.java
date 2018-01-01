@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.autogen.artist.Artist;
+import uk.co.ourfriendirony.medianotifier._objects.artist.Artist;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
 
 import static uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabaseDefinition.WATCHED_FALSE;

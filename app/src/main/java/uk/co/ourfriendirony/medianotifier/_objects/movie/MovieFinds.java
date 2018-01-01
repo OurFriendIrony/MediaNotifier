@@ -1,11 +1,6 @@
-package uk.co.ourfriendirony.medianotifier.autogen.artist;
+package uk.co.ourfriendirony.medianotifier._objects.movie;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,20 +11,30 @@ import java.util.Map;
 @JsonPropertyOrder({
         "results"
 })
-public class ArtistFinds {
+public class MovieFinds {
     @JsonProperty("results")
-    private List<Artist> results = new ArrayList<>();
+    private List<Movie> results = new ArrayList<>();
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("results")
-    public List<Artist> getArtists() {
+    public List<Movie> getMovies() {
         return results;
     }
 
     @JsonProperty("results")
-    public void setResults(List<Artist> results) {
+    public void setResults(List<Movie> results) {
         this.results = results;
+    }
+
+    public List<Movie> getMoviesWithDates() {
+        List<Movie> movies = new ArrayList<>();
+        for (Movie movie : getMovies()) {
+            if (!("".equals(movie.getReleaseDate())) && movie.getReleaseDate() != null) {
+                movies.add(movie);
+            }
+        }
+        return movies;
     }
 
     @JsonAnyGetter

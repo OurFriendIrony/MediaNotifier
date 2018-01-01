@@ -1,4 +1,4 @@
-package uk.co.ourfriendirony.medianotifier.autogen.fault;
+package uk.co.ourfriendirony.medianotifier._objects.fault;
 
 import com.fasterxml.jackson.annotation.*;
 

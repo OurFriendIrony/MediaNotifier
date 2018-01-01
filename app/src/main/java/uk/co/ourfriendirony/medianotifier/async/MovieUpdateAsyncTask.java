@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import uk.co.ourfriendirony.medianotifier.autogen.movie.Movie;
+import uk.co.ourfriendirony.medianotifier._objects.movie.Movie;
 import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
 

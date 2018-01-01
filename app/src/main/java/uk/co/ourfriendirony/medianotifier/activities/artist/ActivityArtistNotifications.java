@@ -9,7 +9,7 @@ import android.widget.ListView;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.autogen.artist.Artist;
+import uk.co.ourfriendirony.medianotifier._objects.artist.Artist;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummaryArtist;
 

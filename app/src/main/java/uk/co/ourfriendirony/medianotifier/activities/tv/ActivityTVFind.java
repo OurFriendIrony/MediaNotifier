@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.autogen.tv.TVShow;
+import uk.co.ourfriendirony.medianotifier._objects.tv.TVShow;
 import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummaryTV;

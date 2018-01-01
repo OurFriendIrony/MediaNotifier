@@ -5,11 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.List;
 
-import uk.co.ourfriendirony.medianotifier.autogen.movie.Movie;
-import uk.co.ourfriendirony.medianotifier.autogen.movie.MovieFinds;
-import uk.co.ourfriendirony.medianotifier.autogen.tv.TVSeason;
-import uk.co.ourfriendirony.medianotifier.autogen.tv.TVShow;
-import uk.co.ourfriendirony.medianotifier.autogen.tv.TVShowFinds;
+import uk.co.ourfriendirony.medianotifier._objects.movie.Movie;
+import uk.co.ourfriendirony.medianotifier._objects.movie.MovieFinds;
+import uk.co.ourfriendirony.medianotifier._objects.tv.TVSeason;
+import uk.co.ourfriendirony.medianotifier._objects.tv.TVShow;
+import uk.co.ourfriendirony.medianotifier._objects.tv.TVShowFinds;
 
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanUrl;
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.replaceTokens;

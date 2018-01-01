@@ -1,6 +1,11 @@
-package uk.co.ourfriendirony.medianotifier.autogen.tv;
+package uk.co.ourfriendirony.medianotifier._objects.artist;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,30 +16,20 @@ import java.util.Map;
 @JsonPropertyOrder({
         "results"
 })
-public class TVShowFinds {
+public class ArtistFinds {
     @JsonProperty("results")
-    private List<TVShow> tvShows = new ArrayList<>();
+    private List<Artist> results = new ArrayList<>();
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("results")
-    private List<TVShow> getTVShows() {
-        return tvShows;
+    public List<Artist> getArtists() {
+        return results;
     }
 
     @JsonProperty("results")
-    public void setTVShows(List<TVShow> tvShows) {
-        this.tvShows = tvShows;
-    }
-
-    public List<TVShow> getTVShowsWithDates() {
-        List<TVShow> tvShows = new ArrayList<>();
-        for (TVShow tvShow : getTVShows()) {
-            if (!("".equals(tvShow.getFirstAirDate())) && tvShow.getFirstAirDate() != null) {
-                tvShows.add(tvShow);
-            }
-        }
-        return tvShows;
+    public void setResults(List<Artist> results) {
+        this.results = results;
     }
 
     @JsonAnyGetter
