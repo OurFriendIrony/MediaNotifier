@@ -3,10 +3,9 @@ package uk.co.ourfriendirony.medianotifier.activities.tv;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.pagers.ActivityTVPagerAdapter;
+import uk.co.ourfriendirony.medianotifier.pageradapter.ActivityTVPagerAdapter;
 
 public class ActivityTVUnwatched extends AppCompatActivity {
 

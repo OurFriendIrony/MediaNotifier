@@ -13,9 +13,9 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="DRK_input">
         <item name="android:background">@drawable/background_input</item>
@@ -79,6 +79,14 @@
         <item name="android:textSize">30sp</item>
     </style>
 
+    <style name="DRK_pager_strip">
+        <item name="android:background">@drawable/background_pager_strip</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
     <style name="style_list">
         <item name="android:background">@drawable/background_list</item>
     </style>
@@ -94,13 +102,5 @@
     <style name="HorizontalLine">
         <item name="android:height">4dp</item>
         <item name="android:background">@drawable/background_horizontal_line</item>
-    </style>
-
-    <style name="DRK_pager_strip">
-        <item name="android:textColor">@color/white</item>
-        <item name="android:background">@color/grey_12</item>
-        <item name="android:typeface">monospace</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">20sp</item>
     </style>
 </resources>

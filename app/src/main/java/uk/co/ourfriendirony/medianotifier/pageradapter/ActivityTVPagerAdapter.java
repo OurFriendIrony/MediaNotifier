@@ -1,4 +1,4 @@
-package uk.co.ourfriendirony.medianotifier.pagers;
+package uk.co.ourfriendirony.medianotifier.pageradapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
