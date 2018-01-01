@@ -29,7 +29,7 @@ public class ActivityTVNotifications extends AppCompatActivity {
         ListView seasonList = (ListView) findViewById(R.id.tv_notification_list);
 
         database = new TVShowDatabase(getApplicationContext());
-        List<TVEpisode> tvEpisodes = database.getUnwatchedReleasedEpisodes();
+        List<TVEpisode> tvEpisodes = database.getUnwatchedEpisodesReleased();
         if (tvEpisodes.size() > 0) {
             ListAdapterTVEpisode listAdapterTVEpisode = new ListAdapterTVEpisode(getBaseContext(), R.layout.list_item_tv_episode, tvEpisodes, true);
             seasonList.setAdapter(listAdapterTVEpisode);

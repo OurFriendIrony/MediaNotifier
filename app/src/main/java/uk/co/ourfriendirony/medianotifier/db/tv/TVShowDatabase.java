@@ -45,6 +45,13 @@ public class TVShowDatabase {
             "INNER JOIN " + TVShowDatabaseDefinition.TABLE_TVSHOWS + " ON " + TVShowDatabaseDefinition.TABLE_TVSHOWS + "." + TVShowDatabaseDefinition.TT_ID + " = " + TVShowDatabaseDefinition.TABLE_TVSHOWS_EPISODES + "." + TVShowDatabaseDefinition.TTSE_ID + " " +
             "WHERE " + TVShowDatabaseDefinition.TTSE_WATCHED + "=" + TVShowDatabaseDefinition.WATCHED_FALSE + " AND " + TVShowDatabaseDefinition.TTSE_DATE + " <= @OFFSET@ ORDER BY " + TVShowDatabaseDefinition.TTSE_DATE + " ASC;";
 
+    private static final String COUNT_UNWATCHED_EPISODES_TOTAL = "SELECT COUNT(*) FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS_EPISODES + " " +
+            "WHERE " + TVShowDatabaseDefinition.TTSE_WATCHED + "=" + TVShowDatabaseDefinition.WATCHED_FALSE;
+    private static final String GET_UNWATCHED_EPISODES_TOTAL = "SELECT " + TVShowDatabaseDefinition.TABLE_TVSHOWS + "." + TVShowDatabaseDefinition.TT_ID + "," + TVShowDatabaseDefinition.TTSE_SEASON_NO + "," + TVShowDatabaseDefinition.TTSE_EPISODE_NO + "," + TVShowDatabaseDefinition.TTSE_TITLE + "," + TVShowDatabaseDefinition.TTSE_OVERVIEW + "," + TVShowDatabaseDefinition.TTSE_DATE + "," + TVShowDatabaseDefinition.TT_TITLE + " " +
+            "FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS_EPISODES + " " +
+            "INNER JOIN " + TVShowDatabaseDefinition.TABLE_TVSHOWS + " ON " + TVShowDatabaseDefinition.TABLE_TVSHOWS + "." + TVShowDatabaseDefinition.TT_ID + " = " + TVShowDatabaseDefinition.TABLE_TVSHOWS_EPISODES + "." + TVShowDatabaseDefinition.TTSE_ID + " " +
+            "WHERE " + TVShowDatabaseDefinition.TTSE_WATCHED + "=" + TVShowDatabaseDefinition.WATCHED_FALSE + " ORDER BY " + TVShowDatabaseDefinition.TTSE_DATE + " ASC;";
+
     private final TVShowDatabaseDefinition databaseHelper;
     private final Context context;
 
@@ -187,9 +194,21 @@ public class TVShowDatabase {
         return title;
     }
 
-    public int countUnwatchedReleasedEpisodes() {
+    public int countUnwatchedEpisodesReleased() {
+        return countUnwatchedEpisodes(COUNT_UNWATCHED_EPISODES_RELEASED);
+    }
+
+    public int countUnwatchedEpisodesUnreleased() {
+        return countUnwatchedEpisodes(COUNT_UNWATCHED_EPISODES_UNRELEASED);
+    }
+
+    public int countUnwatchedEpisodesTotal() {
+        return countUnwatchedEpisodes(COUNT_UNWATCHED_EPISODES_TOTAL);
+    }
+
+    private int countUnwatchedEpisodes(String countQuery) {
         String offset = "date('now','-" + getNotificationDayOffsetTV(context) + " days')";
-        String query = StringHandler.replaceTokens(COUNT_UNWATCHED_EPISODES_RELEASED, "@OFFSET@", offset);
+        String query = StringHandler.replaceTokens(countQuery, "@OFFSET@", offset);
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
 
         Cursor cursor = dbReadable.rawQuery(query, null);
@@ -200,22 +219,22 @@ public class TVShowDatabase {
         return count;
     }
 
-    public int countUnwatchedUnreleasedEpisodes() {
-        String offset = "date('now','-" + getNotificationDayOffsetTV(context) + " days')";
-        String query = StringHandler.replaceTokens(COUNT_UNWATCHED_EPISODES_UNRELEASED, "@OFFSET@", offset);
-        SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
-
-        Cursor cursor = dbReadable.rawQuery(query, null);
-        cursor.moveToFirst();
-        int count = cursor.getInt(0);
-        cursor.close();
-        dbReadable.close();
-        return count;
+    public List<TVEpisode> getUnwatchedEpisodesReleased() {
+        return getUnwatchedEpisodes(GET_UNWATCHED_EPISODES_RELEASED, "UNWATCHED RELEASED");
     }
 
-    public List<TVEpisode> getUnwatchedReleasedEpisodes() {
+    public List<TVEpisode> getUnwatchedEpisodesUnReleased() {
+        return getUnwatchedEpisodes(GET_UNWATCHED_EPISODES_RELEASED, "UNWATCHED UNRELEASED");
+    }
+
+    public List<TVEpisode> getUnwatchedEpisodesTotal() {
+        return getUnwatchedEpisodes(GET_UNWATCHED_EPISODES_TOTAL, "UNWATCHED TOTAL");
+    }
+
+    @NonNull
+    private List<TVEpisode> getUnwatchedEpisodes(String getQuery, String logTag) {
         String offset = "date('now','-" + getNotificationDayOffsetTV(context) + " days')";
-        String query = StringHandler.replaceTokens(GET_UNWATCHED_EPISODES_RELEASED, "@OFFSET@", offset);
+        String query = StringHandler.replaceTokens(getQuery, "@OFFSET@", offset);
         List<TVEpisode> tvEpisodes = new ArrayList<>();
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
 
@@ -224,27 +243,7 @@ public class TVShowDatabase {
             while (cursor.moveToNext()) {
                 TVEpisode tvEpisode = buildTVEpisode(cursor);
                 tvEpisodes.add(tvEpisode);
-                Log.d("UNWATCHED AIRED", "Id=" + tvEpisode.getId() + "| S" + tvEpisode.getSeasonNumber() + "E" + tvEpisode.getEpisodeNumber() + " | Title=" + tvEpisode.getName() + " | Date=" + tvEpisode.getAirDate());
-            }
-        } finally {
-            cursor.close();
-        }
-        dbReadable.close();
-        return tvEpisodes;
-    }
-
-    public List<TVEpisode> getUnwatchedUnreleasedEpisodes() {
-        String offset = "date('now','-" + getNotificationDayOffsetTV(context) + " days')";
-        String query = StringHandler.replaceTokens(GET_UNWATCHED_EPISODES_UNRELEASED, "@OFFSET@", offset);
-        List<TVEpisode> tvEpisodes = new ArrayList<>();
-        SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
-
-        Cursor cursor = dbReadable.rawQuery(query, null);
-        try {
-            while (cursor.moveToNext()) {
-                TVEpisode tvEpisode = buildTVEpisode(cursor);
-                tvEpisodes.add(tvEpisode);
-                Log.d("UNWATCHED UNAIRED", "Id=" + tvEpisode.getId() + "| S" + tvEpisode.getSeasonNumber() + "E" + tvEpisode.getEpisodeNumber() + " | Title=" + tvEpisode.getName() + " | Date=" + tvEpisode.getAirDate());
+                Log.d(logTag, "Id=" + tvEpisode.getId() + "| S" + tvEpisode.getSeasonNumber() + "E" + tvEpisode.getEpisodeNumber() + " | Title=" + tvEpisode.getName() + " | Date=" + tvEpisode.getAirDate());
             }
         } finally {
             cursor.close();

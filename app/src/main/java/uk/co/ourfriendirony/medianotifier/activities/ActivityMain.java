@@ -115,7 +115,7 @@ public class ActivityMain extends AppCompatActivity {
             }
         });
 
-        main_button_tv_notification.setText(getNotificationNumber(tvShowDatabase.countUnwatchedReleasedEpisodes()));
+        main_button_tv_notification.setText(getNotificationNumber(tvShowDatabase.countUnwatchedEpisodesReleased()));
         main_button_movie_notification.setText(getNotificationNumber(movieDatabase.countUnwatchedReleasedMovies()));
         main_button_artist_notification.setText(getNotificationNumber(0));
 
@@ -153,7 +153,7 @@ public class ActivityMain extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        main_button_tv_notification.setText(getNotificationNumber(tvShowDatabase.countUnwatchedReleasedEpisodes()));
+        main_button_tv_notification.setText(getNotificationNumber(tvShowDatabase.countUnwatchedEpisodesReleased()));
         main_button_movie_notification.setText(getNotificationNumber(movieDatabase.countUnwatchedReleasedMovies()));
         main_button_artist_notification.setText(getNotificationNumber(0));
     }

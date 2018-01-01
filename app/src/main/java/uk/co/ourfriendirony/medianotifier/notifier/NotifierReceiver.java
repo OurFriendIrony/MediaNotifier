@@ -24,7 +24,7 @@ public class NotifierReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        unwatchedEpisodes = new TVShowDatabase(context).countUnwatchedReleasedEpisodes();
+        unwatchedEpisodes = new TVShowDatabase(context).countUnwatchedEpisodesReleased();
         unwatchedMovies = new MovieDatabase(context).countUnwatchedReleasedMovies();
         unwatchedTotal = unwatchedEpisodes + unwatchedMovies;
 
