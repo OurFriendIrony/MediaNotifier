@@ -13,7 +13,8 @@ import java.text.MessageFormat;
 
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovieNotifications;
-import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVNotifications;
+import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVUnwatched;
+import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVUnwatchedReleased;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
 
@@ -47,10 +48,10 @@ public class NotifierReceiver extends BroadcastReceiver {
     @NonNull
     private Intent getNotificationIntent(Context context) {
         if (unwatchedEpisodes > 0)
-            return new Intent(context, ActivityTVNotifications.class);
+            return new Intent(context, ActivityTVUnwatched.class);
         else if (unwatchedMovies > 0)
             return new Intent(context, ActivityMovieNotifications.class);
-        return new Intent(context, ActivityTVNotifications.class);
+        return new Intent(context, ActivityTVUnwatched.class);
     }
 
     private NotificationCompat.Builder getBuilder(Context context) {

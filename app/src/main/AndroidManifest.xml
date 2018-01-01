@@ -28,7 +28,7 @@
         <activity android:name=".activities.movie.ActivityMovieNotifications"/>
         <activity android:name=".activities.tv.ActivityTV"/>
         <activity android:name=".activities.tv.ActivityTVFind"/>
-        <activity android:name=".activities.tv.ActivityTVNotifications"/>
+        <activity android:name=".activities.tv.ActivityTVUnwatched"/>
         <activity android:name=".activities.artist.ActivityArtist"/>
         <activity android:name=".activities.artist.ActivityArtistFind"/>
         <activity android:name=".activities.artist.ActivityArtistNotifications"/>

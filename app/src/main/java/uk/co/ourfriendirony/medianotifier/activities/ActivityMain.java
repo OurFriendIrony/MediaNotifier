@@ -24,7 +24,7 @@ import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovieFind;
 import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovieNotifications;
 import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTV;
 import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVFind;
-import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVNotifications;
+import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVUnwatched;
 import uk.co.ourfriendirony.medianotifier.async.MovieUpdateAsyncTask;
 import uk.co.ourfriendirony.medianotifier.async.TVShowUpdateAsyncTask;
 import uk.co.ourfriendirony.medianotifier._objects.movie.Movie;
@@ -122,7 +122,7 @@ public class ActivityMain extends AppCompatActivity {
         main_button_tv_notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), ActivityTVNotifications.class));
+                startActivity(new Intent(view.getContext(), ActivityTVUnwatched.class));
             }
         });
         main_button_movie_notification.setOnClickListener(new View.OnClickListener() {
