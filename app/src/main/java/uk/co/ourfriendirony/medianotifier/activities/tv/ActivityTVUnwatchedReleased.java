@@ -1,7 +1,5 @@
 package uk.co.ourfriendirony.medianotifier.activities.tv;
 
-import android.app.NotificationManager;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -23,14 +21,9 @@ public class ActivityTVUnwatchedReleased extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.activity_tv_notifications, container, false);
-
-        NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.cancelAll();
-
         ListView seasonList = (ListView) rootView.findViewById(R.id.tv_notification_list);
 
         database = new TVShowDatabase(getContext());
-
         List<TVEpisode> tvEpisodes = database.getUnwatchedEpisodesReleased();
         if (tvEpisodes.size() > 0) {
             ListAdapterTVEpisode listAdapterTVEpisode = new ListAdapterTVEpisode(getContext(), R.layout.list_item_tv_episode, tvEpisodes, true);

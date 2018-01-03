@@ -1,7 +1,5 @@
 package uk.co.ourfriendirony.medianotifier.activities.movie;
 
-import android.app.NotificationManager;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -23,10 +21,6 @@ public class ActivityMovieUnwatchedComingSoon extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.activity_tv_notifications, container, false);
-
-        NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.cancelAll();
-
         ListView movieList = (ListView) rootView.findViewById(R.id.tv_notification_list);
 
         database = new MovieDatabase(getContext());

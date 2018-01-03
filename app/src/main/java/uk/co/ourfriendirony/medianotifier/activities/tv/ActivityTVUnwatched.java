@@ -1,5 +1,7 @@
 package uk.co.ourfriendirony.medianotifier.activities.tv;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -17,8 +19,15 @@ public class ActivityTVUnwatched extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_core);
 
+        cancelNotifications();
+
         mPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new ActivityTVPagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+    }
+
+    private void cancelNotifications() {
+        NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancelAll();
     }
 }
