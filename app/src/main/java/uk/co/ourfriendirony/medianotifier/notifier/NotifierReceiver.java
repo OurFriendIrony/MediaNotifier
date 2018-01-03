@@ -12,9 +12,8 @@ import android.support.v4.app.NotificationCompat;
 import java.text.MessageFormat;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovieNotifications;
+import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovieUnwatched;
 import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVUnwatched;
-import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVUnwatchedReleased;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
 
@@ -26,7 +25,7 @@ public class NotifierReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         unwatchedEpisodes = new TVShowDatabase(context).countUnwatchedEpisodesReleased();
-        unwatchedMovies = new MovieDatabase(context).countUnwatchedReleasedMovies();
+        unwatchedMovies = new MovieDatabase(context).countUnwatchedMoviesReleased();
         unwatchedTotal = unwatchedEpisodes + unwatchedMovies;
 
         if (unwatchedTotal > 0) {
@@ -50,7 +49,7 @@ public class NotifierReceiver extends BroadcastReceiver {
         if (unwatchedEpisodes > 0)
             return new Intent(context, ActivityTVUnwatched.class);
         else if (unwatchedMovies > 0)
-            return new Intent(context, ActivityMovieNotifications.class);
+            return new Intent(context, ActivityMovieUnwatched.class);
         return new Intent(context, ActivityTVUnwatched.class);
     }
 

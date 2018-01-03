@@ -46,7 +46,7 @@ public class TVShowDatabase {
             "WHERE " + TVShowDatabaseDefinition.TTSE_WATCHED + "=" + TVShowDatabaseDefinition.WATCHED_FALSE + " AND " + TVShowDatabaseDefinition.TTSE_DATE + " <= @OFFSET@ ORDER BY " + TVShowDatabaseDefinition.TTSE_DATE + " ASC;";
 
     private static final String COUNT_UNWATCHED_EPISODES_TOTAL = "SELECT COUNT(*) FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS_EPISODES + " " +
-            "WHERE " + TVShowDatabaseDefinition.TTSE_WATCHED + "=" + TVShowDatabaseDefinition.WATCHED_FALSE;
+            "WHERE " + TVShowDatabaseDefinition.TTSE_WATCHED + "=" + TVShowDatabaseDefinition.WATCHED_FALSE + ";";
     private static final String GET_UNWATCHED_EPISODES_TOTAL = "SELECT " + TVShowDatabaseDefinition.TABLE_TVSHOWS + "." + TVShowDatabaseDefinition.TT_ID + "," + TVShowDatabaseDefinition.TTSE_SEASON_NO + "," + TVShowDatabaseDefinition.TTSE_EPISODE_NO + "," + TVShowDatabaseDefinition.TTSE_TITLE + "," + TVShowDatabaseDefinition.TTSE_OVERVIEW + "," + TVShowDatabaseDefinition.TTSE_DATE + "," + TVShowDatabaseDefinition.TT_TITLE + " " +
             "FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS_EPISODES + " " +
             "INNER JOIN " + TVShowDatabaseDefinition.TABLE_TVSHOWS + " ON " + TVShowDatabaseDefinition.TABLE_TVSHOWS + "." + TVShowDatabaseDefinition.TT_ID + " = " + TVShowDatabaseDefinition.TABLE_TVSHOWS_EPISODES + "." + TVShowDatabaseDefinition.TTSE_ID + " " +

@@ -21,7 +21,7 @@ import uk.co.ourfriendirony.medianotifier.activities.artist.ActivityArtist;
 import uk.co.ourfriendirony.medianotifier.activities.artist.ActivityArtistFind;
 import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovie;
 import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovieFind;
-import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovieNotifications;
+import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovieUnwatched;
 import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTV;
 import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVFind;
 import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVUnwatched;
@@ -116,7 +116,7 @@ public class ActivityMain extends AppCompatActivity {
         });
 
         main_button_tv_notification.setText(getNotificationNumber(tvShowDatabase.countUnwatchedEpisodesReleased()));
-        main_button_movie_notification.setText(getNotificationNumber(movieDatabase.countUnwatchedReleasedMovies()));
+        main_button_movie_notification.setText(getNotificationNumber(movieDatabase.countUnwatchedMoviesReleased()));
         main_button_artist_notification.setText(getNotificationNumber(0));
 
         main_button_tv_notification.setOnClickListener(new View.OnClickListener() {
@@ -128,7 +128,7 @@ public class ActivityMain extends AppCompatActivity {
         main_button_movie_notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), ActivityMovieNotifications.class));
+                startActivity(new Intent(view.getContext(), ActivityMovieUnwatched.class));
             }
         });
         main_button_artist_notification.setOnClickListener(new View.OnClickListener() {
@@ -154,7 +154,7 @@ public class ActivityMain extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         main_button_tv_notification.setText(getNotificationNumber(tvShowDatabase.countUnwatchedEpisodesReleased()));
-        main_button_movie_notification.setText(getNotificationNumber(movieDatabase.countUnwatchedReleasedMovies()));
+        main_button_movie_notification.setText(getNotificationNumber(movieDatabase.countUnwatchedMoviesReleased()));
         main_button_artist_notification.setText(getNotificationNumber(0));
     }
 

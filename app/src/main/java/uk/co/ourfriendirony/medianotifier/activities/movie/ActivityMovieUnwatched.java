@@ -1,0 +1,27 @@
+package uk.co.ourfriendirony.medianotifier.activities.movie;
+
+import android.os.Bundle;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+
+import uk.co.ourfriendirony.medianotifier.R;
+import uk.co.ourfriendirony.medianotifier.pageradapter.ActivityMoviePagerAdapter;
+
+public class ActivityMovieUnwatched extends AppCompatActivity {
+
+    private ViewPager mPager;
+    private android.support.v4.view.PagerAdapter mPagerAdapter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_core);
+
+//        NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+//        notificationManager.cancelAll();
+
+        mPager = (ViewPager) findViewById(R.id.pager);
+        mPagerAdapter = new ActivityMoviePagerAdapter(getSupportFragmentManager());
+        mPager.setAdapter(mPagerAdapter);
+    }
+}

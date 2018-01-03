@@ -39,6 +39,14 @@ public class MovieDatabase {
             "FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " " +
             "WHERE " + MovieDatabaseDefinition.TM_WATCHED + "=" + MovieDatabaseDefinition.WATCHED_FALSE + " AND " + MovieDatabaseDefinition.TM_DATE + " <= @OFFSET@ ORDER BY " + MovieDatabaseDefinition.TM_DATE + " ASC;";
 
+
+    private static final String COUNT_UNWATCHED_MOVIES_TOTAL = "SELECT COUNT(*) FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " " +
+            "WHERE " + MovieDatabaseDefinition.TM_WATCHED + "=" + MovieDatabaseDefinition.WATCHED_FALSE + ";";
+    private static final String GET_UNWATCHED_MOVIES_TOTAL = "SELECT * " +
+            "FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " " +
+            "WHERE " + MovieDatabaseDefinition.TM_WATCHED + "=" + MovieDatabaseDefinition.WATCHED_FALSE + " ORDER BY " + MovieDatabaseDefinition.TM_DATE + " ASC;";
+
+
     private final MovieDatabaseDefinition databaseHelper;
     private final Context context;
 
@@ -138,9 +146,33 @@ public class MovieDatabase {
         return title;
     }
 
-    public int countUnwatchedReleasedMovies() {
+    public int countUnwatchedMoviesReleased() {
+        return countUnwatchedEpisodes(COUNT_UNWATCHED_MOVIES_RELEASED);
+    }
+
+    public int countUnwatchedMoviesUnreleased() {
+        return countUnwatchedEpisodes(COUNT_UNWATCHED_MOVIES_UNRELEASED);
+    }
+
+    public int countUnwatchedEpisodesTotal() {
+        return countUnwatchedEpisodes(COUNT_UNWATCHED_MOVIES_TOTAL);
+    }
+
+    public List<Movie> getUnwatchedMoviesReleased() {
+        return getUnwatchedMovies(GET_UNWATCHED_MOVIES_RELEASED, "UNWATCHED RELEASED");
+    }
+
+    public List<Movie> getUnwatchedMoviesUnReleased() {
+        return getUnwatchedMovies(GET_UNWATCHED_MOVIES_UNRELEASED, "UNWATCHED UNRELEASED");
+    }
+
+    public List<Movie> getUnwatchedMoviesTotal() {
+        return getUnwatchedMovies(GET_UNWATCHED_MOVIES_TOTAL, "UNWATCHED TOTAL");
+    }
+
+    private int countUnwatchedEpisodes(String countQuery) {
         String offset = "date('now','-" + getNotificationDayOffsetMovie(context) + " days')";
-        String query = StringHandler.replaceTokens(COUNT_UNWATCHED_MOVIES_RELEASED, "@OFFSET@", offset);
+        String query = StringHandler.replaceTokens(countQuery, "@OFFSET@", offset);
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
 
         Cursor cursor = dbReadable.rawQuery(query, null);
@@ -151,22 +183,9 @@ public class MovieDatabase {
         return count;
     }
 
-    public int countUnwatchedUnreleasedMovies() {
+    public List<Movie> getUnwatchedMovies(String getQuery, String logTag) {
         String offset = "date('now','-" + getNotificationDayOffsetMovie(context) + " days')";
-        String query = StringHandler.replaceTokens(COUNT_UNWATCHED_MOVIES_UNRELEASED, "@OFFSET@", offset);
-        SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
-
-        Cursor cursor = dbReadable.rawQuery(query, null);
-        cursor.moveToFirst();
-        int count = cursor.getInt(0);
-        cursor.close();
-        dbReadable.close();
-        return count;
-    }
-
-    public List<Movie> getUnwatchedReleasedMovies() {
-        String offset = "date('now','-" + getNotificationDayOffsetMovie(context) + " days')";
-        String query = StringHandler.replaceTokens(GET_UNWATCHED_MOVIES_RELEASED, "@OFFSET@", offset);
+        String query = StringHandler.replaceTokens(getQuery, "@OFFSET@", offset);
         List<Movie> movies = new ArrayList<>();
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
 
@@ -175,27 +194,7 @@ public class MovieDatabase {
             while (cursor.moveToNext()) {
                 Movie movie = buildMovie(cursor);
                 movies.add(movie);
-                Log.v("*****IMHERE*****", "UNWATCHED AIRED MOVIES: Id=" + movie.getId() + " | Title=" + movie.getTitle() + " | Date=" + movie.getReleaseDate());
-            }
-        } finally {
-            cursor.close();
-        }
-        dbReadable.close();
-        return movies;
-    }
-
-    public List<Movie> getUnwatchedUnreleasedMovies() {
-        String offset = "date('now','-" + getNotificationDayOffsetMovie(context) + " days')";
-        String query = StringHandler.replaceTokens(GET_UNWATCHED_MOVIES_UNRELEASED, "@OFFSET@", offset);
-        List<Movie> movies = new ArrayList<>();
-        SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
-
-        Cursor cursor = dbReadable.rawQuery(query, null);
-        try {
-            while (cursor.moveToNext()) {
-                Movie movie = buildMovie(cursor);
-                movies.add(movie);
-                Log.v("*****IMHERE*****", "UNWATCHED UNAIRED MOVIES: Id=" + movie.getId() + " | Title=" + movie.getTitle() + " | Date=" + movie.getReleaseDate());
+                Log.v(logTag, "Id=" + movie.getId() + " | Title=" + movie.getTitle() + " | Date=" + movie.getReleaseDate());
             }
         } finally {
             cursor.close();
