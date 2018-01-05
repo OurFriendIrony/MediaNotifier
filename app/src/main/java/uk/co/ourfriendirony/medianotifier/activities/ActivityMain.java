@@ -1,22 +1,33 @@
 package uk.co.ourfriendirony.medianotifier.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
+import uk.co.ourfriendirony.medianotifier._objects.movie.Movie;
+import uk.co.ourfriendirony.medianotifier._objects.tv.TVShow;
 import uk.co.ourfriendirony.medianotifier.activities.artist.ActivityArtist;
 import uk.co.ourfriendirony.medianotifier.activities.artist.ActivityArtistFind;
 import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovie;
@@ -27,8 +38,6 @@ import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVFind;
 import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVUnwatched;
 import uk.co.ourfriendirony.medianotifier.async.MovieUpdateAsyncTask;
 import uk.co.ourfriendirony.medianotifier.async.TVShowUpdateAsyncTask;
-import uk.co.ourfriendirony.medianotifier._objects.movie.Movie;
-import uk.co.ourfriendirony.medianotifier._objects.tv.TVShow;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
@@ -164,6 +173,8 @@ public class ActivityMain extends AppCompatActivity {
         return true;
     }
 
+    private PopupWindow popupWindow;
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -174,6 +185,27 @@ public class ActivityMain extends AppCompatActivity {
 
             case R.id.action_contact:
                 startActivity(getContactEmailIntent());
+                return true;
+
+            case R.id.action_logview:
+                LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View layout = inflater.inflate(R.layout.popup_logviewer, (ViewGroup) findViewById(R.id.popup));
+
+                popupWindow = new PopupWindow(layout, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true);
+                popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+
+                final TextView logViewer = (TextView) popupWindow.getContentView().findViewById(R.id.popup_text);
+                logViewer.setText(getLogcatLog());
+
+                Button buttonOk = (Button) popupWindow.getContentView().findViewById(R.id.popup_ok);
+                buttonOk.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        popupWindow.dismiss();
+                    }
+                });
+
+
                 return true;
 
             case R.id.action_debug:
@@ -196,6 +228,24 @@ public class ActivityMain extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @NonNull
+    private String getLogcatLog() {
+        StringBuilder log = new StringBuilder();
+        try {
+            Process process = Runtime.getRuntime().exec("logcat -d");
+            BufferedReader bufferedReader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream()));
+
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                log.append(line + "\n");
+            }
+        } catch (Exception e) {
+            // do nothing
+        }
+        return log.toString();
     }
 
 }

@@ -35,4 +35,5 @@
 
     <string name="tvmb">TVMB</string>
     <string name="discogs">discogs</string>
+    <string name="action_logview">Logs</string>
 </resources>
