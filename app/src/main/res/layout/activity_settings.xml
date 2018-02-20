@@ -21,23 +21,33 @@
             android:layout_margin="5dp"
             android:weightSum="1">
 
-            <TextView
-                android:id="@+id/settings_notification_time_text"
-                style="@style/DRK_text_h2_contrast"
+            <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top|start"
-                android:layout_margin="5dp"
-                android:layout_weight=".5"
-                android:text="Notification Time" />
+                android:layout_height="match_parent"
+                android:layout_weight=".5">
 
-            <Button
-                android:id="@+id/settings_notification_time_button"
-                style="@style/DRK_text_h2_contrast"
+                <TextView
+                    android:id="@+id/settings_notification_time_text"
+                    style="@style/DRK_text_h2_contrast"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|start"
+                    android:layout_margin="5dp"
+                    android:text="Notification Time" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".5"
-                android:text="ALL" />
+                android:layout_weight=".5">
+
+                <Button
+                    android:id="@+id/settings_notification_time_button"
+                    style="@style/DRK_text_h2_contrast"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ALL" />
+            </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
 
