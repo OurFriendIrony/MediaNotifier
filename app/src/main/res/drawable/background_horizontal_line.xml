@@ -3,8 +3,8 @@
         <shape android:shape="rectangle">
             <padding
                 android:bottom="2dp"
-                android:top="2dp"/>
-            <solid android:color="@color/transparent"/>
+                android:top="2dp" />
+            <solid android:color="@color/transparent" />
         </shape>
     </item>
     <item
@@ -14,7 +14,7 @@
         android:right="0dp"
         android:top="2dp">
         <shape android:shape="rectangle">
-            <solid android:color="@color/grey_06"/>
+            <solid android:color="@color/grey_06" />
         </shape>
     </item>
     <item
@@ -24,7 +24,7 @@
         android:right="1dp"
         android:top="0dp">
         <shape android:shape="rectangle">
-            <solid android:color="@color/black"/>
+            <solid android:color="@color/black" />
         </shape>
     </item>
 </layer-list>

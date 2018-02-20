@@ -3,8 +3,8 @@
         android:bottom="1dp"
         android:top="1dp">
         <shape>
-            <solid android:color="@color/black"/>
-            <corners android:radius="5dp"/>
+            <solid android:color="@color/black" />
+            <corners android:radius="5dp" />
         </shape>
     </item>
     <item
@@ -16,9 +16,8 @@
                 android:centerColor="@color/white"
                 android:endColor="@color/grey_06"
                 android:startColor="@color/grey_06"
-                android:type="linear"
-                />
-            <corners android:radius="5dp"/>
+                android:type="linear" />
+            <corners android:radius="5dp" />
         </shape>
     </item>
 </layer-list>

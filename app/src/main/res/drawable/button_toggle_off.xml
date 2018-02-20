@@ -1,10 +1,10 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape>
-            <solid android:color="@color/transparent"/>
+            <solid android:color="@color/transparent" />
             <size
                 android:width="100dp"
-                android:height="100dp"/>
+                android:height="100dp" />
         </shape>
     </item>
     <item
@@ -13,8 +13,8 @@
         android:right="7dp"
         android:top="7dp">
         <shape android:shape="rectangle">
-            <solid android:color="@color/black"/>
-            <corners android:radius="5dp"/>
+            <solid android:color="@color/black" />
+            <corners android:radius="5dp" />
         </shape>
     </item>
     <item
@@ -23,8 +23,8 @@
         android:right="8dp"
         android:top="8dp">
         <shape android:shape="rectangle">
-            <solid android:color="@color/grey_08"/>
-            <corners android:radius="4dp"/>
+            <solid android:color="@color/grey_08" />
+            <corners android:radius="4dp" />
         </shape>
     </item>
     <item
@@ -33,10 +33,10 @@
         android:right="11dp"
         android:top="11dp">
         <shape android:shape="rectangle">
-            <solid android:color="@color/grey_11"/>
+            <solid android:color="@color/grey_11" />
             <corners
                 android:bottomLeftRadius="4dp"
-                android:topRightRadius="4dp"/>
+                android:topRightRadius="4dp" />
         </shape>
     </item>
     <item
@@ -45,10 +45,10 @@
         android:right="12dp"
         android:top="12dp">
         <shape android:shape="rectangle">
-            <solid android:color="@color/grey_10"/>
+            <solid android:color="@color/grey_10" />
             <corners
                 android:bottomLeftRadius="4dp"
-                android:topRightRadius="4dp"/>
+                android:topRightRadius="4dp" />
         </shape>
     </item>
 </layer-list>

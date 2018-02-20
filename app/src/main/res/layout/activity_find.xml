@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/find_input_progress"
@@ -15,8 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_toStartOf="@+id/find_progress"
             android:imeOptions="actionSend"
-            android:inputType="text"
-            />
+            android:inputType="text" />
 
         <ProgressBar
             android:id="@+id/find_progress"
@@ -26,8 +25,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/find_input"
             android:background="@color/black"
-            android:visibility="gone"
-            />
+            android:visibility="gone" />
     </RelativeLayout>
 
     <ListView
@@ -35,6 +33,5 @@
         style="@style/style_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/find_input_progress">
-    </ListView>
+        android:layout_below="@+id/find_input_progress" />
 </RelativeLayout>

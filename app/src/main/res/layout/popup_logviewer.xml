@@ -14,8 +14,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/background_popup_alt"
         android:layout_weight=".8"
+        android:background="@drawable/background_popup_alt"
         android:padding="10dp">
 
         <TextView

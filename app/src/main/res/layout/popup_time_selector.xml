@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/popup"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -16,8 +15,7 @@
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:padding="10dp"
-        android:text="Select a Time"
-        />
+        android:text="Select a Time" />
 
     <TimePicker
         android:id="@+id/popup_time_picker"
@@ -25,8 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/popup_text"
         android:background="@drawable/background_spinner"
-        android:timePickerMode="spinner"
-        />
+        android:timePickerMode="spinner" />
 
     <Button
         android:id="@+id/popup_ok"
@@ -36,6 +33,5 @@
         android:layout_alignEnd="@+id/popup_time_picker"
         android:layout_alignStart="@+id/popup_time_picker"
         android:layout_below="@+id/popup_time_picker"
-        android:text="OK"
-        />
+        android:text="OK" />
 </RelativeLayout>
