@@ -22,28 +22,33 @@ public class PropertyHelper {
     private static int NOTIFY_DAY_OFFSET_MAX_DEFAULT = +90;
     private static int NOTIFY_DAY_OFFSET_MIN_DEFAULT = 0;
 
+    public static String getNotificationTimeFull(Context context) {
+        SharedPreferences settings = getSharedPreferences(context);
+        return String.format("%02d", settings.getInt(NOTIFY_HOUR, NOTIFY_HOUR_DEFAULT)) + ":" + String.format("%02d", settings.getInt(NOTIFY_MIN, NOTIFY_MIN_DEFAULT));
+    }
+
     public static int getNotificationHour(Context context) {
-        SharedPreferences settings = context.getSharedPreferences(PROP_NAME, MODE_PRIVATE);
+        SharedPreferences settings = getSharedPreferences(context);
         return settings.getInt(NOTIFY_HOUR, NOTIFY_HOUR_DEFAULT);
     }
 
     public static int getNotificationMinute(Context context) {
-        SharedPreferences settings = context.getSharedPreferences(PROP_NAME, MODE_PRIVATE);
+        SharedPreferences settings = getSharedPreferences(context);
         return settings.getInt(NOTIFY_MIN, NOTIFY_MIN_DEFAULT);
     }
 
     public static int getNotificationDayOffsetTV(Context context) {
-        SharedPreferences settings = context.getSharedPreferences(PROP_NAME, MODE_PRIVATE);
+        SharedPreferences settings = getSharedPreferences(context);
         return settings.getInt(NOTIFY_DAY_OFFSET_TV, NOTIFY_DAY_OFFSET_DEFAULT);
     }
 
     public static int getNotificationDayOffsetMovie(Context context) {
-        SharedPreferences settings = context.getSharedPreferences(PROP_NAME, MODE_PRIVATE);
+        SharedPreferences settings = getSharedPreferences(context);
         return settings.getInt(NOTIFY_DAY_OFFSET_MOVIE, NOTIFY_DAY_OFFSET_DEFAULT);
     }
 
     public static int getNotificationDayOffsetArtist(Context context) {
-        SharedPreferences settings = context.getSharedPreferences(PROP_NAME, MODE_PRIVATE);
+        SharedPreferences settings = getSharedPreferences(context);
         return settings.getInt(NOTIFY_DAY_OFFSET_ARTIST, NOTIFY_DAY_OFFSET_DEFAULT);
     }
 
@@ -56,37 +61,41 @@ public class PropertyHelper {
     }
 
     public static void setNotificationHour(Context context, int newHour) {
-        SharedPreferences settings = context.getSharedPreferences(PROP_NAME, MODE_PRIVATE);
+        SharedPreferences settings = getSharedPreferences(context);
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt(NOTIFY_HOUR, newHour);
         editor.apply();
     }
 
     public static void setNotificationMinute(Context context, int newMinute) {
-        SharedPreferences settings = context.getSharedPreferences(PROP_NAME, MODE_PRIVATE);
+        SharedPreferences settings = getSharedPreferences(context);
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt(NOTIFY_MIN, newMinute);
         editor.apply();
     }
 
     public static void setNotificationDayOffsetTV(Context context, int newDayOffset) {
-        SharedPreferences settings = context.getSharedPreferences(PROP_NAME, MODE_PRIVATE);
+        SharedPreferences settings = getSharedPreferences(context);
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt(NOTIFY_DAY_OFFSET_TV, newDayOffset);
         editor.apply();
     }
 
     public static void setNotificationDayOffsetMovie(Context context, int newDayOffset) {
-        SharedPreferences settings = context.getSharedPreferences(PROP_NAME, MODE_PRIVATE);
+        SharedPreferences settings = getSharedPreferences(context);
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt(NOTIFY_DAY_OFFSET_MOVIE, newDayOffset);
         editor.apply();
     }
 
     public static void setNotificationDayOffsetArtist(Context context, int newDayOffset) {
-        SharedPreferences settings = context.getSharedPreferences(PROP_NAME, MODE_PRIVATE);
+        SharedPreferences settings = getSharedPreferences(context);
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt(NOTIFY_DAY_OFFSET_ARTIST, newDayOffset);
         editor.apply();
+    }
+
+    private static SharedPreferences getSharedPreferences(Context context) {
+        return context.getSharedPreferences(PROP_NAME, MODE_PRIVATE);
     }
 }

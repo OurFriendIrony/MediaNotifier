@@ -1,6 +1,7 @@
 package uk.co.ourfriendirony.medianotifier.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
@@ -27,6 +28,7 @@ import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificati
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetTV;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationHour;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationMinute;
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationTimeFull;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationDayOffsetArtist;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationDayOffsetMovie;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationDayOffsetTV;
@@ -46,7 +48,9 @@ public class ActivitySettings extends AppCompatActivity {
         Button buttonDeleteMovie = (Button) findViewById(R.id.settings_button_delete_movie_all);
         Button buttonDeleteArtist = (Button) findViewById(R.id.settings_button_delete_artist_all);
 
-        Button buttonNotifyTimer = (Button) findViewById(R.id.settings_notification_time_button);
+        final Button buttonNotifyTimer = (Button) findViewById(R.id.settings_notification_time_button);
+        buttonNotifyTimer.setText(getNotificationTimeFull(getBaseContext()));
+
         Button buttonNotifyOffsetTV = (Button) findViewById(R.id.settings_notification_day_offset_tv_button);
         Button buttonNotifyOffsetMovie = (Button) findViewById(R.id.settings_notification_day_offset_movie_button);
         Button buttonNotifyOffsetArtist = (Button) findViewById(R.id.settings_notification_day_offset_artist_button);
@@ -97,6 +101,7 @@ public class ActivitySettings extends AppCompatActivity {
                         setNotificationMinute(getApplicationContext(), timePicker.getCurrentMinute());
                         AlarmScheduler.reschedule(getApplicationContext());
                         popupWindow.dismiss();
+                        buttonNotifyTimer.setText(getNotificationTimeFull(getBaseContext()));
                     }
                 });
             }
