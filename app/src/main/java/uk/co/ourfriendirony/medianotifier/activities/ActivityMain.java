@@ -170,6 +170,9 @@ public class ActivityMain extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        menu.findItem(R.id.action_debug).setEnabled(false);
+        menu.findItem(R.id.action_logview).setEnabled(false);
+        menu.findItem(R.id.action_about).setEnabled(false);
         return true;
     }
 
