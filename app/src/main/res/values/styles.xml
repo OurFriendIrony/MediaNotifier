@@ -1,23 +1,36 @@
 <resources>
+    <!-- Primary Styles -->
+    <style name="AppTheme.DEFAULT" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/app_header</item>
+        <item name="colorPrimaryDark">@color/app_taskbar</item>
+        <item name="colorAccent">@color/color_default_complex_accent</item>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+        <item name="android:typeface">monospace</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="AppTheme.DEFAULT.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="AppTheme.GENERIC.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.GENERIC.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="AppTheme.DARK" parent="AppTheme.DEFAULT">
         <item name="colorPrimary">@color/app_header</item>
         <item name="colorPrimaryDark">@color/app_taskbar</item>
         <item name="colorAccent">@color/color_default_complex_accent</item>
     </style>
-
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+    <style name="AppTheme.LIGHT" parent="AppTheme.DEFAULT">
+        <item name="colorPrimary">@color/app_header</item>
+        <item name="colorPrimaryDark">@color/app_taskbar</item>
+        <item name="colorAccent">@color/purple_bright</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
-    <style name="DRK_input">
+    <!-- Feature Styles -->
+    <style name="input" parent="AppTheme.DEFAULT">
         <item name="android:background">@drawable/background_input</item>
         <item name="android:paddingTop">10dp</item>
         <item name="android:paddingBottom">10dp</item>
@@ -29,77 +42,58 @@
         <item name="android:textSize">30sp</item>
     </style>
 
-    <style name="DRK_text_title">
+    <style name="title" parent="AppTheme.DEFAULT">
         <item name="android:textColor">@color/grey_04</item>
-        <item name="android:typeface">monospace</item>
-        <item name="android:textStyle">bold</item>
         <item name="android:textSize">24sp</item>
     </style>
 
-    <style name="DRK_text_h1">
-        <item name="android:textColor">@color/white</item>
-        <item name="android:typeface">monospace</item>
-        <item name="android:textStyle">bold</item>
+    <style name="h1" parent="AppTheme.DEFAULT">
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="DRK_text_h2">
+    <style name="h2" parent="AppTheme.DEFAULT">
         <item name="android:textColor">@color/grey_04</item>
-        <item name="android:typeface">monospace</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="DRK_text_h2_contrast">
+    <style name="h2_contrast" parent="AppTheme.DEFAULT">
         <item name="android:textColor">@color/black</item>
-        <item name="android:typeface">monospace</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="DRK_text">
+    <style name="text" parent="AppTheme.DEFAULT">
         <item name="android:textColor">@color/grey_04</item>
-        <item name="android:typeface">monospace</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">10sp</item>
     </style>
 
-    <style name="DRK_text_subtitle">
-        <item name="android:textColor">@color/white</item>
-        <item name="android:typeface">monospace</item>
+    <style name="subtext" parent="AppTheme.DEFAULT">
         <item name="android:textStyle">italic</item>
         <item name="android:textSize">8sp</item>
     </style>
 
-    <style name="DRK_text_notification">
+    <style name="notification" parent="AppTheme.DEFAULT">
         <item name="android:background">@drawable/background_notification</item>
         <item name="android:textColor">@color/black</item>
-        <item name="android:typeface">monospace</item>
-        <item name="android:textStyle">bold</item>
         <item name="android:textSize">30sp</item>
     </style>
 
-    <style name="DRK_pager_strip">
+    <style name="pager_strip" parent="AppTheme.DEFAULT">
         <item name="android:background">@drawable/background_pager_strip</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:typeface">monospace</item>
-        <item name="android:textStyle">bold</item>
         <item name="android:textSize">20sp</item>
     </style>
 
-    <style name="style_list">
+    <style name="style_list" parent="AppTheme.DEFAULT">
         <item name="android:background">@drawable/background_list</item>
     </style>
 
-    <style name="style_list_item">
+    <style name="style_list_item" parent="AppTheme.DEFAULT">
         <item name="android:background">@drawable/background_list_item</item>
     </style>
 
-    <style name="style_input">
+    <style name="style_input" parent="AppTheme.DEFAULT">
         <item name="android:background">@drawable/background_input</item>
     </style>
 
-    <style name="HorizontalLine">
+    <style name="horizontal_line" parent="AppTheme.DEFAULT">
         <item name="android:height">4dp</item>
         <item name="android:background">@drawable/background_horizontal_line</item>
     </style>

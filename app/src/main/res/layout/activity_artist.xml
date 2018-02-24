@@ -22,7 +22,7 @@
 
         <Spinner
             android:id="@+id/artist_spinner"
-            style="@style/DRK_input"
+            style="@style/input"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:spinnerMode="dialog" />

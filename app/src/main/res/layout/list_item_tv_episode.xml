@@ -13,7 +13,7 @@
 
         <TextView
             android:id="@+id/list_item_notification_episode_title"
-            style="@style/DRK_text_h1"
+            style="@style/h1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toStartOf="@+id/list_item_notification_date"
@@ -22,7 +22,7 @@
 
         <TextView
             android:id="@+id/list_item_notification_show_title"
-            style="@style/DRK_text_h2"
+            style="@style/h2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/list_item_notification_episode_title"
@@ -32,7 +32,7 @@
 
         <TextView
             android:id="@+id/list_item_notification_date"
-            style="@style/DRK_text_h2"
+            style="@style/h2"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -41,14 +41,14 @@
 
         <TextView
             android:id="@+id/list_item_tv_separatorbar"
-            style="@style/HorizontalLine"
+            style="@style/horizontal_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/list_item_notification_show_title" />
 
         <TextView
             android:id="@+id/list_item_notification_number"
-            style="@style/DRK_text_h2"
+            style="@style/h2"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/list_item_tv_separatorbar"
@@ -57,7 +57,7 @@
 
         <TextView
             android:id="@+id/list_item_notification_overview"
-            style="@style/DRK_text"
+            style="@style/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

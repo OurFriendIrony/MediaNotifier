@@ -1,0 +1,7 @@
+<resources>
+    <!-- colours -->
+    <attr name="colorTextPrimary" format="color"/>
+    <attr name="colorTextSecondary" format="color"/>
+    <attr name="colorTextInverted" format="color"/>
+</resources>
+

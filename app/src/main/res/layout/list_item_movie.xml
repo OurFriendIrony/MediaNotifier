@@ -13,7 +13,7 @@
 
         <TextView
             android:id="@+id/list_item_title"
-            style="@style/DRK_text_h1"
+            style="@style/h1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toStartOf="@+id/list_item_date"
@@ -22,7 +22,7 @@
 
         <TextView
             android:id="@+id/list_item_sub_title"
-            style="@style/DRK_text_h2"
+            style="@style/h2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/list_item_title"
@@ -32,7 +32,7 @@
 
         <TextView
             android:id="@+id/list_item_date"
-            style="@style/DRK_text_h2"
+            style="@style/h2"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -41,14 +41,14 @@
 
         <TextView
             android:id="@+id/list_item_separatorbar"
-            style="@style/HorizontalLine"
+            style="@style/horizontal_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/list_item_sub_title" />
 
         <TextView
             android:id="@+id/list_item_overview"
-            style="@style/DRK_text"
+            style="@style/text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/list_item_separatorbar"

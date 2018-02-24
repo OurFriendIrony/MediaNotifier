@@ -10,7 +10,7 @@
 
         <EditText
             android:id="@+id/find_input"
-            style="@style/DRK_input"
+            style="@style/input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toStartOf="@+id/find_progress"

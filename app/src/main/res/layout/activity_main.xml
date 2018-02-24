@@ -10,14 +10,14 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.GENERIC.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.GENERIC.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
 
@@ -53,7 +53,7 @@
 
                 <Button
                     android:id="@+id/main_button_tv"
-                    style="@style/DRK_text_h2_contrast"
+                    style="@style/h2_contrast"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -63,7 +63,7 @@
 
                 <TextView
                     android:id="@+id/main_button_tv_notification"
-                    style="@style/DRK_text_notification"
+                    style="@style/notification"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:layout_alignParentEnd="true"
@@ -95,7 +95,7 @@
 
                 <Button
                     android:id="@+id/main_button_movie"
-                    style="@style/DRK_text_h2_contrast"
+                    style="@style/h2_contrast"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -105,7 +105,7 @@
 
                 <TextView
                     android:id="@+id/main_button_movie_notification"
-                    style="@style/DRK_text_notification"
+                    style="@style/notification"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:layout_alignParentEnd="true"
@@ -136,7 +136,7 @@
 
                 <Button
                     android:id="@+id/main_button_artist"
-                    style="@style/DRK_text_h2_contrast"
+                    style="@style/h2_contrast"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -146,7 +146,7 @@
 
                 <TextView
                     android:id="@+id/main_button_artist_notification"
-                    style="@style/DRK_text_notification"
+                    style="@style/notification"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -174,7 +174,7 @@
             android:paddingTop="5dp">
 
             <TextView
-                style="@style/DRK_text_h2_contrast"
+                style="@style/h2_contrast"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:paddingEnd="5dp"
