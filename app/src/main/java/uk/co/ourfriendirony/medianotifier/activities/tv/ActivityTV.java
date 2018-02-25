@@ -22,26 +22,28 @@ import uk.co.ourfriendirony.medianotifier._objects.tv.TVEpisode;
 import uk.co.ourfriendirony.medianotifier._objects.tv.TVSeason;
 import uk.co.ourfriendirony.medianotifier._objects.tv.TVShow;
 import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
+import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummaryTV;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterTVEpisode;
 
 public class ActivityTV extends AppCompatActivity {
+    private TVShowDatabase database;
 
     private Spinner showList;
     private ListView episodeList;
     private List<TVShow> tvShows;
     private ProgressBar loadPageProgressBar;
     private int currentShowPosition;
-    private TVShowDatabase database;
     private MovieDatabaseClient client = new MovieDatabaseClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tv);
-        getSupportActionBar().setTitle(R.string.title_library_tvshow);
+        super.setTheme(PropertyHelper.getTheme(getBaseContext()));
+        super.getSupportActionBar().setTitle(R.string.title_library_tvshow);
+        super.setContentView(R.layout.activity_tv);
 
         database = new TVShowDatabase(getApplicationContext());
 

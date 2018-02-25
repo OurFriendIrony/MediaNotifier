@@ -16,6 +16,7 @@ import java.util.List;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier._objects.movie.Movie;
 import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
+import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummaryMovie;
 
@@ -31,8 +32,9 @@ public class ActivityMovieFind extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_find);
-        getSupportActionBar().setTitle(R.string.title_find_movie);
+        super.setTheme(PropertyHelper.getTheme(getBaseContext()));
+        super.getSupportActionBar().setTitle(R.string.title_find_movie);
+       super.setContentView(R.layout.activity_find);
 
         database = new MovieDatabase(getApplicationContext());
 

@@ -21,6 +21,7 @@ import java.util.List;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier._objects.artist.Artist;
 import uk.co.ourfriendirony.medianotifier.clients.DiscogsDatabaseClient;
+import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummaryArtist;
 
@@ -36,8 +37,9 @@ public class ActivityArtistFind extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_find);
-        getSupportActionBar().setTitle(R.string.title_find_artist);
+        super.setTheme(PropertyHelper.getTheme(getBaseContext()));
+        super.getSupportActionBar().setTitle(R.string.title_find_artist);
+        super.setContentView(R.layout.activity_find);
 
         database = new ArtistDatabase(getApplicationContext());
 

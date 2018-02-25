@@ -4,6 +4,12 @@
     tools:context=".activities.ActivityMain">
 
     <item
+        android:id="@+id/action_theme"
+        android:icon="@android:drawable/presence_invisible"
+        android:orderInCategory="1"
+        android:title="@string/action_theme"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/action_logview"
         android:icon="@android:drawable/ic_input_get"
         android:orderInCategory="1"

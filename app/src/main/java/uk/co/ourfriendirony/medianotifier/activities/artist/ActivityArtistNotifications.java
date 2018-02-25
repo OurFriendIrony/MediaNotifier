@@ -10,6 +10,7 @@ import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier._objects.artist.Artist;
+import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummaryArtist;
 
@@ -20,8 +21,9 @@ public class ActivityArtistNotifications extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tv_notifications);
-        getSupportActionBar().setTitle(R.string.title_notifications);
+        super.setTheme(PropertyHelper.getTheme(getBaseContext()));
+        super.getSupportActionBar().setTitle(R.string.title_notifications);
+        super.setContentView(R.layout.activity_tv_notifications);
 
         NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancelAll();

@@ -38,11 +38,13 @@ import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVFind;
 import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVUnwatched;
 import uk.co.ourfriendirony.medianotifier.async.MovieUpdateAsyncTask;
 import uk.co.ourfriendirony.medianotifier.async.TVShowUpdateAsyncTask;
+import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
 
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.switchTheme;
 import static uk.co.ourfriendirony.medianotifier.general.IntentGenerator.getContactEmailIntent;
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.getNotificationNumber;
 
@@ -63,9 +65,9 @@ public class ActivityMain extends AppCompatActivity {
             StrictMode.setThreadPolicy(policy);
         }
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        super.setContentView(R.layout.activity_main);
+        super.setTheme(PropertyHelper.getTheme(getBaseContext()));
+        super.setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         tvShowDatabase = new TVShowDatabase(getApplicationContext());
         movieDatabase = new MovieDatabase(getApplicationContext());
@@ -184,6 +186,10 @@ public class ActivityMain extends AppCompatActivity {
             case R.id.action_settings:
                 Intent intent = new Intent(this, ActivitySettings.class);
                 startActivity(intent);
+                return true;
+
+            case R.id.action_theme:
+                setTheme(switchTheme(getBaseContext()));
                 return true;
 
             case R.id.action_contact:

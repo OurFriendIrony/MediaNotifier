@@ -16,6 +16,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import uk.co.ourfriendirony.medianotifier.R;
+import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
@@ -41,8 +42,9 @@ public class ActivitySettings extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        super.setTheme(PropertyHelper.getTheme(getBaseContext()));
+        super.getSupportActionBar().setTitle(R.string.title_settings);
         setContentView(R.layout.activity_settings);
-        getSupportActionBar().setTitle(R.string.title_settings);
 
         Button buttonDeleteTV = (Button) findViewById(R.id.settings_button_delete_tv_all);
         Button buttonDeleteMovie = (Button) findViewById(R.id.settings_button_delete_movie_all);

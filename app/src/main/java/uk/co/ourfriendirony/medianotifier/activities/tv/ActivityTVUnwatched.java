@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import uk.co.ourfriendirony.medianotifier.R;
+import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.pageradapter.ActivityTVPagerAdapter;
 
 public class ActivityTVUnwatched extends AppCompatActivity {
@@ -17,7 +18,8 @@ public class ActivityTVUnwatched extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_core);
+        super.setTheme(PropertyHelper.getTheme(getBaseContext()));
+        super.setContentView(R.layout.activity_core);
 
         cancelNotifications();
 
