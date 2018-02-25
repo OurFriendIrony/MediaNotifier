@@ -44,11 +44,11 @@
     <color name="purple_bright">#FF00FF</color>
 
     <!--transparent-->
-    <color name="transparent">#00000000</color>
-    <color name="transparent_01">#30000000</color>
-    <color name="transparent_02">#60000000</color>
-    <color name="transparent_03">#90000000</color>
-    <color name="transparent_04">#B0000000</color>
+    <color name="transparent_100">#00000000</color>
+    <color name="transparent_080">#30000000</color>
+    <color name="transparent_060">#60000000</color>
+    <color name="transparent_040">#90000000</color>
+    <color name="transparent_020">#B0000000</color>
 
     <!--styles-->
     <color name="app_header">#444444</color>
