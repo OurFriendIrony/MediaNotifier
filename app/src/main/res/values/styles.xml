@@ -1,5 +1,5 @@
 <resources>
-    <!-- Primary Styles -->
+    <!-- Default Styles -->
     <style name="AppTheme.DEFAULT" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/app_header</item>
         <item name="colorPrimaryDark">@color/app_taskbar</item>
@@ -8,25 +8,39 @@
         <item name="android:typeface">monospace</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/white</item>
+
+        <item name="android:textColor">?colorTextPrimary</item>
     </style>
 
     <style name="AppTheme.DEFAULT.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
     <style name="AppTheme.GENERIC.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     <style name="AppTheme.GENERIC.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- Primary Styles -->
 
     <style name="AppTheme.DARK" parent="AppTheme.DEFAULT">
         <item name="colorPrimary">@color/app_header</item>
         <item name="colorPrimaryDark">@color/app_taskbar</item>
         <item name="colorAccent">@color/color_default_complex_accent</item>
+
+        <item name="colorTextPrimary">@color/white</item>
+        <item name="colorTextSecondary">@color/grey_04</item>
+        <item name="colorTextInverted">@color/black</item>
     </style>
+
     <style name="AppTheme.LIGHT" parent="AppTheme.DEFAULT">
         <item name="colorPrimary">@color/app_header</item>
         <item name="colorPrimaryDark">@color/app_taskbar</item>
         <item name="colorAccent">@color/purple_bright</item>
+
+        <item name="colorTextPrimary">@color/black</item>
+        <item name="colorTextSecondary">@color/grey_10</item>
+        <item name="colorTextInverted">@color/white</item>
     </style>
 
     <!-- Feature Styles -->
@@ -43,7 +57,7 @@
     </style>
 
     <style name="title" parent="AppTheme.DEFAULT">
-        <item name="android:textColor">@color/grey_04</item>
+        <item name="android:textColor">?colorTextSecondary</item>
         <item name="android:textSize">24sp</item>
     </style>
 
