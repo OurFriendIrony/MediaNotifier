@@ -170,11 +170,10 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/background_footer"
-            android:paddingTop="5dp">
+            style="@style/style_footer">
 
             <TextView
-                style="@style/h2_contrast"
+                android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:paddingEnd="5dp"

@@ -9,7 +9,7 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">14sp</item>
 
-        <item name="android:textColor">?colorTextPrimary</item>
+        <item name="android:textColor">?attr/colorPrimaryText</item>
     </style>
 
     <style name="AppTheme.DEFAULT.NoActionBar">
@@ -28,9 +28,14 @@
         <item name="colorPrimaryDark">@color/app_taskbar</item>
         <item name="colorAccent">@color/color_default_complex_accent</item>
 
-        <item name="colorTextPrimary">@color/white</item>
-        <item name="colorTextSecondary">@color/grey_04</item>
-        <item name="colorTextInverted">@color/black</item>
+        <item name="colorPrimaryText">@color/white</item>
+        <item name="colorSecondaryText">@color/grey_04</item>
+        <item name="colorInvertedText">@color/black</item>
+
+        <item name="colorPrimaryBackground">@color/black</item>
+        <item name="colorSecondaryHBackground">@color/grey_13</item>
+        <item name="colorSecondaryLBackground">@color/grey_12</item>
+        <item name="colorUnderBackground">@color/grey_10</item>
     </style>
 
     <style name="AppTheme.LIGHT" parent="AppTheme.DEFAULT">
@@ -38,9 +43,14 @@
         <item name="colorPrimaryDark">@color/app_taskbar</item>
         <item name="colorAccent">@color/purple_bright</item>
 
-        <item name="colorTextPrimary">@color/black</item>
-        <item name="colorTextSecondary">@color/grey_10</item>
-        <item name="colorTextInverted">@color/white</item>
+        <item name="colorPrimaryText">@color/black</item>
+        <item name="colorSecondaryText">@color/grey_10</item>
+        <item name="colorInvertedText">@color/white</item>
+
+        <item name="colorPrimaryBackground">@color/white</item>
+        <item name="colorSecondaryHBackground">@color/grey_02</item>
+        <item name="colorSecondaryLBackground">@color/grey_03</item>
+        <item name="colorUnderBackground">@color/grey_05</item>
     </style>
 
     <!-- Feature Styles -->
@@ -50,14 +60,14 @@
         <item name="android:paddingBottom">10dp</item>
         <item name="android:paddingLeft">5dp</item>
         <item name="android:textAlignment">center</item>
-        <item name="android:textColor">@color/grey_04</item>
+        <item name="android:textColor">?attr/colorSecondaryText</item>
         <item name="android:typeface">monospace</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">30sp</item>
     </style>
 
     <style name="title" parent="AppTheme.DEFAULT">
-        <item name="android:textColor">?colorTextSecondary</item>
+        <item name="android:textColor">?attr/colorSecondaryText</item>
         <item name="android:textSize">24sp</item>
     </style>
 
@@ -66,7 +76,7 @@
     </style>
 
     <style name="h2" parent="AppTheme.DEFAULT">
-        <item name="android:textColor">@color/grey_04</item>
+        <item name="android:textColor">?attr/colorSecondaryText</item>
     </style>
 
     <style name="h2_contrast" parent="AppTheme.DEFAULT">
@@ -74,7 +84,7 @@
     </style>
 
     <style name="text" parent="AppTheme.DEFAULT">
-        <item name="android:textColor">@color/grey_04</item>
+        <item name="android:textColor">?attr/colorSecondaryText</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">10sp</item>
     </style>
@@ -85,7 +95,7 @@
     </style>
 
     <style name="notification" parent="AppTheme.DEFAULT">
-        <item name="android:background">@drawable/background_notification</item>
+        <item name="android:background">@drawable/button_notification</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">30sp</item>
     </style>
@@ -97,6 +107,11 @@
 
     <style name="style_list" parent="AppTheme.DEFAULT">
         <item name="android:background">@drawable/background_list</item>
+    </style>
+
+    <style name="style_footer" parent="AppTheme.DEFAULT">
+        <item name="android:background">@drawable/background_footer</item>
+        <item name="android:paddingTop">5dp</item>
     </style>
 
     <style name="style_list_item" parent="AppTheme.DEFAULT">
