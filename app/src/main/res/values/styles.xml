@@ -95,7 +95,7 @@
     </style>
 
     <style name="notification" parent="AppTheme.DEFAULT">
-        <item name="android:background">@drawable/button_notification</item>
+        <item name="android:background">@drawable/button_notification_off</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">30sp</item>
     </style>
