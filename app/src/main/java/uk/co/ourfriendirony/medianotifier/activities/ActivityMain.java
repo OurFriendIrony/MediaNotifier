@@ -3,7 +3,6 @@ package uk.co.ourfriendirony.medianotifier.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -60,14 +59,9 @@ public class ActivityMain extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (android.os.Build.VERSION.SDK_INT > 9) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }
         super.onCreate(savedInstanceState);
-        super.setContentView(R.layout.activity_main);
         super.setTheme(PropertyHelper.getTheme(getBaseContext()));
-        super.setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        super.setContentView(R.layout.activity_main);
 
         tvShowDatabase = new TVShowDatabase(getApplicationContext());
         movieDatabase = new MovieDatabase(getApplicationContext());
@@ -203,6 +197,7 @@ public class ActivityMain extends AppCompatActivity {
 
             case R.id.action_theme:
                 setTheme(switchTheme(getBaseContext()));
+                this.recreate();
                 return true;
 
             case R.id.action_contact:
@@ -226,8 +221,6 @@ public class ActivityMain extends AppCompatActivity {
                         popupWindow.dismiss();
                     }
                 });
-
-
                 return true;
 
             case R.id.action_debug:
