@@ -10,7 +10,7 @@
         android:right="3dp"
         android:top="3dp">
         <shape android:shape="rectangle">
-            <solid android:color="?colorSecondaryHBackground" />
+            <solid android:color="?attr/colorBackgroundPrimary1" />
             <corners android:radius="6dp" />
             <stroke
                 android:width="3dp"

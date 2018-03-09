@@ -1,12 +1,15 @@
 <resources>
     <!-- colours -->
-    <attr name="colorPrimaryText" format="color"/>
-    <attr name="colorSecondaryText" format="color"/>
-    <attr name="colorInvertedText" format="color"/>
+    <attr name="colorTextPrimary" format="color"/>
+    <attr name="colorTextSecondary" format="color"/>
+    <attr name="colorTextInverted" format="color"/>
 
-    <attr name="colorPrimaryBackground" format="color"/>
-    <attr name="colorSecondaryHBackground" format="color"/>
-    <attr name="colorSecondaryLBackground" format="color"/>
-    <attr name="colorUnderBackground" format="color"/>
+    <attr name="colorBackgroundDefault" format="color"/>
+    <attr name="colorBackgroundPrimary1" format="color"/>
+    <attr name="colorBackgroundPrimary2" format="color"/>
+    <attr name="colorBackgroundPrimary3" format="color"/>
+    <attr name="colorBackgroundSecondary1" format="color"/>
+    <attr name="colorBackgroundSecondary2" format="color"/>
+    <attr name="colorBackgroundSecondary3" format="color"/>
 </resources>
 

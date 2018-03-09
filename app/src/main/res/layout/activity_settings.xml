@@ -4,7 +4,7 @@
     android:id="@+id/settings"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?colorPrimaryBackground"
+    android:background="?attr/colorBackgroundDefault"
     tools:context=".activities.ActivitySettings">
 
     <!-- ################################################################# -->
