@@ -4,7 +4,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-
 import uk.co.ourfriendirony.medianotifier._objects.artist.Artist;
 import uk.co.ourfriendirony.medianotifier.clients.DiscogsDatabaseClient;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;

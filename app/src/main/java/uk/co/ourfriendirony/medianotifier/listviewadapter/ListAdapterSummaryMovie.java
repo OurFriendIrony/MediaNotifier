@@ -3,13 +3,8 @@ package uk.co.ourfriendirony.medianotifier.listviewadapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.SwitchCompat;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
-import android.widget.TextView;
-import android.widget.ToggleButton;
+import android.view.*;
+import android.widget.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

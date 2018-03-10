@@ -1,8 +1,6 @@
 package uk.co.ourfriendirony.medianotifier.pageradapter;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.*;
 
 import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovieUnwatchedComingSoon;
 import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovieUnwatchedReleased;

@@ -25,7 +25,6 @@
                 android:centerColor="?attr/colorBackgroundPrimary3"
                 android:endColor="?attr/colorBackgroundPrimary3"
                 android:startColor="?attr/colorBackgroundPrimary2" />
-            <!--<solid android:color="@color/grey_06" />-->
             <corners android:radius="6dp" />
         </shape>
     </item>

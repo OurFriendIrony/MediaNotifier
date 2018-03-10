@@ -2,9 +2,7 @@ package uk.co.ourfriendirony.medianotifier.general;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.text.*;
 import java.util.Date;
 
 public class StringHandler {

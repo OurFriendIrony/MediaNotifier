@@ -2,10 +2,7 @@ package uk.co.ourfriendirony.medianotifier._objects.movie;
 
 import com.fasterxml.jackson.annotation.*;
 
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({

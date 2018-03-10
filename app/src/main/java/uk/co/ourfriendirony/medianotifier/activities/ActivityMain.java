@@ -6,19 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.*;
+import android.widget.*;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -29,12 +18,8 @@ import uk.co.ourfriendirony.medianotifier._objects.movie.Movie;
 import uk.co.ourfriendirony.medianotifier._objects.tv.TVShow;
 import uk.co.ourfriendirony.medianotifier.activities.artist.ActivityArtist;
 import uk.co.ourfriendirony.medianotifier.activities.artist.ActivityArtistFind;
-import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovie;
-import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovieFind;
-import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovieUnwatched;
-import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTV;
-import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVFind;
-import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVUnwatched;
+import uk.co.ourfriendirony.medianotifier.activities.movie.*;
+import uk.co.ourfriendirony.medianotifier.activities.tv.*;
 import uk.co.ourfriendirony.medianotifier.async.MovieUpdateAsyncTask;
 import uk.co.ourfriendirony.medianotifier.async.TVShowUpdateAsyncTask;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
@@ -56,6 +41,7 @@ public class ActivityMain extends AppCompatActivity {
     private TextView main_button_tv_notification;
     private TextView main_button_movie_notification;
     private TextView main_button_artist_notification;
+    private PopupWindow popupWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,8 +171,6 @@ public class ActivityMain extends AppCompatActivity {
         return true;
     }
 
-    private PopupWindow popupWindow;
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -262,5 +246,4 @@ public class ActivityMain extends AppCompatActivity {
         }
         return log.toString();
     }
-
 }

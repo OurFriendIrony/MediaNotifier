@@ -34,7 +34,7 @@ public class ActivityMovieFind extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         super.setTheme(PropertyHelper.getTheme(getBaseContext()));
         super.getSupportActionBar().setTitle(R.string.title_find_movie);
-       super.setContentView(R.layout.activity_find);
+        super.setContentView(R.layout.activity_find);
 
         database = new MovieDatabase(getApplicationContext());
 
