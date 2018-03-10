@@ -9,7 +9,7 @@
         android:right="3dp"
         android:top="3dp">
         <shape android:shape="rectangle">
-            <solid android:color="@color/grey_12" />
+            <solid android:color="?attr/colorBackgroundPrimary1" />
             <corners
                 android:topLeftRadius="6dp"
                 android:topRightRadius="6dp" />
@@ -22,9 +22,9 @@
         <shape android:shape="rectangle">
             <gradient
                 android:angle="270"
-                android:centerColor="@color/grey_07"
-                android:endColor="@color/grey_07"
-                android:startColor="@color/grey_09" />
+                android:centerColor="?attr/colorBackgroundPrimary3"
+                android:endColor="?attr/colorBackgroundPrimary3"
+                android:startColor="?attr/colorBackgroundPrimary2" />
             <corners
                 android:topLeftRadius="6dp"
                 android:topRightRadius="6dp" />
