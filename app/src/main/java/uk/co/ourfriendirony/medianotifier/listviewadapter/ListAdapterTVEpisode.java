@@ -2,6 +2,7 @@ package uk.co.ourfriendirony.medianotifier.listviewadapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,16 +81,12 @@ public class ListAdapterTVEpisode extends ArrayAdapter {
         textNumber.setText("S" + pad(tvEpisode.getSeasonNumber(), 2) + " E" + pad(tvEpisode.getEpisodeNumber(), 2));
         textDate.setText(dateString);
 
-        ToggleButton toggle = (ToggleButton) view.findViewById(R.id.button_toggle);
-        toggle.setChecked(database.getEpisodeWatchedStatusAsBoolean(tvEpisode));
+        SwitchCompat toggle = (SwitchCompat) view.findViewById(R.id.button_toggle);
+        toggle.setChecked(!database.getEpisodeWatchedStatusAsBoolean(tvEpisode));
 
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    database.updateTVEpisodeWatchedStatus(tvEpisode, WATCHED_TRUE);
-                } else {
-                    database.updateTVEpisodeWatchedStatus(tvEpisode, WATCHED_FALSE);
-                }
+                database.updateTVEpisodeWatchedStatus(tvEpisode, (!isChecked) ? WATCHED_TRUE : WATCHED_FALSE);
             }
         });
 
