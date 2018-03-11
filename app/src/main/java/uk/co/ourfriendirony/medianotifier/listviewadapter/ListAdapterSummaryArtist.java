@@ -2,13 +2,9 @@ package uk.co.ourfriendirony.medianotifier.listviewadapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
-import android.widget.TextView;
-import android.widget.ToggleButton;
+import android.support.v7.widget.SwitchCompat;
+import android.view.*;
+import android.widget.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -101,16 +97,12 @@ public class ListAdapterSummaryArtist extends ArrayAdapter {
         textDate.setText("");
         textOverview.setText(artist.getOverview());
 
-        ToggleButton toggle = (ToggleButton) view.findViewById(R.id.button_toggle);
-        toggle.setChecked(database.getArtistWatchedStatusAsBoolean(artist));
+        SwitchCompat toggle = (SwitchCompat) view.findViewById(R.id.button_toggle);
+        toggle.setChecked(!database.getArtistWatchedStatusAsBoolean(artist));
 
-        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        toggle.setOnCheckedChangeListener(new SwitchCompat.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    database.updateArtistWatchedStatus(artist, WATCHED_TRUE);
-                } else {
-                    database.updateArtistWatchedStatus(artist, WATCHED_FALSE);
-                }
+                database.updateArtistWatchedStatus(artist, (!isChecked) ? WATCHED_TRUE : WATCHED_FALSE);
             }
         });
 

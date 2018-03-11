@@ -4,7 +4,7 @@
     android:id="@+id/settings"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?colorPrimaryBackground"
+    android:background="?attr/colorBackgroundDefault"
     tools:context=".activities.ActivitySettings">
 
     <!-- ################################################################# -->
@@ -28,7 +28,7 @@
 
                 <TextView
                     android:id="@+id/settings_notification_time_text"
-                    style="@style/h2_contrast"
+                    android:textColor="?attr/colorTextSecondary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top|start"
@@ -43,7 +43,7 @@
 
                 <Button
                     android:id="@+id/settings_notification_time_button"
-                    style="@style/h2_contrast"
+                    style="@style/button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="ALL" />
@@ -73,7 +73,7 @@
 
                 <TextView
                     android:id="@+id/settings_notification_day_offset_text"
-                    style="@style/h2_contrast"
+                    android:textColor="?attr/colorTextSecondary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top|start"
@@ -88,7 +88,7 @@
 
                 <Button
                     android:id="@+id/settings_notification_day_offset_tv_button"
-                    style="@style/h2_contrast"
+                    style="@style/button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
@@ -96,7 +96,7 @@
 
                 <Button
                     android:id="@+id/settings_notification_day_offset_movie_button"
-                    style="@style/h2_contrast"
+                    style="@style/button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/settings_notification_day_offset_tv_button"
@@ -105,7 +105,7 @@
 
                 <Button
                     android:id="@+id/settings_notification_day_offset_artist_button"
-                    style="@style/h2_contrast"
+                    style="@style/button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/settings_notification_day_offset_movie_button"
@@ -141,14 +141,14 @@
 
             <Button
                 android:id="@+id/settings_button_delete_tv_all"
-                style="@style/h2_contrast"
+                style="@style/button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/button_delete_tv_all" />
 
             <Button
                 android:id="@+id/settings_button_delete_movie_all"
-                style="@style/h2_contrast"
+                style="@style/button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/settings_button_delete_tv_all"
@@ -156,7 +156,7 @@
 
             <Button
                 android:id="@+id/settings_button_delete_artist_all"
-                style="@style/h2_contrast"
+                style="@style/button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/settings_button_delete_movie_all"

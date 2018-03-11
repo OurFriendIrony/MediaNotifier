@@ -2,10 +2,7 @@ package uk.co.ourfriendirony.medianotifier._objects.tv;
 
 import com.fasterxml.jackson.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({

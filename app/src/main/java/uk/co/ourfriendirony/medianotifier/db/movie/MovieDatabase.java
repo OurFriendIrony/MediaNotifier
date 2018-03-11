@@ -7,9 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import uk.co.ourfriendirony.medianotifier._objects.movie.Collection;
 import uk.co.ourfriendirony.medianotifier._objects.movie.Movie;

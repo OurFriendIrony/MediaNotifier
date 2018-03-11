@@ -1,11 +1,10 @@
 package uk.co.ourfriendirony.medianotifier.pageradapter;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.*;
 
 import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVUnwatchedComingSoon;
 import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVUnwatchedReleased;
+
 public class ActivityTVPagerAdapter extends FragmentStatePagerAdapter {
 
     private static final int NUM_PAGES = 2;

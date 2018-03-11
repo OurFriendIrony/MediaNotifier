@@ -7,25 +7,11 @@
     android:fitsSystemWindows="true"
     tools:context=".activities.ActivityMain">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.GENERIC.AppBarOverlay">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.GENERIC.PopupOverlay" />
-
-    </android.support.design.widget.AppBarLayout>
-
     <FrameLayout
         android:id="@+id/main_central"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black"
+        android:background="?attr/colorBackgroundDefault"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context=".activities.ActivityMain"
         tools:showIn="@layout/activity_main">
@@ -53,7 +39,7 @@
 
                 <Button
                     android:id="@+id/main_button_tv"
-                    style="@style/h2_contrast"
+                    style="@style/button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -95,7 +81,7 @@
 
                 <Button
                     android:id="@+id/main_button_movie"
-                    style="@style/h2_contrast"
+                    style="@style/button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -136,7 +122,7 @@
 
                 <Button
                     android:id="@+id/main_button_artist"
-                    style="@style/h2_contrast"
+                    style="@style/button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -168,16 +154,16 @@
         android:layout_gravity="bottom">
 
         <RelativeLayout
+            style="@style/style_footer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            style="@style/style_footer">
+            android:layout_height="match_parent">
 
             <TextView
-                android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:paddingEnd="5dp"
                 android:paddingStart="5dp"
+                android:textColor="?attr/colorTextPrimary"
                 android:text="Powered By:" />
 
             <ImageView

@@ -4,20 +4,15 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.Spinner;
+import android.view.*;
+import android.widget.*;
 
 import java.util.Collections;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.async.MovieUpdateAsyncTask;
 import uk.co.ourfriendirony.medianotifier._objects.movie.Movie;
+import uk.co.ourfriendirony.medianotifier.async.MovieUpdateAsyncTask;
 import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
@@ -72,12 +67,12 @@ public class ActivityMovie extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_refresh:
                 new MovieUpdateAsyncTask().execute(currentMovie);
-                restart();
+                this.recreate();
                 return true;
 
             case R.id.action_remove:
                 database.deleteMovie(currentMovie.getId());
-                restart();
+                this.recreate();
                 return true;
 
             case R.id.action_imdb:
@@ -102,11 +97,6 @@ public class ActivityMovie extends AppCompatActivity {
         currentMoviePosition = moviePosition;
         ListAdapterSummaryMovie movieListAdapter = new ListAdapterSummaryMovie(getBaseContext(), R.layout.list_item_movie, Collections.singletonList(movies.get(moviePosition)));
         movieList.setAdapter(movieListAdapter);
-    }
-
-    private void restart() {
-        finish();
-        startActivity(getIntent());
     }
 
     private class MovieListAsyncTask extends AsyncTask<String, Void, Void> {

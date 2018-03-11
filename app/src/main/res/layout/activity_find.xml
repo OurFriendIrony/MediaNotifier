@@ -24,7 +24,7 @@
             android:layout_alignBottom="@+id/find_input"
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/find_input"
-            android:background="?colorPrimaryBackground"
+            android:background="?attr/colorBackgroundDefault"
             android:visibility="gone" />
     </RelativeLayout>
 

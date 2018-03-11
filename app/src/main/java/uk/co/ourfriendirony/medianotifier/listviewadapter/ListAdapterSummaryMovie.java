@@ -2,13 +2,9 @@ package uk.co.ourfriendirony.medianotifier.listviewadapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
-import android.widget.TextView;
-import android.widget.ToggleButton;
+import android.support.v7.widget.SwitchCompat;
+import android.view.*;
+import android.widget.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -117,16 +113,12 @@ public class ListAdapterSummaryMovie extends ArrayAdapter {
         textDate.setText(year);
         textOverview.setText(movie.getOverview());
 
-        ToggleButton toggle = (ToggleButton) view.findViewById(R.id.button_toggle);
-        toggle.setChecked(database.getMovieWatchedStatusAsBoolean(movie));
+        SwitchCompat toggle = (SwitchCompat) view.findViewById(R.id.button_toggle);
+        toggle.setChecked(!database.getMovieWatchedStatusAsBoolean(movie));
 
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    database.updateMovieWatchedStatus(movie, WATCHED_TRUE);
-                } else {
-                    database.updateMovieWatchedStatus(movie, WATCHED_FALSE);
-                }
+                database.updateMovieWatchedStatus(movie, (!isChecked) ? WATCHED_TRUE : WATCHED_FALSE);
             }
         });
 

@@ -5,23 +5,15 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.Spinner;
+import android.view.*;
+import android.widget.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
+import uk.co.ourfriendirony.medianotifier._objects.tv.*;
 import uk.co.ourfriendirony.medianotifier.async.TVShowUpdateAsyncTask;
-import uk.co.ourfriendirony.medianotifier._objects.tv.TVEpisode;
-import uk.co.ourfriendirony.medianotifier._objects.tv.TVSeason;
-import uk.co.ourfriendirony.medianotifier._objects.tv.TVShow;
-import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
@@ -36,7 +28,6 @@ public class ActivityTV extends AppCompatActivity {
     private List<TVShow> tvShows;
     private ProgressBar loadPageProgressBar;
     private int currentShowPosition;
-    private MovieDatabaseClient client = new MovieDatabaseClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,12 +67,12 @@ public class ActivityTV extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_refresh:
                 new TVShowUpdateAsyncTask().execute(currentShow);
-                restart();
+                this.recreate();
                 return true;
 
             case R.id.action_remove:
                 database.deleteTVShow(currentShow.getId());
-                restart();
+                this.recreate();
                 return true;
 
             case R.id.action_imdb:
@@ -113,12 +104,9 @@ public class ActivityTV extends AppCompatActivity {
             ListAdapterTVEpisode episodeListAdapter = new ListAdapterTVEpisode(getBaseContext(), R.layout.list_item_tv_episode, tvEpisodes, false);
             episodeList.setAdapter(episodeListAdapter);
             episodeList.setSelection(tvEpisodes.size());
+        } else {
+            episodeList.setAdapter(null);
         }
-    }
-
-    private void restart() {
-        finish();
-        startActivity(getIntent());
     }
 
     private class TVShowListAsyncTask extends AsyncTask<String, Void, Void> {

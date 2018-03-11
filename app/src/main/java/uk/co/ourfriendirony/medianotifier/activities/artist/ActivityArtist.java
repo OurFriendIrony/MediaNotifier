@@ -3,20 +3,15 @@ package uk.co.ourfriendirony.medianotifier.activities.artist;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.Spinner;
+import android.view.*;
+import android.widget.*;
 
 import java.util.Collections;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.async.ArtistUpdateAsyncTask;
 import uk.co.ourfriendirony.medianotifier._objects.artist.Artist;
+import uk.co.ourfriendirony.medianotifier.async.ArtistUpdateAsyncTask;
 import uk.co.ourfriendirony.medianotifier.clients.DiscogsDatabaseClient;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
@@ -70,12 +65,12 @@ public class ActivityArtist extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_refresh:
                 new ArtistUpdateAsyncTask().execute(currentArtist);
-                restart();
+                this.recreate();
                 return true;
 
             case R.id.action_remove:
                 database.deleteArtist(currentArtist.getId());
-                restart();
+                this.recreate();
                 return true;
 
             default:
@@ -95,11 +90,6 @@ public class ActivityArtist extends AppCompatActivity {
         currentArtistPosition = artistPosition;
         ListAdapterSummaryArtist artistListAdapter = new ListAdapterSummaryArtist(getBaseContext(), R.layout.list_item_artist, Collections.singletonList(artists.get(artistPosition)));
         artistList.setAdapter(artistListAdapter);
-    }
-
-    private void restart() {
-        finish();
-        startActivity(getIntent());
     }
 
     private class ArtistListAsyncTask extends AsyncTask<String, Void, Void> {

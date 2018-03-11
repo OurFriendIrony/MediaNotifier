@@ -1,19 +1,10 @@
 package uk.co.ourfriendirony.medianotifier.activities;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.NumberPicker;
-import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
-import android.widget.TimePicker;
-import android.widget.Toast;
+import android.view.*;
+import android.widget.*;
 
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
@@ -22,19 +13,7 @@ import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.notifier.AlarmScheduler;
 
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetArtist;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetMax;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetMin;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetMovie;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetTV;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationHour;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationMinute;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationTimeFull;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationDayOffsetArtist;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationDayOffsetMovie;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationDayOffsetTV;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationHour;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationMinute;
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.*;
 
 public class ActivitySettings extends AppCompatActivity {
     private PopupWindow popupWindow;

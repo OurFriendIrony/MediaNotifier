@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/popup_text"
-        style="@style/h2_contrast"
+        android:textColor="?attr/colorTextSecondary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -27,7 +27,7 @@
 
     <Button
         android:id="@+id/popup_ok"
-        style="@style/h2_contrast"
+        style="@style/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/popup_time_picker"

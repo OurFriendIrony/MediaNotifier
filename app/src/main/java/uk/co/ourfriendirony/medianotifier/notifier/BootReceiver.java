@@ -1,8 +1,6 @@
 package uk.co.ourfriendirony.medianotifier.notifier;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
+import android.content.*;
 
 public class BootReceiver extends BroadcastReceiver {
 
