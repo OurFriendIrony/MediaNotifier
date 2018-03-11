@@ -140,22 +140,25 @@ public class ActivityMain extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         int numEpisodes = tvShowDatabase.countUnwatchedEpisodesReleased();
+        int numMovies = movieDatabase.countUnwatchedMoviesReleased();
+        int numArtists = 0;
+
         main_button_tv_notification.setText(getNotificationNumber(numEpisodes));
+        main_button_movie_notification.setText(getNotificationNumber(numMovies));
+        main_button_artist_notification.setText(getNotificationNumber(numArtists));
+
         if (numEpisodes > 0)
             main_button_tv_notification.setBackground(getResources().getDrawable(R.drawable.button_notification_on));
         else
             main_button_tv_notification.setBackground(getResources().getDrawable(R.drawable.button_notification_off));
 
-        int numMovies = movieDatabase.countUnwatchedMoviesReleased();
-        main_button_movie_notification.setText(getNotificationNumber(numMovies));
         if (numMovies > 0)
             main_button_movie_notification.setBackground(getResources().getDrawable(R.drawable.button_notification_on));
         else
             main_button_movie_notification.setBackground(getResources().getDrawable(R.drawable.button_notification_off));
 
-        int numArtists = 0;
-        main_button_artist_notification.setText(getNotificationNumber(numArtists));
         if (numArtists > 0)
             main_button_artist_notification.setBackground(getResources().getDrawable(R.drawable.button_notification_on));
         else

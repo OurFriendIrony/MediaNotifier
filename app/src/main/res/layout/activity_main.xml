@@ -39,7 +39,7 @@
 
                 <Button
                     android:id="@+id/main_button_tv"
-                    style="@style/h2_contrast"
+                    style="@style/button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -81,7 +81,7 @@
 
                 <Button
                     android:id="@+id/main_button_movie"
-                    style="@style/h2_contrast"
+                    style="@style/button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -122,7 +122,7 @@
 
                 <Button
                     android:id="@+id/main_button_artist"
-                    style="@style/h2_contrast"
+                    style="@style/button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -163,6 +163,7 @@
                 android:layout_height="match_parent"
                 android:paddingEnd="5dp"
                 android:paddingStart="5dp"
+                android:textColor="?attr/colorTextPrimary"
                 android:text="Powered By:" />
 
             <ImageView
