@@ -1,10 +1,14 @@
 language: android
 jdk: oraclejdk8
 
+branches:
+  only:
+  - master
+
 android:
   components:
 
-    # Version used in project 
+    # Version used in project
     - build-tools-26.0.2
 
     # SDK used to compile project
@@ -25,8 +29,9 @@ before_install:
   - echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
 
 script:
-  - ./gradlew build jacocoTestReport assembleAndroidTest 
+  - ./gradlew build jacocoTestReport assembleAndroidTest
 #  - ./gradlew connectedCheck
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+

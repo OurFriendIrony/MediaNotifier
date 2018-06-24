@@ -45,14 +45,26 @@ public class PropertyHelper {
         return settings.getInt(NOTIFY_DAY_OFFSET_TV, NOTIFY_DAY_OFFSET_DEFAULT);
     }
 
+    public static String getNotificationDayOffsetTVAsText(Context context) {
+        return String.valueOf(getNotificationDayOffsetTV(context));
+    }
+
     public static int getNotificationDayOffsetMovie(Context context) {
         SharedPreferences settings = getSharedPreferences(context);
         return settings.getInt(NOTIFY_DAY_OFFSET_MOVIE, NOTIFY_DAY_OFFSET_DEFAULT);
     }
 
+    public static String getNotificationDayOffsetMovieAsText(Context context) {
+        return String.valueOf(getNotificationDayOffsetMovie(context));
+    }
+
     public static int getNotificationDayOffsetArtist(Context context) {
         SharedPreferences settings = getSharedPreferences(context);
         return settings.getInt(NOTIFY_DAY_OFFSET_ARTIST, NOTIFY_DAY_OFFSET_DEFAULT);
+    }
+
+    public static String getNotificationDayOffsetArtistAsText(Context context) {
+        return String.valueOf(getNotificationDayOffsetArtist(context));
     }
 
     public static int getNotificationDayOffsetMax() {

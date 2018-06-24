@@ -42,6 +42,10 @@
         <item name="colorBackgroundSecondary1">@color/grey_09</item>
         <item name="colorBackgroundSecondary2">@color/grey_08</item>
         <item name="colorBackgroundSecondary3">@color/grey_06</item>
+
+        <item name="colorBackgroundWarning1">@color/red_darkest</item>
+        <item name="colorBackgroundWarning2">@color/red_dark</item>
+        <item name="colorBackgroundWarning3">@color/red_regular</item>
     </style>
 
     <style name="AppTheme.LIGHT" parent="AppTheme.DEFAULT">
@@ -60,6 +64,10 @@
         <item name="colorBackgroundSecondary1">@color/grey_06</item>
         <item name="colorBackgroundSecondary2">@color/grey_07</item>
         <item name="colorBackgroundSecondary3">@color/grey_09</item>
+
+        <item name="colorBackgroundWarning1">@color/red_dark</item>
+        <item name="colorBackgroundWarning2">@color/red_regular</item>
+        <item name="colorBackgroundWarning3">@color/red_bright</item>
     </style>
 
     <!-- Feature Styles -->

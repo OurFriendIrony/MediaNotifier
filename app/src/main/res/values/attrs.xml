@@ -11,5 +11,9 @@
     <attr name="colorBackgroundSecondary1" format="color"/>
     <attr name="colorBackgroundSecondary2" format="color"/>
     <attr name="colorBackgroundSecondary3" format="color"/>
+
+    <attr name="colorBackgroundWarning1" format="color"/>
+    <attr name="colorBackgroundWarning2" format="color"/>
+    <attr name="colorBackgroundWarning3" format="color"/>
 </resources>
 

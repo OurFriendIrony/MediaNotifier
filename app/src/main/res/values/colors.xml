@@ -27,6 +27,7 @@
     <color name="blue_regular">#0000AA</color>
     <color name="blue_bright">#0000FF</color>
 
+    <color name="red_darkest">#330000</color>
     <color name="red_dark">#660000</color>
     <color name="red_regular">#AA0000</color>
     <color name="red_bright">#FF0000</color>

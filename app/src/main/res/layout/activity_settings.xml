@@ -13,42 +13,45 @@
         android:id="@+id/settings_notification_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/background_popup">
+        android:background="@drawable/background_list_item_basic">
 
-        <LinearLayout
+
+        <TextView
+            android:id="@+id/settings_notification_time_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|start"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/settings_notification_time"
+            android:textColor="?attr/colorTextPrimary" />
+
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:weightSum="1">
+            android:layout_below="@id/settings_notification_time_text">
 
-            <LinearLayout
+            <View
+                android:id="@+id/horiz_strut_0"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight=".5">
+                android:layout_height="0dp"
+                android:layout_centerHorizontal="true" />
 
-                <TextView
-                    android:id="@+id/settings_notification_time_text"
-                    android:textColor="?attr/colorTextSecondary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top|start"
-                    android:layout_margin="5dp"
-                    android:text="Notification Time" />
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".5">
+                android:layout_alignEnd="@id/horiz_strut_0"
+                android:layout_alignParentStart="true" />
 
-                <Button
-                    android:id="@+id/settings_notification_time_button"
-                    style="@style/button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="ALL" />
-            </LinearLayout>
-        </LinearLayout>
+            <Button
+                android:id="@+id/settings_notification_time_button"
+                style="@style/button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignStart="@id/horiz_strut_0" />
+        </RelativeLayout>
     </RelativeLayout>
 
     <!-- ################################################################# -->
@@ -58,61 +61,118 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/settings_notification_time"
-        android:background="@drawable/background_popup">
+        android:background="@drawable/background_list_item_basic">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/settings_notification_day_offset_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|start"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/settings_notification_offsets"
+            android:textColor="?attr/colorTextPrimary" />
+
+        <RelativeLayout
+            android:id="@+id/settings_notification_day_offset_tv_button_rel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:weightSum="1">
+            android:layout_below="@id/settings_notification_day_offset_text">
 
-            <LinearLayout
+            <View
+                android:id="@+id/horiz_strut_1"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight=".5">
+                android:layout_height="0dp"
+                android:layout_centerHorizontal="true" />
 
-                <TextView
-                    android:id="@+id/settings_notification_day_offset_text"
-                    android:textColor="?attr/colorTextSecondary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top|start"
-                    android:layout_margin="5dp"
-                    android:text="Notification Offsets" />
-            </LinearLayout>
-
-            <RelativeLayout
+            <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".5">
+                android:layout_alignBottom="@+id/settings_notification_day_offset_tv_button"
+                android:layout_alignEnd="@id/horiz_strut_1"
+                android:layout_alignParentStart="true"
 
-                <Button
-                    android:id="@+id/settings_notification_day_offset_tv_button"
-                    style="@style/button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:text="TV SHOWS" />
+                android:layout_alignTop="@+id/settings_notification_day_offset_tv_button"
+                android:gravity="center_vertical|end"
+                android:padding="5dp"
+                android:text="@string/button_tvshows"
+                android:textColor="?attr/colorTextSecondary" />
 
-                <Button
-                    android:id="@+id/settings_notification_day_offset_movie_button"
-                    style="@style/button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/settings_notification_day_offset_tv_button"
-                    android:layout_centerHorizontal="true"
-                    android:text="MOVIES" />
+            <Button
+                android:id="@+id/settings_notification_day_offset_tv_button"
+                style="@style/button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignStart="@id/horiz_strut_1" />
+        </RelativeLayout>
 
-                <Button
-                    android:id="@+id/settings_notification_day_offset_artist_button"
-                    style="@style/button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/settings_notification_day_offset_movie_button"
-                    android:layout_centerHorizontal="true"
-                    android:text="ARTISTS" />
-            </RelativeLayout>
-        </LinearLayout>
+        <RelativeLayout
+            android:id="@+id/settings_notification_day_offset_movie_button_rel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/settings_notification_day_offset_tv_button_rel">
+
+            <View
+                android:id="@+id/horiz_strut_2"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/settings_notification_day_offset_movie_button"
+                android:layout_alignEnd="@id/horiz_strut_2"
+                android:layout_alignParentStart="true"
+                android:layout_alignTop="@+id/settings_notification_day_offset_movie_button"
+                android:gravity="center_vertical|end"
+                android:padding="5dp"
+                android:text="@string/button_movies"
+                android:textColor="?attr/colorTextSecondary" />
+
+            <Button
+                android:id="@+id/settings_notification_day_offset_movie_button"
+                style="@style/button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignStart="@id/horiz_strut_2" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/settings_notification_day_offset_artist_button_rel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/settings_notification_day_offset_movie_button_rel">
+
+            <View
+                android:id="@+id/horiz_strut_3"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/settings_notification_day_offset_artist_button"
+                android:layout_alignEnd="@id/horiz_strut_3"
+                android:layout_alignParentStart="true"
+                android:layout_alignTop="@+id/settings_notification_day_offset_artist_button"
+                android:gravity="center_vertical|end"
+                android:padding="5dp"
+                android:text="@string/button_artists"
+                android:textColor="?attr/colorTextSecondary" />
+
+            <Button
+                android:id="@+id/settings_notification_day_offset_artist_button"
+                style="@style/button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignStart="@id/horiz_strut_3" />
+        </RelativeLayout>
+
     </RelativeLayout>
 
     <!-- ################################################################# -->
@@ -134,34 +194,115 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/background_warning">
 
-        <RelativeLayout
+        <TextView
+            android:id="@+id/settings_delete_all_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp">
+            android:layout_gravity="top|start"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/settings_notification_delete"
+            android:textColor="?attr/colorTextPrimary" />
+
+        <RelativeLayout
+            android:id="@+id/settings_delete_tv_button_rel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/settings_delete_all_text">
+
+            <View
+                android:id="@+id/horiz_strut_4"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/settings_button_delete_tv_all"
+                android:layout_alignEnd="@id/horiz_strut_4"
+                android:layout_alignParentStart="true"
+                android:layout_alignTop="@+id/settings_button_delete_tv_all"
+                android:gravity="center_vertical|end"
+                android:padding="5dp"
+                android:text="@string/button_tvshows"
+                android:textColor="?attr/colorTextSecondary" />
 
             <Button
                 android:id="@+id/settings_button_delete_tv_all"
                 style="@style/button"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/button_delete_tv_all" />
+                android:layout_alignParentEnd="true"
+                android:layout_alignStart="@id/horiz_strut_4" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/settings_delete_movie_button_rel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/settings_delete_tv_button_rel">
+
+            <View
+                android:id="@+id/horiz_strut_5"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/settings_button_delete_movie_all"
+                android:layout_alignEnd="@id/horiz_strut_5"
+                android:layout_alignParentStart="true"
+                android:layout_alignTop="@+id/settings_button_delete_movie_all"
+                android:gravity="center_vertical|end"
+                android:padding="5dp"
+                android:text="@string/button_movies"
+                android:textColor="?attr/colorTextSecondary" />
 
             <Button
                 android:id="@+id/settings_button_delete_movie_all"
                 style="@style/button"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/settings_button_delete_tv_all"
-                android:text="@string/button_delete_movie_all" />
+                android:layout_alignParentEnd="true"
+                android:layout_alignStart="@id/horiz_strut_5" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/settings_delete_artist_button_rel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/settings_delete_movie_button_rel">
+
+            <View
+                android:id="@+id/horiz_strut_6"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/settings_button_delete_artist_all"
+                android:layout_alignEnd="@id/horiz_strut_6"
+                android:layout_alignParentStart="true"
+                android:layout_alignTop="@+id/settings_button_delete_artist_all"
+                android:gravity="center_vertical|end"
+                android:padding="5dp"
+                android:text="@string/button_artists"
+                android:textColor="?attr/colorTextSecondary" />
 
             <Button
                 android:id="@+id/settings_button_delete_artist_all"
                 style="@style/button"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/settings_button_delete_movie_all"
-                android:text="@string/button_delete_artist_all" />
+                android:layout_alignParentEnd="true"
+                android:layout_alignStart="@id/horiz_strut_6" />
         </RelativeLayout>
+
     </RelativeLayout>
 
 </RelativeLayout>

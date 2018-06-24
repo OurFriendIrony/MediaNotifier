@@ -1,20 +1,25 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item>
-        <shape android:shape="rectangle">
-            <solid android:color="@color/transparent_100" />
-        </shape>
-    </item>
-    <item
-        android:bottom="3dp"
-        android:left="3dp"
-        android:right="3dp"
-        android:top="3dp">
-        <shape android:shape="rectangle">
-            <solid android:color="?attr/colorBackgroundPrimary1" />
-            <corners android:radius="6dp" />
-            <stroke
-                android:width="3dp"
-                android:color="@color/red_bright" />
-        </shape>
-    </item>
+<item android:height="2dp">
+    <shape android:shape="rectangle">
+        <solid android:color="@color/black" />
+    </shape>
+</item>
+<item
+    android:height="20dp"
+    android:top="2dp">
+    <shape android:shape="rectangle">
+        <gradient
+            android:angle="270"
+            android:centerColor="?attr/colorBackgroundWarning2"
+            android:endColor="?attr/colorBackgroundWarning2"
+            android:startColor="?attr/colorBackgroundWarning1" />
+
+    </shape>
+</item>
+<item android:top="20dp" >
+    <shape android:shape="rectangle">
+        <solid android:color="?attr/colorBackgroundWarning2" />
+
+    </shape>
+</item>
 </layer-list>

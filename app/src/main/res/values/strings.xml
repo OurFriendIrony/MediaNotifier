@@ -24,6 +24,10 @@
     <string name="button_delete_movie_all">Delete Movies</string>
     <string name="button_delete_artist_all">Delete Music</string>
 
+    <string name="settings_notification_time">Notification Time</string>
+    <string name="settings_notification_offsets">Notification Offsets</string>
+    <string name="settings_notification_delete">**WARNING** Delete Data **WARNING**</string>
+
     <string name="toast_db_adding">Adding to Database</string>
     <string name="toast_db_added">Added</string>
     <string name="toast_db_updated">Updated</string>
