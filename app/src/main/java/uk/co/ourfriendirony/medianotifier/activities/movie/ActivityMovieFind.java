@@ -62,8 +62,8 @@ public class ActivityMovieFind extends AppCompatActivity {
         findList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView textViewID = (TextView) view.findViewById(R.id.find_item_id);
-                TextView textViewTitle = (TextView) view.findViewById(R.id.find_item_title);
+                TextView textViewID = (TextView) view.findViewById(R.id.list_item_generic_id);
+                TextView textViewTitle = (TextView) view.findViewById(R.id.list_item_generic_title);
                 new MovieAddAsyncTask().execute(textViewID.getText().toString(), textViewTitle.getText().toString());
             }
         });
@@ -94,7 +94,7 @@ public class ActivityMovieFind extends AppCompatActivity {
             findProgressBar.setVisibility(View.GONE);
 
             if (movies.size() > 0) {
-                ListAdapterSummaryMovie adapter = new ListAdapterSummaryMovie(getBaseContext(), R.layout.list_item_find, movies);
+                ListAdapterSummaryMovie adapter = new ListAdapterSummaryMovie(getBaseContext(), R.layout.list_item_generic, movies);
                 findList.setAdapter(adapter);
             } else {
                 Toast.makeText(getBaseContext(), R.string.toast_no_results, Toast.LENGTH_LONG).show();

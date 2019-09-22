@@ -34,7 +34,7 @@ public class ListAdapterSummaryTV extends ArrayAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
-        if (defaultLayoutId == R.layout.list_item_find) {
+        if (defaultLayoutId == R.layout.list_item_generic) {
             view = getFindView(position, view);
         } else {
             view = getTitleView(position, view);
@@ -52,20 +52,20 @@ public class ListAdapterSummaryTV extends ArrayAdapter {
     @NonNull
     private View getFindView(int position, View view) {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.list_item_find, null);
+        view = inflater.inflate(R.layout.list_item_generic, null);
         final TVShow tvShow = tvShows.get(position);
 
-        TextView textId = (TextView) view.findViewById(R.id.find_item_id);
-        TextView textTitle = (TextView) view.findViewById(R.id.find_item_title);
-        TextView textDate = (TextView) view.findViewById(R.id.find_item_date);
-        TextView textOverview = (TextView) view.findViewById(R.id.find_item_overview);
+//        TextView textId = (TextView) view.findViewById(R.id.find_item_id);
+        TextView textTitle = (TextView) view.findViewById(R.id.list_item_generic_title);
+        TextView textDate = (TextView) view.findViewById(R.id.list_item_generic_date);
+        TextView textOverview = (TextView) view.findViewById(R.id.list_item_generic_overview);
 
         String dateString = "";
         Date date = tvShow.getFirstAirDate();
         if (date != null)
             dateString = yearFormatter.format(date);
 
-        textId.setText(String.valueOf(tvShow.getId()));
+//        textId.setText(String.valueOf(tvShow.getId()));
         textTitle.setText(tvShow.getName());
         textDate.setText(dateString);
         textOverview.setText(tvShow.getOverview());
@@ -78,7 +78,7 @@ public class ListAdapterSummaryTV extends ArrayAdapter {
         view = inflater.inflate(defaultLayoutId, null);
         TVShow tvShow = tvShows.get(position);
 
-        TextView textTitle = (TextView) view.findViewById(R.id.find_item_title);
+        TextView textTitle = (TextView) view.findViewById(R.id.list_item_generic_title);
 
         textTitle.setText(tvShow.getName());
         return view;

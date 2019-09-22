@@ -39,7 +39,7 @@ public class ListAdapterSummaryMovie extends ArrayAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
         switch (defaultLayoutId) {
-            case R.layout.list_item_find:
+            case R.layout.list_item_generic:
                 view = getFindView(position, view);
                 break;
             case R.layout.list_item_generic_toggle:
@@ -63,12 +63,12 @@ public class ListAdapterSummaryMovie extends ArrayAdapter {
     @NonNull
     private View getFindView(int position, View view) {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.list_item_find, null);
+        view = inflater.inflate(R.layout.list_item_generic, null);
 
-        TextView textId = (TextView) view.findViewById(R.id.find_item_id);
-        TextView textTitle = (TextView) view.findViewById(R.id.find_item_title);
-        TextView textDate = (TextView) view.findViewById(R.id.find_item_date);
-        TextView textOverview = (TextView) view.findViewById(R.id.find_item_overview);
+//        TextView textId = (TextView) view.findViewById(R.id.find_item_id);
+        TextView textTitle = (TextView) view.findViewById(R.id.list_item_generic_title);
+        TextView textDate = (TextView) view.findViewById(R.id.list_item_generic_date);
+        TextView textOverview = (TextView) view.findViewById(R.id.list_item_generic_overview);
 
         Movie movie = movies.get(position);
 
@@ -77,7 +77,7 @@ public class ListAdapterSummaryMovie extends ArrayAdapter {
         if (date != null)
             year = yearFormatter.format(date);
 
-        textId.setText(movie.getIdAsString());
+//        textId.setText(movie.getIdAsString());
         textTitle.setText(movie.getTitle());
         textDate.setText(year);
         textOverview.setText(movie.getOverview());
@@ -130,7 +130,7 @@ public class ListAdapterSummaryMovie extends ArrayAdapter {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(defaultLayoutId, null);
 
-        TextView textTitle = (TextView) view.findViewById(R.id.find_item_title);
+        TextView textTitle = (TextView) view.findViewById(R.id.list_item_generic_title);
         Movie movie = movies.get(position);
         textTitle.setText(movie.getTitle());
 

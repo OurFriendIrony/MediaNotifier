@@ -38,7 +38,7 @@ public class ListAdapterSummaryArtist extends ArrayAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
         switch (defaultLayoutId) {
-            case R.layout.list_item_find:
+            case R.layout.list_item_generic:
                 view = getFindView(position, view);
                 break;
             case R.layout.list_item_generic_toggle:
@@ -62,16 +62,16 @@ public class ListAdapterSummaryArtist extends ArrayAdapter {
     @NonNull
     private View getFindView(int position, View view) {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.list_item_find, null);
+        view = inflater.inflate(R.layout.list_item_generic, null);
 
-        TextView textId = (TextView) view.findViewById(R.id.find_item_id);
-        TextView textTitle = (TextView) view.findViewById(R.id.find_item_title);
-        TextView textDate = (TextView) view.findViewById(R.id.find_item_date);
-        TextView textOverview = (TextView) view.findViewById(R.id.find_item_overview);
+//        TextView textId = (TextView) view.findViewById(R.id.find_item_id);
+        TextView textTitle = (TextView) view.findViewById(R.id.list_item_generic_title);
+        TextView textDate = (TextView) view.findViewById(R.id.list_item_generic_date);
+        TextView textOverview = (TextView) view.findViewById(R.id.list_item_generic_overview);
 
         Artist artist = artists.get(position);
 
-        textId.setText(artist.getIdAsString());
+//        textId.setText(artist.getIdAsString());
         textTitle.setText(artist.getTitle());
         textDate.setText("");
         textOverview.setText(artist.getOverview());
@@ -114,7 +114,7 @@ public class ListAdapterSummaryArtist extends ArrayAdapter {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(defaultLayoutId, null);
 
-        TextView textTitle = (TextView) view.findViewById(R.id.find_item_title);
+        TextView textTitle = (TextView) view.findViewById(R.id.list_item_generic_title);
         Artist artist = artists.get(position);
         textTitle.setText(artist.getTitle());
 
