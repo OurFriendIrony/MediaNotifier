@@ -88,7 +88,7 @@ public class ActivityArtist extends AppCompatActivity {
 
     private void displayArtists(int artistPosition) {
         currentArtistPosition = artistPosition;
-        ListAdapterSummaryArtist artistListAdapter = new ListAdapterSummaryArtist(getBaseContext(), R.layout.list_item_artist, Collections.singletonList(artists.get(artistPosition)));
+        ListAdapterSummaryArtist artistListAdapter = new ListAdapterSummaryArtist(getBaseContext(), R.layout.list_item_generic, Collections.singletonList(artists.get(artistPosition)));
         artistList.setAdapter(artistListAdapter);
     }
 

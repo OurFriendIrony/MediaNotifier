@@ -33,7 +33,7 @@ public class ActivityArtistNotifications extends AppCompatActivity {
         database = new ArtistDatabase(getApplicationContext());
         List<Artist> artists = database.getAllArtists();
         if (artists.size() > 0) {
-            ListAdapterSummaryArtist listAdapterArtist = new ListAdapterSummaryArtist(getBaseContext(), R.layout.list_item_artist, artists);
+            ListAdapterSummaryArtist listAdapterArtist = new ListAdapterSummaryArtist(getBaseContext(), R.layout.list_item_generic, artists);
             artistList.setAdapter(listAdapterArtist);
         }
     }
