@@ -64,14 +64,14 @@ public class ListAdapterSummaryArtist extends ArrayAdapter {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(R.layout.list_item_generic, null);
 
-//        TextView textId = (TextView) view.findViewById(R.id.find_item_id);
+        TextView textId = (TextView) view.findViewById(R.id.list_item_generic_id);
         TextView textTitle = (TextView) view.findViewById(R.id.list_item_generic_title);
         TextView textDate = (TextView) view.findViewById(R.id.list_item_generic_date);
         TextView textOverview = (TextView) view.findViewById(R.id.list_item_generic_overview);
 
         Artist artist = artists.get(position);
 
-//        textId.setText(artist.getIdAsString());
+        textId.setText(artist.getIdAsString());
         textTitle.setText(artist.getTitle());
         textDate.setText("");
         textOverview.setText(artist.getOverview());

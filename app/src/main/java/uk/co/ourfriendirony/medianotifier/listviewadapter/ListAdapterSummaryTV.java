@@ -55,7 +55,7 @@ public class ListAdapterSummaryTV extends ArrayAdapter {
         view = inflater.inflate(R.layout.list_item_generic, null);
         final TVShow tvShow = tvShows.get(position);
 
-//        TextView textId = (TextView) view.findViewById(R.id.find_item_id);
+        TextView textId = (TextView) view.findViewById(R.id.list_item_generic_id);
         TextView textTitle = (TextView) view.findViewById(R.id.list_item_generic_title);
         TextView textDate = (TextView) view.findViewById(R.id.list_item_generic_date);
         TextView textOverview = (TextView) view.findViewById(R.id.list_item_generic_overview);
@@ -65,7 +65,7 @@ public class ListAdapterSummaryTV extends ArrayAdapter {
         if (date != null)
             dateString = yearFormatter.format(date);
 
-//        textId.setText(String.valueOf(tvShow.getId()));
+        textId.setText(String.valueOf(tvShow.getId()));
         textTitle.setText(tvShow.getName());
         textDate.setText(dateString);
         textOverview.setText(tvShow.getOverview());

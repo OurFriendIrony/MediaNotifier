@@ -65,7 +65,7 @@ public class ListAdapterSummaryMovie extends ArrayAdapter {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(R.layout.list_item_generic, null);
 
-//        TextView textId = (TextView) view.findViewById(R.id.find_item_id);
+        TextView textId = (TextView) view.findViewById(R.id.list_item_generic_id);
         TextView textTitle = (TextView) view.findViewById(R.id.list_item_generic_title);
         TextView textDate = (TextView) view.findViewById(R.id.list_item_generic_date);
         TextView textOverview = (TextView) view.findViewById(R.id.list_item_generic_overview);
@@ -77,7 +77,7 @@ public class ListAdapterSummaryMovie extends ArrayAdapter {
         if (date != null)
             year = yearFormatter.format(date);
 
-//        textId.setText(movie.getIdAsString());
+        textId.setText(movie.getIdAsString());
         textTitle.setText(movie.getTitle());
         textDate.setText(year);
         textOverview.setText(movie.getOverview());

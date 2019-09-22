@@ -13,13 +13,9 @@
 
         <TextView
             android:id="@+id/list_item_generic_id"
-            style="@style/subtext"
-            android:layout_width="30dp"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:gravity="bottom|end"
-            android:paddingBottom="1dp"
-            android:paddingEnd="3dp"
-            android:paddingStart="3dp"
             android:text="id" />
 
         <TextView
