@@ -113,7 +113,7 @@ public class ListAdapterSummaryMovie extends ArrayAdapter {
         textDate.setText(year);
         textOverview.setText(movie.getOverview());
 
-        SwitchCompat toggle = (SwitchCompat) view.findViewById(R.id.button_toggle);
+        SwitchCompat toggle = (SwitchCompat) view.findViewById(R.id.list_item_toggle);
         toggle.setChecked(!database.getMovieWatchedStatusAsBoolean(movie));
 
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

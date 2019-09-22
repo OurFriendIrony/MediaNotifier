@@ -97,7 +97,7 @@ public class ListAdapterSummaryArtist extends ArrayAdapter {
         textDate.setText("");
         textOverview.setText(artist.getOverview());
 
-        SwitchCompat toggle = (SwitchCompat) view.findViewById(R.id.button_toggle);
+        SwitchCompat toggle = (SwitchCompat) view.findViewById(R.id.list_item_toggle);
         toggle.setChecked(!database.getArtistWatchedStatusAsBoolean(artist));
 
         toggle.setOnCheckedChangeListener(new SwitchCompat.OnCheckedChangeListener() {

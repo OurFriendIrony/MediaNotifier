@@ -6,67 +6,83 @@
     android:padding="4dp">
 
     <RelativeLayout
-        android:id="@+id/list_item_body"
+        android:id="@+id/list_item_generic_primarybar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_toStartOf="@+id/list_item_toggle">
+        android:layout_height="wrap_content"
+        android:padding="3dp">
+
+        <include
+            android:id="@+id/list_item_toggle"
+            layout="@layout/button_toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/list_item_generic_title"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@id/list_item_generic_subtitle"
+            android:gravity="start|center"
+            android:paddingEnd="10dp"
+            android:paddingStart="0dp" />
 
         <TextView
             android:id="@+id/list_item_generic_subtitle"
             style="@style/h2"
+            android:text="-subtitle-"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_toStartOf="@+id/list_item_generic_date"
-            android:gravity="top|start" />
+            android:layout_toEndOf="@id/list_item_toggle"
+            android:layout_toStartOf="@id/list_item_generic_date"
+            android:gravity="start|center"
+            android:paddingEnd="0dp"
+            android:paddingStart="0dp" />
 
         <TextView
             android:id="@+id/list_item_generic_title"
             style="@style/h1"
-            android:layout_width="wrap_content"
+            android:text="-title-"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
             android:layout_below="@+id/list_item_generic_subtitle"
-            android:layout_toStartOf="@+id/list_item_generic_date"
-            android:gravity="top|start" />
+            android:layout_toEndOf="@id/list_item_toggle"
+            android:layout_toStartOf="@id/list_item_generic_date"
+            android:gravity="start|center"
+            android:paddingEnd="0dp"
+            android:paddingStart="0dp" />
 
         <TextView
             android:id="@+id/list_item_generic_date"
             style="@style/h2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/list_item_generic_separatorbar"
+            android:layout_alignBottom="@id/list_item_generic_title"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:gravity="bottom|end" />
+            android:layout_alignTop="@id/list_item_generic_subtitle"
+            android:gravity="end|center"
+            android:text="-date-"
+            android:paddingEnd="0dp"
+            android:paddingStart="10dp" />
+    </RelativeLayout>
 
-        <TextView
-            android:id="@+id/list_item_generic_separatorbar"
-            style="@style/horizontal_line"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/list_item_generic_title" />
+    <RelativeLayout
+        android:id="@+id/list_item_generic_secondarybar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/list_item_generic_primarybar"
+        android:orientation="horizontal"
+        android:padding="3dp">
 
         <TextView
             android:id="@+id/list_item_generic_overview"
             style="@style/text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/list_item_generic_separatorbar"
-            android:gravity="top|start" />
-
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingEnd="0dp"
+            android:paddingStart="0dp"
+            android:text="-overview-" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/list_item_toggle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true">
-
-        <include layout="@layout/button_toggle" />
-    </RelativeLayout>
-
+    <TextView
+        android:id="@+id/list_item_generic_id"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
 </RelativeLayout>

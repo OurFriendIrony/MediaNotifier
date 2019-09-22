@@ -76,7 +76,7 @@ public class ListAdapterTVEpisode extends ArrayAdapter {
         textOverview.setText(tvEpisode.getOverview());
         textDate.setText(dateString);
 
-        SwitchCompat toggle = (SwitchCompat) view.findViewById(R.id.button_toggle);
+        SwitchCompat toggle = (SwitchCompat) view.findViewById(R.id.list_item_toggle);
         toggle.setChecked(!database.getEpisodeWatchedStatusAsBoolean(tvEpisode));
 
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
