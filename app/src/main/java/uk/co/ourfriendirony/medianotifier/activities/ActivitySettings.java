@@ -54,20 +54,20 @@ public class ActivitySettings extends AppCompatActivity {
 
         // Load Page Objects
 
-        SwitchCompat toggle = (SwitchCompat) findViewById(R.id.settings_watched_toggle);
+        final SwitchCompat toggleMarkWatched = (SwitchCompat) findViewById(R.id.settings_watched_toggle);
 
         final Button buttonNotifyTimer = (Button) findViewById(R.id.settings_notification_time_button);
 
-        Button buttonNotifyOffsetTV = (Button) findViewById(R.id.settings_notification_day_offset_tv_button);
-        Button buttonNotifyOffsetMovie = (Button) findViewById(R.id.settings_notification_day_offset_movie_button);
-        Button buttonNotifyOffsetArtist = (Button) findViewById(R.id.settings_notification_day_offset_artist_button);
+        final Button buttonNotifyOffsetTV = (Button) findViewById(R.id.settings_notification_day_offset_tv_button);
+        final Button buttonNotifyOffsetMovie = (Button) findViewById(R.id.settings_notification_day_offset_movie_button);
+        final Button buttonNotifyOffsetArtist = (Button) findViewById(R.id.settings_notification_day_offset_artist_button);
 
-        Button buttonDeleteTV = (Button) findViewById(R.id.settings_button_delete_tv_all);
-        Button buttonDeleteMovie = (Button) findViewById(R.id.settings_button_delete_movie_all);
-        Button buttonDeleteArtist = (Button) findViewById(R.id.settings_button_delete_artist_all);
+        final Button buttonDeleteTV = (Button) findViewById(R.id.settings_button_delete_tv_all);
+        final Button buttonDeleteMovie = (Button) findViewById(R.id.settings_button_delete_movie_all);
+        final Button buttonDeleteArtist = (Button) findViewById(R.id.settings_button_delete_artist_all);
 
         // Set Object Current Values
-        toggle.setChecked(getMarkWatchedIfAlreadyReleased(getBaseContext()));
+        toggleMarkWatched.setChecked(getMarkWatchedIfAlreadyReleased(getBaseContext()));
 
         buttonNotifyTimer.setText(getNotificationTimeFull(getBaseContext()));
 
@@ -80,7 +80,7 @@ public class ActivitySettings extends AppCompatActivity {
         buttonDeleteArtist.setText(getResources().getString(R.string.button_delete_artist_all));
 
         // Define Object Actions
-        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        toggleMarkWatched.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 setMarkWatchedIfAlreadyReleased(getBaseContext(), isChecked);
             }
@@ -130,8 +130,10 @@ public class ActivitySettings extends AppCompatActivity {
                     public void onClick(View v) {
                         setNotificationHour(getApplicationContext(), timePicker.getCurrentHour());
                         setNotificationMinute(getApplicationContext(), timePicker.getCurrentMinute());
+
                         AlarmScheduler.reschedule(getApplicationContext());
                         popupWindow.dismiss();
+
                         buttonNotifyTimer.setText(getNotificationTimeFull(getBaseContext()));
                     }
                 });
@@ -159,6 +161,7 @@ public class ActivitySettings extends AppCompatActivity {
                     public void onClick(View v) {
                         setNotificationDayOffsetTV(getApplicationContext(), picker.getValue());
                         popupWindow.dismiss();
+                        buttonNotifyOffsetTV.setText(String.valueOf(getNotificationDayOffsetTV(getBaseContext())));
                     }
                 });
             }
@@ -185,6 +188,7 @@ public class ActivitySettings extends AppCompatActivity {
                     public void onClick(View v) {
                         setNotificationDayOffsetMovie(getApplicationContext(), picker.getValue());
                         popupWindow.dismiss();
+                        buttonNotifyOffsetMovie.setText(String.valueOf(getNotificationDayOffsetMovie(getBaseContext())));
                     }
                 });
             }
@@ -211,6 +215,7 @@ public class ActivitySettings extends AppCompatActivity {
                     public void onClick(View v) {
                         setNotificationDayOffsetArtist(getApplicationContext(), picker.getValue());
                         popupWindow.dismiss();
+                        buttonNotifyOffsetArtist.setText(String.valueOf(getNotificationDayOffsetArtist(getBaseContext())));
                     }
                 });
             }
