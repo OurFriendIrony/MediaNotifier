@@ -5,16 +5,21 @@
     android:padding="4dp">
 
     <RelativeLayout
-        android:id="@+id/find_item_primarybar"
+        android:id="@+id/list_item_generic_primarybar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="3dp">
 
         <TextView
-            android:id="@+id/find_item_title"
+            android:id="@+id/list_item_generic_title"
             style="@style/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Find Item Title" />
+            android:paddingEnd="0dp"
+            android:paddingStart="0dp"
+            android:text="-title-" />
+
     </RelativeLayout>
+
 </RelativeLayout>

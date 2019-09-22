@@ -10,6 +10,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class PropertyHelper {
     private static String PROP_NAME = String.valueOf(R.string.app_name);
 
+    private static String MARK_WATCHED = "mark_watched";
     private static String NOTIFY_HOUR = "notification_hour";
     private static String NOTIFY_MIN = "notification_minute";
     private static String NOTIFY_DAY_OFFSET_TV = "notification_day_offset_tv";
@@ -17,6 +18,7 @@ public class PropertyHelper {
     private static String NOTIFY_DAY_OFFSET_ARTIST = "notification_day_offset_artist";
     private static String THEME = "theme";
 
+    private static boolean MARK_WATCHED_DEFAULT = true;
     private static int NOTIFY_HOUR_DEFAULT = 21;
     private static int NOTIFY_MIN_DEFAULT = 0;
     private static int NOTIFY_DAY_OFFSET_DEFAULT = 0;
@@ -24,6 +26,11 @@ public class PropertyHelper {
     private static int NOTIFY_DAY_OFFSET_MIN_DEFAULT = 0;
 
     private static int THEME_DEFAULT = R.style.AppTheme_DARK;
+
+    public static boolean getMarkWatchedIfAlreadyReleased(Context context){
+        SharedPreferences settings = getSharedPreferences(context);
+        return settings.getBoolean(MARK_WATCHED,MARK_WATCHED_DEFAULT);
+    }
 
     public static String getNotificationTimeFull(Context context) {
         SharedPreferences settings = getSharedPreferences(context);
@@ -78,6 +85,12 @@ public class PropertyHelper {
     public static int getTheme(Context context) {
         SharedPreferences settings = getSharedPreferences(context);
         return settings.getInt(THEME, THEME_DEFAULT);
+    }
+
+    public static void setMarkWatchedIfAlreadyReleased(Context context, boolean markWatched){
+        SharedPreferences.Editor editor = getSharedPreferencesEditor(context);
+        editor.putBoolean(MARK_WATCHED, markWatched);
+        editor.apply();
     }
 
     public static void setNotificationHour(Context context, int newHour) {

@@ -62,8 +62,8 @@ public class ActivityArtistFind extends AppCompatActivity {
         findList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView textViewID = (TextView) view.findViewById(R.id.find_item_id);
-                TextView textViewTitle = (TextView) view.findViewById(R.id.find_item_title);
+                TextView textViewID = (TextView) view.findViewById(R.id.list_item_generic_id);
+                TextView textViewTitle = (TextView) view.findViewById(R.id.list_item_generic_title);
                 new ArtistAddAsyncTask().execute(textViewID.getText().toString(), textViewTitle.getText().toString());
             }
         });
@@ -97,7 +97,7 @@ public class ActivityArtistFind extends AppCompatActivity {
             findProgressBar.setVisibility(View.GONE);
 
             if (artists.size() > 0) {
-                ListAdapterSummaryArtist adapter = new ListAdapterSummaryArtist(getBaseContext(), R.layout.list_item_find, artists);
+                ListAdapterSummaryArtist adapter = new ListAdapterSummaryArtist(getBaseContext(), R.layout.list_item_generic, artists);
                 findList.setAdapter(adapter);
             } else {
                 Toast.makeText(getBaseContext(), R.string.toast_no_results, Toast.LENGTH_LONG).show();

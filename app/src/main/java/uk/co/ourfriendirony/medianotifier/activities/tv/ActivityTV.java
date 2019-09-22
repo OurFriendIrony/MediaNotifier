@@ -87,7 +87,7 @@ public class ActivityTV extends AppCompatActivity {
 
     private void displayShows() {
         if (tvShows.size() > 0) {
-            ListAdapterSummaryTV listAdapterSummaryTV = new ListAdapterSummaryTV(getBaseContext(), R.layout.list_item_tv_title, tvShows);
+            ListAdapterSummaryTV listAdapterSummaryTV = new ListAdapterSummaryTV(getBaseContext(), R.layout.list_item_generic_title, tvShows);
             showList.setAdapter(listAdapterSummaryTV);
             displayEpisodes(0);
         }
@@ -101,7 +101,7 @@ public class ActivityTV extends AppCompatActivity {
             tvEpisodes.addAll(season.getEpisodes());
         }
         if (tvEpisodes.size() > 0) {
-            ListAdapterTVEpisode episodeListAdapter = new ListAdapterTVEpisode(getBaseContext(), R.layout.list_item_tv_episode, tvEpisodes, false);
+            ListAdapterTVEpisode episodeListAdapter = new ListAdapterTVEpisode(getBaseContext(), R.layout.list_item_generic_toggle, tvEpisodes, true);
             episodeList.setAdapter(episodeListAdapter);
             episodeList.setSelection(tvEpisodes.size());
         } else {

@@ -3,16 +3,19 @@ package uk.co.ourfriendirony.medianotifier.activities;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.NumberPicker;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
@@ -21,6 +24,7 @@ import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.notifier.AlarmScheduler;
 
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getMarkWatchedIfAlreadyReleased;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetArtist;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetMax;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetMin;
@@ -29,11 +33,14 @@ import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificati
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationHour;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationMinute;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationTimeFull;
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setMarkWatchedIfAlreadyReleased;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationDayOffsetArtist;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationDayOffsetMovie;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationDayOffsetTV;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationHour;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationMinute;
+import static uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabaseDefinition.WATCHED_FALSE;
+import static uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabaseDefinition.WATCHED_TRUE;
 
 public class ActivitySettings extends AppCompatActivity {
     private PopupWindow popupWindow;
@@ -45,6 +52,10 @@ public class ActivitySettings extends AppCompatActivity {
         super.getSupportActionBar().setTitle(R.string.title_settings);
         setContentView(R.layout.activity_settings);
 
+        // Load Page Objects
+
+        SwitchCompat toggle = (SwitchCompat) findViewById(R.id.settings_watched_toggle);
+
         final Button buttonNotifyTimer = (Button) findViewById(R.id.settings_notification_time_button);
 
         Button buttonNotifyOffsetTV = (Button) findViewById(R.id.settings_notification_day_offset_tv_button);
@@ -55,7 +66,8 @@ public class ActivitySettings extends AppCompatActivity {
         Button buttonDeleteMovie = (Button) findViewById(R.id.settings_button_delete_movie_all);
         Button buttonDeleteArtist = (Button) findViewById(R.id.settings_button_delete_artist_all);
 
-        // --------------
+        // Set Object Current Values
+        toggle.setChecked(getMarkWatchedIfAlreadyReleased(getBaseContext()));
 
         buttonNotifyTimer.setText(getNotificationTimeFull(getBaseContext()));
 
@@ -67,7 +79,12 @@ public class ActivitySettings extends AppCompatActivity {
         buttonDeleteMovie.setText(getResources().getString(R.string.button_delete_movie_all));
         buttonDeleteArtist.setText(getResources().getString(R.string.button_delete_artist_all));
 
-        // --------------
+        // Define Object Actions
+        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                setMarkWatchedIfAlreadyReleased(getBaseContext(), isChecked);
+            }
+        });
 
         buttonDeleteTV.setOnClickListener(new View.OnClickListener() {
             @Override

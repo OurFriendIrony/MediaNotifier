@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/style_list_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="4dp">
+
+    <RelativeLayout
+        android:id="@+id/list_item_generic_primarybar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="3dp">
+
+        <TextView
+            android:id="@+id/list_item_generic_title"
+            style="@style/h1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/list_item_generic_date"
+            android:gravity="start|top"
+            android:paddingEnd="0dp"
+            android:paddingStart="0dp"
+            android:text="-title-"/>
+
+        <TextView
+            android:id="@+id/list_item_generic_date"
+            style="@style/h2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/list_item_generic_title"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@id/list_item_generic_title"
+            android:gravity="end|center"
+            android:paddingEnd="0dp"
+            android:text="-date-"
+            android:paddingStart="10dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/list_item_generic_secondarybar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/list_item_generic_primarybar"
+        android:padding="3dp">
+
+        <TextView
+            android:id="@+id/list_item_generic_overview"
+            style="@style/text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="0dp"
+            android:text="-overview-" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/list_item_generic_id"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
+</RelativeLayout>

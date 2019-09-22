@@ -24,7 +24,7 @@ public class ActivityTVUnwatchedReleased extends Fragment {
         database = new TVShowDatabase(getContext());
         List<TVEpisode> tvEpisodes = database.getUnwatchedEpisodesReleased();
         if (tvEpisodes.size() > 0) {
-            ListAdapterTVEpisode listAdapterTVEpisode = new ListAdapterTVEpisode(getContext(), R.layout.list_item_tv_episode, tvEpisodes, true);
+            ListAdapterTVEpisode listAdapterTVEpisode = new ListAdapterTVEpisode(getContext(), R.layout.list_item_generic_toggle, tvEpisodes, true);
             seasonList.setAdapter(listAdapterTVEpisode);
         }
         return rootView;

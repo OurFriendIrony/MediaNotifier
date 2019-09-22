@@ -62,8 +62,8 @@ public class ActivityTVFind extends AppCompatActivity {
         findList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView textViewID = (TextView) view.findViewById(R.id.find_item_id);
-                TextView textViewTitle = (TextView) view.findViewById(R.id.find_item_title);
+                TextView textViewID = (TextView) view.findViewById(R.id.list_item_generic_id);
+                TextView textViewTitle = (TextView) view.findViewById(R.id.list_item_generic_title);
                 new TVShowAddAsyncTask().execute(textViewID.getText().toString(), textViewTitle.getText().toString());
             }
         });
@@ -96,7 +96,7 @@ public class ActivityTVFind extends AppCompatActivity {
             findProgressBar.setVisibility(View.GONE);
 
             if (tvShows.size() > 0) {
-                ListAdapterSummaryTV adapter = new ListAdapterSummaryTV(getBaseContext(), R.layout.list_item_find, tvShows);
+                ListAdapterSummaryTV adapter = new ListAdapterSummaryTV(getBaseContext(), R.layout.list_item_generic, tvShows);
                 findList.setAdapter(adapter);
             } else {
                 Toast.makeText(getBaseContext(), R.string.toast_no_results, Toast.LENGTH_LONG).show();

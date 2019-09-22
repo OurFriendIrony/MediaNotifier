@@ -80,7 +80,7 @@ public class ActivityArtist extends AppCompatActivity {
 
     private void displayArtists() {
         if (artists.size() > 0) {
-            ListAdapterSummaryArtist listAdapterSummaryArtist = new ListAdapterSummaryArtist(getBaseContext(), R.layout.list_item_artist_title, artists);
+            ListAdapterSummaryArtist listAdapterSummaryArtist = new ListAdapterSummaryArtist(getBaseContext(), R.layout.list_item_generic_title, artists);
             artistSpinner.setAdapter(listAdapterSummaryArtist);
             displayArtists(0);
         }
@@ -88,7 +88,7 @@ public class ActivityArtist extends AppCompatActivity {
 
     private void displayArtists(int artistPosition) {
         currentArtistPosition = artistPosition;
-        ListAdapterSummaryArtist artistListAdapter = new ListAdapterSummaryArtist(getBaseContext(), R.layout.list_item_artist, Collections.singletonList(artists.get(artistPosition)));
+        ListAdapterSummaryArtist artistListAdapter = new ListAdapterSummaryArtist(getBaseContext(), R.layout.list_item_generic_toggle, Collections.singletonList(artists.get(artistPosition)));
         artistList.setAdapter(artistListAdapter);
     }
 
