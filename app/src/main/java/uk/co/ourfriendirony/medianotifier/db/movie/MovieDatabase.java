@@ -13,6 +13,7 @@ import uk.co.ourfriendirony.medianotifier._objects.movie.Collection;
 import uk.co.ourfriendirony.medianotifier._objects.movie.Movie;
 import uk.co.ourfriendirony.medianotifier.general.StringHandler;
 
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getMarkWatchedIfAlreadyReleased;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetMovie;
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanTitle;
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.dateToString;
@@ -65,7 +66,7 @@ public class MovieDatabase {
         dbWritable.close();
     }
 
-    private void insertMovie(SQLiteDatabase dbWritable, Movie movie, boolean newMovie) {
+    private void insertMovie(SQLiteDatabase dbWritable, Movie movie, boolean isNewMovie) {
         String currentWatchedStatus = getMovieWatchedStatus(dbWritable, movie);
         ContentValues movieRow = new ContentValues();
         movieRow.put(MovieDatabaseDefinition.TM_ID, movie.getId());
@@ -75,7 +76,7 @@ public class MovieDatabase {
         movieRow.put(MovieDatabaseDefinition.TM_OVERVIEW, movie.getOverview());
         movieRow.put(MovieDatabaseDefinition.TM_TAGLINE, movie.getTagline());
         movieRow.put(MovieDatabaseDefinition.TM_COLLECTION, movie.getBelongsToCollection().getCollectionName());
-        if (newMovie && alreadyReleased(movie)) {
+        if (markWatchedIfReleased(isNewMovie, movie)) {
             movieRow.put(MovieDatabaseDefinition.TM_WATCHED, MovieDatabaseDefinition.WATCHED_TRUE);
         } else {
             movieRow.put(MovieDatabaseDefinition.TM_WATCHED, currentWatchedStatus);
@@ -244,6 +245,10 @@ public class MovieDatabase {
         String[] whereArgs = new String[]{movie.getIdAsString()};
         dbWriteable.update(MovieDatabaseDefinition.TABLE_MOVIES, values, where, whereArgs);
         dbWriteable.close();
+    }
+
+    private boolean markWatchedIfReleased(boolean isNewMovie, Movie movie) {
+        return isNewMovie && alreadyReleased(movie) && getMarkWatchedIfAlreadyReleased(context);
     }
 
     private boolean alreadyReleased(Movie movie) {

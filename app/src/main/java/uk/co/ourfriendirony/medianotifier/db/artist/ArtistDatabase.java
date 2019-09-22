@@ -112,47 +112,6 @@ public class ArtistDatabase {
         dbReadable.close();
         return title;
     }
-//
-//
-//    public List<Artist> getUnwatchedReleasedArtists() {
-//        String offset = "date('now','-" + getNotificationDayOffsetArtist(context) + " days')";
-//        String query = StringHandler.replaceTokens(GET_UNWATCHED_ARTISTS_RELEASED, "@OFFSET@", offset);
-//        List<Artist> artists = new ArrayList<>();
-//        SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
-//
-//        Cursor cursor = dbReadable.rawQuery(query, null);
-//        try {
-//            while (cursor.moveToNext()) {
-//                Artist artist = buildArtist(cursor);
-//                artists.add(artist);
-//                Log.v("*****IMHERE*****", "UNWATCHED AIRED ARTISTS: Id=" + artist.getId() + " | Title=" + artist.getTitle() + " | Date=" + artist.getReleaseDate());
-//            }
-//        } finally {
-//            cursor.close();
-//        }
-//        dbReadable.close();
-//        return artists;
-//    }
-//
-//    public List<Artist> getUnwatchedUnreleasedArtists() {
-//        String offset = "date('now','-" + getNotificationDayOffsetArtist(context) + " days')";
-//        String query = StringHandler.replaceTokens(GET_UNWATCHED_ARTISTS_UNRELEASED, "@OFFSET@", offset);
-//        List<Artist> artists = new ArrayList<>();
-//        SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
-//
-//        Cursor cursor = dbReadable.rawQuery(query, null);
-//        try {
-//            while (cursor.moveToNext()) {
-//                Artist artist = buildArtist(cursor);
-//                artists.add(artist);
-//                Log.v("*****IMHERE*****", "UNWATCHED UNAIRED ARTISTS: Id=" + artist.getId() + " | Title=" + artist.getTitle() + " | Date=" + artist.getReleaseDate());
-//            }
-//        } finally {
-//            cursor.close();
-//        }
-//        dbReadable.close();
-//        return artists;
-//    }
 
     @NonNull
     private Artist buildArtist(Cursor cursor) {

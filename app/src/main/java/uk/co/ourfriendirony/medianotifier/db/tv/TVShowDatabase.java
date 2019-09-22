@@ -10,8 +10,10 @@ import android.util.Log;
 import java.util.*;
 
 import uk.co.ourfriendirony.medianotifier._objects.tv.*;
+import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.general.StringHandler;
 
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getMarkWatchedIfAlreadyReleased;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetTV;
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanTitle;
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.dateToString;
@@ -105,7 +107,7 @@ public class TVShowDatabase {
         Log.d("INSERT_TV_SEASON", "S" + season.getSeasonNumber());
     }
 
-    private void insertTVShowEpisode(SQLiteDatabase dbWritable, TVEpisode episode, boolean newShow) {
+    private void insertTVShowEpisode(SQLiteDatabase dbWritable, TVEpisode episode, boolean isNewTVShow) {
         String currentWatchedStatus = getEpisodeWatchedStatus(dbWritable, episode);
         ContentValues episodeRow = new ContentValues();
         episodeRow.put(TVShowDatabaseDefinition.TTSE_ID, episode.getId());
@@ -114,7 +116,7 @@ public class TVShowDatabase {
         episodeRow.put(TVShowDatabaseDefinition.TTSE_TITLE, episode.getName());
         episodeRow.put(TVShowDatabaseDefinition.TTSE_DATE, dateToString(episode.getAirDate()));
         episodeRow.put(TVShowDatabaseDefinition.TTSE_OVERVIEW, episode.getOverview());
-        if (newShow && alreadyReleased(episode)) {
+        if (markWatchedIfReleased(isNewTVShow, episode)) {
             episodeRow.put(TVShowDatabaseDefinition.TTSE_WATCHED, TVShowDatabaseDefinition.WATCHED_TRUE);
         } else {
             episodeRow.put(TVShowDatabaseDefinition.TTSE_WATCHED, currentWatchedStatus);
@@ -337,6 +339,10 @@ public class TVShowDatabase {
         String[] whereArgs = new String[]{episode.getIdAsString(), episode.getSeasonNumberAsString(), episode.getEpisodeNumberAsString()};
         dbWriteable.update(TVShowDatabaseDefinition.TABLE_TVSHOWS_EPISODES, values, where, whereArgs);
         dbWriteable.close();
+    }
+
+    private boolean markWatchedIfReleased(boolean isNewTVShow, TVEpisode episode) {
+        return isNewTVShow && alreadyReleased(episode) && getMarkWatchedIfAlreadyReleased(context);
     }
 
     private boolean alreadyReleased(TVEpisode episode) {

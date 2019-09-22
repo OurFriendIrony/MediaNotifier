@@ -10,11 +10,57 @@
     <!-- ################################################################# -->
 
     <RelativeLayout
-        android:id="@+id/settings_notification_time"
+        android:id="@+id/settings_watched"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/background_list_item_basic">
 
+        <TextView
+            android:id="@+id/settings_watched_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|start"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/settings_watched_check"
+            android:textColor="?attr/colorTextPrimary" />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/settings_watched_text">
+
+            <View
+                android:id="@+id/horiz_strut_-0"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@id/horiz_strut_-0"
+                android:layout_alignParentStart="true" />
+
+            <include
+                android:id="@+id/settings_watched_toggle"
+                layout="@layout/button_toggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignStart="@id/horiz_strut_-0" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <!-- ################################################################# -->
+
+    <RelativeLayout
+        android:id="@+id/settings_notification_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/settings_watched"
+        android:background="@drawable/background_list_item_basic">
 
         <TextView
             android:id="@+id/settings_notification_time_text"
