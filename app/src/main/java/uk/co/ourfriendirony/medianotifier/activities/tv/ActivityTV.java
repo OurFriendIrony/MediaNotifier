@@ -101,7 +101,7 @@ public class ActivityTV extends AppCompatActivity {
             tvEpisodes.addAll(season.getEpisodes());
         }
         if (tvEpisodes.size() > 0) {
-            ListAdapterTVEpisode episodeListAdapter = new ListAdapterTVEpisode(getBaseContext(), R.layout.list_item_tv_episode, tvEpisodes, false);
+            ListAdapterTVEpisode episodeListAdapter = new ListAdapterTVEpisode(getBaseContext(), R.layout.list_item_generic, tvEpisodes, true);
             episodeList.setAdapter(episodeListAdapter);
             episodeList.setSelection(tvEpisodes.size());
         } else {

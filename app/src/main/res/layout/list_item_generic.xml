@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/style_list_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="4dp">
+
+    <RelativeLayout
+        android:id="@+id/list_item_body"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toStartOf="@+id/list_item_toggle">
+
+        <TextView
+            android:id="@+id/list_item_generic_subtitle"
+            style="@style/h2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@+id/list_item_generic_date"
+            android:gravity="top|start" />
+
+        <TextView
+            android:id="@+id/list_item_generic_title"
+            style="@style/h1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/list_item_generic_subtitle"
+            android:layout_toStartOf="@+id/list_item_generic_date"
+            android:gravity="top|start" />
+
+        <TextView
+            android:id="@+id/list_item_generic_date"
+            style="@style/h2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/list_item_generic_separatorbar"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:gravity="bottom|end" />
+
+        <TextView
+            android:id="@+id/list_item_generic_separatorbar"
+            style="@style/horizontal_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/list_item_generic_title" />
+
+        <TextView
+            android:id="@+id/list_item_generic_overview"
+            style="@style/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/list_item_generic_separatorbar"
+            android:gravity="top|start" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/list_item_toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true">
+
+        <include layout="@layout/button_toggle" />
+    </RelativeLayout>
+
+</RelativeLayout>

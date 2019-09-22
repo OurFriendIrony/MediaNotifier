@@ -52,14 +52,13 @@ public class ListAdapterTVEpisode extends ArrayAdapter {
     @NonNull
     private View getFindView(int position, View view) {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.list_item_tv_episode, null);
+        view = inflater.inflate(R.layout.list_item_generic, null);
         final TVEpisode tvEpisode = tvShowEpisodes.get(position);
 
-        TextView textTitle = (TextView) view.findViewById(R.id.list_item_notification_episode_title);
-        TextView textSubTitle = (TextView) view.findViewById(R.id.list_item_notification_show_title);
-        TextView textOverview = (TextView) view.findViewById(R.id.list_item_notification_overview);
-        TextView textNumber = (TextView) view.findViewById(R.id.list_item_notification_number);
-        TextView textDate = (TextView) view.findViewById(R.id.list_item_notification_date);
+        TextView textTitle = (TextView) view.findViewById(R.id.list_item_generic_title);
+        TextView textSubTitle = (TextView) view.findViewById(R.id.list_item_generic_subtitle);
+        TextView textOverview = (TextView) view.findViewById(R.id.list_item_generic_overview);
+        TextView textDate = (TextView) view.findViewById(R.id.list_item_generic_date);
 
         if (!includeTitle) {
             textSubTitle.setHeight(0);
@@ -70,10 +69,11 @@ public class ListAdapterTVEpisode extends ArrayAdapter {
         if (date != null)
             dateString = dateFormatter.format(date);
 
-        textTitle.setText(tvEpisode.getName());
-        textSubTitle.setText("[" + database.getTitleById(tvEpisode.getId()) + "]");
+        String text = "s" + pad(tvEpisode.getSeasonNumber(), 2) + "e" + pad(tvEpisode.getEpisodeNumber(), 2) + ": " +tvEpisode.getName();
+        textTitle.setText(text);
+        textSubTitle.setText(database.getTitleById(tvEpisode.getId()));
+
         textOverview.setText(tvEpisode.getOverview());
-        textNumber.setText("S" + pad(tvEpisode.getSeasonNumber(), 2) + " E" + pad(tvEpisode.getEpisodeNumber(), 2));
         textDate.setText(dateString);
 
         SwitchCompat toggle = (SwitchCompat) view.findViewById(R.id.button_toggle);
