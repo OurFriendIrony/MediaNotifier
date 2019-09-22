@@ -95,7 +95,7 @@ public class ActivityMovie extends AppCompatActivity {
 
     private void displayMovies(int moviePosition) {
         currentMoviePosition = moviePosition;
-        ListAdapterSummaryMovie movieListAdapter = new ListAdapterSummaryMovie(getBaseContext(), R.layout.list_item_movie, Collections.singletonList(movies.get(moviePosition)));
+        ListAdapterSummaryMovie movieListAdapter = new ListAdapterSummaryMovie(getBaseContext(), R.layout.list_item_generic, Collections.singletonList(movies.get(moviePosition)));
         movieList.setAdapter(movieListAdapter);
     }
 

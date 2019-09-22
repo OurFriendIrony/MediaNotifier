@@ -42,7 +42,7 @@ public class ListAdapterSummaryMovie extends ArrayAdapter {
             case R.layout.list_item_find:
                 view = getFindView(position, view);
                 break;
-            case R.layout.list_item_movie:
+            case R.layout.list_item_generic:
                 view = getChecklistView(position, view);
                 break;
             default:
@@ -87,13 +87,13 @@ public class ListAdapterSummaryMovie extends ArrayAdapter {
     @NonNull
     private View getChecklistView(int position, View view) {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.list_item_movie, null);
+        view = inflater.inflate(R.layout.list_item_generic, null);
         final MovieDatabase database = new MovieDatabase(getContext());
 
-        TextView textTitle = (TextView) view.findViewById(R.id.list_item_title);
-        TextView textSubTitle = (TextView) view.findViewById(R.id.list_item_sub_title);
-        TextView textDate = (TextView) view.findViewById(R.id.list_item_date);
-        TextView textOverview = (TextView) view.findViewById(R.id.list_item_overview);
+        TextView textTitle = (TextView) view.findViewById(R.id.list_item_generic_title);
+        TextView textSubTitle = (TextView) view.findViewById(R.id.list_item_generic_subtitle);
+        TextView textDate = (TextView) view.findViewById(R.id.list_item_generic_date);
+        TextView textOverview = (TextView) view.findViewById(R.id.list_item_generic_overview);
 
         final Movie movie = movies.get(position);
 
