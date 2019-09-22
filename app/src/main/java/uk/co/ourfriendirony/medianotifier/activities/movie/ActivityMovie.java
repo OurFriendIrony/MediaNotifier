@@ -87,7 +87,7 @@ public class ActivityMovie extends AppCompatActivity {
 
     private void displayMovies() {
         if (movies.size() > 0) {
-            ListAdapterSummaryMovie listAdapterSummaryMovie = new ListAdapterSummaryMovie(getBaseContext(), R.layout.list_item_movie_title, movies);
+            ListAdapterSummaryMovie listAdapterSummaryMovie = new ListAdapterSummaryMovie(getBaseContext(), R.layout.list_item_generic_title, movies);
             movieSpinner.setAdapter(listAdapterSummaryMovie);
             displayMovies(0);
         }
@@ -95,7 +95,7 @@ public class ActivityMovie extends AppCompatActivity {
 
     private void displayMovies(int moviePosition) {
         currentMoviePosition = moviePosition;
-        ListAdapterSummaryMovie movieListAdapter = new ListAdapterSummaryMovie(getBaseContext(), R.layout.list_item_generic, Collections.singletonList(movies.get(moviePosition)));
+        ListAdapterSummaryMovie movieListAdapter = new ListAdapterSummaryMovie(getBaseContext(), R.layout.list_item_generic_toggle, Collections.singletonList(movies.get(moviePosition)));
         movieList.setAdapter(movieListAdapter);
     }
 

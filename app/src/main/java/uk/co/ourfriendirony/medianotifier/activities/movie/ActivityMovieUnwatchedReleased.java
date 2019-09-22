@@ -24,7 +24,7 @@ public class ActivityMovieUnwatchedReleased extends Fragment {
         database = new MovieDatabase(getContext());
         List<Movie> movies = database.getUnwatchedMoviesReleased();
         if (movies.size() > 0) {
-            ListAdapterSummaryMovie listAdapterMovie = new ListAdapterSummaryMovie(getContext(), R.layout.list_item_generic, movies);
+            ListAdapterSummaryMovie listAdapterMovie = new ListAdapterSummaryMovie(getContext(), R.layout.list_item_generic_toggle, movies);
             movieList.setAdapter(listAdapterMovie);
         }
         return rootView;

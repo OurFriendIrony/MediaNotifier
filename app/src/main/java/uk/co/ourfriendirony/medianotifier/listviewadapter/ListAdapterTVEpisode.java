@@ -52,7 +52,7 @@ public class ListAdapterTVEpisode extends ArrayAdapter {
     @NonNull
     private View getFindView(int position, View view) {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.list_item_generic, null);
+        view = inflater.inflate(R.layout.list_item_generic_toggle, null);
         final TVEpisode tvEpisode = tvShowEpisodes.get(position);
 
         TextView textTitle = (TextView) view.findViewById(R.id.list_item_generic_title);

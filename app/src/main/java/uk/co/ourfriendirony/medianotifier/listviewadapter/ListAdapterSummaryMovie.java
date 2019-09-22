@@ -42,7 +42,7 @@ public class ListAdapterSummaryMovie extends ArrayAdapter {
             case R.layout.list_item_find:
                 view = getFindView(position, view);
                 break;
-            case R.layout.list_item_generic:
+            case R.layout.list_item_generic_toggle:
                 view = getChecklistView(position, view);
                 break;
             default:
@@ -87,7 +87,7 @@ public class ListAdapterSummaryMovie extends ArrayAdapter {
     @NonNull
     private View getChecklistView(int position, View view) {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.list_item_generic, null);
+        view = inflater.inflate(R.layout.list_item_generic_toggle, null);
         final MovieDatabase database = new MovieDatabase(getContext());
 
         TextView textTitle = (TextView) view.findViewById(R.id.list_item_generic_title);
