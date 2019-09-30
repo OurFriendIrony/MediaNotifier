@@ -9,7 +9,7 @@
     <application
         android:name="uk.co.ourfriendirony.medianotifier.general.StaticContext"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon_medianotifier"
         android:label="@string/app_name"
         android:supportsRtl="true">
         <activity
@@ -20,7 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.ActivityMain"  />
+        <activity android:name=".activities.ActivityMain" />
         <activity android:name=".activities.ActivitySettings" />
         <activity android:name=".activities.movie.ActivityMovie" />
         <activity android:name=".activities.movie.ActivityMovieFind" />
