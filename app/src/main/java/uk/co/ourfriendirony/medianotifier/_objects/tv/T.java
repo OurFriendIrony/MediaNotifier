@@ -13,6 +13,7 @@ public class T implements Item {
     private String overview;
     private Date date;
     private List<Item> children;
+    private String specialId;
 
     public T(TVShow tvShow) {
         this(tvShow.getIdAsString(), tvShow.getName(), "", tvShow.getOverview(), tvShow.getFirstAirDate(), tvShow.getSeasons(), tvShow);
@@ -27,6 +28,7 @@ public class T implements Item {
     }
 
     public T(String id, String title, String subtitle, String overview, Date date, List<TVSeason> tvSeasons, TVShow tvShow) {
+        // Capture a TVShow as an Item
         this.id = id;
         this.title = title;
         this.subtitle = subtitle;
@@ -37,9 +39,11 @@ public class T implements Item {
             items.add(new T(tvSeason, tvShow));
         }
         this.children = items;
+        this.specialId = tvShow.getExternalIds().getImdbId();
     }
 
     public T(String id, String title, String subtitle, String overview, Date date, List<TVEpisode> tvEpisodes, TVSeason tvSeason, TVShow tvShow) {
+        // Capture a TVSeason as an Item
         this.id = id;
         this.title = title;
         this.subtitle = subtitle;
@@ -50,15 +54,18 @@ public class T implements Item {
             items.add(new T(tvEpisode, tvSeason, tvShow));
         }
         this.children = items;
+        this.specialId = null;
     }
 
     public T(String id, String title, String subtitle, String overview, Date date) {
+        // Capture a TVEpisode as an Item
         this.id = id;
         this.title = title;
         this.subtitle = subtitle;
         this.overview = overview;
         this.date = date;
         this.children = null;
+        this.specialId = null;
     }
 
     @Override
@@ -89,5 +96,10 @@ public class T implements Item {
     @Override
     public List<Item> getSubItems() {
         return children;
+    }
+
+    @Override
+    public String getSpecialId() {
+        return specialId;
     }
 }

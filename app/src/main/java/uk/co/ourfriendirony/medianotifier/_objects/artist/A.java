@@ -54,4 +54,9 @@ public class A implements Item {
     public List<Item> getSubItems() {
         return null;
     }
+
+    @Override
+    public String getSpecialId() {
+        return null;
+    }
 }

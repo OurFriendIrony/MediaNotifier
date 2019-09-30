@@ -12,17 +12,19 @@ public class M implements Item {
     private final String subtitile;
     private final String overview;
     private final Date date;
+    private final String specialId;
 
     public M(Movie movie) {
-        this(movie.getIdAsString(), movie.getTitle(), movie.getBelongsToCollection().getCollectionName(), movie.getOverview(), movie.getReleaseDate());
+        this(movie.getIdAsString(), movie.getTitle(), movie.getBelongsToCollection().getCollectionName(), movie.getOverview(), movie.getReleaseDate(), movie.getImdbId());
     }
 
-    public M(String id, String title, String subtitle, String overview, Date date) {
+    public M(String id, String title, String subtitle, String overview, Date date, String specialId) {
         this.id = id;
         this.title = title;
         this.subtitile = subtitle;
         this.overview = overview;
         this.date = date;
+        this.specialId = specialId;
     }
 
     @Override
@@ -53,5 +55,10 @@ public class M implements Item {
     @Override
     public List<Item> getSubItems() {
         return null;
+    }
+
+    @Override
+    public String getSpecialId() {
+        return specialId;
     }
 }

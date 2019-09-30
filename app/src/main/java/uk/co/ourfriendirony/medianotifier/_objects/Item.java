@@ -15,4 +15,6 @@ public interface Item {
     Date getReleaseDate();
 
     List<Item> getSubItems();
+
+    String getSpecialId();
 }
