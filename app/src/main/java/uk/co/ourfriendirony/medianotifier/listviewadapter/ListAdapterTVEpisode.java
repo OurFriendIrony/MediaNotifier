@@ -56,6 +56,7 @@ public class ListAdapterTVEpisode extends ArrayAdapter {
         final TVEpisode tvEpisode = tvShowEpisodes.get(position);
 
         TextView textTitle = (TextView) view.findViewById(R.id.list_item_generic_title);
+        TextView textSubtext = (TextView) view.findViewById(R.id.list_item_subtext);
         TextView textSubTitle = (TextView) view.findViewById(R.id.list_item_generic_subtitle);
         TextView textOverview = (TextView) view.findViewById(R.id.list_item_generic_overview);
         TextView textDate = (TextView) view.findViewById(R.id.list_item_generic_date);
@@ -69,8 +70,9 @@ public class ListAdapterTVEpisode extends ArrayAdapter {
         if (date != null)
             dateString = dateFormatter.format(date);
 
-        String text = "s" + pad(tvEpisode.getSeasonNumber(), 2) + "e" + pad(tvEpisode.getEpisodeNumber(), 2) + ": " +tvEpisode.getName();
-        textTitle.setText(text);
+        String text = "s" + pad(tvEpisode.getSeasonNumber(), 2) + "e" + pad(tvEpisode.getEpisodeNumber(), 2);
+        textSubtext.setText(text);
+        textTitle.setText(tvEpisode.getName());
         textSubTitle.setText(database.getTitleById(tvEpisode.getId()));
 
         textOverview.setText(tvEpisode.getOverview());
