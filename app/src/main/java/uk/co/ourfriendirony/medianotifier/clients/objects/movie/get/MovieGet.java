@@ -1,12 +1,14 @@
-package uk.co.ourfriendirony.medianotifier.clients.objects;
+package uk.co.ourfriendirony.medianotifier.clients.objects.movie.get;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,13 +44,12 @@ import java.util.Map;
         "external_ids"
 })
 public class MovieGet {
-
     @JsonProperty("adult")
     private Boolean adult;
     @JsonProperty("backdrop_path")
     private String backdropPath;
     @JsonProperty("belongs_to_collection")
-    private Object belongsToCollection;
+    private MovieGetBelongsToCollection belongsToCollection;
     @JsonProperty("budget")
     private Integer budget;
     @JsonProperty("movieGetGenres")
@@ -73,8 +74,9 @@ public class MovieGet {
     private List<MovieGetProductionCompany> productionCompanies = null;
     @JsonProperty("production_countries")
     private List<MovieGetProductionCountry> productionCountries = null;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @JsonProperty("release_date")
-    private String releaseDate;
+    private Date releaseDate;
     @JsonProperty("revenue")
     private Integer revenue;
     @JsonProperty("runtime")
@@ -119,12 +121,12 @@ public class MovieGet {
     }
 
     @JsonProperty("belongs_to_collection")
-    public Object getBelongsToCollection() {
+    public MovieGetBelongsToCollection getBelongsToCollection() {
         return belongsToCollection;
     }
 
     @JsonProperty("belongs_to_collection")
-    public void setBelongsToCollection(Object belongsToCollection) {
+    public void setBelongsToCollection(MovieGetBelongsToCollection belongsToCollection) {
         this.belongsToCollection = belongsToCollection;
     }
 
@@ -249,12 +251,12 @@ public class MovieGet {
     }
 
     @JsonProperty("release_date")
-    public String getReleaseDate() {
+    public Date getReleaseDate() {
         return releaseDate;
     }
 
     @JsonProperty("release_date")
-    public void setReleaseDate(String releaseDate) {
+    public void setReleaseDate(Date releaseDate) {
         this.releaseDate = releaseDate;
     }
 
@@ -371,284 +373,74 @@ public class MovieGet {
 }
 
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-        "imdb_id",
-        "facebook_id",
-        "instagram_id",
-        "twitter_id"
-})
-class MovieGetExternalIds {
-
-    @JsonProperty("imdb_id")
-    private String imdbId;
-    @JsonProperty("facebook_id")
-    private Object facebookId;
-    @JsonProperty("instagram_id")
-    private Object instagramId;
-    @JsonProperty("twitter_id")
-    private Object twitterId;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-
-    @JsonProperty("imdb_id")
-    public String getImdbId() {
-        return imdbId;
-    }
-
-    @JsonProperty("imdb_id")
-    public void setImdbId(String imdbId) {
-        this.imdbId = imdbId;
-    }
-
-    @JsonProperty("facebook_id")
-    public Object getFacebookId() {
-        return facebookId;
-    }
-
-    @JsonProperty("facebook_id")
-    public void setFacebookId(Object facebookId) {
-        this.facebookId = facebookId;
-    }
-
-    @JsonProperty("instagram_id")
-    public Object getInstagramId() {
-        return instagramId;
-    }
-
-    @JsonProperty("instagram_id")
-    public void setInstagramId(Object instagramId) {
-        this.instagramId = instagramId;
-    }
-
-    @JsonProperty("twitter_id")
-    public Object getTwitterId() {
-        return twitterId;
-    }
-
-    @JsonProperty("twitter_id")
-    public void setTwitterId(Object twitterId) {
-        this.twitterId = twitterId;
-    }
-
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
-
-}
-
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-        "id",
-        "name"
-})
-class MovieGetGenre {
-
-    @JsonProperty("id")
-    private Integer id;
-    @JsonProperty("name")
-    private String name;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-
-    @JsonProperty("id")
-    public Integer getId() {
-        return id;
-    }
-
-    @JsonProperty("id")
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    @JsonProperty("name")
-    public String getName() {
-        return name;
-    }
-
-    @JsonProperty("name")
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
-
-}
-
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-        "id",
-        "logo_path",
-        "name",
-        "origin_country"
-})
-class MovieGetProductionCompany {
-
-    @JsonProperty("id")
-    private Integer id;
-    @JsonProperty("logo_path")
-    private String logoPath;
-    @JsonProperty("name")
-    private String name;
-    @JsonProperty("origin_country")
-    private String originCountry;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-
-    @JsonProperty("id")
-    public Integer getId() {
-        return id;
-    }
-
-    @JsonProperty("id")
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    @JsonProperty("logo_path")
-    public String getLogoPath() {
-        return logoPath;
-    }
-
-    @JsonProperty("logo_path")
-    public void setLogoPath(String logoPath) {
-        this.logoPath = logoPath;
-    }
-
-    @JsonProperty("name")
-    public String getName() {
-        return name;
-    }
-
-    @JsonProperty("name")
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @JsonProperty("origin_country")
-    public String getOriginCountry() {
-        return originCountry;
-    }
-
-    @JsonProperty("origin_country")
-    public void setOriginCountry(String originCountry) {
-        this.originCountry = originCountry;
-    }
-
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
-
-}
-
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-        "iso_3166_1",
-        "name"
-})
-class MovieGetProductionCountry {
-
-    @JsonProperty("iso_3166_1")
-    private String iso31661;
-    @JsonProperty("name")
-    private String name;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-
-    @JsonProperty("iso_3166_1")
-    public String getIso31661() {
-        return iso31661;
-    }
-
-    @JsonProperty("iso_3166_1")
-    public void setIso31661(String iso31661) {
-        this.iso31661 = iso31661;
-    }
-
-    @JsonProperty("name")
-    public String getName() {
-        return name;
-    }
-
-    @JsonProperty("name")
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
-
-}
-
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-        "iso_639_1",
-        "name"
-})
-class MovieGetSpokenLanguage {
-
-    @JsonProperty("iso_639_1")
-    private String iso6391;
-    @JsonProperty("name")
-    private String name;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-
-    @JsonProperty("iso_639_1")
-    public String getIso6391() {
-        return iso6391;
-    }
-
-    @JsonProperty("iso_639_1")
-    public void setIso6391(String iso6391) {
-        this.iso6391 = iso6391;
-    }
-
-    @JsonProperty("name")
-    public String getName() {
-        return name;
-    }
-
-    @JsonProperty("name")
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
-
-}
+//@JsonInclude(JsonInclude.Include.NON_NULL)
+//@JsonPropertyOrder({
+//        "id",
+//        "name",
+//        "poster_path",
+//        "backdrop_path"
+//})
+//class MovieGetBelongsToCollection {
+//
+//    @JsonProperty("id")
+//    private Integer id;
+//    @JsonProperty("name")
+//    private String name;
+//    @JsonProperty("poster_path")
+//    private String posterPath;
+//    @JsonProperty("backdrop_path")
+//    private String backdropPath;
+//    @JsonIgnore
+//    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+//
+//    @JsonProperty("id")
+//    public Integer getId() {
+//        return id;
+//    }
+//
+//    @JsonProperty("id")
+//    public void setId(Integer id) {
+//        this.id = id;
+//    }
+//
+//    @JsonProperty("name")
+//    public String getName() {
+//        return name;
+//    }
+//
+//    @JsonProperty("name")
+//    public void setName(String name) {
+//        this.name = name;
+//    }
+//
+//    @JsonProperty("poster_path")
+//    public String getPosterPath() {
+//        return posterPath;
+//    }
+//
+//    @JsonProperty("poster_path")
+//    public void setPosterPath(String posterPath) {
+//        this.posterPath = posterPath;
+//    }
+//
+//    @JsonProperty("backdrop_path")
+//    public String getBackdropPath() {
+//        return backdropPath;
+//    }
+//
+//    @JsonProperty("backdrop_path")
+//    public void setBackdropPath(String backdropPath) {
+//        this.backdropPath = backdropPath;
+//    }
+//
+//    @JsonAnyGetter
+//    public Map<String, Object> getAdditionalProperties() {
+//        return this.additionalProperties;
+//    }
+//
+//    @JsonAnySetter
+//    public void setAdditionalProperty(String name, Object value) {
+//        this.additionalProperties.put(name, value);
+//    }
+//
+//}

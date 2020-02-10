@@ -1,7 +1,11 @@
 package uk.co.ourfriendirony.medianotifier.notifier;
 
-import android.app.*;
-import android.content.*;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 
@@ -21,7 +25,7 @@ public class NotifierReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         unwatchedEpisodes = new TVShowDatabase(context).countUnwatchedEpisodesReleased();
-        unwatchedMovies = new MovieDatabase(context).countUnwatchedMoviesReleased();
+        unwatchedMovies = new MovieDatabase(context).countUnwatchedReleased();
         unwatchedTotal = unwatchedEpisodes + unwatchedMovies;
 
         if (unwatchedTotal > 0) {

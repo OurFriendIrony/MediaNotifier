@@ -5,14 +5,21 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.*;
-import android.widget.*;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier._objects.tv.*;
+import uk.co.ourfriendirony.medianotifier._objects.tv.TVEpisode;
+import uk.co.ourfriendirony.medianotifier._objects.tv.TVSeason;
+import uk.co.ourfriendirony.medianotifier._objects.tv.TVShow;
 import uk.co.ourfriendirony.medianotifier.async.TVShowUpdateAsyncTask;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;

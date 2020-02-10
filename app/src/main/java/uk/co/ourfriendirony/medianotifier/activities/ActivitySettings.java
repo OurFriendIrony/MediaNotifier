@@ -15,7 +15,6 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
@@ -39,8 +38,6 @@ import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificati
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationDayOffsetTV;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationHour;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationMinute;
-import static uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabaseDefinition.WATCHED_FALSE;
-import static uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabaseDefinition.WATCHED_TRUE;
 
 public class ActivitySettings extends AppCompatActivity {
     private PopupWindow popupWindow;

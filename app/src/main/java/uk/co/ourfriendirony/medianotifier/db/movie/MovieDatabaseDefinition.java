@@ -19,7 +19,7 @@ public class MovieDatabaseDefinition extends SQLiteOpenHelper {
     static final String TM_TAGLINE = "movie_tagline";
     static final String TM_COLLECTION = "movie_collection";
     private static final String DATABASE_NAME = "movies";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
 
     MovieDatabaseDefinition(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -27,6 +27,7 @@ public class MovieDatabaseDefinition extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        System.out.println(db.getClass());
         Log.v(String.valueOf(this.getClass()), "onCreate");
 
         db.execSQL("CREATE TABLE " + TABLE_MOVIES + " (" +

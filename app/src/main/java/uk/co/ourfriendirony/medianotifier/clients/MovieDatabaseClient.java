@@ -3,11 +3,17 @@ package uk.co.ourfriendirony.medianotifier.clients;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-import uk.co.ourfriendirony.medianotifier._objects.movie.Movie;
-import uk.co.ourfriendirony.medianotifier._objects.movie.MovieFinds;
-import uk.co.ourfriendirony.medianotifier._objects.tv.*;
+import uk.co.ourfriendirony.medianotifier._objects.Item;
+import uk.co.ourfriendirony.medianotifier._objects.movie.ItemMovie;
+import uk.co.ourfriendirony.medianotifier._objects.tv.TVSeason;
+import uk.co.ourfriendirony.medianotifier._objects.tv.TVShow;
+import uk.co.ourfriendirony.medianotifier._objects.tv.TVShowFinds;
+import uk.co.ourfriendirony.medianotifier.clients.objects.movie.get.MovieGet;
+import uk.co.ourfriendirony.medianotifier.clients.objects.movie.search.MovieSearch;
+import uk.co.ourfriendirony.medianotifier.clients.objects.movie.search.MovieSearchResult;
 
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanUrl;
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.replaceTokens;
@@ -28,12 +34,16 @@ public class MovieDatabaseClient extends AbstractClient {
 
     private String payload;
 
-    public List<Movie> queryMovie(String movie) throws IOException {
+    public List<Item> queryMovie(String name) throws IOException {
         payload = httpGetRequest(
-                replaceTokens(URL_MOVIE_QUERY, "@NAME@", cleanUrl(movie))
+                replaceTokens(URL_MOVIE_QUERY, "@NAME@", cleanUrl(name))
         );
-        MovieFinds query = OBJECT_MAPPER.readValue(payload, MovieFinds.class);
-        return query.getMovies();
+        List<Item> items = new ArrayList<>();
+        MovieSearch ms = OBJECT_MAPPER.readValue(payload, MovieSearch.class);
+        for (MovieSearchResult msr : ms.getResults()) {
+            items.add(new ItemMovie(msr));
+        }
+        return items;
     }
 
     public List<TVShow> queryTVShow(String tvShow) throws IOException {
@@ -44,12 +54,12 @@ public class MovieDatabaseClient extends AbstractClient {
         return query.getTVShowsWithDates();
     }
 
-    public Movie getMovie(int movieID) throws IOException {
+    public Item getMovie(int movieID) throws IOException {
         payload = httpGetRequest(
                 replaceTokens(URL_MOVIE_ID, "@ID@", Integer.toString(movieID))
         );
-        Movie movie = OBJECT_MAPPER.readValue(payload, Movie.class);
-        return movie;
+        MovieGet mg = OBJECT_MAPPER.readValue(payload, MovieGet.class);
+        return new ItemMovie(mg);
     }
 
     public TVShow getTVShow(int tvShowID) throws IOException {

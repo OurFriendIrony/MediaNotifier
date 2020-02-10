@@ -7,10 +7,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
-import uk.co.ourfriendirony.medianotifier._objects.movie.Collection;
-import uk.co.ourfriendirony.medianotifier._objects.movie.Movie;
+import uk.co.ourfriendirony.medianotifier._objects.Item;
+import uk.co.ourfriendirony.medianotifier._objects.movie.ItemMovie;
+import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.general.StringHandler;
 
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getMarkWatchedIfAlreadyReleased;
@@ -19,7 +22,7 @@ import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanTitl
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.dateToString;
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.stringToDate;
 
-public class MovieDatabase {
+public class MovieDatabase implements Database {
     private static final String SELECT_MOVIES = "SELECT * FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " ORDER BY " + MovieDatabaseDefinition.TM_TITLE + " ASC;";
 
     private static final String GET_MOVIE_TITLE_BY_ID = "SELECT " + MovieDatabaseDefinition.TM_TITLE + " FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " WHERE " + MovieDatabaseDefinition.TM_ID + "=?;";
@@ -54,38 +57,41 @@ public class MovieDatabase {
         this.context = context;
     }
 
-    public void addMovie(Movie movie) {
+    @Override
+    public void add(Item item) {
         SQLiteDatabase dbWritable = databaseHelper.getWritableDatabase();
-        insertMovie(dbWritable, movie, true);
+        insert(dbWritable, item, true);
         dbWritable.close();
     }
 
-    public void updateMovie(Movie movie) {
+    @Override
+    public void update(Item item) {
         SQLiteDatabase dbWritable = databaseHelper.getWritableDatabase();
-        insertMovie(dbWritable, movie, false);
+        insert(dbWritable, item, false);
         dbWritable.close();
     }
 
-    private void insertMovie(SQLiteDatabase dbWritable, Movie movie, boolean isNewMovie) {
-        String currentWatchedStatus = getMovieWatchedStatus(dbWritable, movie);
-        ContentValues movieRow = new ContentValues();
-        movieRow.put(MovieDatabaseDefinition.TM_ID, movie.getId());
-        movieRow.put(MovieDatabaseDefinition.TM_TITLE, cleanTitle(movie.getTitle()));
-        movieRow.put(MovieDatabaseDefinition.TM_IMDB, movie.getImdbId());
-        movieRow.put(MovieDatabaseDefinition.TM_DATE, dateToString(movie.getReleaseDate()));
-        movieRow.put(MovieDatabaseDefinition.TM_OVERVIEW, movie.getOverview());
-        movieRow.put(MovieDatabaseDefinition.TM_TAGLINE, movie.getTagline());
-        movieRow.put(MovieDatabaseDefinition.TM_COLLECTION, movie.getBelongsToCollection().getCollectionName());
-        if (markWatchedIfReleased(isNewMovie, movie)) {
-            movieRow.put(MovieDatabaseDefinition.TM_WATCHED, MovieDatabaseDefinition.WATCHED_TRUE);
+    private void insert(SQLiteDatabase dbWritable, Item item, boolean isNewItem) {
+        String currentWatchedStatus = getWatchedStatus(dbWritable, item);
+        ContentValues dbRow = new ContentValues();
+        dbRow.put(MovieDatabaseDefinition.TM_ID, item.getId());
+        dbRow.put(MovieDatabaseDefinition.TM_TITLE, cleanTitle(item.getTitle()));
+        dbRow.put(MovieDatabaseDefinition.TM_IMDB, item.getExternalLink().toString());
+        dbRow.put(MovieDatabaseDefinition.TM_DATE, dateToString(item.getReleaseDate()));
+        dbRow.put(MovieDatabaseDefinition.TM_OVERVIEW, item.getDescription());
+        dbRow.put(MovieDatabaseDefinition.TM_TAGLINE, "");
+        dbRow.put(MovieDatabaseDefinition.TM_COLLECTION, item.getSubtitle());
+        if (markWatchedIfReleased(isNewItem, item)) {
+            dbRow.put(MovieDatabaseDefinition.TM_WATCHED, MovieDatabaseDefinition.WATCHED_TRUE);
         } else {
-            movieRow.put(MovieDatabaseDefinition.TM_WATCHED, currentWatchedStatus);
+            dbRow.put(MovieDatabaseDefinition.TM_WATCHED, currentWatchedStatus);
         }
-        dbWritable.replace(MovieDatabaseDefinition.TABLE_MOVIES, null, movieRow);
+        dbWritable.replace(MovieDatabaseDefinition.TABLE_MOVIES, null, dbRow);
     }
 
-    public String getMovieWatchedStatus(SQLiteDatabase dbReadable, Movie movie) {
-        String[] args = new String[]{movie.getIdAsString()};
+    @Override
+    public String getWatchedStatus(SQLiteDatabase dbReadable, Item item) {
+        String[] args = new String[]{item.getId()};
         Cursor cursor = dbReadable.rawQuery(GET_MOVIE_WATCHED_STATUS, args);
         String watchedStatus = MovieDatabaseDefinition.WATCHED_FALSE;
 
@@ -100,9 +106,10 @@ public class MovieDatabase {
         return watchedStatus;
     }
 
-    public boolean getMovieWatchedStatusAsBoolean(Movie movie) {
+    @Override
+    public boolean getWatchedStatusAsBoolean(Item item) {
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
-        String[] args = new String[]{movie.getIdAsString()};
+        String[] args = new String[]{item.getId()};
         Cursor cursor = dbReadable.rawQuery(GET_MOVIE_WATCHED_STATUS, args);
         String watchedStatus = MovieDatabaseDefinition.WATCHED_FALSE;
 
@@ -124,49 +131,31 @@ public class MovieDatabase {
         dbWritable.close();
     }
 
-    public void deleteMovie(Integer movieId) {
+    @Override
+    public void delete(String id) {
         SQLiteDatabase dbWritable = databaseHelper.getWritableDatabase();
-        dbWritable.execSQL("DELETE FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " WHERE " + MovieDatabaseDefinition.TM_ID + "=" + movieId + ";");
+        dbWritable.execSQL("DELETE FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " WHERE " + MovieDatabaseDefinition.TM_ID + "=" + id + ";");
         dbWritable.close();
     }
 
-    public String getTitleById(int movieId) {
-        String title = "";
-        SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
-        Cursor cursor = dbReadable.rawQuery(GET_MOVIE_TITLE_BY_ID, new String[]{String.valueOf(movieId)});
-        try {
-            while (cursor.moveToNext()) {
-                title = getColumnValue(cursor, MovieDatabaseDefinition.TM_TITLE);
-            }
-        } finally {
-            cursor.close();
-        }
-        dbReadable.close();
-        return title;
-    }
-
-    public int countUnwatchedMoviesReleased() {
+    @Override
+    public int countUnwatchedReleased() {
         return countUnwatchedEpisodes(COUNT_UNWATCHED_MOVIES_RELEASED);
     }
 
-    public int countUnwatchedMoviesUnreleased() {
-        return countUnwatchedEpisodes(COUNT_UNWATCHED_MOVIES_UNRELEASED);
+    @Override
+    public List<Item> getUnwatchedReleased() {
+        return getUnwatched(GET_UNWATCHED_MOVIES_RELEASED, "UNWATCHED RELEASED");
     }
 
-    public int countUnwatchedEpisodesTotal() {
-        return countUnwatchedEpisodes(COUNT_UNWATCHED_MOVIES_TOTAL);
+    @Override
+    public List<Item> getUnwatchedUnReleased() {
+        return getUnwatched(GET_UNWATCHED_MOVIES_UNRELEASED, "UNWATCHED UNRELEASED");
     }
 
-    public List<Movie> getUnwatchedMoviesReleased() {
-        return getUnwatchedMovies(GET_UNWATCHED_MOVIES_RELEASED, "UNWATCHED RELEASED");
-    }
-
-    public List<Movie> getUnwatchedMoviesUnReleased() {
-        return getUnwatchedMovies(GET_UNWATCHED_MOVIES_UNRELEASED, "UNWATCHED UNRELEASED");
-    }
-
-    public List<Movie> getUnwatchedMoviesTotal() {
-        return getUnwatchedMovies(GET_UNWATCHED_MOVIES_TOTAL, "UNWATCHED TOTAL");
+    @Override
+    public List<Item> getUnwatchedTotal() {
+        return getUnwatched(GET_UNWATCHED_MOVIES_TOTAL, "UNWATCHED TOTAL");
     }
 
     private int countUnwatchedEpisodes(String countQuery) {
@@ -182,80 +171,81 @@ public class MovieDatabase {
         return count;
     }
 
-    public List<Movie> getUnwatchedMovies(String getQuery, String logTag) {
+    @Override
+    public List<Item> getUnwatched(String getQuery, String logTag) {
         String offset = "date('now','-" + getNotificationDayOffsetMovie(context) + " days')";
         String query = StringHandler.replaceTokens(getQuery, "@OFFSET@", offset);
-        List<Movie> movies = new ArrayList<>();
+        List<Item> items = new ArrayList<>();
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
 
         Cursor cursor = dbReadable.rawQuery(query, null);
         try {
             while (cursor.moveToNext()) {
-                Movie movie = buildMovie(cursor);
-                movies.add(movie);
-                Log.v(logTag, "Id=" + movie.getId() + " | Title=" + movie.getTitle() + " | Date=" + movie.getReleaseDate());
+                Item item = buildItemFromDB(cursor);
+                items.add(item);
+                Log.v(logTag, "Id=" + item.getId() + " | Title=" + item.getTitle() + " | Date=" + item.getReleaseDate());
             }
         } finally {
             cursor.close();
         }
         dbReadable.close();
-        return movies;
+        return items;
     }
 
     @NonNull
-    private Movie buildMovie(Cursor cursor) {
-        Movie movie = new Movie();
+    private Item buildItemFromDB(Cursor cursor) {
+        Item item = new ItemMovie(
+                getColumnValue(cursor, MovieDatabaseDefinition.TM_ID),
+                getColumnValue(cursor, MovieDatabaseDefinition.TM_TITLE),
+                getColumnValue(cursor, MovieDatabaseDefinition.TM_COLLECTION),
+                getColumnValue(cursor, MovieDatabaseDefinition.TM_OVERVIEW),
+                stringToDate(getColumnValue(cursor, MovieDatabaseDefinition.TM_DATE)),
+                getColumnValue(cursor, MovieDatabaseDefinition.TM_IMDB),
+                new ArrayList<Item>()
+        );
 
-        Collection movieCollection = new Collection();
-        movieCollection.setCollectionName(getColumnValue(cursor, MovieDatabaseDefinition.TM_COLLECTION));
+        Log.d("BUILD_MOVIE", item.getId() + " " + item.getTitle());
 
-        movie.setId(Integer.parseInt(getColumnValue(cursor, MovieDatabaseDefinition.TM_ID)));
-        movie.setTitle(getColumnValue(cursor, MovieDatabaseDefinition.TM_TITLE));
-        movie.setOverview(getColumnValue(cursor, MovieDatabaseDefinition.TM_OVERVIEW));
-        movie.setReleaseDate(stringToDate(getColumnValue(cursor, MovieDatabaseDefinition.TM_DATE)));
-        movie.setImdbId(getColumnValue(cursor, MovieDatabaseDefinition.TM_IMDB));
-        movie.setTagline(getColumnValue(cursor, MovieDatabaseDefinition.TM_TAGLINE));
-        movie.setBelongsToCollection(movieCollection);
-
-        Log.d("BUILD_MOVIE", movie.getId() + " " + movie.getTitle());
-
-        return movie;
+        return item;
     }
 
-    public List<Movie> getAllMovies() {
-        List<Movie> movies = new ArrayList<>();
+    @Override
+    public List<Item> getAll() {
+        List<Item> items = new ArrayList<>();
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
         Cursor cursor = dbReadable.rawQuery(SELECT_MOVIES, null);
         try {
             while (cursor.moveToNext()) {
-                movies.add(buildMovie(cursor));
+                items.add(buildItemFromDB(cursor));
             }
         } finally {
             cursor.close();
         }
         dbReadable.close();
-        return movies;
+        return items;
     }
 
-    public void updateMovieWatchedStatus(Movie movie, String watchedStatus) {
+    @Override
+    public void updateWatchedStatus(Item item, String watchedStatus) {
         SQLiteDatabase dbWriteable = databaseHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(MovieDatabaseDefinition.TM_WATCHED, watchedStatus);
         String where = MovieDatabaseDefinition.TM_ID + "=?";
-        String[] whereArgs = new String[]{movie.getIdAsString()};
+        String[] whereArgs = new String[]{item.getId()};
         dbWriteable.update(MovieDatabaseDefinition.TABLE_MOVIES, values, where, whereArgs);
         dbWriteable.close();
     }
 
-    private boolean markWatchedIfReleased(boolean isNewMovie, Movie movie) {
-        return isNewMovie && alreadyReleased(movie) && getMarkWatchedIfAlreadyReleased(context);
+    private boolean markWatchedIfReleased(boolean isNewItem, Item item) {
+        return isNewItem && alreadyReleased(item) && getMarkWatchedIfAlreadyReleased(context);
     }
 
-    private boolean alreadyReleased(Movie movie) {
-        return movie.getReleaseDate().compareTo(new Date()) < 0;
+    private boolean alreadyReleased(Item item) {
+        return item.getReleaseDate().compareTo(new Date()) < 0;
     }
 
     private String getColumnValue(Cursor cursor, String field) {
         return cursor.getString(cursor.getColumnIndex(field));
     }
+
 }

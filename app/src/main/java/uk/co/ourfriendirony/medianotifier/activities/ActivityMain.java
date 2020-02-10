@@ -6,22 +6,37 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.view.*;
-import android.widget.*;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier._objects.movie.Movie;
+import uk.co.ourfriendirony.medianotifier._objects.Item;
 import uk.co.ourfriendirony.medianotifier._objects.tv.TVShow;
 import uk.co.ourfriendirony.medianotifier.activities.artist.ActivityArtist;
 import uk.co.ourfriendirony.medianotifier.activities.artist.ActivityArtistFind;
-import uk.co.ourfriendirony.medianotifier.activities.movie.*;
-import uk.co.ourfriendirony.medianotifier.activities.tv.*;
+import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovie;
+import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovieFind;
+import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovieUnwatched;
+import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTV;
+import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVFind;
+import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVUnwatched;
 import uk.co.ourfriendirony.medianotifier.async.MovieUpdateAsyncTask;
 import uk.co.ourfriendirony.medianotifier.async.TVShowUpdateAsyncTask;
+import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
@@ -35,7 +50,7 @@ import static uk.co.ourfriendirony.medianotifier.general.StringHandler.getNotifi
 public class ActivityMain extends AppCompatActivity {
 
     private TVShowDatabase tvShowDatabase;
-    private MovieDatabase movieDatabase;
+    private Database movieDatabase;
     private ArtistDatabase artistDatabase;
 
     private TextView main_button_tv_notification;
@@ -142,7 +157,7 @@ public class ActivityMain extends AppCompatActivity {
         super.onResume();
 
         int numEpisodes = tvShowDatabase.countUnwatchedEpisodesReleased();
-        int numMovies = movieDatabase.countUnwatchedMoviesReleased();
+        int numMovies = movieDatabase.countUnwatchedReleased();
         int numArtists = 0;
 
         main_button_tv_notification.setText(getNotificationNumber(numEpisodes));
@@ -220,10 +235,10 @@ public class ActivityMain extends AppCompatActivity {
                 tvShows.toArray(tvShowsArray); // fill the array
                 new TVShowUpdateAsyncTask().execute(tvShowsArray);
 
-                List<Movie> movies = movieDatabase.getAllMovies();
-                Movie[] moviesArray = new Movie[movies.size()];
-                movies.toArray(moviesArray);
-                new MovieUpdateAsyncTask().execute(moviesArray);
+                List<Item> items = movieDatabase.getAll();
+                Item[] itemsArray = new Item[items.size()];
+                items.toArray(itemsArray);
+                new MovieUpdateAsyncTask().execute(itemsArray);
 
                 return true;
 

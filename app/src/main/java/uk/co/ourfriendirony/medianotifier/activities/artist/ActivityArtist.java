@@ -3,8 +3,13 @@ package uk.co.ourfriendirony.medianotifier.activities.artist;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.*;
-import android.widget.*;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
 
 import java.util.Collections;
 import java.util.List;

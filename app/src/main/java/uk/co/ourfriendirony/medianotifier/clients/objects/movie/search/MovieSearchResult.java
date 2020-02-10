@@ -1,87 +1,17 @@
-package uk.co.ourfriendirony.medianotifier.clients.objects;
+package uk.co.ourfriendirony.medianotifier.clients.objects.movie.search;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-        "page",
-        "total_results",
-        "total_pages",
-        "results"
-})
-public class MovieSearch {
-
-    @JsonProperty("page")
-    private Integer page;
-    @JsonProperty("total_results")
-    private Integer totalResults;
-    @JsonProperty("total_pages")
-    private Integer totalPages;
-    @JsonProperty("results")
-    private List<MovieSearchResult> results = null;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-
-    @JsonProperty("page")
-    public Integer getPage() {
-        return page;
-    }
-
-    @JsonProperty("page")
-    public void setPage(Integer page) {
-        this.page = page;
-    }
-
-    @JsonProperty("total_results")
-    public Integer getTotalResults() {
-        return totalResults;
-    }
-
-    @JsonProperty("total_results")
-    public void setTotalResults(Integer totalResults) {
-        this.totalResults = totalResults;
-    }
-
-    @JsonProperty("total_pages")
-    public Integer getTotalPages() {
-        return totalPages;
-    }
-
-    @JsonProperty("total_pages")
-    public void setTotalPages(Integer totalPages) {
-        this.totalPages = totalPages;
-    }
-
-    @JsonProperty("results")
-    public List<MovieSearchResult> getResults() {
-        return results;
-    }
-
-    @JsonProperty("results")
-    public void setResults(List<MovieSearchResult> results) {
-        this.results = results;
-    }
-
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
-
-}
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -100,7 +30,7 @@ public class MovieSearch {
         "overview",
         "release_date"
 })
-class MovieSearchResult {
+public class MovieSearchResult {
 
     @JsonProperty("popularity")
     private Double popularity;
@@ -128,8 +58,9 @@ class MovieSearchResult {
     private Double voteAverage;
     @JsonProperty("overview")
     private String overview;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @JsonProperty("release_date")
-    private String releaseDate;
+    private Date releaseDate;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -264,12 +195,12 @@ class MovieSearchResult {
     }
 
     @JsonProperty("release_date")
-    public String getReleaseDate() {
+    public Date getReleaseDate() {
         return releaseDate;
     }
 
     @JsonProperty("release_date")
-    public void setReleaseDate(String releaseDate) {
+    public void setReleaseDate(Date releaseDate) {
         this.releaseDate = releaseDate;
     }
 
