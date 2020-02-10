@@ -4,13 +4,13 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import uk.co.ourfriendirony.medianotifier._objects.tv.TVShow;
-import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
+import uk.co.ourfriendirony.medianotifier._objects.Item;
+import uk.co.ourfriendirony.medianotifier.clients.TMDBClient;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
 
 import static uk.co.ourfriendirony.medianotifier.general.StaticContext.getStaticContext;
 
-public class TVShowUpdateAsyncTask extends AsyncTask<TVShow, Void, String> {
+public class TVShowUpdateAsyncTask extends AsyncTask<Item, Void, String> {
         /* Background Task to Update an existing item */
 
     @Override
@@ -19,22 +19,21 @@ public class TVShowUpdateAsyncTask extends AsyncTask<TVShow, Void, String> {
     }
 
     @Override
-    protected String doInBackground(TVShow... tvShows) {
+    protected String doInBackground(Item... tvShows) {
         int failed = 0;
         String result = "";
 
         if (tvShows.length == 1) {
-            result += "'" + tvShows[0].getName() + "' Updated";
+            result += "'" + tvShows[0].getTitle() + "' Updated";
         } else {
             result += "TV Shows Updated";
         }
-
-        for (TVShow tvShow : tvShows) {
+        for (Item tvShow : tvShows) {
             try {
-                tvShow = new MovieDatabaseClient().getTVShow(tvShow.getId());
-                new TVShowDatabase(getStaticContext()).updateTVShow(tvShow);
+                tvShow = new TMDBClient().getTVShow(Integer.parseInt(tvShow.getId()));
+                new TVShowDatabase(getStaticContext()).update(tvShow);
             } catch (Exception e) {
-                Log.e("FAILED_UPDATE", tvShow.getName() + ": " + e.getMessage());
+                Log.e("FAILED_UPDATE", tvShow.getTitle() + ": " + e.getMessage());
                 failed += 1;
             }
         }

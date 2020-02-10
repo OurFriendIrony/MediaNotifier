@@ -5,7 +5,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import uk.co.ourfriendirony.medianotifier._objects.Item;
-import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
+import uk.co.ourfriendirony.medianotifier.clients.TMDBClient;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
 
 import static uk.co.ourfriendirony.medianotifier.general.StaticContext.getStaticContext;
@@ -31,7 +31,7 @@ public class MovieUpdateAsyncTask extends AsyncTask<Item, Void, String> {
 
         for (Item item : items) {
             try {
-                item = new MovieDatabaseClient().getMovie(Integer.parseInt(item.getId()));
+                item = new TMDBClient().getMovie(Integer.parseInt(item.getId()));
                 new MovieDatabase(getStaticContext()).update(item);
             } catch (Exception e) {
                 Log.e("FAILED_UPDATE", item.getTitle() + ": " + e.getMessage());

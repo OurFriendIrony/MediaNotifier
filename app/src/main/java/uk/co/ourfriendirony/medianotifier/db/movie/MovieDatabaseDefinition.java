@@ -27,7 +27,6 @@ public class MovieDatabaseDefinition extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        System.out.println(db.getClass());
         Log.v(String.valueOf(this.getClass()), "onCreate");
 
         db.execSQL("CREATE TABLE " + TABLE_MOVIES + " (" +

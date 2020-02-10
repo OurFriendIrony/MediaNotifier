@@ -19,20 +19,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier._objects.tv.TVShow;
-import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
+import uk.co.ourfriendirony.medianotifier._objects.Item;
+import uk.co.ourfriendirony.medianotifier.clients.TMDBClient;
+import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
-import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummaryTV;
+import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummary;
 
 public class ActivityTVFind extends AppCompatActivity {
-    private TVShowDatabase database;
-
-    private EditText findInput;
-    private ProgressBar findProgressBar;
-    private ListView findList;
-    private List<TVShow> tvShows = new ArrayList<>();
-    private MovieDatabaseClient client = new MovieDatabaseClient();
+    private EditText input;
+    private ProgressBar progressBar;
+    private ListView listView;
+    private List<Item> items = new ArrayList<>();
+    private TMDBClient client = new TMDBClient();
+    private Database db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,13 +41,13 @@ public class ActivityTVFind extends AppCompatActivity {
         super.getSupportActionBar().setTitle(R.string.title_find_tvshow);
         super.setContentView(R.layout.activity_find);
 
-        database = new TVShowDatabase(getApplicationContext());
+        db = new TVShowDatabase(getApplicationContext());
 
-        findInput = (EditText) findViewById(R.id.find_input);
-        findProgressBar = (ProgressBar) findViewById(R.id.find_progress);
-        findList = (ListView) findViewById(R.id.find_list);
+        input = (EditText) findViewById(R.id.find_input);
+        progressBar = (ProgressBar) findViewById(R.id.find_progress);
+        listView = (ListView) findViewById(R.id.find_list);
 
-        findInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        input.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
                 switch (actionId) {
@@ -64,7 +64,7 @@ public class ActivityTVFind extends AppCompatActivity {
             }
         });
 
-        findList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView textViewID = (TextView) view.findViewById(R.id.list_item_generic_id);
@@ -74,35 +74,34 @@ public class ActivityTVFind extends AppCompatActivity {
         });
     }
 
-    private class TVShowFindAsyncTask extends AsyncTask<String, Void, List<TVShow>> {
+    private class TVShowFindAsyncTask extends AsyncTask<String, Void, List<Item>> {
         /* Looks up and returns tvshow using API
          */
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            findProgressBar.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
-        protected List<TVShow> doInBackground(String... params) {
-            String tvShowTitle = params[0];
+        protected List<Item> doInBackground(String... params) {
+            String query = params[0];
             try {
-                tvShows = client.queryTVShow(tvShowTitle);
+                items = client.queryTVShow(query);
             } catch (IOException e) {
-                tvShows = new ArrayList<>();
-                Log.e(String.valueOf(this.getClass()), "Failed to query: " + e.getMessage());
+                items = new ArrayList<>();
             }
-            return tvShows;
+            return items;
         }
 
         @Override
-        protected void onPostExecute(List<TVShow> result) {
-            findProgressBar.setVisibility(View.GONE);
+        protected void onPostExecute(List<Item> result) {
+            progressBar.setVisibility(View.GONE);
 
-            if (tvShows.size() > 0) {
-                ListAdapterSummaryTV adapter = new ListAdapterSummaryTV(getBaseContext(), R.layout.list_item_generic, tvShows);
-                findList.setAdapter(adapter);
+            if (items.size() > 0) {
+                ListAdapterSummary adapter = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic, items, db);
+                listView.setAdapter(adapter);
             } else {
                 Toast.makeText(getBaseContext(), R.string.toast_no_results, Toast.LENGTH_LONG).show();
             }
@@ -110,13 +109,13 @@ public class ActivityTVFind extends AppCompatActivity {
     }
 
     private class TVShowAddAsyncTask extends AsyncTask<String, Void, String> {
-        /* Adds new item to database
+        /* Adds new item to db
          */
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            findProgressBar.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -124,10 +123,10 @@ public class ActivityTVFind extends AppCompatActivity {
             String tvShowId = params[0];
             String tvShowTitle = params[1];
 
-            TVShow tvShow;
+            Item item;
             try {
-                tvShow = client.getTVShow(Integer.parseInt(tvShowId));
-                database.addTVShow(tvShow);
+                item = client.getTVShow(Integer.parseInt(tvShowId));
+                db.add(item);
             } catch (IOException e) {
                 Log.e(String.valueOf(this.getClass()), "Failed to add: " + e.getMessage());
             }
@@ -136,7 +135,7 @@ public class ActivityTVFind extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String tvShowTitle) {
-            findProgressBar.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
             String toastMsg = "'" + tvShowTitle + "' " + getResources().getString(R.string.toast_db_added);
             Toast.makeText(getApplicationContext(), toastMsg, Toast.LENGTH_SHORT).show();
         }

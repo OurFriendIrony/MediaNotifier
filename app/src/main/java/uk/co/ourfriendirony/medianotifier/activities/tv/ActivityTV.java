@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,27 +12,23 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier._objects.tv.TVEpisode;
-import uk.co.ourfriendirony.medianotifier._objects.tv.TVSeason;
-import uk.co.ourfriendirony.medianotifier._objects.tv.TVShow;
+import uk.co.ourfriendirony.medianotifier._objects.Item;
 import uk.co.ourfriendirony.medianotifier.async.TVShowUpdateAsyncTask;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
-import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummaryTV;
-import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterTVEpisode;
+import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummary;
 
 public class ActivityTV extends AppCompatActivity {
     private TVShowDatabase database;
 
-    private Spinner showList;
-    private ListView episodeList;
-    private List<TVShow> tvShows;
-    private ProgressBar loadPageProgressBar;
+    private Spinner spinner;
+    private ListView listView;
+    private List<Item> tvShows;
+    private ProgressBar progressBar;
     private int currentShowPosition;
 
     @Override
@@ -45,15 +40,15 @@ public class ActivityTV extends AppCompatActivity {
 
         database = new TVShowDatabase(getApplicationContext());
 
-        showList = (Spinner) findViewById(R.id.tv_spinner);
-        episodeList = (ListView) findViewById(R.id.tv_list);
-        loadPageProgressBar = (ProgressBar) findViewById(R.id.tv_progress);
+        spinner = (Spinner) findViewById(R.id.tv_spinner);
+        listView = (ListView) findViewById(R.id.tv_list);
+        progressBar = (ProgressBar) findViewById(R.id.tv_progress);
         new TVShowListAsyncTask().execute();
 
-        showList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int showPosition, long id) {
-                displayEpisodes(showPosition);
+                displayEpisodes(tvShows.get(showPosition).getChildren());
             }
 
             @Override
@@ -70,20 +65,20 @@ public class ActivityTV extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        TVShow currentShow = tvShows.get(currentShowPosition);
+        Item show = tvShows.get(currentShowPosition);
         switch (item.getItemId()) {
             case R.id.action_refresh:
-                new TVShowUpdateAsyncTask().execute(currentShow);
+                new TVShowUpdateAsyncTask().execute(show);
                 this.recreate();
                 return true;
 
             case R.id.action_remove:
-                database.deleteTVShow(currentShow.getId());
+                database.delete(show.getId());
                 this.recreate();
                 return true;
 
             case R.id.action_imdb:
-                Intent intent = IntentGenerator.getWebPageIntent("http://www.imdb.com/title/" + currentShow.getExternalIds().getImdbId() + "/");
+                Intent intent = IntentGenerator.getWebPageIntent(show.getExternalLink().toString());
                 startActivity(intent);
                 return true;
 
@@ -94,25 +89,19 @@ public class ActivityTV extends AppCompatActivity {
 
     private void displayShows() {
         if (tvShows.size() > 0) {
-            ListAdapterSummaryTV listAdapterSummaryTV = new ListAdapterSummaryTV(getBaseContext(), R.layout.list_item_generic_title, tvShows);
-            showList.setAdapter(listAdapterSummaryTV);
-            displayEpisodes(0);
+            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, tvShows, database);
+            spinner.setAdapter(listAdapterSummary);
+            displayEpisodes(tvShows.get(0).getChildren());
         }
     }
 
-    private void displayEpisodes(int showPosition) {
-        currentShowPosition = showPosition;
-        List<TVEpisode> tvEpisodes = new ArrayList<>();
-        for (TVSeason season : tvShows.get(showPosition).getSeasons()) {
-            Log.d("LISTING_SEASON:", "Season: " + season.getSeasonNumber() + " Episodes: " + season.getEpisodes().size());
-            tvEpisodes.addAll(season.getEpisodes());
-        }
-        if (tvEpisodes.size() > 0) {
-            ListAdapterTVEpisode episodeListAdapter = new ListAdapterTVEpisode(getBaseContext(), R.layout.list_item_generic_toggle, tvEpisodes, true);
-            episodeList.setAdapter(episodeListAdapter);
-            episodeList.setSelection(tvEpisodes.size());
+    private void displayEpisodes(List<Item> items) {
+        if (items.size() > 0) {
+            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_toggle, items, database);
+            listView.setAdapter(listAdapterSummary);
+            listView.setSelection(items.size());
         } else {
-            episodeList.setAdapter(null);
+            listView.setAdapter(null);
         }
     }
 
@@ -124,18 +113,18 @@ public class ActivityTV extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            loadPageProgressBar.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
         protected Void doInBackground(String... params) {
-            tvShows = database.getAllTVShows();
+            tvShows = database.getAll();
             return null;
         }
 
         @Override
         protected void onPostExecute(Void x) {
-            loadPageProgressBar.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
             displayShows();
         }
     }

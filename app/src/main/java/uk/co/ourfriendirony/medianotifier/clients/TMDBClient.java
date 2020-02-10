@@ -8,17 +8,21 @@ import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier._objects.Item;
 import uk.co.ourfriendirony.medianotifier._objects.movie.ItemMovie;
-import uk.co.ourfriendirony.medianotifier._objects.tv.TVSeason;
-import uk.co.ourfriendirony.medianotifier._objects.tv.TVShow;
-import uk.co.ourfriendirony.medianotifier._objects.tv.TVShowFinds;
+import uk.co.ourfriendirony.medianotifier._objects.tv.ItemTV;
+import uk.co.ourfriendirony.medianotifier._objects.tv.ItemTVEpisode;
 import uk.co.ourfriendirony.medianotifier.clients.objects.movie.get.MovieGet;
 import uk.co.ourfriendirony.medianotifier.clients.objects.movie.search.MovieSearch;
 import uk.co.ourfriendirony.medianotifier.clients.objects.movie.search.MovieSearchResult;
+import uk.co.ourfriendirony.medianotifier.clients.objects.tv.get.TVSeasonGet;
+import uk.co.ourfriendirony.medianotifier.clients.objects.tv.get.TVSeasonGetEpisode;
+import uk.co.ourfriendirony.medianotifier.clients.objects.tv.get.TVShowGet;
+import uk.co.ourfriendirony.medianotifier.clients.objects.tv.search.TVShowSearch;
+import uk.co.ourfriendirony.medianotifier.clients.objects.tv.search.TVShowSearchResult;
 
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanUrl;
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.replaceTokens;
 
-public class MovieDatabaseClient extends AbstractClient {
+public class TMDBClient extends AbstractClient {
     private static final String API_KEY = "17e93178aefe463b7d42c6198ba78f30";
 
     private static final String HOST = "https://api.themoviedb.org/3/";
@@ -46,12 +50,16 @@ public class MovieDatabaseClient extends AbstractClient {
         return items;
     }
 
-    public List<TVShow> queryTVShow(String tvShow) throws IOException {
+    public List<Item> queryTVShow(String name) throws IOException {
         payload = httpGetRequest(
-                replaceTokens(URL_TVSHOW_QUERY, "@NAME@", cleanUrl(tvShow))
+                replaceTokens(URL_TVSHOW_QUERY, "@NAME@", cleanUrl(name))
         );
-        TVShowFinds query = OBJECT_MAPPER.readValue(payload, TVShowFinds.class);
-        return query.getTVShowsWithDates();
+        TVShowSearch ts = OBJECT_MAPPER.readValue(payload, TVShowSearch.class);
+        List<Item> items = new ArrayList<>();
+        for (TVShowSearchResult tsr : ts.getResults()) {
+            items.add(new ItemTV(tsr));
+        }
+        return items;
     }
 
     public Item getMovie(int movieID) throws IOException {
@@ -62,29 +70,29 @@ public class MovieDatabaseClient extends AbstractClient {
         return new ItemMovie(mg);
     }
 
-    public TVShow getTVShow(int tvShowID) throws IOException {
+    public Item getTVShow(int tvShowID) throws IOException {
         payload = httpGetRequest(
                 replaceTokens(URL_TVSHOW_ID, "@ID@", Integer.toString(tvShowID))
         );
-        TVShow tvShow = OBJECT_MAPPER.readValue(payload, TVShow.class);
-        for (int i = tvShow.getSeasons().size() - 1; i >= 0; i--) {
-            if (tvShow.getSeasons().get(i).getSeasonNumber() > 0) {
-                TVSeason season = getTVShowSeason(tvShowID, tvShow.getSeasons().get(i).getSeasonNumber());
-                tvShow.getSeasons().get(i).setEpisodes(season.getEpisodes());
-            } else {
-                tvShow.getSeasons().remove(i);
-            }
+        TVShowGet tg = OBJECT_MAPPER.readValue(payload, TVShowGet.class);
+        List<Item> items = new ArrayList<>();
+        for (int seasonID = 1; seasonID <= tg.getNumberOfSeasons(); seasonID++) {
+            items.addAll(getTVShowEpisodes(tvShowID, seasonID));
         }
-        return tvShow;
+        return new ItemTV(tg, items);
     }
 
-    public TVSeason getTVShowSeason(int tvShowID, int seasonNo) throws IOException {
+    private List<Item> getTVShowEpisodes(int tvShowID, int seasonNo) throws IOException {
         payload = httpGetRequest(
                 replaceTokens(URL_TVSHOW_ID_SEASON,
                         new String[]{"@ID@", "@SEASON@"},
                         new String[]{Integer.toString(tvShowID), Integer.toString(seasonNo)})
         );
-        TVSeason tvShow = OBJECT_MAPPER.readValue(payload, TVSeason.class);
-        return tvShow;
+        TVSeasonGet tsg = OBJECT_MAPPER.readValue(payload, TVSeasonGet.class);
+        List<Item> items = new ArrayList<>();
+        for (TVSeasonGetEpisode e : tsg.getTVSeasonGetEpisodes()) {
+            items.add(new ItemTVEpisode(e, Integer.toString(tvShowID)));
+        }
+        return items;
     }
 }

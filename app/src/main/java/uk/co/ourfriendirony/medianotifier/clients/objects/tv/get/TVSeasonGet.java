@@ -16,7 +16,7 @@ import java.util.Map;
 @JsonPropertyOrder({
         "_id",
         "air_date",
-        "TVSeasonGetEpisodes",
+        "episodes",
         "name",
         "overview",
         "id",
@@ -30,7 +30,7 @@ public class TVSeasonGet {
     private String idCore;
     @JsonProperty("air_date")
     private String airDate;
-    @JsonProperty("TVSeasonGetEpisodes")
+    @JsonProperty("episodes")
     private List<TVSeasonGetEpisode> TVSeasonGetEpisodes = null;
     @JsonProperty("name")
     private String name;
@@ -67,12 +67,12 @@ public class TVSeasonGet {
         this.airDate = airDate;
     }
 
-    @JsonProperty("TVSeasonGetEpisodes")
+    @JsonProperty("episodes")
     public List<TVSeasonGetEpisode> getTVSeasonGetEpisodes() {
         return TVSeasonGetEpisodes;
     }
 
-    @JsonProperty("TVSeasonGetEpisodes")
+    @JsonProperty("episodes")
     public void setTVSeasonGetEpisodes(List<TVSeasonGetEpisode> TVSeasonGetEpisodes) {
         this.TVSeasonGetEpisodes = TVSeasonGetEpisodes;
     }

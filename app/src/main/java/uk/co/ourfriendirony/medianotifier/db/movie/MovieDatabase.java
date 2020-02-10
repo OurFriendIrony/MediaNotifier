@@ -125,7 +125,8 @@ public class MovieDatabase implements Database {
         return MovieDatabaseDefinition.WATCHED_TRUE.equals(watchedStatus);
     }
 
-    public void deleteAllMovies() {
+    @Override
+    public void deleteAll() {
         SQLiteDatabase dbWritable = databaseHelper.getWritableDatabase();
         dbWritable.execSQL("DELETE FROM " + MovieDatabaseDefinition.TABLE_MOVIES + ";");
         dbWritable.close();
@@ -146,11 +147,6 @@ public class MovieDatabase implements Database {
     @Override
     public List<Item> getUnwatchedReleased() {
         return getUnwatched(GET_UNWATCHED_MOVIES_RELEASED, "UNWATCHED RELEASED");
-    }
-
-    @Override
-    public List<Item> getUnwatchedUnReleased() {
-        return getUnwatched(GET_UNWATCHED_MOVIES_UNRELEASED, "UNWATCHED UNRELEASED");
     }
 
     @Override
@@ -223,6 +219,11 @@ public class MovieDatabase implements Database {
         }
         dbReadable.close();
         return items;
+    }
+
+    @Override
+    public List<Item> getAllSubitems(String id) {
+        return new ArrayList<>();
     }
 
     @Override

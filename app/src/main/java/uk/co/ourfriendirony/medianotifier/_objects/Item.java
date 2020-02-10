@@ -24,5 +24,7 @@ public interface Item {
 
     int countChildren();
 
-    Uri getExternalLink();
+    String getExternalLink();
+
+    Uri getExternalUrl();
 }

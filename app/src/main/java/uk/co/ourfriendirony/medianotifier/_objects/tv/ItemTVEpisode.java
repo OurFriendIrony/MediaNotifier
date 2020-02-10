@@ -1,4 +1,4 @@
-package uk.co.ourfriendirony.medianotifier._objects.movie;
+package uk.co.ourfriendirony.medianotifier._objects.tv;
 
 import android.net.Uri;
 
@@ -9,10 +9,9 @@ import java.util.List;
 import java.util.Locale;
 
 import uk.co.ourfriendirony.medianotifier._objects.Item;
-import uk.co.ourfriendirony.medianotifier.clients.objects.movie.get.MovieGet;
-import uk.co.ourfriendirony.medianotifier.clients.objects.movie.search.MovieSearchResult;
+import uk.co.ourfriendirony.medianotifier.clients.objects.tv.get.TVSeasonGetEpisode;
 
-public class ItemMovie implements Item {
+public class ItemTVEpisode implements Item {
     private String id;
     private String title;
     private String subtitle = "";
@@ -21,33 +20,22 @@ public class ItemMovie implements Item {
     private String externalUrl;
     private List<Item> children = new ArrayList<>();
 
-    private static final String IMDB_URL = "http://www.imdb.com/title/";
-
-    public ItemMovie(MovieGet movie) {
-        this.id = String.valueOf(movie.getId());
-        this.title = movie.getTitle();
-        if (movie.getBelongsToCollection() != null)
-            this.subtitle = movie.getBelongsToCollection().getName();
-        this.description = movie.getOverview();
-        this.releaseDate = movie.getReleaseDate();
-        if (movie.getImdbId() != null)
-            this.externalUrl = IMDB_URL + movie.getImdbId();
+    public ItemTVEpisode(TVSeasonGetEpisode episode, String showId) {
+        this.id = String.valueOf(showId);
+        this.title = episode.getName();
+        this.subtitle = String.format("S%02d", episode.getSeasonNumber()) + String.format("E%02d", episode.getEpisodeNumber());
+        this.description = episode.getOverview();
+        this.releaseDate = episode.getAirDate();
     }
 
-    public ItemMovie(MovieSearchResult movie) {
-        this.id = String.valueOf(movie.getId());
-        this.title = movie.getTitle();
-        this.description = movie.getOverview();
-        this.releaseDate = movie.getReleaseDate();
-    }
-
-    public ItemMovie(String id, String title, String subtitle, String description, Date releaseDate, String externalUrl, List<Item> children) {
+    public ItemTVEpisode(String id, String title, String subtitle, String description, Date releaseDate, String externalUrl, List<Item> children) {
         this.id = id;
         this.title = title;
         this.subtitle = subtitle;
         this.description = description;
         this.releaseDate = releaseDate;
-        this.externalUrl = externalUrl;
+        if (externalUrl != null)
+            this.externalUrl = externalUrl;
         this.children = children;
     }
 
@@ -109,6 +97,6 @@ public class ItemMovie implements Item {
     }
 
     public String toString() {
-        return "Movie: " + getTitle() + " > " + getReleaseDateFull() + " > Children " + countChildren();
+        return "TVEpisode: " + getSubtitle() + " > " + getTitle() + " > " + getReleaseDateFull();
     }
 }

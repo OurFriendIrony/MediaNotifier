@@ -25,7 +25,6 @@ import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier._objects.Item;
-import uk.co.ourfriendirony.medianotifier._objects.tv.TVShow;
 import uk.co.ourfriendirony.medianotifier.activities.artist.ActivityArtist;
 import uk.co.ourfriendirony.medianotifier.activities.artist.ActivityArtistFind;
 import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovie;
@@ -156,7 +155,7 @@ public class ActivityMain extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        int numEpisodes = tvShowDatabase.countUnwatchedEpisodesReleased();
+        int numEpisodes = tvShowDatabase.countUnwatchedReleased();
         int numMovies = movieDatabase.countUnwatchedReleased();
         int numArtists = 0;
 
@@ -230,8 +229,8 @@ public class ActivityMain extends AppCompatActivity {
                 return true;
 
             case R.id.action_refresh:
-                List<TVShow> tvShows = tvShowDatabase.getAllTVShows();
-                TVShow[] tvShowsArray = new TVShow[tvShows.size()];
+                List<Item> tvShows = tvShowDatabase.getAll();
+                Item[] tvShowsArray = new Item[tvShows.size()];
                 tvShows.toArray(tvShowsArray); // fill the array
                 new TVShowUpdateAsyncTask().execute(tvShowsArray);
 

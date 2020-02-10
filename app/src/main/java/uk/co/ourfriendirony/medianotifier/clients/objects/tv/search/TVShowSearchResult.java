@@ -2,11 +2,13 @@ package uk.co.ourfriendirony.medianotifier.clients.objects.tv.search;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,8 +43,9 @@ public class TVShowSearchResult {
     private List<String> originCountry = null;
     @JsonProperty("vote_count")
     private Integer voteCount;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @JsonProperty("first_air_date")
-    private String firstAirDate;
+    private Date firstAirDate;
     @JsonProperty("backdrop_path")
     private String backdropPath;
     @JsonProperty("original_language")
@@ -119,12 +122,12 @@ public class TVShowSearchResult {
     }
 
     @JsonProperty("first_air_date")
-    public String getFirstAirDate() {
+    public Date getFirstAirDate() {
         return firstAirDate;
     }
 
     @JsonProperty("first_air_date")
-    public void setFirstAirDate(String firstAirDate) {
+    public void setFirstAirDate(Date firstAirDate) {
         this.firstAirDate = firstAirDate;
     }
 

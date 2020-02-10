@@ -9,45 +9,45 @@ import java.util.List;
 import java.util.Locale;
 
 import uk.co.ourfriendirony.medianotifier._objects.Item;
-import uk.co.ourfriendirony.medianotifier.clients.objects.movie.get.MovieGet;
-import uk.co.ourfriendirony.medianotifier.clients.objects.movie.search.MovieSearchResult;
 import uk.co.ourfriendirony.medianotifier.clients.objects.tv.get.TVShowGet;
+import uk.co.ourfriendirony.medianotifier.clients.objects.tv.search.TVShowSearchResult;
 
-public class ItemShow implements Item {
+public class ItemTV implements Item {
     private String id;
     private String title;
     private String subtitle = "";
     private String description = "";
     private Date releaseDate;
-    private Uri externalUrl = null;
+    private String externalUrl;
     private List<Item> children = new ArrayList<>();
 
     private static final String IMDB_URL = "http://www.imdb.com/title/";
 
-    public ItemShow(TVShowGet tvShow) {
+    public ItemTV(TVShowGet tvShow, List<Item> children) {
         this.id = String.valueOf(tvShow.getId());
         this.title = tvShow.getName();
         this.description = tvShow.getOverview();
         this.releaseDate = tvShow.getFirstAirDate();
-        this.externalUrl = Uri.parse(IMDB_URL + tvShow.getImdbId());
+        if (tvShow.getExternalIds() != null && tvShow.getExternalIds().getImdbId() != null)
+            this.externalUrl = IMDB_URL + tvShow.getExternalIds().getImdbId();
+        this.children = children;
     }
 
-    public ItemShow(MovieSearchResult movie) {
-        this.id = String.valueOf(movie.getId());
-        this.title = movie.getTitle();
-        this.description = movie.getOverview();
-        this.releaseDate = movie.getReleaseDate();
+    public ItemTV(TVShowSearchResult item) {
+        this.id = String.valueOf(item.getId());
+        this.title = item.getName();
+        this.description = item.getOverview();
+        this.releaseDate = item.getFirstAirDate();
     }
 
-    public ItemShow(String id, String title, String subtitle, String description, Date releaseDate, String externalUrl, List<Item> children) {
+    public ItemTV(String id, String title, String subtitle, String description, Date releaseDate, String externalUrl, List<Item> children) {
         this.id = id;
         this.title = title;
         this.subtitle = subtitle;
         this.description = description;
         this.releaseDate = releaseDate;
-        this.externalUrl = Uri.parse(externalUrl);
+        this.externalUrl = externalUrl;
         this.children = children;
-        System.out.println(this.toString());
     }
 
     @Override
@@ -77,7 +77,7 @@ public class ItemShow implements Item {
 
     @Override
     public String getReleaseDateFull() {
-        return new SimpleDateFormat("yyyy-MM-dd", Locale.UK).format(releaseDate);
+        return new SimpleDateFormat("dd/MM/yyyy", Locale.UK).format(releaseDate);
     }
 
     @Override
@@ -96,11 +96,18 @@ public class ItemShow implements Item {
     }
 
     @Override
-    public Uri getExternalLink() {
+    public String getExternalLink() {
         return externalUrl;
     }
 
+    @Override
+    public Uri getExternalUrl() {
+        if (externalUrl != null)
+            return Uri.parse(externalUrl);
+        return null;
+    }
+
     public String toString() {
-        return getTitle() + " > " + getReleaseDateFull();
+        return "TVShow: " + getTitle() + " > " + getReleaseDateFull() + " > Episodes " + countChildren();
     }
 }

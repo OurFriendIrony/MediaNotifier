@@ -2,11 +2,13 @@ package uk.co.ourfriendirony.medianotifier.clients.objects.tv.get;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,8 +31,9 @@ import java.util.Map;
 })
 public class TVSeasonGetEpisode {
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @JsonProperty("air_date")
-    private String airDate;
+    private Date airDate;
     @JsonProperty("episode_number")
     private Integer episodeNumber;
     @JsonProperty("id")
@@ -51,7 +54,7 @@ public class TVSeasonGetEpisode {
     private Double voteAverage;
     @JsonProperty("vote_count")
     private Integer voteCount;
-    @JsonProperty("TVSeasonGetCrew")
+    @JsonProperty("crew")
     private List<TVSeasonGetCrew> TVSeasonGetCrew = null;
     @JsonProperty("guest_stars")
     private List<TVSeasonGetGuestStar> TVSeasonGetGuestStars = null;
@@ -59,12 +62,12 @@ public class TVSeasonGetEpisode {
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("air_date")
-    public String getAirDate() {
+    public Date getAirDate() {
         return airDate;
     }
 
     @JsonProperty("air_date")
-    public void setAirDate(String airDate) {
+    public void setAirDate(Date airDate) {
         this.airDate = airDate;
     }
 
@@ -168,12 +171,12 @@ public class TVSeasonGetEpisode {
         this.voteCount = voteCount;
     }
 
-    @JsonProperty("TVSeasonGetCrew")
+    @JsonProperty("crew")
     public List<TVSeasonGetCrew> getTVSeasonGetCrew() {
         return TVSeasonGetCrew;
     }
 
-    @JsonProperty("TVSeasonGetCrew")
+    @JsonProperty("crew")
     public void setTVSeasonGetCrew(List<TVSeasonGetCrew> TVSeasonGetCrew) {
         this.TVSeasonGetCrew = TVSeasonGetCrew;
     }

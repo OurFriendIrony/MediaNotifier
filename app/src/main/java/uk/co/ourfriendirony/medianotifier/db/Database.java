@@ -15,19 +15,21 @@ public interface Database {
 
     boolean getWatchedStatusAsBoolean(Item item);
 
+    void deleteAll();
+
     void delete(String id);
 
     int countUnwatchedReleased();
 
     List<Item> getUnwatchedReleased();
 
-    List<Item> getUnwatchedUnReleased();
-
     List<Item> getUnwatchedTotal();
 
     List<Item> getUnwatched(String getQuery, String logTag);
 
     List<Item> getAll();
+
+    List<Item> getAllSubitems(String id);
 
     void updateWatchedStatus(Item item, String watchedStatus);
 }

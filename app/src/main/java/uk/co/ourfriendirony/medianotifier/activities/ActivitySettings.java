@@ -86,7 +86,7 @@ public class ActivitySettings extends AppCompatActivity {
         buttonDeleteTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new TVShowDatabase(getApplicationContext()).deleteAllTVShows();
+                new TVShowDatabase(getApplicationContext()).deleteAll();
                 Toast.makeText(ActivitySettings.this, R.string.toast_db_table_cleared, Toast.LENGTH_SHORT).show();
             }
         });
@@ -94,7 +94,7 @@ public class ActivitySettings extends AppCompatActivity {
         buttonDeleteMovie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new MovieDatabase(getApplicationContext()).deleteAllMovies();
+                new MovieDatabase(getApplicationContext()).deleteAll();
                 Toast.makeText(ActivitySettings.this, R.string.toast_db_table_cleared, Toast.LENGTH_SHORT).show();
             }
         });

@@ -20,20 +20,19 @@ import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier._objects.Item;
-import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
+import uk.co.ourfriendirony.medianotifier.clients.TMDBClient;
+import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummary;
 
 public class ActivityMovieFind extends AppCompatActivity {
-    private MovieDatabase database;
-
-    private EditText findInput;
-    private ProgressBar findProgressBar;
-    private ListView findList;
+    private EditText input;
+    private ProgressBar progressBar;
+    private ListView listView;
     private List<Item> items = new ArrayList<>();
-    private MovieDatabaseClient client = new MovieDatabaseClient();
-    private MovieDatabase db;
+    private TMDBClient client = new TMDBClient();
+    private Database db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +43,11 @@ public class ActivityMovieFind extends AppCompatActivity {
 
         db = new MovieDatabase(getApplicationContext());
 
-        findInput = (EditText) findViewById(R.id.find_input);
-        findProgressBar = (ProgressBar) findViewById(R.id.find_progress);
-        findList = (ListView) findViewById(R.id.find_list);
+        input = (EditText) findViewById(R.id.find_input);
+        progressBar = (ProgressBar) findViewById(R.id.find_progress);
+        listView = (ListView) findViewById(R.id.find_list);
 
-        findInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        input.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
                 switch (actionId) {
@@ -65,7 +64,7 @@ public class ActivityMovieFind extends AppCompatActivity {
             }
         });
 
-        findList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView textViewID = (TextView) view.findViewById(R.id.list_item_generic_id);
@@ -80,15 +79,15 @@ public class ActivityMovieFind extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            findProgressBar.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
         protected List<Item> doInBackground(String... params) {
-            String string = params[0];
+            String query = params[0];
 
             try {
-                items = client.queryMovie(string);
+                items = client.queryMovie(query);
             } catch (IOException e) {
                 items = new ArrayList<>();
             }
@@ -97,11 +96,11 @@ public class ActivityMovieFind extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(List<Item> result) {
-            findProgressBar.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
 
             if (items.size() > 0) {
                 ListAdapterSummary adapter = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic, items, db);
-                findList.setAdapter(adapter);
+                listView.setAdapter(adapter);
             } else {
                 Toast.makeText(getBaseContext(), R.string.toast_no_results, Toast.LENGTH_LONG).show();
             }
@@ -115,7 +114,7 @@ public class ActivityMovieFind extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            findProgressBar.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -135,7 +134,7 @@ public class ActivityMovieFind extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String movieTitle) {
-            findProgressBar.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
             String toastMsg = "'" + movieTitle + "' " + getResources().getString(R.string.toast_db_added);
             Toast.makeText(getApplicationContext(), toastMsg, Toast.LENGTH_SHORT).show();
         }

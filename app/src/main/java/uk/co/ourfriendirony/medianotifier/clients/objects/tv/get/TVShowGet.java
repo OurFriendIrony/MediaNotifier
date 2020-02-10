@@ -33,7 +33,7 @@ import uk.co.ourfriendirony.medianotifier.clients.objects.movie.get.MovieGetProd
         "last_episode_to_air",
         "name",
         "next_episode_to_air",
-        "TVShowGetNetworks",
+        "networks",
         "number_of_episodes",
         "number_of_seasons",
         "origin_country",
@@ -43,7 +43,7 @@ import uk.co.ourfriendirony.medianotifier.clients.objects.movie.get.MovieGetProd
         "popularity",
         "poster_path",
         "production_companies",
-        "TVShowGetSeasons",
+        "seasons",
         "status",
         "type",
         "vote_average",
@@ -80,7 +80,7 @@ public class TVShowGet {
     private String name;
     @JsonProperty("next_episode_to_air")
     private Object nextEpisodeToAir;
-    @JsonProperty("TVShowGetNetworks")
+    @JsonProperty("networks")
     private List<TVShowGetNetwork> TVShowGetNetworks = null;
     @JsonProperty("number_of_episodes")
     private Integer numberOfEpisodes;
@@ -100,7 +100,7 @@ public class TVShowGet {
     private String posterPath;
     @JsonProperty("production_companies")
     private List<MovieGetProductionCompany> productionCompanies = null;
-    @JsonProperty("TVShowGetSeasons")
+    @JsonProperty("seasons")
     private List<TVShowGetSeason> TVShowGetSeasons = null;
     @JsonProperty("status")
     private String status;
@@ -245,12 +245,12 @@ public class TVShowGet {
         this.nextEpisodeToAir = nextEpisodeToAir;
     }
 
-    @JsonProperty("TVShowGetNetworks")
+    @JsonProperty("networks")
     public List<TVShowGetNetwork> getTVShowGetNetworks() {
         return TVShowGetNetworks;
     }
 
-    @JsonProperty("TVShowGetNetworks")
+    @JsonProperty("networks")
     public void setTVShowGetNetworks(List<TVShowGetNetwork> TVShowGetNetworks) {
         this.TVShowGetNetworks = TVShowGetNetworks;
     }
@@ -345,12 +345,12 @@ public class TVShowGet {
         this.productionCompanies = productionCompanies;
     }
 
-    @JsonProperty("TVShowGetSeasons")
+    @JsonProperty("seasons")
     public List<TVShowGetSeason> getTVShowGetSeasons() {
         return TVShowGetSeasons;
     }
 
-    @JsonProperty("TVShowGetSeasons")
+    @JsonProperty("seasons")
     public void setTVShowGetSeasons(List<TVShowGetSeason> TVShowGetSeasons) {
         this.TVShowGetSeasons = TVShowGetSeasons;
     }

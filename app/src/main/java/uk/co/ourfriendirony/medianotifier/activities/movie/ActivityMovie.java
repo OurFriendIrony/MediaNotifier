@@ -18,7 +18,7 @@ import java.util.List;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier._objects.Item;
 import uk.co.ourfriendirony.medianotifier.async.MovieUpdateAsyncTask;
-import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
+import uk.co.ourfriendirony.medianotifier.clients.TMDBClient;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
@@ -32,7 +32,7 @@ public class ActivityMovie extends AppCompatActivity {
     private ProgressBar loadPageProgressBar;
     private int currentItemPosition;
     //    private MovieDatabase database;
-    private MovieDatabaseClient client = new MovieDatabaseClient();
+    private TMDBClient client = new TMDBClient();
     private MovieDatabase db;
 
     @Override
@@ -81,7 +81,7 @@ public class ActivityMovie extends AppCompatActivity {
                 return true;
 
             case R.id.action_imdb:
-                Intent intent = IntentGenerator.getWebPageIntent(item.getExternalLink().toString());
+                Intent intent = IntentGenerator.getWebPageIntent(item.getExternalLink());
                 startActivity(intent);
                 return true;
 
@@ -92,8 +92,8 @@ public class ActivityMovie extends AppCompatActivity {
 
     private void display() {
         if (items.size() > 0) {
-            ListAdapterSummary listAdapterSummaryMovie = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, items, db);
-            spinnerView.setAdapter(listAdapterSummaryMovie);
+            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, items, db);
+            spinnerView.setAdapter(listAdapterSummary);
             display(0);
         }
     }
@@ -117,7 +117,6 @@ public class ActivityMovie extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(String... params) {
-            System.out.println(db.getClass());
             items = db.getAll();
             return null;
         }
