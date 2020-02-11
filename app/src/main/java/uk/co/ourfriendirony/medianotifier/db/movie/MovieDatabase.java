@@ -76,7 +76,7 @@ public class MovieDatabase implements Database {
         ContentValues dbRow = new ContentValues();
         dbRow.put(MovieDatabaseDefinition.TM_ID, item.getId());
         dbRow.put(MovieDatabaseDefinition.TM_TITLE, cleanTitle(item.getTitle()));
-        dbRow.put(MovieDatabaseDefinition.TM_IMDB, item.getExternalLink().toString());
+        dbRow.put(MovieDatabaseDefinition.TM_IMDB, item.getExternalLink());
         dbRow.put(MovieDatabaseDefinition.TM_DATE, dateToString(item.getReleaseDate()));
         dbRow.put(MovieDatabaseDefinition.TM_OVERVIEW, item.getDescription());
         dbRow.put(MovieDatabaseDefinition.TM_TAGLINE, "");
@@ -86,6 +86,7 @@ public class MovieDatabase implements Database {
         } else {
             dbRow.put(MovieDatabaseDefinition.TM_WATCHED, currentWatchedStatus);
         }
+        Log.d("[DB INSERT MOVIE]", dbRow.toString());
         dbWritable.replace(MovieDatabaseDefinition.TABLE_MOVIES, null, dbRow);
     }
 

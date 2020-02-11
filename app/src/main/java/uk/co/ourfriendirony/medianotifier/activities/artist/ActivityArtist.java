@@ -15,22 +15,19 @@ import java.util.Collections;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier._objects.artist.Artist;
+import uk.co.ourfriendirony.medianotifier._objects.Item;
 import uk.co.ourfriendirony.medianotifier.async.ArtistUpdateAsyncTask;
-import uk.co.ourfriendirony.medianotifier.clients.DiscogsDatabaseClient;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
-import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummaryArtist;
+import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummary;
 
 public class ActivityArtist extends AppCompatActivity {
-
-    private Spinner artistSpinner;
-    private ListView artistList;
-    private List<Artist> artists;
+    private Spinner spinnerView;
+    private ListView listView;
+    private List<Item> items;
     private ProgressBar loadPageProgressBar;
     private int currentArtistPosition;
-    private ArtistDatabase database;
-    private DiscogsDatabaseClient client = new DiscogsDatabaseClient();
+    private ArtistDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,17 +36,16 @@ public class ActivityArtist extends AppCompatActivity {
         super.getSupportActionBar().setTitle(R.string.title_library_artist);
         super.setContentView(R.layout.activity_artist);
 
-        database = new ArtistDatabase(getApplicationContext());
+        db = new ArtistDatabase(getApplicationContext());
 
-        artistSpinner = (Spinner) findViewById(R.id.artist_spinner);
-        artistList = (ListView) findViewById(R.id.artist_list);
+        spinnerView = (Spinner) findViewById(R.id.artist_spinner);
+        listView = (ListView) findViewById(R.id.artist_list);
         loadPageProgressBar = (ProgressBar) findViewById(R.id.artist_progress);
         new ArtistListAsyncTask().execute();
-
-        artistSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int artistPosition, long id) {
-                displayArtists(artistPosition);
+            public void onItemSelected(AdapterView<?> parent, View view, int itemPos, long id) {
+                display(itemPos);
             }
 
             @Override
@@ -65,36 +61,36 @@ public class ActivityArtist extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Artist currentArtist = artists.get(currentArtistPosition);
-        switch (item.getItemId()) {
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        Item item = items.get(currentArtistPosition);
+        switch (menuItem.getItemId()) {
             case R.id.action_refresh:
-                new ArtistUpdateAsyncTask().execute(currentArtist);
+                new ArtistUpdateAsyncTask().execute(item);
                 this.recreate();
                 return true;
 
             case R.id.action_remove:
-                database.deleteArtist(currentArtist.getId());
+                db.delete(item.getId());
                 this.recreate();
                 return true;
 
             default:
-                return super.onOptionsItemSelected(item);
+                return super.onOptionsItemSelected(menuItem);
         }
     }
 
-    private void displayArtists() {
-        if (artists.size() > 0) {
-            ListAdapterSummaryArtist listAdapterSummaryArtist = new ListAdapterSummaryArtist(getBaseContext(), R.layout.list_item_generic_title, artists);
-            artistSpinner.setAdapter(listAdapterSummaryArtist);
-            displayArtists(0);
+    private void display() {
+        if (items.size() > 0) {
+            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, items, db);
+            spinnerView.setAdapter(listAdapterSummary);
+            display(0);
         }
     }
 
-    private void displayArtists(int artistPosition) {
-        currentArtistPosition = artistPosition;
-        ListAdapterSummaryArtist artistListAdapter = new ListAdapterSummaryArtist(getBaseContext(), R.layout.list_item_generic_toggle, Collections.singletonList(artists.get(artistPosition)));
-        artistList.setAdapter(artistListAdapter);
+    private void display(int itemPos) {
+        currentArtistPosition = itemPos;
+        ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_toggle, Collections.singletonList(items.get(itemPos)), db);
+        listView.setAdapter(listAdapterSummary);
     }
 
     private class ArtistListAsyncTask extends AsyncTask<String, Void, Void> {
@@ -110,14 +106,14 @@ public class ActivityArtist extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(String... params) {
-            artists = database.getAllArtists();
+            items = db.getAll();
             return null;
         }
 
         @Override
         protected void onPostExecute(Void x) {
             loadPageProgressBar.setVisibility(View.GONE);
-            displayArtists();
+            display();
         }
     }
 }

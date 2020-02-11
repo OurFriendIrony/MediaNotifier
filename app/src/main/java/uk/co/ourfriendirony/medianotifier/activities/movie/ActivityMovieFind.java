@@ -85,7 +85,6 @@ public class ActivityMovieFind extends AppCompatActivity {
         @Override
         protected List<Item> doInBackground(String... params) {
             String query = params[0];
-
             try {
                 items = client.queryMovie(query);
             } catch (IOException e) {

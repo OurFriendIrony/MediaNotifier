@@ -4,13 +4,13 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import uk.co.ourfriendirony.medianotifier._objects.artist.Artist;
+import uk.co.ourfriendirony.medianotifier._objects.Item;
 import uk.co.ourfriendirony.medianotifier.clients.DiscogsDatabaseClient;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
 
 import static uk.co.ourfriendirony.medianotifier.general.StaticContext.getStaticContext;
 
-public class ArtistUpdateAsyncTask extends AsyncTask<Artist, Void, String> {
+public class ArtistUpdateAsyncTask extends AsyncTask<Item, Void, String> {
         /* Background Task to Update an existing item */
 
     @Override
@@ -19,22 +19,22 @@ public class ArtistUpdateAsyncTask extends AsyncTask<Artist, Void, String> {
     }
 
     @Override
-    protected String doInBackground(Artist... artists) {
+    protected String doInBackground(Item... items) {
         int failed = 0;
         String result = "";
 
-        if (artists.length == 1) {
-            result += "'" + artists[0].getTitle() + "' Updated";
+        if (items.length == 1) {
+            result += "'" + items[0].getTitle() + "' Updated";
         } else {
             result += "Artists Updated";
         }
 
-        for (Artist artist : artists) {
+        for (Item item : items) {
             try {
-                artist = new DiscogsDatabaseClient().getArtist(artist.getId());
-                new ArtistDatabase(getStaticContext()).updateArtist(artist);
+                item = new DiscogsDatabaseClient().getArtist(Integer.parseInt(item.getId()));
+                new ArtistDatabase(getStaticContext()).update(item);
             } catch (Exception e) {
-                Log.e("FAILED_UPDATE", artist.getTitle() + ": " + e.getMessage());
+                Log.e("FAILED_UPDATE", item.getTitle() + ": " + e.getMessage());
                 failed += 1;
             }
         }

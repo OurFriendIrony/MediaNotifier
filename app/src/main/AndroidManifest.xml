@@ -30,7 +30,7 @@
         <activity android:name=".activities.tv.ActivityTVUnwatched" />
         <activity android:name=".activities.artist.ActivityArtist" />
         <activity android:name=".activities.artist.ActivityArtistFind" />
-        <activity android:name=".activities.artist.ActivityArtistNotifications" />
+
 
         <receiver android:name=".notifier.BootReceiver">
             <intent-filter>

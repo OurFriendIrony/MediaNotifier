@@ -18,21 +18,17 @@ import java.util.List;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier._objects.Item;
 import uk.co.ourfriendirony.medianotifier.async.MovieUpdateAsyncTask;
-import uk.co.ourfriendirony.medianotifier.clients.TMDBClient;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummary;
 
 public class ActivityMovie extends AppCompatActivity {
-
     private Spinner spinnerView;
     private ListView listView;
     private List<Item> items;
     private ProgressBar loadPageProgressBar;
     private int currentItemPosition;
-    //    private MovieDatabase database;
-    private TMDBClient client = new TMDBClient();
     private MovieDatabase db;
 
     @Override

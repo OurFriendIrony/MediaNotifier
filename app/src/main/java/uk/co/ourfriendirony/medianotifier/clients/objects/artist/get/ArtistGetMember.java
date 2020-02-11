@@ -1,4 +1,5 @@
-package uk.co.ourfriendirony.medianotifier._objects.artist;
+package uk.co.ourfriendirony.medianotifier.clients.objects.artist.get;
+
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -12,20 +13,43 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
+        "active",
+        "resource_url",
         "id",
-        "name",
-        "profile",
-        "date"
+        "name"
 })
-public class Artist {
+
+public class ArtistGetMember {
+    @JsonProperty("active")
+    private Boolean active;
+    @JsonProperty("resource_url")
+    private String resourceUrl;
     @JsonProperty("id")
     private Integer id;
     @JsonProperty("name")
     private String name;
-    @JsonProperty("profile")
-    private String overview;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+    @JsonProperty("active")
+    public Boolean getActive() {
+        return active;
+    }
+
+    @JsonProperty("active")
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    @JsonProperty("resource_url")
+    public String getResourceUrl() {
+        return resourceUrl;
+    }
+
+    @JsonProperty("resource_url")
+    public void setResourceUrl(String resourceUrl) {
+        this.resourceUrl = resourceUrl;
+    }
 
     @JsonProperty("id")
     public Integer getId() {
@@ -35,16 +59,6 @@ public class Artist {
     @JsonProperty("id")
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    @JsonProperty("title")
-    public String getTitle() {
-        return name;
-    }
-
-    @JsonProperty("title")
-    public void setTitle(String title) {
-        this.name = title;
     }
 
     @JsonProperty("name")
@@ -57,16 +71,6 @@ public class Artist {
         this.name = name;
     }
 
-    @JsonProperty("profile")
-    public String getOverview() {
-        return overview;
-    }
-
-    @JsonProperty("profile")
-    public void setOverview(String profile) {
-        this.overview = profile;
-    }
-
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
@@ -77,7 +81,4 @@ public class Artist {
         this.additionalProperties.put(name, value);
     }
 
-    public String getIdAsString() {
-        return String.valueOf(id);
-    }
 }

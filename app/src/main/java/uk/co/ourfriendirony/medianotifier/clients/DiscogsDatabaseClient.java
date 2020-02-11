@@ -3,10 +3,14 @@ package uk.co.ourfriendirony.medianotifier.clients;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-import uk.co.ourfriendirony.medianotifier._objects.artist.Artist;
-import uk.co.ourfriendirony.medianotifier._objects.artist.ArtistFinds;
+import uk.co.ourfriendirony.medianotifier._objects.Item;
+import uk.co.ourfriendirony.medianotifier._objects.artist.ItemArtist;
+import uk.co.ourfriendirony.medianotifier.clients.objects.artist.get.ArtistGet;
+import uk.co.ourfriendirony.medianotifier.clients.objects.artist.search.ArtistSearch;
+import uk.co.ourfriendirony.medianotifier.clients.objects.artist.search.ArtistSearchResult;
 
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanUrl;
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.replaceTokens;
@@ -26,19 +30,23 @@ public class DiscogsDatabaseClient extends AbstractClient {
 
     private String payload;
 
-    public List<Artist> queryArtist(String artist) throws IOException {
+    public List<Item> queryArtist(String artist) throws IOException {
         payload = httpGetRequest(
                 replaceTokens(URL_ARTIST_QUERY, "@NAME@", cleanUrl(artist))
         );
-        ArtistFinds query = OBJECT_MAPPER.readValue(payload, ArtistFinds.class);
-        return query.getArtists();
+        List<Item> items = new ArrayList<>();
+        ArtistSearch rawSearch = OBJECT_MAPPER.readValue(payload, ArtistSearch.class);
+        for (ArtistSearchResult rawResult : rawSearch.getResults()) {
+            items.add(new ItemArtist(rawResult));
+        }
+        return items;
     }
 
-    public Artist getArtist(int artistID) throws IOException {
+    public Item getArtist(int artistID) throws IOException {
         payload = httpGetRequest(
                 replaceTokens(URL_ARTIST_ID, "@ID@", Integer.toString(artistID))
         );
-        Artist artist = OBJECT_MAPPER.readValue(payload, Artist.class);
-        return artist;
+        ArtistGet artist = OBJECT_MAPPER.readValue(payload, ArtistGet.class);
+        return new ItemArtist(artist);
     }
 }

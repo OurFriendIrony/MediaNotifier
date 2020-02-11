@@ -102,7 +102,7 @@ public class ActivitySettings extends AppCompatActivity {
         buttonDeleteArtist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new ArtistDatabase(getApplicationContext()).deleteAllArtists();
+                new ArtistDatabase(getApplicationContext()).deleteAll();
                 Toast.makeText(ActivitySettings.this, R.string.toast_db_table_cleared, Toast.LENGTH_SHORT).show();
             }
         });
