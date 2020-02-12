@@ -20,7 +20,7 @@ import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier._objects.Item;
-import uk.co.ourfriendirony.medianotifier.clients.DiscogsDatabaseClient;
+import uk.co.ourfriendirony.medianotifier.clients.DiscogsClient;
 import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
@@ -31,7 +31,7 @@ public class ActivityArtistFind extends AppCompatActivity {
     private ProgressBar progressBar;
     private ListView listView;
     private List<Item> items = new ArrayList<>();
-    private DiscogsDatabaseClient client = new DiscogsDatabaseClient();
+    private DiscogsClient client = new DiscogsClient();
     private Database database;
 
     @Override

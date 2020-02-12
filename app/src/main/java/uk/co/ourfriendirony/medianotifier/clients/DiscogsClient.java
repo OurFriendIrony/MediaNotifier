@@ -15,7 +15,7 @@ import uk.co.ourfriendirony.medianotifier.clients.objects.artist.search.ArtistSe
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanUrl;
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.replaceTokens;
 
-public class DiscogsDatabaseClient extends AbstractClient {
+public class DiscogsClient extends AbstractClient {
     private static final String API_KEY = "DbgZtMTTICHMGzrmeSZZ";
     private static final String API_SECRET = "ZbUHjTuBkPFLaJFaiJIDnFESiqEOequW";
 
