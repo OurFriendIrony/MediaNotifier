@@ -9,20 +9,20 @@ public class TVShowDatabaseDefinition extends SQLiteOpenHelper {
     public static final String WATCHED_FALSE = "0";
     public static final String WATCHED_TRUE = "1";
     static final String TABLE_TVSHOWS = "tv_shows";
-    static final String TT_ID = "show_id";
-    static final String TT_TITLE = "show_title";
-    static final String TT_SUBTITLE = "show_subtitle";
-    static final String TT_IMDB = "show_imdb_id";
-    static final String TT_DATE = "show_air_date";
-    static final String TT_OVERVIEW = "show_overview";
+    public static final String TT_ID = "show_id";
+    public static final String TT_TITLE = "show_title";
+    public static final String TT_SUBTITLE = "show_subtitle";
+    public static final String TT_IMDB = "show_imdb_id";
+    public static final String TT_DATE = "show_air_date";
+    public static final String TT_OVERVIEW = "show_overview";
     static final String TT_WATCHED = "show_watched";
     static final String TABLE_TVSHOWS_EPISODES = "tv_shows_episodes";
-    static final String TTSE_ID = "show_id";
-    static final String TTSE_TITLE = "episode_title";
-    static final String TTSE_SUBTITLE = "episode_subtitle";
-    static final String TTSE_IMDB = "episode_imdb_id";
-    static final String TTSE_DATE = "episode_air_date";
-    static final String TTSE_OVERVIEW = "episode_overview";
+    public static final String TTSE_ID = "show_id";
+    public static final String TTSE_TITLE = "episode_title";
+    public static final String TTSE_SUBTITLE = "episode_subtitle";
+    public static final String TTSE_IMDB = "episode_imdb_id";
+    public static final String TTSE_DATE = "episode_air_date";
+    public static final String TTSE_OVERVIEW = "episode_overview";
     static final String TTSE_WATCHED = "episode_watched";
     private static final String DATABASE_NAME = "tv_shows";
     private static final int DATABASE_VERSION = 2;
@@ -33,8 +33,7 @@ public class TVShowDatabaseDefinition extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.v(String.valueOf(this.getClass()), "onCreate");
-
+        Log.d("[DB CREATE]", String.valueOf(this.getClass()));
         db.execSQL("CREATE TABLE " + TABLE_TVSHOWS + " (" +
                 TT_ID + " INTEGER, " +
                 TT_TITLE + " TEXT, " +
@@ -45,7 +44,6 @@ public class TVShowDatabaseDefinition extends SQLiteOpenHelper {
                 TT_WATCHED + " INTEGER DEFAULT " + WATCHED_FALSE + ", " +
                 "PRIMARY KEY (" + TT_ID + ")" +
                 ")");
-
 
         db.execSQL("CREATE TABLE " + TABLE_TVSHOWS_EPISODES + " (" +
                 TTSE_ID + " INTEGER, " +
@@ -61,8 +59,7 @@ public class TVShowDatabaseDefinition extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.v(String.valueOf(this.getClass()), "onUpdate: old=" + oldVersion + " new=" + newVersion);
-
+        Log.d("[DB UPGRADE]", String.valueOf(this.getClass()) + " version: " + oldVersion + " -> " + newVersion);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TVSHOWS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TVSHOWS_EPISODES);
         onCreate(db);

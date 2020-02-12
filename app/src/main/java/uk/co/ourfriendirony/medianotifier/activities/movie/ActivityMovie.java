@@ -16,7 +16,7 @@ import java.util.Collections;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier._objects.Item;
+import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 import uk.co.ourfriendirony.medianotifier.async.MovieUpdateAsyncTask;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
@@ -26,7 +26,7 @@ import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummary;
 public class ActivityMovie extends AppCompatActivity {
     private Spinner spinnerView;
     private ListView listView;
-    private List<Item> items;
+    private List<MediaItem> mediaItems;
     private ProgressBar loadPageProgressBar;
     private int currentItemPosition;
     private MovieDatabase db;
@@ -64,20 +64,20 @@ public class ActivityMovie extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
-        Item item = items.get(currentItemPosition);
+        MediaItem mediaItem = mediaItems.get(currentItemPosition);
         switch (menuItem.getItemId()) {
             case R.id.action_refresh:
-                new MovieUpdateAsyncTask().execute(item);
+                new MovieUpdateAsyncTask().execute(mediaItem);
                 this.recreate();
                 return true;
 
             case R.id.action_remove:
-                db.delete(item.getId());
+                db.delete(mediaItem.getId());
                 this.recreate();
                 return true;
 
             case R.id.action_imdb:
-                Intent intent = IntentGenerator.getWebPageIntent(item.getExternalLink());
+                Intent intent = IntentGenerator.getWebPageIntent(mediaItem.getExternalLink());
                 startActivity(intent);
                 return true;
 
@@ -87,8 +87,8 @@ public class ActivityMovie extends AppCompatActivity {
     }
 
     private void display() {
-        if (items.size() > 0) {
-            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, items, db);
+        if (mediaItems.size() > 0) {
+            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, mediaItems, db);
             spinnerView.setAdapter(listAdapterSummary);
             display(0);
         }
@@ -96,7 +96,7 @@ public class ActivityMovie extends AppCompatActivity {
 
     private void display(int itemPosition) {
         currentItemPosition = itemPosition;
-        ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_toggle, Collections.singletonList(items.get(itemPosition)), db);
+        ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_toggle, Collections.singletonList(mediaItems.get(itemPosition)), db);
         listView.setAdapter(listAdapterSummary);
     }
 
@@ -113,7 +113,7 @@ public class ActivityMovie extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(String... params) {
-            items = db.getAll();
+            mediaItems = db.getAll();
             return null;
         }
 

@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier._objects.Item;
+import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 import uk.co.ourfriendirony.medianotifier.clients.DiscogsClient;
 import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
@@ -30,7 +30,7 @@ public class ActivityArtistFind extends AppCompatActivity {
     private EditText input;
     private ProgressBar progressBar;
     private ListView listView;
-    private List<Item> items = new ArrayList<>();
+    private List<MediaItem> mediaItems = new ArrayList<>();
     private DiscogsClient client = new DiscogsClient();
     private Database database;
 
@@ -74,7 +74,7 @@ public class ActivityArtistFind extends AppCompatActivity {
         });
     }
 
-    private class ArtistFindAsyncTask extends AsyncTask<String, Void, List<Item>> {
+    private class ArtistFindAsyncTask extends AsyncTask<String, Void, List<MediaItem>> {
 
         @Override
         protected void onPreExecute() {
@@ -83,22 +83,22 @@ public class ActivityArtistFind extends AppCompatActivity {
         }
 
         @Override
-        protected List<Item> doInBackground(String... params) {
+        protected List<MediaItem> doInBackground(String... params) {
             String query = params[0];
             try {
-                items = client.queryArtist(query);
+                mediaItems = client.queryArtist(query);
             } catch (IOException e) {
-                items = new ArrayList<>();
+                mediaItems = new ArrayList<>();
             }
-            return items;
+            return mediaItems;
         }
 
         @Override
-        protected void onPostExecute(List<Item> result) {
+        protected void onPostExecute(List<MediaItem> result) {
             progressBar.setVisibility(View.GONE);
 
-            if (items.size() > 0) {
-                ListAdapterSummary adapter = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic, items, database);
+            if (mediaItems.size() > 0) {
+                ListAdapterSummary adapter = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic, mediaItems, database);
                 listView.setAdapter(adapter);
             } else {
                 Toast.makeText(getBaseContext(), R.string.toast_no_results, Toast.LENGTH_LONG).show();
@@ -121,7 +121,7 @@ public class ActivityArtistFind extends AppCompatActivity {
             String artistId = params[0];
             String artistTitle = params[1];
 
-            Item artist;
+            MediaItem artist;
             try {
                 artist = client.getArtist(Integer.parseInt(artistId));
                 database.add(artist);

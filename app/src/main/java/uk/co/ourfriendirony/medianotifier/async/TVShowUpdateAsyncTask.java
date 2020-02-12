@@ -4,13 +4,13 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import uk.co.ourfriendirony.medianotifier._objects.Item;
+import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 import uk.co.ourfriendirony.medianotifier.clients.TMDBClient;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
 
 import static uk.co.ourfriendirony.medianotifier.general.StaticContext.getStaticContext;
 
-public class TVShowUpdateAsyncTask extends AsyncTask<Item, Void, String> {
+public class TVShowUpdateAsyncTask extends AsyncTask<MediaItem, Void, String> {
         /* Background Task to Update an existing item */
 
     @Override
@@ -19,7 +19,7 @@ public class TVShowUpdateAsyncTask extends AsyncTask<Item, Void, String> {
     }
 
     @Override
-    protected String doInBackground(Item... tvShows) {
+    protected String doInBackground(MediaItem... tvShows) {
         int failed = 0;
         String result = "";
 
@@ -28,7 +28,7 @@ public class TVShowUpdateAsyncTask extends AsyncTask<Item, Void, String> {
         } else {
             result += "TV Shows Updated";
         }
-        for (Item tvShow : tvShows) {
+        for (MediaItem tvShow : tvShows) {
             try {
                 tvShow = new TMDBClient().getTVShow(Integer.parseInt(tvShow.getId()));
                 new TVShowDatabase(getStaticContext()).update(tvShow);

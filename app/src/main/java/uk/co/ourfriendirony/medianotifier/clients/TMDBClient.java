@@ -6,10 +6,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import uk.co.ourfriendirony.medianotifier._objects.Item;
-import uk.co.ourfriendirony.medianotifier._objects.movie.ItemMovie;
-import uk.co.ourfriendirony.medianotifier._objects.tv.ItemTV;
-import uk.co.ourfriendirony.medianotifier._objects.tv.ItemTVEpisode;
+import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
+import uk.co.ourfriendirony.medianotifier.mediaitem.movie.Movie;
+import uk.co.ourfriendirony.medianotifier.mediaitem.tv.TVShow;
+import uk.co.ourfriendirony.medianotifier.mediaitem.tv.TVEpisode;
 import uk.co.ourfriendirony.medianotifier.clients.objects.movie.get.MovieGet;
 import uk.co.ourfriendirony.medianotifier.clients.objects.movie.search.MovieSearch;
 import uk.co.ourfriendirony.medianotifier.clients.objects.movie.search.MovieSearchResult;
@@ -38,61 +38,61 @@ public class TMDBClient extends AbstractClient {
 
     private String payload;
 
-    public List<Item> queryMovie(String name) throws IOException {
+    public List<MediaItem> queryMovie(String name) throws IOException {
         payload = httpGetRequest(
                 replaceTokens(URL_MOVIE_QUERY, "@NAME@", cleanUrl(name))
         );
-        List<Item> items = new ArrayList<>();
+        List<MediaItem> mediaItems = new ArrayList<>();
         MovieSearch ms = OBJECT_MAPPER.readValue(payload, MovieSearch.class);
         for (MovieSearchResult msr : ms.getResults()) {
-            items.add(new ItemMovie(msr));
+            mediaItems.add(new Movie(msr));
         }
-        return items;
+        return mediaItems;
     }
 
-    public List<Item> queryTVShow(String name) throws IOException {
+    public List<MediaItem> queryTVShow(String name) throws IOException {
         payload = httpGetRequest(
                 replaceTokens(URL_TVSHOW_QUERY, "@NAME@", cleanUrl(name))
         );
         TVShowSearch ts = OBJECT_MAPPER.readValue(payload, TVShowSearch.class);
-        List<Item> items = new ArrayList<>();
+        List<MediaItem> mediaItems = new ArrayList<>();
         for (TVShowSearchResult tsr : ts.getResults()) {
-            items.add(new ItemTV(tsr));
+            mediaItems.add(new TVShow(tsr));
         }
-        return items;
+        return mediaItems;
     }
 
-    public Item getMovie(int movieID) throws IOException {
+    public MediaItem getMovie(int movieID) throws IOException {
         payload = httpGetRequest(
                 replaceTokens(URL_MOVIE_ID, "@ID@", Integer.toString(movieID))
         );
         MovieGet mg = OBJECT_MAPPER.readValue(payload, MovieGet.class);
-        return new ItemMovie(mg);
+        return new Movie(mg);
     }
 
-    public Item getTVShow(int tvShowID) throws IOException {
+    public MediaItem getTVShow(int tvShowID) throws IOException {
         payload = httpGetRequest(
                 replaceTokens(URL_TVSHOW_ID, "@ID@", Integer.toString(tvShowID))
         );
         TVShowGet tg = OBJECT_MAPPER.readValue(payload, TVShowGet.class);
-        List<Item> items = new ArrayList<>();
+        List<MediaItem> mediaItems = new ArrayList<>();
         for (int seasonID = 1; seasonID <= tg.getNumberOfSeasons(); seasonID++) {
-            items.addAll(getTVShowEpisodes(tvShowID, seasonID));
+            mediaItems.addAll(getTVShowEpisodes(tvShowID, seasonID));
         }
-        return new ItemTV(tg, items);
+        return new TVShow(tg, mediaItems);
     }
 
-    private List<Item> getTVShowEpisodes(int tvShowID, int seasonNo) throws IOException {
+    private List<MediaItem> getTVShowEpisodes(int tvShowID, int seasonNo) throws IOException {
         payload = httpGetRequest(
                 replaceTokens(URL_TVSHOW_ID_SEASON,
                         new String[]{"@ID@", "@SEASON@"},
                         new String[]{Integer.toString(tvShowID), Integer.toString(seasonNo)})
         );
         TVSeasonGet tsg = OBJECT_MAPPER.readValue(payload, TVSeasonGet.class);
-        List<Item> items = new ArrayList<>();
+        List<MediaItem> mediaItems = new ArrayList<>();
         for (TVSeasonGetEpisode e : tsg.getTVSeasonGetEpisodes()) {
-            items.add(new ItemTVEpisode(e, Integer.toString(tvShowID)));
+            mediaItems.add(new TVEpisode(e, Integer.toString(tvShowID)));
         }
-        return items;
+        return mediaItems;
     }
 }

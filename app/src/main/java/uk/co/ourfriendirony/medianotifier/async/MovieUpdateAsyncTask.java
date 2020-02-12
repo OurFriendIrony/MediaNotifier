@@ -4,13 +4,13 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import uk.co.ourfriendirony.medianotifier._objects.Item;
+import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 import uk.co.ourfriendirony.medianotifier.clients.TMDBClient;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
 
 import static uk.co.ourfriendirony.medianotifier.general.StaticContext.getStaticContext;
 
-public class MovieUpdateAsyncTask extends AsyncTask<Item, Void, String> {
+public class MovieUpdateAsyncTask extends AsyncTask<MediaItem, Void, String> {
         /* Background Task to Update an existing item */
 
     @Override
@@ -19,22 +19,22 @@ public class MovieUpdateAsyncTask extends AsyncTask<Item, Void, String> {
     }
 
     @Override
-    protected String doInBackground(Item... items) {
+    protected String doInBackground(MediaItem... mediaItems) {
         int failed = 0;
         String result = "";
 
-        if (items.length == 1) {
-            result += "'" + items[0].getTitle() + "' Updated";
+        if (mediaItems.length == 1) {
+            result += "'" + mediaItems[0].getTitle() + "' Updated";
         } else {
             result += "Movies Updated";
         }
 
-        for (Item item : items) {
+        for (MediaItem mediaItem : mediaItems) {
             try {
-                item = new TMDBClient().getMovie(Integer.parseInt(item.getId()));
-                new MovieDatabase(getStaticContext()).update(item);
+                mediaItem = new TMDBClient().getMovie(Integer.parseInt(mediaItem.getId()));
+                new MovieDatabase(getStaticContext()).update(mediaItem);
             } catch (Exception e) {
-                Log.e("FAILED_UPDATE", item.getTitle() + ": " + e.getMessage());
+                Log.e("FAILED_UPDATE", mediaItem.getTitle() + ": " + e.getMessage());
                 failed += 1;
             }
         }

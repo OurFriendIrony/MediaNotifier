@@ -15,7 +15,7 @@ import android.widget.Spinner;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier._objects.Item;
+import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 import uk.co.ourfriendirony.medianotifier.async.TVShowUpdateAsyncTask;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
@@ -27,7 +27,7 @@ public class ActivityTV extends AppCompatActivity {
 
     private Spinner spinner;
     private ListView listView;
-    private List<Item> tvShows;
+    private List<MediaItem> tvShows;
     private ProgressBar progressBar;
     private int currentShowPosition;
 
@@ -65,7 +65,7 @@ public class ActivityTV extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Item show = tvShows.get(currentShowPosition);
+        MediaItem show = tvShows.get(currentShowPosition);
         switch (item.getItemId()) {
             case R.id.action_refresh:
                 new TVShowUpdateAsyncTask().execute(show);
@@ -95,11 +95,11 @@ public class ActivityTV extends AppCompatActivity {
         }
     }
 
-    private void displayEpisodes(List<Item> items) {
-        if (items.size() > 0) {
-            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_toggle, items, database);
+    private void displayEpisodes(List<MediaItem> mediaItems) {
+        if (mediaItems.size() > 0) {
+            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_toggle, mediaItems, database);
             listView.setAdapter(listAdapterSummary);
-            listView.setSelection(items.size());
+            listView.setSelection(mediaItems.size());
         } else {
             listView.setAdapter(null);
         }

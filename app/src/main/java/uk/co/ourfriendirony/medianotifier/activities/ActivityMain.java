@@ -24,7 +24,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier._objects.Item;
+import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 import uk.co.ourfriendirony.medianotifier.activities.artist.ActivityArtist;
 import uk.co.ourfriendirony.medianotifier.activities.artist.ActivityArtistFind;
 import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovie;
@@ -229,14 +229,14 @@ public class ActivityMain extends AppCompatActivity {
                 return true;
 
             case R.id.action_refresh:
-                List<Item> tvShows = tvShowDatabase.getAll();
-                Item[] tvShowsArray = new Item[tvShows.size()];
+                List<MediaItem> tvShows = tvShowDatabase.getAll();
+                MediaItem[] tvShowsArray = new MediaItem[tvShows.size()];
                 tvShows.toArray(tvShowsArray); // fill the array
                 new TVShowUpdateAsyncTask().execute(tvShowsArray);
 
-                List<Item> items = movieDatabase.getAll();
-                Item[] itemsArray = new Item[items.size()];
-                items.toArray(itemsArray);
+                List<MediaItem> mediaItems = movieDatabase.getAll();
+                MediaItem[] itemsArray = new MediaItem[mediaItems.size()];
+                mediaItems.toArray(itemsArray);
                 new MovieUpdateAsyncTask().execute(itemsArray);
 
                 return true;

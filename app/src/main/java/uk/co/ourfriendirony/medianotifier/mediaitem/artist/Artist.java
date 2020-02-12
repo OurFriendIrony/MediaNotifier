@@ -1,6 +1,8 @@
-package uk.co.ourfriendirony.medianotifier._objects.artist;
+package uk.co.ourfriendirony.medianotifier.mediaitem.artist;
 
+import android.database.Cursor;
 import android.net.Uri;
+import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,20 +11,21 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import uk.co.ourfriendirony.medianotifier._objects.Item;
 import uk.co.ourfriendirony.medianotifier.clients.objects.artist.get.ArtistGet;
 import uk.co.ourfriendirony.medianotifier.clients.objects.artist.search.ArtistSearchResult;
+import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabaseDefinition;
+import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
-public class ItemArtist implements Item {
+public class Artist implements MediaItem {
     private String id;
     private String title;
     private String subtitle = "";
     private String description = "";
     private Date releaseDate = getDefaultDate();
     private String externalUrl;
-    private List<Item> children = new ArrayList<>();
+    private List<MediaItem> children = new ArrayList<>();
 
-    public ItemArtist(ArtistGet artist) {
+    public Artist(ArtistGet artist) {
         this.id = String.valueOf(artist.getId());
         this.title = artist.getName();
         this.description = artist.getProfile();
@@ -30,21 +33,26 @@ public class ItemArtist implements Item {
             this.externalUrl = artist.getUrls().get(0);
         else
             this.externalUrl = artist.getUri();
+        Log.d("[FROM GET]", this.toString());
     }
 
-    public ItemArtist(ArtistSearchResult artist) {
+    public Artist(ArtistSearchResult artist) {
         this.id = String.valueOf(artist.getId());
         this.title = artist.getTitle();
+        Log.d("[FROM SEARCH]", this.toString());
     }
 
-    public ItemArtist(String id, String title, String subtitle, String description, Date releaseDate, String externalUrl, List<Item> children) {
-        this.id = id;
-        this.title = title;
-        this.subtitle = subtitle;
-        this.description = description;
-        this.releaseDate = releaseDate;
-        this.externalUrl = externalUrl;
-        this.children = children;
+    public Artist(Cursor cursor) {
+        // TODO: Need to standardise the fields being stored.
+        // TODO: Date is bullshit too
+        this.id = getColumnValue(cursor, ArtistDatabaseDefinition.TA_ID);
+        this.title = getColumnValue(cursor, ArtistDatabaseDefinition.TA_TITLE);
+        this.description = getColumnValue(cursor, ArtistDatabaseDefinition.TA_OVERVIEW);
+        Log.d("[FROM DB]", this.toString());
+    }
+
+    private String getColumnValue(Cursor cursor, String field) {
+        return cursor.getString(cursor.getColumnIndex(field));
     }
 
     @Override
@@ -83,7 +91,7 @@ public class ItemArtist implements Item {
     }
 
     @Override
-    public List<Item> getChildren() {
+    public List<MediaItem> getChildren() {
         return children;
     }
 

@@ -13,21 +13,21 @@ import android.widget.TextView;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier._objects.Item;
+import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 import uk.co.ourfriendirony.medianotifier.db.Database;
 
 import static uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabaseDefinition.WATCHED_FALSE;
 import static uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabaseDefinition.WATCHED_TRUE;
 
 public class ListAdapterSummary extends ArrayAdapter {
-    private final List<Item> items;
+    private final List<MediaItem> mediaItems;
     private final int defaultLayoutId;
     private final Database db;
 
-    public ListAdapterSummary(Context context, int defaultLayoutId, List<Item> items, Database db) {
-        super(context, defaultLayoutId, items);
+    public ListAdapterSummary(Context context, int defaultLayoutId, List<MediaItem> mediaItems, Database db) {
+        super(context, defaultLayoutId, mediaItems);
         this.defaultLayoutId = defaultLayoutId;
-        this.items = items;
+        this.mediaItems = mediaItems;
         this.db = db;
     }
 
@@ -71,12 +71,12 @@ public class ListAdapterSummary extends ArrayAdapter {
         TextView textDate = (TextView) view.findViewById(R.id.list_item_generic_date);
         TextView textOverview = (TextView) view.findViewById(R.id.list_item_generic_overview);
 
-        Item item = items.get(position);
+        MediaItem mediaItem = mediaItems.get(position);
 
-        textId.setText(item.getId());
-        textTitle.setText(item.getTitle());
-        textDate.setText(item.getReleaseDateYear());
-        textOverview.setText(item.getDescription());
+        textId.setText(mediaItem.getId());
+        textTitle.setText(mediaItem.getTitle());
+        textDate.setText(mediaItem.getReleaseDateYear());
+        textOverview.setText(mediaItem.getDescription());
         return view;
     }
 
@@ -90,19 +90,19 @@ public class ListAdapterSummary extends ArrayAdapter {
         TextView textDate = (TextView) view.findViewById(R.id.list_item_generic_date);
         TextView textOverview = (TextView) view.findViewById(R.id.list_item_generic_overview);
 
-        final Item item = items.get(position);
+        final MediaItem mediaItem = mediaItems.get(position);
 
-        textTitle.setText(item.getTitle());
-        textSubTitle.setText(item.getSubtitle());
-        textDate.setText(item.getReleaseDateFull());
-        textOverview.setText(item.getDescription());
+        textTitle.setText(mediaItem.getTitle());
+        textSubTitle.setText(mediaItem.getSubtitle());
+        textDate.setText(mediaItem.getReleaseDateFull());
+        textOverview.setText(mediaItem.getDescription());
 
         SwitchCompat toggle = (SwitchCompat) view.findViewById(R.id.list_item_toggle);
 
-        toggle.setChecked(!db.getWatchedStatusAsBoolean(item));
+        toggle.setChecked(!db.getWatchedStatusAsBoolean(mediaItem));
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                db.updateWatchedStatus(item, (!isChecked) ? WATCHED_TRUE : WATCHED_FALSE);
+                db.updateWatchedStatus(mediaItem, (!isChecked) ? WATCHED_TRUE : WATCHED_FALSE);
             }
         });
 
@@ -115,8 +115,8 @@ public class ListAdapterSummary extends ArrayAdapter {
         view = inflater.inflate(defaultLayoutId, null);
 
         TextView textTitle = (TextView) view.findViewById(R.id.list_item_generic_title);
-        Item item = items.get(position);
-        textTitle.setText(item.getTitle());
+        MediaItem mediaItem = mediaItems.get(position);
+        textTitle.setText(mediaItem.getTitle());
 
         return view;
     }

@@ -10,12 +10,11 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import uk.co.ourfriendirony.medianotifier._objects.Item;
-import uk.co.ourfriendirony.medianotifier._objects.artist.ItemArtist;
 import uk.co.ourfriendirony.medianotifier.db.Database;
+import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
+import uk.co.ourfriendirony.medianotifier.mediaitem.artist.Artist;
 
 import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanTitle;
-import static uk.co.ourfriendirony.medianotifier.general.StringHandler.stringToDate;
 
 public class ArtistDatabase implements Database {
     private static final String SELECT_ARTISTS = "SELECT * FROM " + ArtistDatabaseDefinition.TABLE_ARTISTS + " ORDER BY " + ArtistDatabaseDefinition.TA_TITLE + " ASC;";
@@ -33,21 +32,20 @@ public class ArtistDatabase implements Database {
     }
 
     @Override
-    public void add(Item artist) {
+    public void add(MediaItem artist) {
         SQLiteDatabase dbWritable = databaseHelper.getWritableDatabase();
         insert(dbWritable, artist, true);
         dbWritable.close();
     }
 
     @Override
-    public void update(Item artist) {
+    public void update(MediaItem artist) {
         SQLiteDatabase dbWritable = databaseHelper.getWritableDatabase();
         insert(dbWritable, artist, true);
         dbWritable.close();
     }
 
-    private void insert(SQLiteDatabase dbWritable, Item artist, boolean newArtist) {
-        System.out.println("HERE");
+    private void insert(SQLiteDatabase dbWritable, MediaItem artist, boolean newArtist) {
         String currentWatchedStatus = getWatchedStatus(dbWritable, artist);
         ContentValues dbRow = new ContentValues();
 
@@ -60,7 +58,7 @@ public class ArtistDatabase implements Database {
     }
 
     @Override
-    public String getWatchedStatus(SQLiteDatabase dbReadable, Item artist) {
+    public String getWatchedStatus(SQLiteDatabase dbReadable, MediaItem artist) {
         String[] args = new String[]{artist.getId()};
         Cursor cursor = dbReadable.rawQuery(GET_ARTIST_WATCHED_STATUS, args);
         String watchedStatus = ArtistDatabaseDefinition.WATCHED_FALSE;
@@ -77,7 +75,7 @@ public class ArtistDatabase implements Database {
     }
 
     @Override
-    public boolean getWatchedStatusAsBoolean(Item artist) {
+    public boolean getWatchedStatusAsBoolean(MediaItem artist) {
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
         String[] args = new String[]{artist.getId()};
         Cursor cursor = dbReadable.rawQuery(GET_ARTIST_WATCHED_STATUS, args);
@@ -111,27 +109,13 @@ public class ArtistDatabase implements Database {
 
 
     @NonNull
-    private Item buildItemFromDB(Cursor cursor) {
-        // TODO: Need to standardise the fields being stored.
-        // TODO: Date is bullshit too
-        Item item = new ItemArtist(
-                getColumnValue(cursor, ArtistDatabaseDefinition.TA_ID),
-                getColumnValue(cursor, ArtistDatabaseDefinition.TA_TITLE),
-                "",
-                getColumnValue(cursor, ArtistDatabaseDefinition.TA_OVERVIEW),
-                stringToDate("9999-01-01"),
-                "",
-                new ArrayList<Item>()
-        );
-
-        Log.d("BUILD_ARTIST", item.getId() + " " + item.getTitle());
-
-        return item;
+    private MediaItem buildItemFromDB(Cursor cursor) {
+        return new Artist(cursor);
     }
 
     @Override
-    public List<Item> getAll() {
-        List<Item> artists = new ArrayList<>();
+    public List<MediaItem> getAll() {
+        List<MediaItem> artists = new ArrayList<>();
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
         Cursor cursor = dbReadable.rawQuery(SELECT_ARTISTS, null);
         try {
@@ -146,7 +130,7 @@ public class ArtistDatabase implements Database {
     }
 
     @Override
-    public void updateWatchedStatus(Item artist, String watchedStatus) {
+    public void updateWatchedStatus(MediaItem artist, String watchedStatus) {
         SQLiteDatabase dbWriteable = databaseHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(ArtistDatabaseDefinition.TA_WATCHED, watchedStatus);
@@ -166,23 +150,23 @@ public class ArtistDatabase implements Database {
     }
 
     @Override
-    public List<Item> getUnwatchedReleased() {
+    public List<MediaItem> getUnwatchedReleased() {
         return new ArrayList<>();
     }
 
     @Override
-    public List<Item> getUnwatchedTotal() {
+    public List<MediaItem> getUnwatchedTotal() {
         return new ArrayList<>();
     }
 
     @Override
-    public List<Item> getUnwatched(String getQuery, String logTag) {
+    public List<MediaItem> getUnwatched(String getQuery, String logTag) {
         return new ArrayList<>();
     }
 
 
     @Override
-    public List<Item> getAllSubitems(String id) {
+    public List<MediaItem> getAllSubitems(String id) {
         return new ArrayList<>();
     }
 }

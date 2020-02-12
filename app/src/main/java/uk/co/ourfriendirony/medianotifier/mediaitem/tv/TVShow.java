@@ -1,6 +1,8 @@
-package uk.co.ourfriendirony.medianotifier._objects.tv;
+package uk.co.ourfriendirony.medianotifier.mediaitem.tv;
 
+import android.database.Cursor;
 import android.net.Uri;
+import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -8,22 +10,25 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import uk.co.ourfriendirony.medianotifier._objects.Item;
+import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 import uk.co.ourfriendirony.medianotifier.clients.objects.tv.get.TVShowGet;
 import uk.co.ourfriendirony.medianotifier.clients.objects.tv.search.TVShowSearchResult;
+import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabaseDefinition;
 
-public class ItemTV implements Item {
+import static uk.co.ourfriendirony.medianotifier.general.StringHandler.stringToDate;
+
+public class TVShow implements MediaItem {
     private String id;
     private String title;
     private String subtitle = "";
     private String description = "";
     private Date releaseDate;
     private String externalUrl;
-    private List<Item> children = new ArrayList<>();
+    private List<MediaItem> children = new ArrayList<>();
 
     private static final String IMDB_URL = "http://www.imdb.com/title/";
 
-    public ItemTV(TVShowGet tvShow, List<Item> children) {
+    public TVShow(TVShowGet tvShow, List<MediaItem> children) {
         this.id = String.valueOf(tvShow.getId());
         this.title = tvShow.getName();
         this.description = tvShow.getOverview();
@@ -31,23 +36,30 @@ public class ItemTV implements Item {
         if (tvShow.getExternalIds() != null && tvShow.getExternalIds().getImdbId() != null)
             this.externalUrl = IMDB_URL + tvShow.getExternalIds().getImdbId();
         this.children = children;
+        Log.d("[FROM GET]", this.toString());
     }
 
-    public ItemTV(TVShowSearchResult item) {
+    public TVShow(TVShowSearchResult item) {
         this.id = String.valueOf(item.getId());
         this.title = item.getName();
         this.description = item.getOverview();
         this.releaseDate = item.getFirstAirDate();
+        Log.d("[FROM SEARCH]", this.toString());
     }
 
-    public ItemTV(String id, String title, String subtitle, String description, Date releaseDate, String externalUrl, List<Item> children) {
-        this.id = id;
-        this.title = title;
-        this.subtitle = subtitle;
-        this.description = description;
-        this.releaseDate = releaseDate;
-        this.externalUrl = externalUrl;
-        this.children = children;
+    public TVShow(Cursor cursor, List<MediaItem> episodes) {
+        this.id = getColumnValue(cursor, TVShowDatabaseDefinition.TT_ID);
+        this.title = getColumnValue(cursor, TVShowDatabaseDefinition.TT_TITLE);
+        this.subtitle = getColumnValue(cursor, TVShowDatabaseDefinition.TT_SUBTITLE);
+        this.description = getColumnValue(cursor, TVShowDatabaseDefinition.TT_OVERVIEW);
+        this.releaseDate = stringToDate(getColumnValue(cursor, TVShowDatabaseDefinition.TT_DATE));
+        this.externalUrl = getColumnValue(cursor, TVShowDatabaseDefinition.TT_IMDB);
+        this.children = episodes;
+        Log.d("[DB READ]", this.toString());
+    }
+
+    private String getColumnValue(Cursor cursor, String field) {
+        return cursor.getString(cursor.getColumnIndex(field));
     }
 
     @Override
@@ -86,7 +98,7 @@ public class ItemTV implements Item {
     }
 
     @Override
-    public List<Item> getChildren() {
+    public List<MediaItem> getChildren() {
         return children;
     }
 

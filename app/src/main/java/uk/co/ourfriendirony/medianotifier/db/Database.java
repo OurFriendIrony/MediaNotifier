@@ -4,16 +4,16 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.util.List;
 
-import uk.co.ourfriendirony.medianotifier._objects.Item;
+import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
 public interface Database {
-    void add(Item i);
+    void add(MediaItem i);
 
-    void update(Item i);
+    void update(MediaItem i);
 
-    String getWatchedStatus(SQLiteDatabase dbReadable, Item item);
+    String getWatchedStatus(SQLiteDatabase dbReadable, MediaItem mediaItem);
 
-    boolean getWatchedStatusAsBoolean(Item item);
+    boolean getWatchedStatusAsBoolean(MediaItem mediaItem);
 
     void deleteAll();
 
@@ -21,15 +21,15 @@ public interface Database {
 
     int countUnwatchedReleased();
 
-    List<Item> getUnwatchedReleased();
+    List<MediaItem> getUnwatchedReleased();
 
-    List<Item> getUnwatchedTotal();
+    List<MediaItem> getUnwatchedTotal();
 
-    List<Item> getUnwatched(String getQuery, String logTag);
+    List<MediaItem> getUnwatched(String getQuery, String logTag);
 
-    List<Item> getAll();
+    List<MediaItem> getAll();
 
-    List<Item> getAllSubitems(String id);
+    List<MediaItem> getAllSubitems(String id);
 
-    void updateWatchedStatus(Item item, String watchedStatus);
+    void updateWatchedStatus(MediaItem mediaItem, String watchedStatus);
 }

@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier._objects.Item;
+import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 import uk.co.ourfriendirony.medianotifier.clients.TMDBClient;
 import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
@@ -30,7 +30,7 @@ public class ActivityTVFind extends AppCompatActivity {
     private EditText input;
     private ProgressBar progressBar;
     private ListView listView;
-    private List<Item> items = new ArrayList<>();
+    private List<MediaItem> mediaItems = new ArrayList<>();
     private TMDBClient client = new TMDBClient();
     private Database db;
 
@@ -74,7 +74,7 @@ public class ActivityTVFind extends AppCompatActivity {
         });
     }
 
-    private class TVShowFindAsyncTask extends AsyncTask<String, Void, List<Item>> {
+    private class TVShowFindAsyncTask extends AsyncTask<String, Void, List<MediaItem>> {
         /* Looks up and returns tvshow using API
          */
 
@@ -85,22 +85,22 @@ public class ActivityTVFind extends AppCompatActivity {
         }
 
         @Override
-        protected List<Item> doInBackground(String... params) {
+        protected List<MediaItem> doInBackground(String... params) {
             String query = params[0];
             try {
-                items = client.queryTVShow(query);
+                mediaItems = client.queryTVShow(query);
             } catch (IOException e) {
-                items = new ArrayList<>();
+                mediaItems = new ArrayList<>();
             }
-            return items;
+            return mediaItems;
         }
 
         @Override
-        protected void onPostExecute(List<Item> result) {
+        protected void onPostExecute(List<MediaItem> result) {
             progressBar.setVisibility(View.GONE);
 
-            if (items.size() > 0) {
-                ListAdapterSummary adapter = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic, items, db);
+            if (mediaItems.size() > 0) {
+                ListAdapterSummary adapter = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic, mediaItems, db);
                 listView.setAdapter(adapter);
             } else {
                 Toast.makeText(getBaseContext(), R.string.toast_no_results, Toast.LENGTH_LONG).show();
@@ -123,10 +123,10 @@ public class ActivityTVFind extends AppCompatActivity {
             String tvShowId = params[0];
             String tvShowTitle = params[1];
 
-            Item item;
+            MediaItem mediaItem;
             try {
-                item = client.getTVShow(Integer.parseInt(tvShowId));
-                db.add(item);
+                mediaItem = client.getTVShow(Integer.parseInt(tvShowId));
+                db.add(mediaItem);
             } catch (IOException e) {
                 Log.e(String.valueOf(this.getClass()), "Failed to add: " + e.getMessage());
             }

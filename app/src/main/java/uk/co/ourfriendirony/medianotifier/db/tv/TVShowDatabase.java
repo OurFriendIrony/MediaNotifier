@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import uk.co.ourfriendirony.medianotifier._objects.Item;
-import uk.co.ourfriendirony.medianotifier._objects.tv.ItemTV;
-import uk.co.ourfriendirony.medianotifier._objects.tv.ItemTVEpisode;
+import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
+import uk.co.ourfriendirony.medianotifier.mediaitem.tv.TVEpisode;
+import uk.co.ourfriendirony.medianotifier.mediaitem.tv.TVShow;
 import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.general.StringHandler;
 
@@ -49,9 +49,9 @@ public class TVShowDatabase implements Database {
     }
 
     @Override
-    public void add(Item show) {
+    public void add(MediaItem show) {
         SQLiteDatabase dbWritable = databaseHelper.getWritableDatabase();
-        for (Item episode : show.getChildren()) {
+        for (MediaItem episode : show.getChildren()) {
             insertEpisode(dbWritable, episode, true);
         }
         insert(dbWritable, show);
@@ -59,29 +59,29 @@ public class TVShowDatabase implements Database {
     }
 
     @Override
-    public void update(Item show) {
+    public void update(MediaItem show) {
         SQLiteDatabase dbWritable = databaseHelper.getWritableDatabase();
-        for (Item episode : show.getChildren()) {
+        for (MediaItem episode : show.getChildren()) {
             insertEpisode(dbWritable, episode, false);
         }
         insert(dbWritable, show);
         dbWritable.close();
     }
 
-    private void insert(SQLiteDatabase dbWritable, Item item) {
+    private void insert(SQLiteDatabase dbWritable, MediaItem mediaItem) {
         ContentValues dbRow = new ContentValues();
-        dbRow.put(TVShowDatabaseDefinition.TT_ID, item.getId());
-        dbRow.put(TVShowDatabaseDefinition.TT_TITLE, cleanTitle(item.getTitle()));
-        dbRow.put(TVShowDatabaseDefinition.TT_SUBTITLE, item.getSubtitle());
-        dbRow.put(TVShowDatabaseDefinition.TT_IMDB, item.getExternalLink().toString());
-        dbRow.put(TVShowDatabaseDefinition.TT_DATE, dateToString(item.getReleaseDate()));
-        dbRow.put(TVShowDatabaseDefinition.TT_OVERVIEW, item.getDescription());
+        dbRow.put(TVShowDatabaseDefinition.TT_ID, mediaItem.getId());
+        dbRow.put(TVShowDatabaseDefinition.TT_TITLE, cleanTitle(mediaItem.getTitle()));
+        dbRow.put(TVShowDatabaseDefinition.TT_SUBTITLE, mediaItem.getSubtitle());
+        dbRow.put(TVShowDatabaseDefinition.TT_IMDB, mediaItem.getExternalLink().toString());
+        dbRow.put(TVShowDatabaseDefinition.TT_DATE, dateToString(mediaItem.getReleaseDate()));
+        dbRow.put(TVShowDatabaseDefinition.TT_OVERVIEW, mediaItem.getDescription());
         Log.d("[DB INSERT TV]", dbRow.toString());
         dbWritable.replace(TVShowDatabaseDefinition.TABLE_TVSHOWS, null, dbRow);
 
     }
 
-    private void insertEpisode(SQLiteDatabase dbWritable, Item episode, boolean isNewTVShow) {
+    private void insertEpisode(SQLiteDatabase dbWritable, MediaItem episode, boolean isNewTVShow) {
         String currentWatchedStatus = getWatchedStatus(dbWritable, episode);
         ContentValues dbRow = new ContentValues();
         dbRow.put(TVShowDatabaseDefinition.TTSE_ID, episode.getId());
@@ -99,8 +99,8 @@ public class TVShowDatabase implements Database {
     }
 
     @Override
-    public String getWatchedStatus(SQLiteDatabase dbReadable, Item item) {
-        String[] args = new String[]{item.getId(), item.getSubtitle()};
+    public String getWatchedStatus(SQLiteDatabase dbReadable, MediaItem mediaItem) {
+        String[] args = new String[]{mediaItem.getId(), mediaItem.getSubtitle()};
         Cursor cursor = dbReadable.rawQuery(GET_TVEPISODE_WATCHED_STATUS, args);
         String watchedStatus = TVShowDatabaseDefinition.WATCHED_FALSE;
 
@@ -116,9 +116,9 @@ public class TVShowDatabase implements Database {
     }
 
     @Override
-    public boolean getWatchedStatusAsBoolean(Item item) {
+    public boolean getWatchedStatusAsBoolean(MediaItem mediaItem) {
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
-        String[] args = new String[]{item.getId(), item.getSubtitle()};
+        String[] args = new String[]{mediaItem.getId(), mediaItem.getSubtitle()};
         Cursor cursor = dbReadable.rawQuery(GET_TVEPISODE_WATCHED_STATUS, args);
         String watchedStatus = TVShowDatabaseDefinition.WATCHED_FALSE;
 
@@ -156,12 +156,12 @@ public class TVShowDatabase implements Database {
     }
 
     @Override
-    public List<Item> getUnwatchedReleased() {
+    public List<MediaItem> getUnwatchedReleased() {
         return getUnwatched(GET_UNWATCHED_EPISODES_RELEASED, "UNWATCHED RELEASED");
     }
 
     @Override
-    public List<Item> getUnwatchedTotal() {
+    public List<MediaItem> getUnwatchedTotal() {
         return getUnwatched(GET_UNWATCHED_EPISODES_TOTAL, "UNWATCHED TOTAL");
     }
 
@@ -179,48 +179,37 @@ public class TVShowDatabase implements Database {
     }
 
     @Override
-    public List<Item> getUnwatched(String getQuery, String logTag) {
+    public List<MediaItem> getUnwatched(String getQuery, String logTag) {
         String offset = "date('now','-" + getNotificationDayOffsetTV(context) + " days')";
         String query = StringHandler.replaceTokens(getQuery, "@OFFSET@", offset);
-        List<Item> items = new ArrayList<>();
+        List<MediaItem> mediaItems = new ArrayList<>();
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
 
         Cursor cursor = dbReadable.rawQuery(query, null);
         try {
             while (cursor.moveToNext()) {
-                Item item = buildSubItemFromDB(cursor);
-                Log.v(logTag, item.toString());
-                items.add(item);
+                MediaItem mediaItem = buildSubItemFromDB(cursor);
+                mediaItems.add(mediaItem);
             }
         } finally {
             cursor.close();
         }
         dbReadable.close();
-        return items;
+        return mediaItems;
     }
 
     @NonNull
-    private Item buildSubItemFromDB(Cursor cursor) {
-        Item item = new ItemTVEpisode(
-                getColumnValue(cursor, TVShowDatabaseDefinition.TTSE_ID),
-                getColumnValue(cursor, TVShowDatabaseDefinition.TTSE_TITLE),
-                getColumnValue(cursor, TVShowDatabaseDefinition.TTSE_SUBTITLE),
-                getColumnValue(cursor, TVShowDatabaseDefinition.TTSE_OVERVIEW),
-                stringToDate(getColumnValue(cursor, TVShowDatabaseDefinition.TTSE_DATE)),
-                getColumnValue(cursor, TVShowDatabaseDefinition.TTSE_IMDB),
-                new ArrayList<Item>()
-        );
-        Log.d("[DB READ]", item.toString());
-        return item;
+    private MediaItem buildSubItemFromDB(Cursor cursor) {
+        return new TVEpisode(cursor);
     }
 
     @NonNull
-    private Item buildItemFromDB(Cursor cursor) {
-        // TODO: When building an item, we're currently pulling all children back from the DB to display to the user.
+    private MediaItem buildItemFromDB(Cursor cursor) {
+        // TODO: When building an mediaItem, we're currently pulling all children back from the DB to display to the user.
         // TODO: Sometimes we just want to display all the tvshows, and pulling all children for all shows is pretty excessive.
 
         String id = getColumnValue(cursor, TVShowDatabaseDefinition.TT_ID);
-        List<Item> episodes = new ArrayList<>();
+        List<MediaItem> episodes = new ArrayList<>();
 
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
         Cursor tvSeasonCursor = dbReadable.rawQuery(SELECT_TVEPISODES, new String[]{id});
@@ -232,23 +221,12 @@ public class TVShowDatabase implements Database {
             tvSeasonCursor.close();
         }
         dbReadable.close();
-        Item item = new ItemTV(
-                id,
-                getColumnValue(cursor, TVShowDatabaseDefinition.TT_TITLE),
-                getColumnValue(cursor, TVShowDatabaseDefinition.TT_SUBTITLE),
-                getColumnValue(cursor, TVShowDatabaseDefinition.TT_OVERVIEW),
-                stringToDate(getColumnValue(cursor, TVShowDatabaseDefinition.TT_DATE)),
-                getColumnValue(cursor, TVShowDatabaseDefinition.TT_IMDB),
-                episodes
-        );
-
-        Log.d("[DB READ]", item.toString());
-        return item;
+        return new TVShow(cursor, episodes);
     }
 
     @Override
-    public List<Item> getAll() {
-        List<Item> shows = new ArrayList<>();
+    public List<MediaItem> getAll() {
+        List<MediaItem> shows = new ArrayList<>();
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
         Cursor tvShowCursor = dbReadable.rawQuery(SELECT_TVSHOWS, null);
         try {
@@ -263,38 +241,38 @@ public class TVShowDatabase implements Database {
     }
 
     @Override
-    public List<Item> getAllSubitems(String id) {
-        List<Item> items = new ArrayList<>();
+    public List<MediaItem> getAllSubitems(String id) {
+        List<MediaItem> mediaItems = new ArrayList<>();
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
         String[] args = {id};
         Cursor tvShowCursor = dbReadable.rawQuery(SELECT_TVEPISODES, args);
         try {
             while (tvShowCursor.moveToNext()) {
-                items.add(buildItemFromDB(tvShowCursor));
+                mediaItems.add(buildItemFromDB(tvShowCursor));
             }
         } finally {
             tvShowCursor.close();
         }
         dbReadable.close();
-        return items;
+        return mediaItems;
     }
 
     @Override
-    public void updateWatchedStatus(Item item, String watchedStatus) {
+    public void updateWatchedStatus(MediaItem mediaItem, String watchedStatus) {
         SQLiteDatabase dbWriteable = databaseHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(TVShowDatabaseDefinition.TTSE_WATCHED, watchedStatus);
         String where = TVShowDatabaseDefinition.TTSE_ID + "=? and " + TVShowDatabaseDefinition.TTSE_SUBTITLE + "=?";
-        String[] whereArgs = new String[]{item.getId(), item.getSubtitle()};
+        String[] whereArgs = new String[]{mediaItem.getId(), mediaItem.getSubtitle()};
         dbWriteable.update(TVShowDatabaseDefinition.TABLE_TVSHOWS_EPISODES, values, where, whereArgs);
         dbWriteable.close();
     }
 
-    private boolean markWatchedIfReleased(boolean isNewTVShow, Item episode) {
+    private boolean markWatchedIfReleased(boolean isNewTVShow, MediaItem episode) {
         return isNewTVShow && alreadyReleased(episode) && getMarkWatchedIfAlreadyReleased(context);
     }
 
-    private boolean alreadyReleased(Item episode) {
+    private boolean alreadyReleased(MediaItem episode) {
         return episode.getReleaseDate().compareTo(new Date()) < 0;
     }
 

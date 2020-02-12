@@ -32,10 +32,10 @@ public class AbstractClient {
     }
 
     private void logResponse(String url, String payload, String headers, int statusCode) {
-        Log.v(String.valueOf(this.getClass()), "URL     = " + url);
-        Log.v(String.valueOf(this.getClass()), "PAYLOAD = " + payload);
-        Log.v(String.valueOf(this.getClass()), "HEADERS = " + headers);
-        Log.v(String.valueOf(this.getClass()), "STATUSC = " + statusCode);
+        Log.d("[CALL URL    ]", url);
+        Log.d("[CALL PAYLOAD]", payload);
+        Log.d("[CALL HEADERS]", headers);
+        Log.d("[CALL STATUSC]", String.valueOf(statusCode));
     }
 
     private void sleep(int time) {

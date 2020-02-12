@@ -1,11 +1,11 @@
-package uk.co.ourfriendirony.medianotifier._objects;
+package uk.co.ourfriendirony.medianotifier.mediaitem;
 
 import android.net.Uri;
 
 import java.util.Date;
 import java.util.List;
 
-public interface Item {
+public interface MediaItem {
     String getId();
 
     String getTitle();
@@ -20,7 +20,7 @@ public interface Item {
 
     String getReleaseDateYear();
 
-    List<Item> getChildren();
+    List<MediaItem> getChildren();
 
     int countChildren();
 

@@ -10,7 +10,7 @@ import android.widget.ListView;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier._objects.Item;
+import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummary;
@@ -25,9 +25,9 @@ public class ActivityMovieUnwatchedComingSoon extends Fragment {
         ListView listView = (ListView) rootView.findViewById(R.id.tv_notification_list);
 
         db = new MovieDatabase(getContext());
-        List<Item> items = db.getUnwatchedTotal();
-        if (items.size() > 0) {
-            ListAdapterSummary listAdapterMovie = new ListAdapterSummary(getContext(), R.layout.list_item_generic_toggle, items, db);
+        List<MediaItem> mediaItems = db.getUnwatchedTotal();
+        if (mediaItems.size() > 0) {
+            ListAdapterSummary listAdapterMovie = new ListAdapterSummary(getContext(), R.layout.list_item_generic_toggle, mediaItems, db);
             listView.setAdapter(listAdapterMovie);
         }
         return rootView;

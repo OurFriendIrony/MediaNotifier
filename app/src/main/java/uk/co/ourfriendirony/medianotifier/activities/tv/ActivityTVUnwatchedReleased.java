@@ -10,7 +10,7 @@ import android.widget.ListView;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier._objects.Item;
+import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummary;
 
@@ -24,7 +24,7 @@ public class ActivityTVUnwatchedReleased extends Fragment {
         ListView listView = (ListView) rootView.findViewById(R.id.tv_notification_list);
 
         database = new TVShowDatabase(getContext());
-        List<Item> tvEpisodes = database.getUnwatchedReleased();
+        List<MediaItem> tvEpisodes = database.getUnwatchedReleased();
         if (tvEpisodes.size() > 0) {
             ListAdapterSummary listAdapterTVEpisode = new ListAdapterSummary(getContext(), R.layout.list_item_generic_toggle, tvEpisodes, database);
             listView.setAdapter(listAdapterTVEpisode);

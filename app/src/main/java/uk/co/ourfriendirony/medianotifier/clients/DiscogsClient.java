@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import uk.co.ourfriendirony.medianotifier._objects.Item;
-import uk.co.ourfriendirony.medianotifier._objects.artist.ItemArtist;
+import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
+import uk.co.ourfriendirony.medianotifier.mediaitem.artist.Artist;
 import uk.co.ourfriendirony.medianotifier.clients.objects.artist.get.ArtistGet;
 import uk.co.ourfriendirony.medianotifier.clients.objects.artist.search.ArtistSearch;
 import uk.co.ourfriendirony.medianotifier.clients.objects.artist.search.ArtistSearchResult;
@@ -30,23 +30,23 @@ public class DiscogsClient extends AbstractClient {
 
     private String payload;
 
-    public List<Item> queryArtist(String artist) throws IOException {
+    public List<MediaItem> queryArtist(String artist) throws IOException {
         payload = httpGetRequest(
                 replaceTokens(URL_ARTIST_QUERY, "@NAME@", cleanUrl(artist))
         );
-        List<Item> items = new ArrayList<>();
+        List<MediaItem> mediaItems = new ArrayList<>();
         ArtistSearch rawSearch = OBJECT_MAPPER.readValue(payload, ArtistSearch.class);
         for (ArtistSearchResult rawResult : rawSearch.getResults()) {
-            items.add(new ItemArtist(rawResult));
+            mediaItems.add(new Artist(rawResult));
         }
-        return items;
+        return mediaItems;
     }
 
-    public Item getArtist(int artistID) throws IOException {
+    public MediaItem getArtist(int artistID) throws IOException {
         payload = httpGetRequest(
                 replaceTokens(URL_ARTIST_ID, "@ID@", Integer.toString(artistID))
         );
         ArtistGet artist = OBJECT_MAPPER.readValue(payload, ArtistGet.class);
-        return new ItemArtist(artist);
+        return new Artist(artist);
     }
 }
