@@ -14,14 +14,13 @@ import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 import uk.co.ourfriendirony.medianotifier.mediaitem.artist.Artist;
 
-import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanTitle;
+import static uk.co.ourfriendirony.medianotifier.general.Helper.cleanTitle;
+import static uk.co.ourfriendirony.medianotifier.general.Helper.getColumnValue;
 
 public class ArtistDatabase implements Database {
-    private static final String SELECT_ARTISTS = "SELECT * FROM " + ArtistDatabaseDefinition.TABLE_ARTISTS + " ORDER BY " + ArtistDatabaseDefinition.TA_TITLE + " ASC;";
+    private static final String SELECT_ARTISTS = "SELECT * FROM " + ArtistDatabaseDefinition.TABLE_ARTISTS + " ORDER BY " + ArtistDatabaseDefinition.TITLE + " ASC;";
 
-    private static final String GET_ARTIST_TITLE_BY_ID = "SELECT " + ArtistDatabaseDefinition.TA_TITLE + " FROM " + ArtistDatabaseDefinition.TABLE_ARTISTS + " WHERE " + ArtistDatabaseDefinition.TA_ID + "=?;";
-
-    private static final String GET_ARTIST_WATCHED_STATUS = "SELECT " + ArtistDatabaseDefinition.TA_WATCHED + " FROM " + ArtistDatabaseDefinition.TABLE_ARTISTS + " WHERE " + ArtistDatabaseDefinition.TA_ID + "=?;";
+    private static final String GET_ARTIST_WATCHED_STATUS = "SELECT " + ArtistDatabaseDefinition.WATCHED + " FROM " + ArtistDatabaseDefinition.TABLE_ARTISTS + " WHERE " + ArtistDatabaseDefinition.ID + "=?;";
 
     private final ArtistDatabaseDefinition databaseHelper;
     private final Context context;
@@ -49,10 +48,10 @@ public class ArtistDatabase implements Database {
         String currentWatchedStatus = getWatchedStatus(dbWritable, artist);
         ContentValues dbRow = new ContentValues();
 
-        dbRow.put(ArtistDatabaseDefinition.TA_ID, artist.getId());
-        dbRow.put(ArtistDatabaseDefinition.TA_TITLE, cleanTitle(artist.getTitle()));
-        dbRow.put(ArtistDatabaseDefinition.TA_OVERVIEW, artist.getDescription());
-        dbRow.put(ArtistDatabaseDefinition.TA_WATCHED, currentWatchedStatus);
+        dbRow.put(ArtistDatabaseDefinition.ID, artist.getId());
+        dbRow.put(ArtistDatabaseDefinition.TITLE, cleanTitle(artist.getTitle()));
+        dbRow.put(ArtistDatabaseDefinition.DESCRIPTION, artist.getDescription());
+        dbRow.put(ArtistDatabaseDefinition.WATCHED, currentWatchedStatus);
         Log.d("[DB INSERT ARTIST]", dbRow.toString());
         dbWritable.replace(ArtistDatabaseDefinition.TABLE_ARTISTS, null, dbRow);
     }
@@ -65,7 +64,7 @@ public class ArtistDatabase implements Database {
 
         try {
             while (cursor.moveToNext()) {
-                watchedStatus = getColumnValue(cursor, ArtistDatabaseDefinition.TA_WATCHED);
+                watchedStatus = getColumnValue(cursor, ArtistDatabaseDefinition.WATCHED);
             }
         } finally {
             cursor.close();
@@ -83,7 +82,7 @@ public class ArtistDatabase implements Database {
 
         try {
             while (cursor.moveToNext()) {
-                watchedStatus = getColumnValue(cursor, ArtistDatabaseDefinition.TA_WATCHED);
+                watchedStatus = getColumnValue(cursor, ArtistDatabaseDefinition.WATCHED);
             }
         } finally {
             cursor.close();
@@ -103,7 +102,7 @@ public class ArtistDatabase implements Database {
     @Override
     public void delete(String artistId) {
         SQLiteDatabase dbWritable = databaseHelper.getWritableDatabase();
-        dbWritable.execSQL("DELETE FROM " + ArtistDatabaseDefinition.TABLE_ARTISTS + " WHERE " + ArtistDatabaseDefinition.TA_ID + "=" + artistId + ";");
+        dbWritable.execSQL("DELETE FROM " + ArtistDatabaseDefinition.TABLE_ARTISTS + " WHERE " + ArtistDatabaseDefinition.ID + "=" + artistId + ";");
         dbWritable.close();
     }
 
@@ -133,15 +132,11 @@ public class ArtistDatabase implements Database {
     public void updateWatchedStatus(MediaItem artist, String watchedStatus) {
         SQLiteDatabase dbWriteable = databaseHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(ArtistDatabaseDefinition.TA_WATCHED, watchedStatus);
-        String where = ArtistDatabaseDefinition.TA_ID + "=?";
+        values.put(ArtistDatabaseDefinition.WATCHED, watchedStatus);
+        String where = ArtistDatabaseDefinition.ID + "=?";
         String[] whereArgs = new String[]{artist.getId()};
         dbWriteable.update(ArtistDatabaseDefinition.TABLE_ARTISTS, values, where, whereArgs);
         dbWriteable.close();
-    }
-
-    private String getColumnValue(Cursor cursor, String field) {
-        return cursor.getString(cursor.getColumnIndex(field));
     }
 
     @Override

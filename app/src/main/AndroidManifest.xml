@@ -31,7 +31,6 @@
         <activity android:name=".activities.artist.ActivityArtist" />
         <activity android:name=".activities.artist.ActivityArtistFind" />
 
-
         <receiver android:name=".notifier.BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

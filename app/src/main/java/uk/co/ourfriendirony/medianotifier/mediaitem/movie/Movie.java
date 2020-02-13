@@ -1,7 +1,6 @@
 package uk.co.ourfriendirony.medianotifier.mediaitem.movie;
 
 import android.database.Cursor;
-import android.net.Uri;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
@@ -10,12 +9,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 import uk.co.ourfriendirony.medianotifier.clients.objects.movie.get.MovieGet;
 import uk.co.ourfriendirony.medianotifier.clients.objects.movie.search.MovieSearchResult;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabaseDefinition;
+import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
-import static uk.co.ourfriendirony.medianotifier.general.StringHandler.stringToDate;
+import static uk.co.ourfriendirony.medianotifier.general.Helper.stringToDate;
 
 public class Movie implements MediaItem {
     private String id;
@@ -24,19 +23,23 @@ public class Movie implements MediaItem {
     private String description = "";
     private Date releaseDate;
     private String externalUrl;
+    private boolean watched = false;
     private List<MediaItem> children = new ArrayList<>();
 
     private static final String IMDB_URL = "http://www.imdb.com/title/";
 
+
     public Movie(MovieGet movie) {
         this.id = String.valueOf(movie.getId());
         this.title = movie.getTitle();
-        if (movie.getBelongsToCollection() != null)
+        if (movie.getBelongsToCollection() != null) {
             this.subtitle = movie.getBelongsToCollection().getName();
+        }
         this.description = movie.getOverview();
         this.releaseDate = movie.getReleaseDate();
-        if (movie.getImdbId() != null)
+        if (movie.getImdbId() != null) {
             this.externalUrl = IMDB_URL + movie.getImdbId();
+        }
         Log.d("[FROM GET]", this.toString());
     }
 
@@ -49,12 +52,12 @@ public class Movie implements MediaItem {
     }
 
     public Movie(Cursor cursor) {
-        this.id = getColumnValue(cursor, MovieDatabaseDefinition.TM_ID);
-        this.title = getColumnValue(cursor, MovieDatabaseDefinition.TM_TITLE);
-        this.subtitle = getColumnValue(cursor, MovieDatabaseDefinition.TM_COLLECTION);
-        this.description = getColumnValue(cursor, MovieDatabaseDefinition.TM_OVERVIEW);
-        this.releaseDate = stringToDate(getColumnValue(cursor, MovieDatabaseDefinition.TM_DATE));
-        this.externalUrl = getColumnValue(cursor, MovieDatabaseDefinition.TM_IMDB);
+        this.id = getColumnValue(cursor, MovieDatabaseDefinition.ID);
+        this.title = getColumnValue(cursor, MovieDatabaseDefinition.TITLE);
+        this.subtitle = getColumnValue(cursor, MovieDatabaseDefinition.SUBTITLE);
+        this.description = getColumnValue(cursor, MovieDatabaseDefinition.DESCRIPTION);
+        this.releaseDate = stringToDate(getColumnValue(cursor, MovieDatabaseDefinition.RELEASE_DATE));
+        this.externalUrl = getColumnValue(cursor, MovieDatabaseDefinition.EXTERNAL_URL);
         this.children = new ArrayList<>();
         Log.d("[FROM DB]", this.toString());
     }
@@ -90,15 +93,17 @@ public class Movie implements MediaItem {
 
     @Override
     public String getReleaseDateFull() {
-        if (releaseDate != null)
+        if (releaseDate != null) {
             return new SimpleDateFormat("dd/MM/yyyy", Locale.UK).format(releaseDate);
+        }
         return "?";
     }
 
     @Override
     public String getReleaseDateYear() {
-        if (releaseDate != null)
+        if (releaseDate != null) {
             return new SimpleDateFormat("yyyy", Locale.UK).format(releaseDate);
+        }
         return "?";
     }
 
@@ -118,10 +123,8 @@ public class Movie implements MediaItem {
     }
 
     @Override
-    public Uri getExternalUrl() {
-        if (externalUrl != null)
-            return Uri.parse(externalUrl);
-        return null;
+    public Boolean getWatched() {
+        return watched;
     }
 
     public String toString() {

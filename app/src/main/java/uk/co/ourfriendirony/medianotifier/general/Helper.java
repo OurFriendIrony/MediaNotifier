@@ -1,13 +1,16 @@
 package uk.co.ourfriendirony.medianotifier.general;
 
+import android.database.Cursor;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
-public class StringHandler {
+public class Helper {
     private static final String[] PREFIXES = new String[]{"A ", "The "};
 
     private static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -30,8 +33,9 @@ public class StringHandler {
     }
 
     public static String dateToString(Date date) {
-        if (date == null)
+        if (date == null) {
             return "";
+        }
         return dateFormat.format(date);
     }
 
@@ -61,8 +65,21 @@ public class StringHandler {
     }
 
     public static String getNotificationNumber(int num) {
-        if (num > 9)
+        if (num > 9) {
             return "9+";
+        }
         return String.valueOf(num);
     }
+
+    public static Date getDefaultDate() {
+        Calendar x = Calendar.getInstance();
+        x.set(9999, 1, 1);
+        return x.getTime();
+    }
+
+
+    public static String getColumnValue(Cursor cursor, String field) {
+        return cursor.getString(cursor.getColumnIndex(field));
+    }
+
 }

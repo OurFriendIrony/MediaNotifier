@@ -1,12 +1,10 @@
 package uk.co.ourfriendirony.medianotifier.mediaitem.artist;
 
 import android.database.Cursor;
-import android.net.Uri;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -14,6 +12,7 @@ import java.util.Locale;
 import uk.co.ourfriendirony.medianotifier.clients.objects.artist.get.ArtistGet;
 import uk.co.ourfriendirony.medianotifier.clients.objects.artist.search.ArtistSearchResult;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabaseDefinition;
+import uk.co.ourfriendirony.medianotifier.general.Helper;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
 public class Artist implements MediaItem {
@@ -21,18 +20,23 @@ public class Artist implements MediaItem {
     private String title;
     private String subtitle = "";
     private String description = "";
-    private Date releaseDate = getDefaultDate();
+    private Date releaseDate = Helper.getDefaultDate();
     private String externalUrl;
+    private boolean watched = false;
     private List<MediaItem> children = new ArrayList<>();
+
+    public Artist() {
+    }
 
     public Artist(ArtistGet artist) {
         this.id = String.valueOf(artist.getId());
         this.title = artist.getName();
         this.description = artist.getProfile();
-        if (artist.getUrls() != null && artist.getUrls().size() > 0)
+        if (artist.getUrls() != null && artist.getUrls().size() > 0) {
             this.externalUrl = artist.getUrls().get(0);
-        else
+        } else {
             this.externalUrl = artist.getUri();
+        }
         Log.d("[FROM GET]", this.toString());
     }
 
@@ -44,10 +48,9 @@ public class Artist implements MediaItem {
 
     public Artist(Cursor cursor) {
         // TODO: Need to standardise the fields being stored.
-        // TODO: Date is bullshit too
-        this.id = getColumnValue(cursor, ArtistDatabaseDefinition.TA_ID);
-        this.title = getColumnValue(cursor, ArtistDatabaseDefinition.TA_TITLE);
-        this.description = getColumnValue(cursor, ArtistDatabaseDefinition.TA_OVERVIEW);
+        this.id = getColumnValue(cursor, ArtistDatabaseDefinition.ID);
+        this.title = getColumnValue(cursor, ArtistDatabaseDefinition.TITLE);
+        this.description = getColumnValue(cursor, ArtistDatabaseDefinition.DESCRIPTION);
         Log.d("[FROM DB]", this.toString());
     }
 
@@ -106,19 +109,11 @@ public class Artist implements MediaItem {
     }
 
     @Override
-    public Uri getExternalUrl() {
-        if (externalUrl != null)
-            return Uri.parse(externalUrl);
-        return null;
+    public Boolean getWatched() {
+        return watched;
     }
 
     public String toString() {
         return "Movie: " + getTitle() + " > " + getReleaseDateFull() + " > Children " + countChildren();
-    }
-
-    private Date getDefaultDate() {
-        Calendar x = Calendar.getInstance();
-        x.set(9999, 1, 1);
-        return x.getTime();
     }
 }

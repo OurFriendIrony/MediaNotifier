@@ -10,14 +10,14 @@ import java.util.GregorianCalendar;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
-public class StringHandlerTest {
+public class HelperTest {
     private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     @Test
     public void cleanUrlEncodesSpaces() {
         assertEquals(
                 "simple+url",
-                StringHandler.cleanUrl("simple url")
+                Helper.cleanUrl("simple url")
         );
     }
 
@@ -25,15 +25,15 @@ public class StringHandlerTest {
     public void cleanTitleReversesTheAndA() {
         assertEquals(
                 "Simple Test, The",
-                StringHandler.cleanTitle("The Simple Test")
+                Helper.cleanTitle("The Simple Test")
         );
         assertEquals(
                 "Simple Test, A",
-                StringHandler.cleanTitle("A Simple Test")
+                Helper.cleanTitle("A Simple Test")
         );
         assertEquals(
                 "Simple Test",
-                StringHandler.cleanTitle("Simple Test")
+                Helper.cleanTitle("Simple Test")
         );
     }
 
@@ -42,7 +42,7 @@ public class StringHandlerTest {
         Date date = new GregorianCalendar(2001, 0, 1).getTime();
         assertEquals(
                 "2001-01-01",
-                StringHandler.dateToString(date)
+                Helper.dateToString(date)
         );
     }
 
@@ -50,7 +50,7 @@ public class StringHandlerTest {
     public void canHandleNullDateToString() {
         assertEquals(
                 "",
-                StringHandler.dateToString(null)
+                Helper.dateToString(null)
         );
     }
 
@@ -60,7 +60,7 @@ public class StringHandlerTest {
         String dateString = "2001-01-01";
         assertEquals(
                 expectedDate,
-                StringHandler.stringToDate(dateString)
+                Helper.stringToDate(dateString)
         );
     }
 
@@ -68,7 +68,7 @@ public class StringHandlerTest {
     public void willDefaultToNowIfFailsToParseDate() {
         String dateString = "wibble";
         long currentTime = new GregorianCalendar().getTime().getTime();
-        long exceptionTime = StringHandler.stringToDate(dateString).getTime();
+        long exceptionTime = Helper.stringToDate(dateString).getTime();
         assertTrue(currentTime <= exceptionTime);
     }
 
@@ -76,11 +76,11 @@ public class StringHandlerTest {
     public void canPadNumberWithLeadingZeros() {
         assertEquals(
                 "0000003",
-                StringHandler.pad(3, 7)
+                Helper.pad(3, 7)
         );
         assertEquals(
                 "00000000123",
-                StringHandler.pad(123, 11)
+                Helper.pad(123, 11)
         );
     }
 
@@ -92,7 +92,7 @@ public class StringHandlerTest {
 
         assertEquals(
                 "this is my expected string. string values should be expected",
-                StringHandler.replaceTokens(initialString, token, value)
+                Helper.replaceTokens(initialString, token, value)
         );
     }
 
@@ -104,7 +104,7 @@ public class StringHandlerTest {
 
         assertEquals(
                 "this is my expected string. string values should be expected",
-                StringHandler.replaceTokens(initialString, tokens, values)
+                Helper.replaceTokens(initialString, tokens, values)
         );
     }
 
@@ -116,7 +116,7 @@ public class StringHandlerTest {
 
         assertEquals(
                 "this is my @WIBBLE@ @WOBBLE@. @WOBBLE@ values should be @WIBBLE@",
-                StringHandler.replaceTokens(initialString, tokens, values)
+                Helper.replaceTokens(initialString, tokens, values)
         );
     }
 
@@ -124,15 +124,15 @@ public class StringHandlerTest {
     public void canGetStringValueOfInteger() {
         assertEquals(
                 "1",
-                StringHandler.getNotificationNumber(1)
+                Helper.getNotificationNumber(1)
         );
         assertEquals(
                 "7",
-                StringHandler.getNotificationNumber(7)
+                Helper.getNotificationNumber(7)
         );
         assertEquals(
                 "9",
-                StringHandler.getNotificationNumber(9)
+                Helper.getNotificationNumber(9)
         );
     }
 
@@ -140,11 +140,11 @@ public class StringHandlerTest {
     public void canGetDefinedStringValueIfIntegerGreaterThanTen() {
         assertEquals(
                 "9+",
-                StringHandler.getNotificationNumber(10)
+                Helper.getNotificationNumber(10)
         );
         assertEquals(
                 "9+",
-                StringHandler.getNotificationNumber(20)
+                Helper.getNotificationNumber(20)
         );
     }
 }

@@ -24,7 +24,6 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 import uk.co.ourfriendirony.medianotifier.activities.artist.ActivityArtist;
 import uk.co.ourfriendirony.medianotifier.activities.artist.ActivityArtistFind;
 import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovie;
@@ -41,10 +40,11 @@ import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
+import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.switchTheme;
+import static uk.co.ourfriendirony.medianotifier.general.Helper.getNotificationNumber;
 import static uk.co.ourfriendirony.medianotifier.general.IntentGenerator.getContactEmailIntent;
-import static uk.co.ourfriendirony.medianotifier.general.StringHandler.getNotificationNumber;
 
 public class ActivityMain extends AppCompatActivity {
 
@@ -163,20 +163,23 @@ public class ActivityMain extends AppCompatActivity {
         main_button_movie_notification.setText(getNotificationNumber(numMovies));
         main_button_artist_notification.setText(getNotificationNumber(numArtists));
 
-        if (numEpisodes > 0)
+        if (numEpisodes > 0) {
             main_button_tv_notification.setBackground(getResources().getDrawable(R.drawable.button_notification_on));
-        else
+        } else {
             main_button_tv_notification.setBackground(getResources().getDrawable(R.drawable.button_notification_off));
+        }
 
-        if (numMovies > 0)
+        if (numMovies > 0) {
             main_button_movie_notification.setBackground(getResources().getDrawable(R.drawable.button_notification_on));
-        else
+        } else {
             main_button_movie_notification.setBackground(getResources().getDrawable(R.drawable.button_notification_off));
+        }
 
-        if (numArtists > 0)
+        if (numArtists > 0) {
             main_button_artist_notification.setBackground(getResources().getDrawable(R.drawable.button_notification_on));
-        else
+        } else {
             main_button_artist_notification.setBackground(getResources().getDrawable(R.drawable.button_notification_off));
+        }
     }
 
     @Override

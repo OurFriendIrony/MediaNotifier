@@ -46,10 +46,11 @@ public class NotifierReceiver extends BroadcastReceiver {
 
     @NonNull
     private Intent getNotificationIntent(Context context) {
-        if (unwatchedEpisodes > 0)
+        if (unwatchedEpisodes > 0) {
             return new Intent(context, ActivityTVUnwatched.class);
-        else if (unwatchedMovies > 0)
+        } else if (unwatchedMovies > 0) {
             return new Intent(context, ActivityMovieUnwatched.class);
+        }
         return new Intent(context, ActivityTVUnwatched.class);
     }
 

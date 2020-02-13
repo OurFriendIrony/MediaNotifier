@@ -11,34 +11,33 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import uk.co.ourfriendirony.medianotifier.db.Database;
+import uk.co.ourfriendirony.medianotifier.general.Helper;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 import uk.co.ourfriendirony.medianotifier.mediaitem.tv.TVEpisode;
 import uk.co.ourfriendirony.medianotifier.mediaitem.tv.TVShow;
-import uk.co.ourfriendirony.medianotifier.db.Database;
-import uk.co.ourfriendirony.medianotifier.general.StringHandler;
 
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getMarkWatchedIfAlreadyReleased;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetTV;
-import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanTitle;
-import static uk.co.ourfriendirony.medianotifier.general.StringHandler.dateToString;
-import static uk.co.ourfriendirony.medianotifier.general.StringHandler.stringToDate;
+import static uk.co.ourfriendirony.medianotifier.general.Helper.cleanTitle;
+import static uk.co.ourfriendirony.medianotifier.general.Helper.dateToString;
 
 public class TVShowDatabase implements Database {
-    private static final String SELECT_TVSHOWS = "SELECT * FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS + " ORDER BY " + TVShowDatabaseDefinition.TT_TITLE + " ASC;";
-    private static final String SELECT_TVEPISODES = "SELECT * FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS_EPISODES + " WHERE " + TVShowDatabaseDefinition.TTSE_ID + "=? ORDER BY " + TVShowDatabaseDefinition.TTSE_SUBTITLE + " ASC;";
+    private static final String SELECT_TVSHOWS = "SELECT * FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS + " ORDER BY " + TVShowDatabaseDefinition.TITLE + " ASC;";
+    private static final String SELECT_TVEPISODES = "SELECT * FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS_EPISODES + " WHERE " + TVShowDatabaseDefinition.ID + "=? ORDER BY " + TVShowDatabaseDefinition.SUBTITLE + " ASC;";
 
-    private static final String GET_TVEPISODE_WATCHED_STATUS = "SELECT " + TVShowDatabaseDefinition.TTSE_WATCHED + " FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS_EPISODES + " WHERE " + TVShowDatabaseDefinition.TTSE_ID + "=? AND " + TVShowDatabaseDefinition.TTSE_SUBTITLE + "=?;";
+    private static final String GET_TVEPISODE_WATCHED_STATUS = "SELECT " + TVShowDatabaseDefinition.WATCHED + " FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS_EPISODES + " WHERE " + TVShowDatabaseDefinition.ID + "=? AND " + TVShowDatabaseDefinition.SUBTITLE + "=?;";
 
     private static final String COUNT_UNWATCHED_EPISODES_RELEASED = "SELECT COUNT(*) FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS_EPISODES + " " +
-            "WHERE " + TVShowDatabaseDefinition.TTSE_WATCHED + "=" + TVShowDatabaseDefinition.WATCHED_FALSE + " AND " + TVShowDatabaseDefinition.TTSE_DATE + " <= @OFFSET@;";
+            "WHERE " + TVShowDatabaseDefinition.WATCHED + "=" + TVShowDatabaseDefinition.WATCHED_FALSE + " AND " + TVShowDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@;";
 
-    private static final String GET_UNWATCHED_EPISODES_RELEASED = "SELECT " + TVShowDatabaseDefinition.TABLE_TVSHOWS_EPISODES + "." + TVShowDatabaseDefinition.TTSE_ID + "," + TVShowDatabaseDefinition.TTSE_TITLE + "," + TVShowDatabaseDefinition.TTSE_SUBTITLE + "," + TVShowDatabaseDefinition.TTSE_OVERVIEW + "," + TVShowDatabaseDefinition.TTSE_DATE + "," + TVShowDatabaseDefinition.TTSE_IMDB + " " +
+    private static final String GET_UNWATCHED_EPISODES_RELEASED = "SELECT * " +
             "FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS_EPISODES + " " +
-            "WHERE " + TVShowDatabaseDefinition.TTSE_WATCHED + "=" + TVShowDatabaseDefinition.WATCHED_FALSE + " AND " + TVShowDatabaseDefinition.TTSE_DATE + " <= @OFFSET@ ORDER BY " + TVShowDatabaseDefinition.TTSE_DATE + " ASC;";
+            "WHERE " + TVShowDatabaseDefinition.WATCHED + "=" + TVShowDatabaseDefinition.WATCHED_FALSE + " AND " + TVShowDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@ ORDER BY " + TVShowDatabaseDefinition.RELEASE_DATE + " ASC;";
 
-    private static final String GET_UNWATCHED_EPISODES_TOTAL = "SELECT " + TVShowDatabaseDefinition.TABLE_TVSHOWS_EPISODES + "." + TVShowDatabaseDefinition.TTSE_ID + "," + TVShowDatabaseDefinition.TTSE_TITLE + "," + TVShowDatabaseDefinition.TTSE_SUBTITLE + "," + TVShowDatabaseDefinition.TTSE_OVERVIEW + "," + TVShowDatabaseDefinition.TTSE_DATE + "," + TVShowDatabaseDefinition.TTSE_IMDB + " " +
+    private static final String GET_UNWATCHED_EPISODES_TOTAL = "SELECT * " +
             "FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS_EPISODES + " " +
-            "WHERE " + TVShowDatabaseDefinition.TTSE_WATCHED + "=" + TVShowDatabaseDefinition.WATCHED_FALSE + " ORDER BY " + TVShowDatabaseDefinition.TTSE_DATE + " ASC;";
+            "WHERE " + TVShowDatabaseDefinition.WATCHED + "=" + TVShowDatabaseDefinition.WATCHED_FALSE + " ORDER BY " + TVShowDatabaseDefinition.RELEASE_DATE + " ASC;";
 
     private final TVShowDatabaseDefinition databaseHelper;
     private final Context context;
@@ -70,12 +69,12 @@ public class TVShowDatabase implements Database {
 
     private void insert(SQLiteDatabase dbWritable, MediaItem mediaItem) {
         ContentValues dbRow = new ContentValues();
-        dbRow.put(TVShowDatabaseDefinition.TT_ID, mediaItem.getId());
-        dbRow.put(TVShowDatabaseDefinition.TT_TITLE, cleanTitle(mediaItem.getTitle()));
-        dbRow.put(TVShowDatabaseDefinition.TT_SUBTITLE, mediaItem.getSubtitle());
-        dbRow.put(TVShowDatabaseDefinition.TT_IMDB, mediaItem.getExternalLink().toString());
-        dbRow.put(TVShowDatabaseDefinition.TT_DATE, dateToString(mediaItem.getReleaseDate()));
-        dbRow.put(TVShowDatabaseDefinition.TT_OVERVIEW, mediaItem.getDescription());
+        dbRow.put(TVShowDatabaseDefinition.ID, mediaItem.getId());
+        dbRow.put(TVShowDatabaseDefinition.TITLE, cleanTitle(mediaItem.getTitle()));
+        dbRow.put(TVShowDatabaseDefinition.SUBTITLE, mediaItem.getSubtitle());
+        dbRow.put(TVShowDatabaseDefinition.EXTERNAL_URL, mediaItem.getExternalLink().toString());
+        dbRow.put(TVShowDatabaseDefinition.RELEASE_DATE, dateToString(mediaItem.getReleaseDate()));
+        dbRow.put(TVShowDatabaseDefinition.DESCRIPTION, mediaItem.getDescription());
         Log.d("[DB INSERT TV]", dbRow.toString());
         dbWritable.replace(TVShowDatabaseDefinition.TABLE_TVSHOWS, null, dbRow);
 
@@ -84,15 +83,15 @@ public class TVShowDatabase implements Database {
     private void insertEpisode(SQLiteDatabase dbWritable, MediaItem episode, boolean isNewTVShow) {
         String currentWatchedStatus = getWatchedStatus(dbWritable, episode);
         ContentValues dbRow = new ContentValues();
-        dbRow.put(TVShowDatabaseDefinition.TTSE_ID, episode.getId());
-        dbRow.put(TVShowDatabaseDefinition.TTSE_TITLE, cleanTitle(episode.getTitle()));
-        dbRow.put(TVShowDatabaseDefinition.TTSE_SUBTITLE, episode.getSubtitle());
-        dbRow.put(TVShowDatabaseDefinition.TTSE_DATE, dateToString(episode.getReleaseDate()));
-        dbRow.put(TVShowDatabaseDefinition.TTSE_OVERVIEW, episode.getDescription());
+        dbRow.put(TVShowDatabaseDefinition.ID, episode.getId());
+        dbRow.put(TVShowDatabaseDefinition.TITLE, cleanTitle(episode.getTitle()));
+        dbRow.put(TVShowDatabaseDefinition.SUBTITLE, episode.getSubtitle());
+        dbRow.put(TVShowDatabaseDefinition.RELEASE_DATE, dateToString(episode.getReleaseDate()));
+        dbRow.put(TVShowDatabaseDefinition.DESCRIPTION, episode.getDescription());
         if (markWatchedIfReleased(isNewTVShow, episode)) {
-            dbRow.put(TVShowDatabaseDefinition.TTSE_WATCHED, TVShowDatabaseDefinition.WATCHED_TRUE);
+            dbRow.put(TVShowDatabaseDefinition.WATCHED, TVShowDatabaseDefinition.WATCHED_TRUE);
         } else {
-            dbRow.put(TVShowDatabaseDefinition.TTSE_WATCHED, currentWatchedStatus);
+            dbRow.put(TVShowDatabaseDefinition.WATCHED, currentWatchedStatus);
         }
         Log.d("[DB INSERT TV EPISODE]", dbRow.toString());
         dbWritable.replace(TVShowDatabaseDefinition.TABLE_TVSHOWS_EPISODES, null, dbRow);
@@ -106,7 +105,7 @@ public class TVShowDatabase implements Database {
 
         try {
             while (cursor.moveToNext()) {
-                watchedStatus = getColumnValue(cursor, TVShowDatabaseDefinition.TTSE_WATCHED);
+                watchedStatus = getColumnValue(cursor, TVShowDatabaseDefinition.WATCHED);
             }
         } finally {
             cursor.close();
@@ -124,7 +123,7 @@ public class TVShowDatabase implements Database {
 
         try {
             while (cursor.moveToNext()) {
-                watchedStatus = getColumnValue(cursor, TVShowDatabaseDefinition.TTSE_WATCHED);
+                watchedStatus = getColumnValue(cursor, TVShowDatabaseDefinition.WATCHED);
             }
         } finally {
             cursor.close();
@@ -145,8 +144,8 @@ public class TVShowDatabase implements Database {
     @Override
     public void delete(String id) {
         SQLiteDatabase dbWritable = databaseHelper.getWritableDatabase();
-        dbWritable.execSQL("DELETE FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS + " WHERE " + TVShowDatabaseDefinition.TT_ID + "=" + id + ";");
-        dbWritable.execSQL("DELETE FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS_EPISODES + " WHERE " + TVShowDatabaseDefinition.TTSE_ID + "=" + id + ";");
+        dbWritable.execSQL("DELETE FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS + " WHERE " + TVShowDatabaseDefinition.ID + "=" + id + ";");
+        dbWritable.execSQL("DELETE FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS_EPISODES + " WHERE " + TVShowDatabaseDefinition.ID + "=" + id + ";");
         dbWritable.close();
     }
 
@@ -167,7 +166,7 @@ public class TVShowDatabase implements Database {
 
     private int countUnwatched(String countQuery) {
         String offset = "date('now','-" + getNotificationDayOffsetTV(context) + " days')";
-        String query = StringHandler.replaceTokens(countQuery, "@OFFSET@", offset);
+        String query = Helper.replaceTokens(countQuery, "@OFFSET@", offset);
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
 
         Cursor cursor = dbReadable.rawQuery(query, null);
@@ -181,7 +180,7 @@ public class TVShowDatabase implements Database {
     @Override
     public List<MediaItem> getUnwatched(String getQuery, String logTag) {
         String offset = "date('now','-" + getNotificationDayOffsetTV(context) + " days')";
-        String query = StringHandler.replaceTokens(getQuery, "@OFFSET@", offset);
+        String query = Helper.replaceTokens(getQuery, "@OFFSET@", offset);
         List<MediaItem> mediaItems = new ArrayList<>();
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
 
@@ -208,7 +207,7 @@ public class TVShowDatabase implements Database {
         // TODO: When building an mediaItem, we're currently pulling all children back from the DB to display to the user.
         // TODO: Sometimes we just want to display all the tvshows, and pulling all children for all shows is pretty excessive.
 
-        String id = getColumnValue(cursor, TVShowDatabaseDefinition.TT_ID);
+        String id = getColumnValue(cursor, TVShowDatabaseDefinition.ID);
         List<MediaItem> episodes = new ArrayList<>();
 
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
@@ -261,8 +260,8 @@ public class TVShowDatabase implements Database {
     public void updateWatchedStatus(MediaItem mediaItem, String watchedStatus) {
         SQLiteDatabase dbWriteable = databaseHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(TVShowDatabaseDefinition.TTSE_WATCHED, watchedStatus);
-        String where = TVShowDatabaseDefinition.TTSE_ID + "=? and " + TVShowDatabaseDefinition.TTSE_SUBTITLE + "=?";
+        values.put(TVShowDatabaseDefinition.WATCHED, watchedStatus);
+        String where = TVShowDatabaseDefinition.ID + "=? and " + TVShowDatabaseDefinition.SUBTITLE + "=?";
         String[] whereArgs = new String[]{mediaItem.getId(), mediaItem.getSubtitle()};
         dbWriteable.update(TVShowDatabaseDefinition.TABLE_TVSHOWS_EPISODES, values, where, whereArgs);
         dbWriteable.close();

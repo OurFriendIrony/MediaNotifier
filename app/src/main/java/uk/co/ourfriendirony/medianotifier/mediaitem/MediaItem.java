@@ -1,7 +1,5 @@
 package uk.co.ourfriendirony.medianotifier.mediaitem;
 
-import android.net.Uri;
-
 import java.util.Date;
 import java.util.List;
 
@@ -26,5 +24,5 @@ public interface MediaItem {
 
     String getExternalLink();
 
-    Uri getExternalUrl();
+    Boolean getWatched();
 }

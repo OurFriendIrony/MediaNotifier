@@ -6,10 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
-import uk.co.ourfriendirony.medianotifier.mediaitem.movie.Movie;
-import uk.co.ourfriendirony.medianotifier.mediaitem.tv.TVShow;
-import uk.co.ourfriendirony.medianotifier.mediaitem.tv.TVEpisode;
 import uk.co.ourfriendirony.medianotifier.clients.objects.movie.get.MovieGet;
 import uk.co.ourfriendirony.medianotifier.clients.objects.movie.search.MovieSearch;
 import uk.co.ourfriendirony.medianotifier.clients.objects.movie.search.MovieSearchResult;
@@ -18,9 +14,13 @@ import uk.co.ourfriendirony.medianotifier.clients.objects.tv.get.TVSeasonGetEpis
 import uk.co.ourfriendirony.medianotifier.clients.objects.tv.get.TVShowGet;
 import uk.co.ourfriendirony.medianotifier.clients.objects.tv.search.TVShowSearch;
 import uk.co.ourfriendirony.medianotifier.clients.objects.tv.search.TVShowSearchResult;
+import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
+import uk.co.ourfriendirony.medianotifier.mediaitem.movie.Movie;
+import uk.co.ourfriendirony.medianotifier.mediaitem.tv.TVEpisode;
+import uk.co.ourfriendirony.medianotifier.mediaitem.tv.TVShow;
 
-import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanUrl;
-import static uk.co.ourfriendirony.medianotifier.general.StringHandler.replaceTokens;
+import static uk.co.ourfriendirony.medianotifier.general.Helper.cleanUrl;
+import static uk.co.ourfriendirony.medianotifier.general.Helper.replaceTokens;
 
 public class TMDBClient extends AbstractClient {
     private static final String API_KEY = "17e93178aefe463b7d42c6198ba78f30";

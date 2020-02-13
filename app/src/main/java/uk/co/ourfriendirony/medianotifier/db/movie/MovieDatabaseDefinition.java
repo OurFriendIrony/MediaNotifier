@@ -6,20 +6,21 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 public class MovieDatabaseDefinition extends SQLiteOpenHelper {
-
     public static final String WATCHED_FALSE = "0";
     public static final String WATCHED_TRUE = "1";
-    static final String TABLE_MOVIES = "movies";
-    public static final String TM_ID = "movie_id";
-    public static final String TM_TITLE = "movie_title";
-    public static final String TM_IMDB = "movie_imdb_id";
-    public static final String TM_DATE = "movie_released_date";
-    public static final String TM_OVERVIEW = "movie_overview";
-    static final String TM_WATCHED = "movie_watched";
-    static final String TM_TAGLINE = "movie_tagline";
-    public static final String TM_COLLECTION = "movie_collection";
-    private static final String DATABASE_NAME = "movies";
-    private static final int DATABASE_VERSION = 4;
+
+    public static final String ID = "id";
+    public static final String SUBID = "sub_id";
+    public static final String TITLE = "title";
+    public static final String SUBTITLE = "subtitle";
+    public static final String DESCRIPTION = "description";
+    public static final String RELEASE_DATE = "release_date";
+    public static final String EXTERNAL_URL = "external_url";
+    public static final String WATCHED = "watched";
+
+    private static final int DATABASE_VERSION = 6;
+    public static final String DATABASE_NAME = "movies";
+    public static final String TABLE_MOVIES = "movies";
 
     MovieDatabaseDefinition(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -29,15 +30,15 @@ public class MovieDatabaseDefinition extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         Log.d("[DB CREATE]", String.valueOf(this.getClass()));
         db.execSQL("CREATE TABLE " + TABLE_MOVIES + " (" +
-                TM_ID + " INTEGER, " +
-                TM_TITLE + " TEXT, " +
-                TM_IMDB + " TEXT, " +
-                TM_DATE + " TEXT, " +
-                TM_OVERVIEW + " TEXT, " +
-                TM_TAGLINE + " TEXT, " +
-                TM_COLLECTION + " TEXT, " +
-                TM_WATCHED + " INTEGER DEFAULT " + WATCHED_FALSE + ", " +
-                "PRIMARY KEY (" + TM_ID + ")" +
+                ID + " TEXT, " +
+                SUBID + " TEXT, " +
+                TITLE + " TEXT, " +
+                SUBTITLE + " TEXT, " +
+                DESCRIPTION + " TEXT, " +
+                RELEASE_DATE + " TEXT, " +
+                EXTERNAL_URL + " TEXT, " +
+                WATCHED + " INTEGER DEFAULT " + WATCHED_FALSE + ", " +
+                "PRIMARY KEY (" + ID + ")" +
                 ")");
     }
 

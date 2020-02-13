@@ -2,7 +2,6 @@ package uk.co.ourfriendirony.medianotifier.activities.tv;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +10,9 @@ import android.widget.ListView;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummary;
+import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
 public class ActivityTVUnwatchedComingSoon extends Fragment {
 

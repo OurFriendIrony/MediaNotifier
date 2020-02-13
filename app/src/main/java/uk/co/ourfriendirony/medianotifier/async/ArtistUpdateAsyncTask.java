@@ -4,9 +4,9 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 import uk.co.ourfriendirony.medianotifier.clients.DiscogsClient;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
+import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
 import static uk.co.ourfriendirony.medianotifier.general.StaticContext.getStaticContext;
 
@@ -39,8 +39,9 @@ public class ArtistUpdateAsyncTask extends AsyncTask<MediaItem, Void, String> {
             }
         }
 
-        if (failed > 0)
+        if (failed > 0) {
             result += " [Failed=" + failed + "]";
+        }
 
         return result;
     }

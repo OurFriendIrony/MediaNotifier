@@ -1,7 +1,6 @@
 package uk.co.ourfriendirony.medianotifier.mediaitem.tv;
 
 import android.database.Cursor;
-import android.net.Uri;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
@@ -14,7 +13,7 @@ import uk.co.ourfriendirony.medianotifier.clients.objects.tv.get.TVSeasonGetEpis
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabaseDefinition;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
-import static uk.co.ourfriendirony.medianotifier.general.StringHandler.stringToDate;
+import static uk.co.ourfriendirony.medianotifier.general.Helper.stringToDate;
 
 public class TVEpisode implements MediaItem {
     private String id;
@@ -23,6 +22,7 @@ public class TVEpisode implements MediaItem {
     private String description = "";
     private Date releaseDate;
     private String externalUrl;
+    private boolean watched = false;
     private List<MediaItem> children = new ArrayList<>();
 
     public TVEpisode(TVSeasonGetEpisode episode, String showId) {
@@ -35,12 +35,12 @@ public class TVEpisode implements MediaItem {
     }
 
     public TVEpisode(Cursor cursor) {
-        this.id = getColumnValue(cursor, TVShowDatabaseDefinition.TTSE_ID);
-        this.title = getColumnValue(cursor, TVShowDatabaseDefinition.TTSE_TITLE);
-        this.subtitle = getColumnValue(cursor, TVShowDatabaseDefinition.TTSE_SUBTITLE);
-        this.description = getColumnValue(cursor, TVShowDatabaseDefinition.TTSE_OVERVIEW);
-        this.releaseDate = stringToDate(getColumnValue(cursor, TVShowDatabaseDefinition.TTSE_DATE));
-        this.externalUrl = getColumnValue(cursor, TVShowDatabaseDefinition.TTSE_IMDB);
+        this.id = getColumnValue(cursor, TVShowDatabaseDefinition.ID);
+        this.title = getColumnValue(cursor, TVShowDatabaseDefinition.TITLE);
+        this.subtitle = getColumnValue(cursor, TVShowDatabaseDefinition.SUBTITLE);
+        this.description = getColumnValue(cursor, TVShowDatabaseDefinition.DESCRIPTION);
+        this.releaseDate = stringToDate(getColumnValue(cursor, TVShowDatabaseDefinition.RELEASE_DATE));
+        this.externalUrl = getColumnValue(cursor, TVShowDatabaseDefinition.EXTERNAL_URL);
         Log.d("[DB READ]", this.toString());
     }
 
@@ -99,10 +99,8 @@ public class TVEpisode implements MediaItem {
     }
 
     @Override
-    public Uri getExternalUrl() {
-        if (externalUrl != null)
-            return Uri.parse(externalUrl);
-        return null;
+    public Boolean getWatched() {
+        return watched;
     }
 
     public String toString() {

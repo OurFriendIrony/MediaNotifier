@@ -10,9 +10,9 @@ import android.widget.ListView;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummary;
+import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
 public class ActivityTVUnwatchedReleased extends Fragment {
 

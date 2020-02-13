@@ -6,14 +6,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
-import uk.co.ourfriendirony.medianotifier.mediaitem.artist.Artist;
 import uk.co.ourfriendirony.medianotifier.clients.objects.artist.get.ArtistGet;
 import uk.co.ourfriendirony.medianotifier.clients.objects.artist.search.ArtistSearch;
 import uk.co.ourfriendirony.medianotifier.clients.objects.artist.search.ArtistSearchResult;
+import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
+import uk.co.ourfriendirony.medianotifier.mediaitem.artist.Artist;
 
-import static uk.co.ourfriendirony.medianotifier.general.StringHandler.cleanUrl;
-import static uk.co.ourfriendirony.medianotifier.general.StringHandler.replaceTokens;
+import static uk.co.ourfriendirony.medianotifier.general.Helper.cleanUrl;
+import static uk.co.ourfriendirony.medianotifier.general.Helper.replaceTokens;
 
 public class DiscogsClient extends AbstractClient {
     private static final String API_KEY = "DbgZtMTTICHMGzrmeSZZ";

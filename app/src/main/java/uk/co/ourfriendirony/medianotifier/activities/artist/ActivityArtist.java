@@ -15,11 +15,11 @@ import java.util.Collections;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 import uk.co.ourfriendirony.medianotifier.async.ArtistUpdateAsyncTask;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummary;
+import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
 public class ActivityArtist extends AppCompatActivity {
     private Spinner spinnerView;
