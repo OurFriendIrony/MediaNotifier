@@ -12,7 +12,6 @@ import java.util.Locale;
 import uk.co.ourfriendirony.medianotifier.clients.objects.artist.get.ArtistGet;
 import uk.co.ourfriendirony.medianotifier.clients.objects.artist.search.ArtistSearchResult;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabaseDefinition;
-import uk.co.ourfriendirony.medianotifier.general.Helper;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
 public class Artist implements MediaItem {
@@ -20,13 +19,10 @@ public class Artist implements MediaItem {
     private String title;
     private String subtitle = "";
     private String description = "";
-    private Date releaseDate = Helper.getDefaultDate();
+    private Date releaseDate;
     private String externalUrl;
     private boolean watched = false;
     private List<MediaItem> children = new ArrayList<>();
-
-    public Artist() {
-    }
 
     public Artist(ArtistGet artist) {
         this.id = String.valueOf(artist.getId());
@@ -85,12 +81,18 @@ public class Artist implements MediaItem {
 
     @Override
     public String getReleaseDateFull() {
-        return new SimpleDateFormat("dd/MM/yyyy", Locale.UK).format(releaseDate);
+        if (releaseDate != null) {
+            return new SimpleDateFormat("dd/MM/yyyy", Locale.UK).format(releaseDate);
+        }
+        return "?";
     }
 
     @Override
     public String getReleaseDateYear() {
-        return new SimpleDateFormat("yyyy", Locale.UK).format(releaseDate);
+        if (releaseDate != null) {
+            return new SimpleDateFormat("yyyy", Locale.UK).format(releaseDate);
+        }
+        return "?";
     }
 
     @Override

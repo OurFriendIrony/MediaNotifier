@@ -159,7 +159,6 @@ public class ArtistDatabase implements Database {
         return new ArrayList<>();
     }
 
-
     @Override
     public List<MediaItem> getAllSubitems(String id) {
         return new ArrayList<>();

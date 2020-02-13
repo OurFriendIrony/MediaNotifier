@@ -18,8 +18,9 @@
             android:layout_height="wrap_content"
             android:layout_toStartOf="@+id/list_item_generic_date"
             android:gravity="start|top"
-            android:paddingEnd="0dp"
             android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:maxLines="1"
             android:text="-title-"/>
 
         <TextView
@@ -31,9 +32,10 @@
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@id/list_item_generic_title"
             android:gravity="end|center"
+            android:paddingStart="10dp"
             android:paddingEnd="0dp"
-            android:text="-date-"
-            android:paddingStart="10dp" />
+            android:maxLines="1"
+            android:text="-date-" />
 
     </RelativeLayout>
 

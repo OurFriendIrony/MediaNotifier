@@ -211,11 +211,14 @@ public class MovieDatabase implements Database {
         dbWriteable.close();
     }
 
-    private boolean markWatchedIfReleased(boolean isNewItem, MediaItem mediaItem) {
-        return isNewItem && alreadyReleased(mediaItem) && getMarkWatchedIfAlreadyReleased(context);
+    private boolean markWatchedIfReleased(boolean isNew, MediaItem mediaItem) {
+        return isNew && alreadyReleased(mediaItem) && getMarkWatchedIfAlreadyReleased(context);
     }
 
     private boolean alreadyReleased(MediaItem mediaItem) {
+        if (mediaItem.getReleaseDate() == null) {
+            return true;
+        }
         return mediaItem.getReleaseDate().compareTo(new Date()) < 0;
     }
 

@@ -75,12 +75,18 @@ public class TVEpisode implements MediaItem {
 
     @Override
     public String getReleaseDateFull() {
-        return new SimpleDateFormat("dd/MM/yyyy", Locale.UK).format(releaseDate);
+        if (releaseDate != null) {
+            return new SimpleDateFormat("dd/MM/yyyy", Locale.UK).format(releaseDate);
+        }
+        return "?";
     }
 
     @Override
     public String getReleaseDateYear() {
-        return new SimpleDateFormat("yyyy", Locale.UK).format(releaseDate);
+        if (releaseDate != null) {
+            return new SimpleDateFormat("yyyy", Locale.UK).format(releaseDate);
+        }
+        return "?";
     }
 
     @Override

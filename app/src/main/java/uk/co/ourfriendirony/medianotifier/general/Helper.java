@@ -34,16 +34,19 @@ public class Helper {
 
     public static String dateToString(Date date) {
         if (date == null) {
-            return "";
+            return null;
         }
         return dateFormat.format(date);
     }
 
     public static Date stringToDate(String date) {
+        if (date == null) {
+            return null;
+        }
         try {
             return dateFormat.parse(date);
-        } catch (ParseException e) {
-            return new Date();
+        } catch (Exception e) {
+            return null;
         }
     }
 

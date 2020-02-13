@@ -72,7 +72,7 @@ public class TVShowDatabase implements Database {
         dbRow.put(TVShowDatabaseDefinition.ID, mediaItem.getId());
         dbRow.put(TVShowDatabaseDefinition.TITLE, cleanTitle(mediaItem.getTitle()));
         dbRow.put(TVShowDatabaseDefinition.SUBTITLE, mediaItem.getSubtitle());
-        dbRow.put(TVShowDatabaseDefinition.EXTERNAL_URL, mediaItem.getExternalLink().toString());
+        dbRow.put(TVShowDatabaseDefinition.EXTERNAL_URL, mediaItem.getExternalLink());
         dbRow.put(TVShowDatabaseDefinition.RELEASE_DATE, dateToString(mediaItem.getReleaseDate()));
         dbRow.put(TVShowDatabaseDefinition.DESCRIPTION, mediaItem.getDescription());
         Log.d("[DB INSERT TV]", dbRow.toString());
@@ -267,12 +267,15 @@ public class TVShowDatabase implements Database {
         dbWriteable.close();
     }
 
-    private boolean markWatchedIfReleased(boolean isNewTVShow, MediaItem episode) {
-        return isNewTVShow && alreadyReleased(episode) && getMarkWatchedIfAlreadyReleased(context);
+    private boolean markWatchedIfReleased(boolean isNew, MediaItem mediaItem) {
+        return isNew && alreadyReleased(mediaItem) && getMarkWatchedIfAlreadyReleased(context);
     }
 
-    private boolean alreadyReleased(MediaItem episode) {
-        return episode.getReleaseDate().compareTo(new Date()) < 0;
+    private boolean alreadyReleased(MediaItem mediaItem) {
+        if (mediaItem.getReleaseDate() == null) {
+            return true;
+        }
+        return mediaItem.getReleaseDate().compareTo(new Date()) < 0;
     }
 
     private String getColumnValue(Cursor cursor, String field) {

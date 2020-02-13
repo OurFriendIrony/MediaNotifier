@@ -89,11 +89,17 @@ public class TVShow implements MediaItem {
 
     @Override
     public String getReleaseDateFull() {
+        if (releaseDate == null) {
+            return "?";
+        }
         return new SimpleDateFormat("dd/MM/yyyy", Locale.UK).format(releaseDate);
     }
 
     @Override
     public String getReleaseDateYear() {
+        if (releaseDate == null) {
+            return "?";
+        }
         return new SimpleDateFormat("yyyy", Locale.UK).format(releaseDate);
     }
 
