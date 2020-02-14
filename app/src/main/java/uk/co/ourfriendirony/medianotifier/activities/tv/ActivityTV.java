@@ -23,13 +23,12 @@ import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummary;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
 public class ActivityTV extends AppCompatActivity {
-    private TVShowDatabase database;
-
     private Spinner spinner;
     private ListView listView;
     private List<MediaItem> tvShows;
     private ProgressBar progressBar;
     private int currentShowPosition;
+    private TVShowDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +47,7 @@ public class ActivityTV extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int showPosition, long id) {
-                displayEpisodes(tvShows.get(showPosition).getChildren());
+                displayEpisodes(showPosition);
             }
 
             @Override
@@ -78,7 +77,7 @@ public class ActivityTV extends AppCompatActivity {
                 return true;
 
             case R.id.action_imdb:
-                Intent intent = IntentGenerator.getWebPageIntent(show.getExternalLink().toString());
+                Intent intent = IntentGenerator.getWebPageIntent(show.getExternalLink());
                 startActivity(intent);
                 return true;
 
@@ -91,11 +90,13 @@ public class ActivityTV extends AppCompatActivity {
         if (tvShows.size() > 0) {
             ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, tvShows, database);
             spinner.setAdapter(listAdapterSummary);
-            displayEpisodes(tvShows.get(0).getChildren());
+            displayEpisodes(0);
         }
     }
 
-    private void displayEpisodes(List<MediaItem> mediaItems) {
+    private void displayEpisodes(int showPosition) {
+        currentShowPosition = showPosition;
+        List<MediaItem> mediaItems = tvShows.get(showPosition).getChildren();
         if (mediaItems.size() > 0) {
             ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_toggle, mediaItems, database);
             listView.setAdapter(listAdapterSummary);
