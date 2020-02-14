@@ -23,9 +23,11 @@ public class ListAdapterSummary extends ArrayAdapter {
     private final List<MediaItem> mediaItems;
     private final int defaultLayoutId;
     private final Database db;
+    private final Context context;
 
     public ListAdapterSummary(Context context, int defaultLayoutId, List<MediaItem> mediaItems, Database db) {
         super(context, defaultLayoutId, mediaItems);
+        this.context = context;
         this.defaultLayoutId = defaultLayoutId;
         this.mediaItems = mediaItems;
         this.db = db;
@@ -57,7 +59,6 @@ public class ListAdapterSummary extends ArrayAdapter {
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
         view = getFindView(position, view);
-
         return view;
     }
 
@@ -95,12 +96,32 @@ public class ListAdapterSummary extends ArrayAdapter {
         textTitle.setText(mediaItem.getTitle());
         textSubTitle.setText(mediaItem.getSubtitle());
         textDate.setText(mediaItem.getReleaseDateFull());
-        textOverview.setText(mediaItem.getDescription());
-
+        textOverview.setText("");
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView overview = (TextView) v.findViewById(R.id.list_item_generic_overview);
+                String t = (overview.getText() == "") ? mediaItem.getDescription() : "";
+                overview.setText(t);
+                System.out.println("SHORT CLICK");
+            }
+        });
+        view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                TextView overview = (TextView) v.findViewById(R.id.list_item_generic_overview);
+                String t = (overview.getText() == "") ? mediaItem.getDescription() : "";
+                overview.setText(t);
+                System.out.println("LONG CLICK");
+                return true;
+            }
+        });
         SwitchCompat toggle = (SwitchCompat) view.findViewById(R.id.list_item_toggle);
 
         toggle.setChecked(!db.getWatchedStatusAsBoolean(mediaItem));
-        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+
+        {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 db.updateWatchedStatus(mediaItem, (!isChecked) ? WATCHED_TRUE : WATCHED_FALSE);
             }

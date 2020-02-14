@@ -7,8 +7,11 @@
 
     <RelativeLayout
         android:id="@+id/list_item_generic_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@id/list_item_generic_right"
+        android:paddingEnd="0dp"
+        android:paddingStart="0dp">
 
         <TextView
             android:id="@+id/list_item_generic_subtitle"
@@ -17,9 +20,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:gravity="start|center"
-            android:paddingEnd="0dp"
-            android:paddingStart="10dp"
             android:maxLines="1"
+            android:paddingEnd="0dp"
+            android:paddingStart="0dp"
             android:text="-subtext-" />
 
         <TextView
@@ -29,31 +32,31 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:gravity="end|center"
-            android:paddingEnd="10dp"
-            android:paddingStart="0dp"
             android:maxLines="1"
+            android:paddingEnd="0dp"
+            android:paddingStart="0dp"
             android:text="-date-" />
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/list_item_generic_primarybar"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/list_item_generic_header">
+        android:layout_below="@id/list_item_generic_header"
+        android:layout_toStartOf="@id/list_item_generic_right"
+        android:paddingEnd="0dp"
+        android:paddingStart="0dp">
 
         <RelativeLayout
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="3dp">
-
+            android:paddingEnd="0dp"
+            android:paddingStart="0dp">
 
             <ImageView
                 android:id="@+id/list_item_picture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@id/list_item_toggle"
-                android:layout_alignBottom="@id/list_item_toggle"
                 android:layout_alignParentStart="true"
                 android:contentDescription="TODO"
                 android:gravity="start|center"
@@ -65,28 +68,33 @@
                 style="@style/h1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@id/list_item_toggle"
-                android:layout_alignBottom="@id/list_item_toggle"
                 android:layout_toEndOf="@id/list_item_picture"
-                android:layout_toStartOf="@id/list_item_toggle"
                 android:gravity="start|center"
-                android:paddingEnd="0dp"
-                android:paddingStart="0dp"
                 android:maxLines="1"
+                android:paddingEnd="4dp"
+                android:paddingStart="4dp"
                 android:text="-title-" />
-
-            <include
-                android:id="@+id/list_item_toggle"
-                layout="@layout/button_toggle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:gravity="end|center"
-                android:paddingEnd="0dp"
-                android:paddingStart="10dp" />
         </RelativeLayout>
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/list_item_generic_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:paddingEnd="0dp"
+        android:paddingStart="10dp">
+
+        <include
+            android:id="@+id/list_item_toggle"
+            layout="@layout/button_toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end|bottom"
+            android:paddingEnd="0dp"
+            android:paddingStart="0dp" />
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/list_item_generic_secondarybar"
@@ -94,7 +102,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/list_item_generic_primarybar"
         android:orientation="horizontal"
-        android:padding="3dp">
+        android:paddingTop="0dp"
+        android:paddingEnd="0dp"
+        android:paddingStart="0dp">
 
         <TextView
             android:id="@+id/list_item_generic_overview"
