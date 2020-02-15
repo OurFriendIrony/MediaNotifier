@@ -22,7 +22,7 @@ public class DiscogsClient extends AbstractClient {
     private static final String HOST = "https://api.discogs.com/";
     private static final String URL_AUTH = "?key=" + API_KEY + "&secret=" + API_SECRET;
 
-    private static final String URL_ARTIST_QUERY = HOST + "database/search" + URL_AUTH + "&type=artist&title=@NAME@&per_page=10";
+    private static final String URL_ARTIST_QUERY = HOST + "database/search" + URL_AUTH + "&q=@NAME@&type=artist&per_page=10";
     private static final String URL_ARTIST_ID = HOST + "artists/@ID@" + URL_AUTH;
     private static final String URL_ARTIST_RELEASE_ID = HOST + "artists/@ID@/releases" + URL_AUTH;
 
