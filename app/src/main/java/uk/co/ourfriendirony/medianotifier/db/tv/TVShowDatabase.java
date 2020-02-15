@@ -84,6 +84,7 @@ public class TVShowDatabase implements Database {
         String currentWatchedStatus = getWatchedStatus(dbWritable, episode);
         ContentValues dbRow = new ContentValues();
         dbRow.put(TVShowDatabaseDefinition.ID, episode.getId());
+        dbRow.put(TVShowDatabaseDefinition.SUBID, episode.getSubtitle());
         dbRow.put(TVShowDatabaseDefinition.TITLE, cleanTitle(episode.getTitle()));
         dbRow.put(TVShowDatabaseDefinition.SUBTITLE, episode.getSubtitle());
         dbRow.put(TVShowDatabaseDefinition.RELEASE_DATE, dateToString(episode.getReleaseDate()));
