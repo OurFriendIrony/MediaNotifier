@@ -14,6 +14,8 @@ import uk.co.ourfriendirony.medianotifier.clients.objects.artist.search.ArtistSe
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabaseDefinition;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
+import static uk.co.ourfriendirony.medianotifier.general.Helper.stringToDate;
+
 public class Artist implements MediaItem {
     private String id;
     private String title;
@@ -25,6 +27,7 @@ public class Artist implements MediaItem {
     private List<MediaItem> children = new ArrayList<>();
 
     public Artist(ArtistGet artist, List<MediaItem> children) {
+        // TODO: DEPRECATE
         this.id = String.valueOf(artist.getId());
         this.title = artist.getName();
         this.description = artist.getProfile();
@@ -37,11 +40,39 @@ public class Artist implements MediaItem {
         Log.d("[FROM GET]", this.toString());
     }
 
+    public Artist(uk.co.ourfriendirony.medianotifier.clients.musicbrainz.get.ArtistGet artist, List<MediaItem> children) {
+        this.id = artist.getId();
+        this.title = artist.getName();
+        this.description = artist.getDisambiguation();
+        if (artist.getLifeSpan() != null && artist.getLifeSpan().getBegin() != null) {
+            this.releaseDate = artist.getLifeSpan().getBegin();
+        }
+        this.children = children;
+        Log.d("[FROM GET]", this.toString());
+    }
+
     public Artist(ArtistGet artist) {
+        // TODO: DEPRECATE
         this(artist, new ArrayList<MediaItem>());
     }
 
+    public Artist(uk.co.ourfriendirony.medianotifier.clients.musicbrainz.get.ArtistGet artist) {
+        this(artist, new ArrayList<MediaItem>());
+    }
+
+
+    public Artist(uk.co.ourfriendirony.medianotifier.clients.musicbrainz.search.ArtistSearchArtist artist) {
+        this.id = artist.getId();
+        this.title = artist.getName();
+        this.description = artist.getDisambiguation();
+        if (artist.getLifeSpan() != null && artist.getLifeSpan().getBegin() != null) {
+            this.releaseDate = artist.getLifeSpan().getBegin();
+        }
+        this.children = children;
+        Log.d("[FROM GET]", this.toString());
+    }
     public Artist(ArtistSearchResult artist) {
+        // TODO: DEPRECATE
         this.id = String.valueOf(artist.getId());
         this.title = artist.getTitle();
         Log.d("[FROM SEARCH]", this.toString());
@@ -52,6 +83,8 @@ public class Artist implements MediaItem {
         this.id = getColumnValue(cursor, ArtistDatabaseDefinition.ID);
         this.title = getColumnValue(cursor, ArtistDatabaseDefinition.TITLE);
         this.description = getColumnValue(cursor, ArtistDatabaseDefinition.DESCRIPTION);
+        // TODO: fix date
+        this.releaseDate = stringToDate(getColumnValue(cursor, ArtistDatabaseDefinition.RELEASE_DATE));
         this.children = releases;
         Log.d("[FROM DB]", this.toString());
     }

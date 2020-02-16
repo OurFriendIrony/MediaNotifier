@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.get.ArtistGetReleaseGroup;
 import uk.co.ourfriendirony.medianotifier.clients.objects.artist.get.ArtistReleasesRelease;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabaseDefinition;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
@@ -18,6 +19,7 @@ import static uk.co.ourfriendirony.medianotifier.general.Helper.stringToDate;
 
 public class Release implements MediaItem {
     private String id;
+    private String subid;
     private String title;
     private String subtitle = "";
     private String description = "";
@@ -35,9 +37,16 @@ public class Release implements MediaItem {
         this.externalUrl = release.getResourceUrl();
         Log.d("[FROM GET]", this.toString());
     }
-
+    public Release(ArtistGetReleaseGroup release,String artistId) {
+        this.id = artistId;
+        this.subid = release.getId();
+        this.title = release.getTitle();
+        this.releaseDate = release.getFirstReleaseDate();
+        Log.d("[FROM GET]", this.toString());
+    }
     public Release(Cursor cursor) {
         this.id = getColumnValue(cursor, TVShowDatabaseDefinition.ID);
+        this.subid = getColumnValue(cursor, TVShowDatabaseDefinition.SUBID);
         this.title = getColumnValue(cursor, TVShowDatabaseDefinition.TITLE);
         this.subtitle = getColumnValue(cursor, TVShowDatabaseDefinition.SUBTITLE);
         this.description = getColumnValue(cursor, TVShowDatabaseDefinition.DESCRIPTION);

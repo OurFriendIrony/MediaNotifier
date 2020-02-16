@@ -20,6 +20,7 @@ import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.clients.DiscogsClient;
+import uk.co.ourfriendirony.medianotifier.clients.MusicBrainzClient;
 import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
@@ -31,7 +32,8 @@ public class ActivityArtistFind extends AppCompatActivity {
     private ProgressBar progressBar;
     private ListView listView;
     private List<MediaItem> mediaItems = new ArrayList<>();
-    private DiscogsClient client = new DiscogsClient();
+        private DiscogsClient client = new DiscogsClient();
+//    private MusicBrainzClient client = new MusicBrainzClient();
     private Database database;
 
     @Override
@@ -123,7 +125,8 @@ public class ActivityArtistFind extends AppCompatActivity {
 
             MediaItem artist;
             try {
-                artist = client.getArtist(Integer.parseInt(artistId), true);
+//                artist = client.getArtist(artistId);
+                artist = client.getArtist(Integer.parseInt(artistId));
                 database.add(artist);
             } catch (IOException e) {
                 Log.e(String.valueOf(this.getClass()), "Failed to add: " + e.getMessage());
