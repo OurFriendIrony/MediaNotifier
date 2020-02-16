@@ -123,7 +123,7 @@ public class ActivityArtistFind extends AppCompatActivity {
 
             MediaItem artist;
             try {
-                artist = client.getArtist(Integer.parseInt(artistId));
+                artist = client.getArtist(Integer.parseInt(artistId), true);
                 database.add(artist);
             } catch (IOException e) {
                 Log.e(String.valueOf(this.getClass()), "Failed to add: " + e.getMessage());

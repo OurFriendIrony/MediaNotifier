@@ -211,7 +211,8 @@ public class MovieDatabase implements Database {
         dbWriteable.close();
     }
 
-    private boolean markWatchedIfReleased(boolean isNew, MediaItem mediaItem) {
+    @Override
+    public boolean markWatchedIfReleased(boolean isNew, MediaItem mediaItem) {
         return isNew && alreadyReleased(mediaItem) && getMarkWatchedIfAlreadyReleased(context);
     }
 

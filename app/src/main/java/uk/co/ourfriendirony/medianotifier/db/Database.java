@@ -32,4 +32,6 @@ public interface Database {
     List<MediaItem> getAllSubitems(String id);
 
     void updateWatchedStatus(MediaItem mediaItem, String watchedStatus);
+
+    boolean markWatchedIfReleased(boolean isNew, MediaItem mediaItem);
 }

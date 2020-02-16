@@ -24,7 +24,7 @@ public class Artist implements MediaItem {
     private boolean watched = false;
     private List<MediaItem> children = new ArrayList<>();
 
-    public Artist(ArtistGet artist) {
+    public Artist(ArtistGet artist, List<MediaItem> children) {
         this.id = String.valueOf(artist.getId());
         this.title = artist.getName();
         this.description = artist.getProfile();
@@ -33,7 +33,12 @@ public class Artist implements MediaItem {
         } else {
             this.externalUrl = artist.getUri();
         }
+        this.children = children;
         Log.d("[FROM GET]", this.toString());
+    }
+
+    public Artist(ArtistGet artist) {
+        this(artist, new ArrayList<MediaItem>());
     }
 
     public Artist(ArtistSearchResult artist) {
@@ -42,11 +47,12 @@ public class Artist implements MediaItem {
         Log.d("[FROM SEARCH]", this.toString());
     }
 
-    public Artist(Cursor cursor) {
+    public Artist(Cursor cursor, List<MediaItem> releases) {
         // TODO: Need to standardise the fields being stored.
         this.id = getColumnValue(cursor, ArtistDatabaseDefinition.ID);
         this.title = getColumnValue(cursor, ArtistDatabaseDefinition.TITLE);
         this.description = getColumnValue(cursor, ArtistDatabaseDefinition.DESCRIPTION);
+        this.children = releases;
         Log.d("[FROM DB]", this.toString());
     }
 
@@ -116,6 +122,6 @@ public class Artist implements MediaItem {
     }
 
     public String toString() {
-        return "Movie: " + getTitle() + " > " + getReleaseDateFull() + " > Children " + countChildren();
+        return "Artist: " + getTitle() + " > " + getReleaseDateFull() + " > Children " + countChildren();
     }
 }

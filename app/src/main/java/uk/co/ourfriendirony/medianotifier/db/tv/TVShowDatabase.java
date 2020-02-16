@@ -77,7 +77,6 @@ public class TVShowDatabase implements Database {
         dbRow.put(TVShowDatabaseDefinition.DESCRIPTION, mediaItem.getDescription());
         Log.d("[DB INSERT TV]", dbRow.toString());
         dbWritable.replace(TVShowDatabaseDefinition.TABLE_TVSHOWS, null, dbRow);
-
     }
 
     private void insertEpisode(SQLiteDatabase dbWritable, MediaItem episode, boolean isNewTVShow) {
@@ -150,19 +149,35 @@ public class TVShowDatabase implements Database {
         dbWritable.close();
     }
 
+    @NonNull
+    private MediaItem buildSubItemFromDB(Cursor cursor) {
+        return new TVEpisode(cursor);
+    }
+
+    @NonNull
+    private MediaItem buildItemFromDB(Cursor cursor) {
+        // TODO: When building an mediaItem, we're currently pulling all children back from the DB to display to the user.
+        // TODO: Sometimes we just want to display all the tvshows, and pulling all children for all shows is pretty excessive.
+
+        String id = getColumnValue(cursor, TVShowDatabaseDefinition.ID);
+        List<MediaItem> episodes = new ArrayList<>();
+
+        SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
+        Cursor subCursor = dbReadable.rawQuery(SELECT_TVEPISODES, new String[]{id});
+        try {
+            while (subCursor.moveToNext()) {
+                episodes.add(buildSubItemFromDB(subCursor));
+            }
+        } finally {
+            subCursor.close();
+        }
+        dbReadable.close();
+        return new TVShow(cursor, episodes);
+    }
+
     @Override
     public int countUnwatchedReleased() {
         return countUnwatched(COUNT_UNWATCHED_EPISODES_RELEASED);
-    }
-
-    @Override
-    public List<MediaItem> getUnwatchedReleased() {
-        return getUnwatched(GET_UNWATCHED_EPISODES_RELEASED, "UNWATCHED RELEASED");
-    }
-
-    @Override
-    public List<MediaItem> getUnwatchedTotal() {
-        return getUnwatched(GET_UNWATCHED_EPISODES_TOTAL, "UNWATCHED TOTAL");
     }
 
     private int countUnwatched(String countQuery) {
@@ -176,6 +191,16 @@ public class TVShowDatabase implements Database {
         cursor.close();
         dbReadable.close();
         return count;
+    }
+
+    @Override
+    public List<MediaItem> getUnwatchedReleased() {
+        return getUnwatched(GET_UNWATCHED_EPISODES_RELEASED, "UNWATCHED RELEASED");
+    }
+
+    @Override
+    public List<MediaItem> getUnwatchedTotal() {
+        return getUnwatched(GET_UNWATCHED_EPISODES_TOTAL, "UNWATCHED TOTAL");
     }
 
     @Override
@@ -198,43 +223,17 @@ public class TVShowDatabase implements Database {
         return mediaItems;
     }
 
-    @NonNull
-    private MediaItem buildSubItemFromDB(Cursor cursor) {
-        return new TVEpisode(cursor);
-    }
-
-    @NonNull
-    private MediaItem buildItemFromDB(Cursor cursor) {
-        // TODO: When building an mediaItem, we're currently pulling all children back from the DB to display to the user.
-        // TODO: Sometimes we just want to display all the tvshows, and pulling all children for all shows is pretty excessive.
-
-        String id = getColumnValue(cursor, TVShowDatabaseDefinition.ID);
-        List<MediaItem> episodes = new ArrayList<>();
-
-        SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
-        Cursor tvSeasonCursor = dbReadable.rawQuery(SELECT_TVEPISODES, new String[]{id});
-        try {
-            while (tvSeasonCursor.moveToNext()) {
-                episodes.add(buildSubItemFromDB(tvSeasonCursor));
-            }
-        } finally {
-            tvSeasonCursor.close();
-        }
-        dbReadable.close();
-        return new TVShow(cursor, episodes);
-    }
-
     @Override
     public List<MediaItem> getAll() {
         List<MediaItem> shows = new ArrayList<>();
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
-        Cursor tvShowCursor = dbReadable.rawQuery(SELECT_TVSHOWS, null);
+        Cursor cursor = dbReadable.rawQuery(SELECT_TVSHOWS, null);
         try {
-            while (tvShowCursor.moveToNext()) {
-                shows.add(buildItemFromDB(tvShowCursor));
+            while (cursor.moveToNext()) {
+                shows.add(buildItemFromDB(cursor));
             }
         } finally {
-            tvShowCursor.close();
+            cursor.close();
         }
         dbReadable.close();
         return shows;
@@ -262,13 +261,14 @@ public class TVShowDatabase implements Database {
         SQLiteDatabase dbWriteable = databaseHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(TVShowDatabaseDefinition.WATCHED, watchedStatus);
-        String where = TVShowDatabaseDefinition.ID + "=? and " + TVShowDatabaseDefinition.SUBTITLE + "=?";
+        String where = TVShowDatabaseDefinition.ID + "=? and " + TVShowDatabaseDefinition.SUBID + "=?";
         String[] whereArgs = new String[]{mediaItem.getId(), mediaItem.getSubtitle()};
         dbWriteable.update(TVShowDatabaseDefinition.TABLE_TVSHOWS_EPISODES, values, where, whereArgs);
         dbWriteable.close();
     }
 
-    private boolean markWatchedIfReleased(boolean isNew, MediaItem mediaItem) {
+    @Override
+    public boolean markWatchedIfReleased(boolean isNew, MediaItem mediaItem) {
         return isNew && alreadyReleased(mediaItem) && getMarkWatchedIfAlreadyReleased(context);
     }
 
@@ -284,3 +284,11 @@ public class TVShowDatabase implements Database {
     }
 
 }
+
+
+
+
+
+
+
+

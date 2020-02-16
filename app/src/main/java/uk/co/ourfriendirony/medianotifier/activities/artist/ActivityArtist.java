@@ -22,10 +22,10 @@ import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummary;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
 public class ActivityArtist extends AppCompatActivity {
-    private Spinner spinnerView;
+    private Spinner spinner;
     private ListView listView;
-    private List<MediaItem> mediaItems;
-    private ProgressBar loadPageProgressBar;
+    private List<MediaItem> artists;
+    private ProgressBar progressBar;
     private int currentArtistPosition;
     private ArtistDatabase db;
 
@@ -38,14 +38,15 @@ public class ActivityArtist extends AppCompatActivity {
 
         db = new ArtistDatabase(getApplicationContext());
 
-        spinnerView = (Spinner) findViewById(R.id.artist_spinner);
+        spinner = (Spinner) findViewById(R.id.artist_spinner);
         listView = (ListView) findViewById(R.id.artist_list);
-        loadPageProgressBar = (ProgressBar) findViewById(R.id.artist_progress);
+        progressBar = (ProgressBar) findViewById(R.id.artist_progress);
         new ArtistListAsyncTask().execute();
-        spinnerView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int itemPos, long id) {
-                display(itemPos);
+                displayReleases(itemPos);
             }
 
             @Override
@@ -62,7 +63,7 @@ public class ActivityArtist extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
-        MediaItem mediaItem = mediaItems.get(currentArtistPosition);
+        MediaItem mediaItem = artists.get(currentArtistPosition);
         switch (menuItem.getItemId()) {
             case R.id.action_refresh:
                 new ArtistUpdateAsyncTask().execute(mediaItem);
@@ -80,17 +81,26 @@ public class ActivityArtist extends AppCompatActivity {
     }
 
     private void display() {
-        if (mediaItems.size() > 0) {
-            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, mediaItems, db);
-            spinnerView.setAdapter(listAdapterSummary);
-            display(0);
+        if (artists.size() > 0) {
+            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, artists, db);
+            spinner.setAdapter(listAdapterSummary);
+            displayReleases(0);
         }
     }
 
-    private void display(int itemPos) {
+    private void displayReleases(int itemPos) {
+//        currentArtistPosition = itemPos;
+//        ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_toggle, Collections.singletonList(mediaItems.get(itemPos)), db);
+//        listView.setAdapter(listAdapterSummary);
         currentArtistPosition = itemPos;
-        ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_toggle, Collections.singletonList(mediaItems.get(itemPos)), db);
-        listView.setAdapter(listAdapterSummary);
+        List<MediaItem> mediaItems = artists.get(currentArtistPosition).getChildren();
+        if (mediaItems.size() > 0) {
+            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_toggle, mediaItems, db);
+            listView.setAdapter(listAdapterSummary);
+            listView.setSelection(mediaItems.size());
+        } else {
+            listView.setAdapter(null);
+        }
     }
 
     private class ArtistListAsyncTask extends AsyncTask<String, Void, Void> {
@@ -101,18 +111,18 @@ public class ActivityArtist extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            loadPageProgressBar.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
         protected Void doInBackground(String... params) {
-            mediaItems = db.getAll();
+            artists = db.getAll();
             return null;
         }
 
         @Override
         protected void onPostExecute(Void x) {
-            loadPageProgressBar.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
             display();
         }
     }

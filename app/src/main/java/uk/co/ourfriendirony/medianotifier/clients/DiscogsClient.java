@@ -7,10 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.clients.objects.artist.get.ArtistGet;
+import uk.co.ourfriendirony.medianotifier.clients.objects.artist.get.ArtistReleases;
+import uk.co.ourfriendirony.medianotifier.clients.objects.artist.get.ArtistReleasesRelease;
 import uk.co.ourfriendirony.medianotifier.clients.objects.artist.search.ArtistSearch;
 import uk.co.ourfriendirony.medianotifier.clients.objects.artist.search.ArtistSearchResult;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 import uk.co.ourfriendirony.medianotifier.mediaitem.artist.Artist;
+import uk.co.ourfriendirony.medianotifier.mediaitem.artist.Release;
 
 import static uk.co.ourfriendirony.medianotifier.general.Helper.cleanUrl;
 import static uk.co.ourfriendirony.medianotifier.general.Helper.replaceTokens;
@@ -37,16 +40,38 @@ public class DiscogsClient extends AbstractClient {
         List<MediaItem> mediaItems = new ArrayList<>();
         ArtistSearch rawSearch = OBJECT_MAPPER.readValue(payload, ArtistSearch.class);
         for (ArtistSearchResult rawResult : rawSearch.getResults()) {
-            mediaItems.add(new Artist(rawResult));
+            // Search mechanism doesn't give you any description so additional call made
+            Artist temp = new Artist(rawResult);
+            mediaItems.add(getArtist(Integer.parseInt(temp.getId())));
         }
         return mediaItems;
     }
 
     public MediaItem getArtist(int artistID) throws IOException {
+        return getArtist(artistID, false);
+    }
+
+    public MediaItem getArtist(int artistID, boolean getReleases) throws IOException {
         payload = httpGetRequest(
                 replaceTokens(URL_ARTIST_ID, "@ID@", Integer.toString(artistID))
         );
-        ArtistGet artist = OBJECT_MAPPER.readValue(payload, ArtistGet.class);
-        return new Artist(artist);
+        ArtistGet ag = OBJECT_MAPPER.readValue(payload, ArtistGet.class);
+        List<MediaItem> releases = new ArrayList<>();
+        if (getReleases) {
+            releases = getReleases(ag.getId());
+        }
+        return new Artist(ag, releases);
+    }
+
+    public List<MediaItem> getReleases(int artistID) throws IOException {
+        payload = httpGetRequest(
+                replaceTokens(URL_ARTIST_RELEASE_ID, "@ID@", Integer.toString(artistID))
+        );
+        List<MediaItem> mediaItems = new ArrayList<>();
+        ArtistReleases releases = OBJECT_MAPPER.readValue(payload, ArtistReleases.class);
+        for (ArtistReleasesRelease release : releases.getReleases()) {
+            mediaItems.add(new Release(release, Integer.toString(artistID)));
+        }
+        return mediaItems;
     }
 }

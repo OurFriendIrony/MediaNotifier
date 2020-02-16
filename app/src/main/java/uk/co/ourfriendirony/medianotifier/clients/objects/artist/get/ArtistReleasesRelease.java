@@ -41,9 +41,8 @@ public class ArtistReleasesRelease {
     private String title;
     @JsonProperty("role")
     private String role;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy")
     @JsonProperty("year")
-    private Date year;
+    private Integer year;
     @JsonProperty("resource_url")
     private String resourceUrl;
     @JsonProperty("type")
@@ -120,12 +119,12 @@ public class ArtistReleasesRelease {
     }
 
     @JsonProperty("year")
-    public Date getYear() {
+    public Integer getYear() {
         return year;
     }
 
     @JsonProperty("year")
-    public void setYear(Date year) {
+    public void setYear(Integer year) {
         this.year = year;
     }
 
