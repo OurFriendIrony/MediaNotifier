@@ -2,6 +2,7 @@ package uk.co.ourfriendirony.medianotifier.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -26,6 +27,7 @@ import java.util.List;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.activities.artist.ActivityArtist;
 import uk.co.ourfriendirony.medianotifier.activities.artist.ActivityArtistFind;
+import uk.co.ourfriendirony.medianotifier.activities.artist.ActivityArtistUnwatched;
 import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovie;
 import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovieFind;
 import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovieUnwatched;
@@ -33,7 +35,6 @@ import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTV;
 import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVFind;
 import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVUnwatched;
 import uk.co.ourfriendirony.medianotifier.async.MovieUpdateAsyncTask;
-import uk.co.ourfriendirony.medianotifier.async.TVShowUpdateAsyncTask;
 import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
@@ -80,7 +81,7 @@ public class ActivityMain extends AppCompatActivity {
         Button main_button_artist = (Button) findViewById(R.id.main_button_artist);
 
         ImageView tmdbImage = (ImageView) findViewById(R.id.badge_tmdb);
-        ImageView discogsImage = (ImageView) findViewById(R.id.badge_discogs);
+        ImageView musicbrainzImage = (ImageView) findViewById(R.id.badge_musicbrainz);
 
         main_button_tv_find.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,7 +136,7 @@ public class ActivityMain extends AppCompatActivity {
         main_button_artist_notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(ActivityMain.this, "NOT YET IMPLEMENTED", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(view.getContext(), ActivityArtistUnwatched.class));
             }
         });
 
@@ -144,9 +145,9 @@ public class ActivityMain extends AppCompatActivity {
                 startActivity(IntentGenerator.getWebPageIntent("https://www.themoviedb.org/"));
             }
         });
-        discogsImage.setOnClickListener(new View.OnClickListener() {
+        musicbrainzImage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                startActivity(IntentGenerator.getWebPageIntent("https://www.discogs.com/"));
+                startActivity(IntentGenerator.getWebPageIntent("https://musicbrainz.org/"));
             }
         });
     }
@@ -155,31 +156,25 @@ public class ActivityMain extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        final Drawable notificationOn = getResources().getDrawable(R.drawable.button_notification_on);
+        final Drawable notificationOff = getResources().getDrawable(R.drawable.button_notification_off);
+
         int numEpisodes = tvShowDatabase.countUnwatchedReleased();
         int numMovies = movieDatabase.countUnwatchedReleased();
-        int numArtists = 0;
+        int numAlbums = artistDatabase.countUnwatchedReleased();
+
+        Drawable tvNotifyBG = (numEpisodes > 0) ? notificationOn : notificationOff;
+        Drawable movieNotifyBG = (numMovies > 0) ? notificationOn : notificationOff;
+        Drawable albumNotifyBG = (numAlbums > 0) ? notificationOn : notificationOff;
 
         main_button_tv_notification.setText(getNotificationNumber(numEpisodes));
+        main_button_tv_notification.setBackground(tvNotifyBG);
+
+        main_button_movie_notification.setBackground(movieNotifyBG);
         main_button_movie_notification.setText(getNotificationNumber(numMovies));
-        main_button_artist_notification.setText(getNotificationNumber(numArtists));
 
-        if (numEpisodes > 0) {
-            main_button_tv_notification.setBackground(getResources().getDrawable(R.drawable.button_notification_on));
-        } else {
-            main_button_tv_notification.setBackground(getResources().getDrawable(R.drawable.button_notification_off));
-        }
-
-        if (numMovies > 0) {
-            main_button_movie_notification.setBackground(getResources().getDrawable(R.drawable.button_notification_on));
-        } else {
-            main_button_movie_notification.setBackground(getResources().getDrawable(R.drawable.button_notification_off));
-        }
-
-        if (numArtists > 0) {
-            main_button_artist_notification.setBackground(getResources().getDrawable(R.drawable.button_notification_on));
-        } else {
-            main_button_artist_notification.setBackground(getResources().getDrawable(R.drawable.button_notification_off));
-        }
+        main_button_artist_notification.setBackground(albumNotifyBG);
+        main_button_artist_notification.setText(getNotificationNumber(numAlbums));
     }
 
     @Override
@@ -232,21 +227,20 @@ public class ActivityMain extends AppCompatActivity {
                 return true;
 
             case R.id.action_refresh:
-                List<MediaItem> tvShows = tvShowDatabase.getAll();
-                MediaItem[] tvShowsArray = new MediaItem[tvShows.size()];
-                tvShows.toArray(tvShowsArray); // fill the array
-                new TVShowUpdateAsyncTask().execute(tvShowsArray);
-
-                List<MediaItem> mediaItems = movieDatabase.getAll();
-                MediaItem[] itemsArray = new MediaItem[mediaItems.size()];
-                mediaItems.toArray(itemsArray);
-                new MovieUpdateAsyncTask().execute(itemsArray);
-
+                new MovieUpdateAsyncTask().execute(asArray(tvShowDatabase.getAll()));
+                new MovieUpdateAsyncTask().execute(asArray(movieDatabase.getAll()));
+                new MovieUpdateAsyncTask().execute(asArray(artistDatabase.getAll()));
                 return true;
 
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @NonNull
+    private MediaItem[] asArray(List<MediaItem> items) {
+        MediaItem[] itemsArray = new MediaItem[items.size()];
+        return items.toArray(itemsArray);
     }
 
     @NonNull

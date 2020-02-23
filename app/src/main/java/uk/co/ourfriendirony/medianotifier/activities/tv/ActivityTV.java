@@ -27,8 +27,8 @@ public class ActivityTV extends AppCompatActivity {
     private ListView listView;
     private List<MediaItem> tvShows;
     private ProgressBar progressBar;
-    private int currentShowPosition;
-    private TVShowDatabase database;
+    private int currentItemPos;
+    private TVShowDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class ActivityTV extends AppCompatActivity {
         super.getSupportActionBar().setTitle(R.string.title_library_tvshow);
         super.setContentView(R.layout.activity_tv);
 
-        database = new TVShowDatabase(getApplicationContext());
+        db = new TVShowDatabase(getApplicationContext());
 
         spinner = (Spinner) findViewById(R.id.tv_spinner);
         listView = (ListView) findViewById(R.id.tv_list);
@@ -64,7 +64,7 @@ public class ActivityTV extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        MediaItem show = tvShows.get(currentShowPosition);
+        MediaItem show = tvShows.get(currentItemPos);
         switch (item.getItemId()) {
             case R.id.action_refresh:
                 new TVShowUpdateAsyncTask().execute(show);
@@ -72,11 +72,11 @@ public class ActivityTV extends AppCompatActivity {
                 return true;
 
             case R.id.action_remove:
-                database.delete(show.getId());
+                db.delete(show.getId());
                 this.recreate();
                 return true;
 
-            case R.id.action_imdb:
+            case R.id.action_lookup:
                 Intent intent = IntentGenerator.getWebPageIntent(show.getExternalLink());
                 startActivity(intent);
                 return true;
@@ -88,19 +88,19 @@ public class ActivityTV extends AppCompatActivity {
 
     private void displayShows() {
         if (tvShows.size() > 0) {
-            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, tvShows, database);
+            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, tvShows, db);
             spinner.setAdapter(listAdapterSummary);
             displayEpisodes(0);
         }
     }
 
-    private void displayEpisodes(int showPosition) {
-        currentShowPosition = showPosition;
-        List<MediaItem> mediaItems = tvShows.get(showPosition).getChildren();
-        if (mediaItems.size() > 0) {
-            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_toggle, mediaItems, database);
+    private void displayEpisodes(int itemPos) {
+        currentItemPos = itemPos;
+        List<MediaItem> tvEpisodes = tvShows.get(itemPos).getChildren();
+        if (tvEpisodes.size() > 0) {
+            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_toggle, tvEpisodes, db);
             listView.setAdapter(listAdapterSummary);
-            listView.setSelection(mediaItems.size());
+            listView.setSelection(tvEpisodes.size());
         } else {
             listView.setAdapter(null);
         }
@@ -119,7 +119,7 @@ public class ActivityTV extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(String... params) {
-            tvShows = database.getAll();
+            tvShows = db.getAll();
             return null;
         }
 

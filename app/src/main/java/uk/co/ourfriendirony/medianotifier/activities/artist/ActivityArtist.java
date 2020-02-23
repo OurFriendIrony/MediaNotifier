@@ -10,8 +10,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.Toast;
 
-import java.util.Collections;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
@@ -26,7 +26,7 @@ public class ActivityArtist extends AppCompatActivity {
     private ListView listView;
     private List<MediaItem> artists;
     private ProgressBar progressBar;
-    private int currentArtistPosition;
+    private int currentItemPos;
     private ArtistDatabase db;
 
     @Override
@@ -63,7 +63,7 @@ public class ActivityArtist extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
-        MediaItem mediaItem = artists.get(currentArtistPosition);
+        MediaItem mediaItem = artists.get(currentItemPos);
         switch (menuItem.getItemId()) {
             case R.id.action_refresh:
                 new ArtistUpdateAsyncTask().execute(mediaItem);
@@ -75,12 +75,16 @@ public class ActivityArtist extends AppCompatActivity {
                 this.recreate();
                 return true;
 
+            case R.id.action_lookup:
+                Toast.makeText(ActivityArtist.this, "NOT YET IMPLEMENTED", Toast.LENGTH_SHORT).show();
+                return true;
+
             default:
                 return super.onOptionsItemSelected(menuItem);
         }
     }
 
-    private void display() {
+    private void displayArtists() {
         if (artists.size() > 0) {
             ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, artists, db);
             spinner.setAdapter(listAdapterSummary);
@@ -89,15 +93,12 @@ public class ActivityArtist extends AppCompatActivity {
     }
 
     private void displayReleases(int itemPos) {
-//        currentArtistPosition = itemPos;
-//        ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_toggle, Collections.singletonList(mediaItems.get(itemPos)), db);
-//        listView.setAdapter(listAdapterSummary);
-        currentArtistPosition = itemPos;
-        List<MediaItem> mediaItems = artists.get(currentArtistPosition).getChildren();
-        if (mediaItems.size() > 0) {
-            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_toggle, mediaItems, db);
+        currentItemPos = itemPos;
+        List<MediaItem> releases = artists.get(currentItemPos).getChildren();
+        if (releases.size() > 0) {
+            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_toggle, releases, db);
             listView.setAdapter(listAdapterSummary);
-            listView.setSelection(mediaItems.size());
+            listView.setSelection(releases.size());
         } else {
             listView.setAdapter(null);
         }
@@ -123,7 +124,7 @@ public class ActivityArtist extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void x) {
             progressBar.setVisibility(View.GONE);
-            display();
+            displayArtists();
         }
     }
 }

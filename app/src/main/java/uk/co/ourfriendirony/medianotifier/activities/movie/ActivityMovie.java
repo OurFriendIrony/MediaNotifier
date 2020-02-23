@@ -26,9 +26,9 @@ import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 public class ActivityMovie extends AppCompatActivity {
     private Spinner spinnerView;
     private ListView listView;
-    private List<MediaItem> mediaItems;
+    private List<MediaItem> movies;
     private ProgressBar loadPageProgressBar;
-    private int currentItemPosition;
+    private int currentItemPos;
     private MovieDatabase db;
 
     @Override
@@ -64,7 +64,7 @@ public class ActivityMovie extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
-        MediaItem mediaItem = mediaItems.get(currentItemPosition);
+        MediaItem mediaItem = movies.get(currentItemPos);
         switch (menuItem.getItemId()) {
             case R.id.action_refresh:
                 new MovieUpdateAsyncTask().execute(mediaItem);
@@ -76,7 +76,7 @@ public class ActivityMovie extends AppCompatActivity {
                 this.recreate();
                 return true;
 
-            case R.id.action_imdb:
+            case R.id.action_lookup:
                 Intent intent = IntentGenerator.getWebPageIntent(mediaItem.getExternalLink());
                 startActivity(intent);
                 return true;
@@ -87,16 +87,16 @@ public class ActivityMovie extends AppCompatActivity {
     }
 
     private void display() {
-        if (mediaItems.size() > 0) {
-            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, mediaItems, db);
+        if (movies.size() > 0) {
+            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, movies, db);
             spinnerView.setAdapter(listAdapterSummary);
             display(0);
         }
     }
 
-    private void display(int itemPosition) {
-        currentItemPosition = itemPosition;
-        ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_toggle, Collections.singletonList(mediaItems.get(itemPosition)), db);
+    private void display(int itemPos) {
+        currentItemPos = itemPos;
+        ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_toggle, Collections.singletonList(movies.get(itemPos)), db);
         listView.setAdapter(listAdapterSummary);
     }
 
@@ -113,7 +113,7 @@ public class ActivityMovie extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(String... params) {
-            mediaItems = db.getAll();
+            movies = db.getAll();
             return null;
         }
 

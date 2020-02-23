@@ -24,19 +24,19 @@ import static uk.co.ourfriendirony.medianotifier.general.Helper.dateToString;
 
 public class TVShowDatabase implements Database {
     private static final String SELECT_TVSHOWS = "SELECT * FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS + " ORDER BY " + TVShowDatabaseDefinition.TITLE + " ASC;";
-    private static final String SELECT_TVEPISODES = "SELECT * FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS_EPISODES + " WHERE " + TVShowDatabaseDefinition.ID + "=? ORDER BY " + TVShowDatabaseDefinition.SUBTITLE + " ASC;";
+    private static final String SELECT_TVEPISODES = "SELECT * FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " WHERE " + TVShowDatabaseDefinition.ID + "=? ORDER BY " + TVShowDatabaseDefinition.SUBTITLE + " ASC;";
 
-    private static final String GET_TVEPISODE_WATCHED_STATUS = "SELECT " + TVShowDatabaseDefinition.WATCHED + " FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS_EPISODES + " WHERE " + TVShowDatabaseDefinition.ID + "=? AND " + TVShowDatabaseDefinition.SUBTITLE + "=?;";
+    private static final String GET_TVEPISODE_WATCHED_STATUS = "SELECT " + TVShowDatabaseDefinition.WATCHED + " FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " WHERE " + TVShowDatabaseDefinition.ID + "=? AND " + TVShowDatabaseDefinition.SUBTITLE + "=?;";
 
-    private static final String COUNT_UNWATCHED_EPISODES_RELEASED = "SELECT COUNT(*) FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS_EPISODES + " " +
+    private static final String COUNT_UNWATCHED_EPISODES_RELEASED = "SELECT COUNT(*) FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " " +
             "WHERE " + TVShowDatabaseDefinition.WATCHED + "=" + TVShowDatabaseDefinition.WATCHED_FALSE + " AND " + TVShowDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@;";
 
     private static final String GET_UNWATCHED_EPISODES_RELEASED = "SELECT * " +
-            "FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS_EPISODES + " " +
+            "FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " " +
             "WHERE " + TVShowDatabaseDefinition.WATCHED + "=" + TVShowDatabaseDefinition.WATCHED_FALSE + " AND " + TVShowDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@ ORDER BY " + TVShowDatabaseDefinition.RELEASE_DATE + " ASC;";
 
     private static final String GET_UNWATCHED_EPISODES_TOTAL = "SELECT * " +
-            "FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS_EPISODES + " " +
+            "FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " " +
             "WHERE " + TVShowDatabaseDefinition.WATCHED + "=" + TVShowDatabaseDefinition.WATCHED_FALSE + " ORDER BY " + TVShowDatabaseDefinition.RELEASE_DATE + " ASC;";
 
     private final TVShowDatabaseDefinition databaseHelper;
@@ -95,7 +95,7 @@ public class TVShowDatabase implements Database {
             dbRow.put(TVShowDatabaseDefinition.WATCHED, currentWatchedStatus);
         }
         Log.d("[DB INSERT TV EPISODE]", dbRow.toString());
-        dbWritable.replace(TVShowDatabaseDefinition.TABLE_TVSHOWS_EPISODES, null, dbRow);
+        dbWritable.replace(TVShowDatabaseDefinition.TABLE_EPISODES, null, dbRow);
     }
 
     @Override
@@ -138,7 +138,7 @@ public class TVShowDatabase implements Database {
     public void deleteAll() {
         SQLiteDatabase dbWritable = databaseHelper.getWritableDatabase();
         dbWritable.execSQL("DELETE FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS + ";");
-        dbWritable.execSQL("DELETE FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS_EPISODES + ";");
+        dbWritable.execSQL("DELETE FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + ";");
         dbWritable.close();
     }
 
@@ -146,7 +146,7 @@ public class TVShowDatabase implements Database {
     public void delete(String id) {
         SQLiteDatabase dbWritable = databaseHelper.getWritableDatabase();
         dbWritable.execSQL("DELETE FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS + " WHERE " + TVShowDatabaseDefinition.ID + "=" + id + ";");
-        dbWritable.execSQL("DELETE FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS_EPISODES + " WHERE " + TVShowDatabaseDefinition.ID + "=" + id + ";");
+        dbWritable.execSQL("DELETE FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " WHERE " + TVShowDatabaseDefinition.ID + "=" + id + ";");
         dbWritable.close();
     }
 
@@ -264,7 +264,7 @@ public class TVShowDatabase implements Database {
         values.put(TVShowDatabaseDefinition.WATCHED, watchedStatus);
         String where = TVShowDatabaseDefinition.ID + "=? and " + TVShowDatabaseDefinition.SUBID + "=?";
         String[] whereArgs = new String[]{mediaItem.getId(), mediaItem.getSubtitle()};
-        dbWriteable.update(TVShowDatabaseDefinition.TABLE_TVSHOWS_EPISODES, values, where, whereArgs);
+        dbWriteable.update(TVShowDatabaseDefinition.TABLE_EPISODES, values, where, whereArgs);
         dbWriteable.close();
     }
 

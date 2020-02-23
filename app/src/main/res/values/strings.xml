@@ -15,8 +15,7 @@
     <string name="action_about">About</string>
     <string name="action_remove">Remove Item</string>
     <string name="action_refresh">Refresh</string>
-    <string name="action_imdb">Lookup Item</string>
-
+    <string name="action_lookup">Lookup Item</string>
     <string name="button_tvshows">TV Shows</string>
     <string name="button_movies">Movies</string>
     <string name="button_artists">Artists</string>
@@ -40,7 +39,7 @@
     <string name="notification_text">New media count: </string>
 
     <string name="tvmb">TVMB</string>
-    <string name="discogs">discogs</string>
+    <string name="musicbrainz">musicbrainz</string>
     <string name="action_logview">Logs</string>
     <string name="action_theme">theme</string>
 </resources>

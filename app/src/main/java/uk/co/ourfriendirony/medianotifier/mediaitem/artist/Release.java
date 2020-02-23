@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Locale;
 
 import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.get.ArtistGetReleaseGroup;
-import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabaseDefinition;
+import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabaseDefinition;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
 import static uk.co.ourfriendirony.medianotifier.general.Helper.stringToDate;
@@ -23,6 +23,7 @@ public class Release implements MediaItem {
     private String description = "";
     private Date releaseDate;
     private String externalUrl;
+    // TODO: fully implement watched as an item
     private boolean watched = false;
     private List<MediaItem> children = new ArrayList<>();
 
@@ -35,13 +36,14 @@ public class Release implements MediaItem {
     }
 
     public Release(Cursor cursor) {
-        this.id = getColumnValue(cursor, TVShowDatabaseDefinition.ID);
-        this.subid = getColumnValue(cursor, TVShowDatabaseDefinition.SUBID);
-        this.title = getColumnValue(cursor, TVShowDatabaseDefinition.TITLE);
-        this.subtitle = getColumnValue(cursor, TVShowDatabaseDefinition.SUBTITLE);
-        this.description = getColumnValue(cursor, TVShowDatabaseDefinition.DESCRIPTION);
-        this.releaseDate = stringToDate(getColumnValue(cursor, TVShowDatabaseDefinition.RELEASE_DATE));
-        this.externalUrl = getColumnValue(cursor, TVShowDatabaseDefinition.EXTERNAL_URL);
+        this.id = getColumnValue(cursor, ArtistDatabaseDefinition.ID);
+        this.subid = getColumnValue(cursor, ArtistDatabaseDefinition.SUBID);
+        this.title = getColumnValue(cursor, ArtistDatabaseDefinition.TITLE);
+        this.subtitle = getColumnValue(cursor, ArtistDatabaseDefinition.SUBTITLE);
+        this.description = getColumnValue(cursor, ArtistDatabaseDefinition.DESCRIPTION);
+        this.releaseDate = stringToDate(getColumnValue(cursor, ArtistDatabaseDefinition.RELEASE_DATE));
+        this.externalUrl = getColumnValue(cursor, ArtistDatabaseDefinition.EXTERNAL_URL);
+//        this.watched = Boolean.getBoolean(getColumnValue(cursor,ArtistDatabaseDefinition.WATCHED));
         Log.d("[DB READ]", this.toString());
     }
 

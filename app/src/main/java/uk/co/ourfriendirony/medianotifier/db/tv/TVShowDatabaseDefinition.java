@@ -21,7 +21,7 @@ public class TVShowDatabaseDefinition extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 6;
     public static final String DATABASE_NAME = "tv_shows";
     public static final String TABLE_TVSHOWS = "tv_shows";
-    public static final String TABLE_TVSHOWS_EPISODES = "tv_shows_episodes";
+    public static final String TABLE_EPISODES = "tv_shows_episodes";
 
     public TVShowDatabaseDefinition(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -42,7 +42,7 @@ public class TVShowDatabaseDefinition extends SQLiteOpenHelper {
                 "PRIMARY KEY (" + ID + ")" +
                 ")");
 
-        db.execSQL("CREATE TABLE " + TABLE_TVSHOWS_EPISODES + " (" +
+        db.execSQL("CREATE TABLE " + TABLE_EPISODES + " (" +
                 ID + " TEXT, " +
                 SUBID + " TEXT, " +
                 TITLE + " TEXT, " +
@@ -59,7 +59,7 @@ public class TVShowDatabaseDefinition extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.d("[DB UPGRADE]", String.valueOf(this.getClass()) + " version: " + oldVersion + " -> " + newVersion);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TVSHOWS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TVSHOWS_EPISODES);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_EPISODES);
         onCreate(db);
     }
 }

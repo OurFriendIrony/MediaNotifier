@@ -23,6 +23,7 @@ public class TVEpisode implements MediaItem {
     private String description = "";
     private Date releaseDate;
     private String externalUrl;
+    // TODO: fully implement watched as an item
     private boolean watched = false;
     private List<MediaItem> children = new ArrayList<>();
 

@@ -100,8 +100,8 @@ public class ArtistDatabase implements Database {
     }
 
     @Override
-    public String getWatchedStatus(SQLiteDatabase dbReadable, MediaItem artist) {
-        String[] args = new String[]{artist.getId(), artist.getReleaseDateYear()};
+    public String getWatchedStatus(SQLiteDatabase dbReadable, MediaItem release) {
+        String[] args = new String[]{release.getId(), release.getSubId()};
         Cursor cursor = dbReadable.rawQuery(GET_RELEASE_WATCHED_STATUS, args);
         String watchedStatus = ArtistDatabaseDefinition.WATCHED_FALSE;
 
@@ -117,9 +117,9 @@ public class ArtistDatabase implements Database {
     }
 
     @Override
-    public boolean getWatchedStatusAsBoolean(MediaItem artist) {
+    public boolean getWatchedStatusAsBoolean(MediaItem release) {
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
-        String[] args = new String[]{artist.getId()};
+        String[] args = new String[]{release.getId(), release.getSubId()};
         Cursor cursor = dbReadable.rawQuery(GET_RELEASE_WATCHED_STATUS, args);
         String watchedStatus = ArtistDatabaseDefinition.WATCHED_FALSE;
 
@@ -150,11 +150,6 @@ public class ArtistDatabase implements Database {
         dbWritable.execSQL("DELETE FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " WHERE " + ArtistDatabaseDefinition.ID + "=\"" + id + "\";");
         dbWritable.close();
     }
-
-//    @NonNull
-//    private MediaItem buildItemFromDB(Cursor cursor) {
-//        return new Artist(cursor);
-//    }
 
     @NonNull
     private MediaItem buildSubItemFromDB(Cursor cursor) {
@@ -216,7 +211,6 @@ public class ArtistDatabase implements Database {
         String query = Helper.replaceTokens(getQuery, "@OFFSET@", offset);
         List<MediaItem> mediaItems = new ArrayList<>();
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
-
         Cursor cursor = dbReadable.rawQuery(query, null);
         try {
             while (cursor.moveToNext()) {
@@ -269,7 +263,7 @@ public class ArtistDatabase implements Database {
         ContentValues values = new ContentValues();
         values.put(ArtistDatabaseDefinition.WATCHED, watchedStatus);
         String where = ArtistDatabaseDefinition.ID + "=? and " + ArtistDatabaseDefinition.SUBID + "=?";
-        String[] whereArgs = new String[]{mediaItem.getId(),mediaItem.getReleaseDateYear()};
+        String[] whereArgs = new String[]{mediaItem.getId(), mediaItem.getSubId()};
         dbWriteable.update(ArtistDatabaseDefinition.TABLE_RELEASES, values, where, whereArgs);
         dbWriteable.close();
     }

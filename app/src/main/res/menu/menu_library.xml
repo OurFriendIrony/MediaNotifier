@@ -14,9 +14,9 @@
         android:title="@string/action_remove"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_imdb"
-        android:icon="@drawable/img_external_imdb"
+        android:id="@+id/action_lookup"
+        android:icon="@android:drawable/ic_menu_directions"
         android:orderInCategory="3"
-        android:title="@string/action_imdb"
+        android:title="@string/action_lookup"
         app:showAsAction="ifRoom" />
 </menu>
