@@ -30,7 +30,11 @@ public class Artist implements MediaItem {
     public Artist(ArtistGet artist, List<MediaItem> children) {
         this.id = artist.getId();
         this.title = artist.getName();
-        this.description = artist.getDisambiguation();
+        if (artist.getDisambiguation() != null) {
+            this.description = artist.getDisambiguation();
+        } else if (artist.getArea().getName() != null && artist.getType() != null) {
+            this.description = artist.getType() + " from " + artist.getArea().getName();
+        }
         if (artist.getLifeSpan() != null && artist.getLifeSpan().getBegin() != null) {
             this.releaseDate = artist.getLifeSpan().getBegin();
         }
@@ -38,15 +42,14 @@ public class Artist implements MediaItem {
         Log.d("[FROM GET]", this.toString());
     }
 
-    public Artist(ArtistGet artist) {
-        this(artist, new ArrayList<MediaItem>());
-    }
-
-
     public Artist(ArtistSearchArtist artist) {
         this.id = artist.getId();
         this.title = artist.getName();
-        this.description = artist.getDisambiguation();
+        if (artist.getDisambiguation() != null) {
+            this.description = artist.getDisambiguation();
+        } else if (artist.getArea().getName() != null && artist.getType() != null) {
+            this.description = artist.getType() + " from " + artist.getArea().getName();
+        }
         if (artist.getLifeSpan() != null && artist.getLifeSpan().getBegin() != null) {
             this.releaseDate = artist.getLifeSpan().getBegin();
         }
@@ -55,12 +58,10 @@ public class Artist implements MediaItem {
     }
 
     public Artist(Cursor cursor, List<MediaItem> releases) {
-        // TODO: Need to standardise the fields being stored.
         this.id = getColumnValue(cursor, ArtistDatabaseDefinition.ID);
         this.subid = getColumnValue(cursor, ArtistDatabaseDefinition.SUBID);
         this.title = getColumnValue(cursor, ArtistDatabaseDefinition.TITLE);
         this.description = getColumnValue(cursor, ArtistDatabaseDefinition.DESCRIPTION);
-        // TODO: fix date
         this.releaseDate = stringToDate(getColumnValue(cursor, ArtistDatabaseDefinition.RELEASE_DATE));
         this.children = releases;
         Log.d("[FROM DB]", this.toString());

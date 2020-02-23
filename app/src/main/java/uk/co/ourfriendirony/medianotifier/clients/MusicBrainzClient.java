@@ -28,6 +28,14 @@ public class MusicBrainzClient extends AbstractClient {
 
     private String payload;
 
+    private static final ArrayList<String> RELEASE_TYPES_UNWANTED = new ArrayList<String>() {{
+        add("Compilation");
+        add("EP");
+        add("Live");
+        add("Single");
+        add("Demo");
+    }};
+
     public List<MediaItem> queryArtist(String artist) throws IOException {
         payload = httpGetRequest(
                 replaceTokens(URL_ARTIST_QUERY, "@NAME@", cleanUrl(artist))
@@ -51,15 +59,26 @@ public class MusicBrainzClient extends AbstractClient {
         );
         ArtistGet ag = OBJECT_MAPPER.readValue(payload, ArtistGet.class);
         List<MediaItem> releases = new ArrayList<>();
-        for (ArtistGetReleaseGroup agrg : ag.getReleaseGroups()) {
-            if (RELEASE_TYPES_WANTED.contains(agrg.getPrimaryType())) {
-                releases.add(new Release(agrg, artistID));
+        for (ArtistGetReleaseGroup rawRelease : ag.getReleaseGroups()) {
+            if (isWanted(rawRelease) && hasADate(rawRelease)) {
+                releases.add(new Release(rawRelease, artistID));
             }
         }
         return new Artist(ag, releases);
     }
 
-    private final ArrayList RELEASE_TYPES_WANTED = new ArrayList<String>() {{
-        add("Album");
-    }};
+    private boolean hasADate(ArtistGetReleaseGroup rawRelease) {
+        return (rawRelease.getFirstReleaseDate() != null);
+    }
+
+    private boolean isWanted(ArtistGetReleaseGroup agrg) {
+        List<String> releaseTypes = agrg.getSecondaryTypes();
+        releaseTypes.add(agrg.getPrimaryType());
+        for (String releaseType : releaseTypes) {
+            if (RELEASE_TYPES_UNWANTED.contains(releaseType)) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

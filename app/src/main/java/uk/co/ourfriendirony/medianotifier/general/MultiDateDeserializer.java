@@ -1,23 +1,23 @@
 package uk.co.ourfriendirony.medianotifier.general;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
+import android.util.Log;
 
-import com.fasterxml.jackson.core.JsonLocation;
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+
 public class MultiDateDeserializer extends StdDeserializer<Date> {
     private static final long serialVersionUID = 1L;
 
-    private static final String[] DATE_FORMATS = new String[] {
+    private static final String[] DATE_FORMATS = new String[]{
             "yyyy-MM-dd",
             "yyyy-MM",
             "yyyy"
@@ -42,7 +42,9 @@ public class MultiDateDeserializer extends StdDeserializer<Date> {
             } catch (ParseException e) {
             }
         }
+
         String errorMessage = "Unparseable date: \"" + date + "\". Supported formats: " + Arrays.toString(DATE_FORMATS);
-        throw new JsonParseException(errorMessage, jp.getTokenLocation());
+        Log.w("[DATE PARSE]", errorMessage);
+        return null;
     }
 }
