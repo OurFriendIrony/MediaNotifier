@@ -11,6 +11,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import uk.co.ourfriendirony.medianotifier.general.MultiDateDeserializer;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -18,10 +21,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "area"
 })
 public class AlbumGetReleaseEvent {
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM")
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy")
-    @JsonProperty("date")
+    @JsonProperty("date") @JsonDeserialize(using = MultiDateDeserializer.class)
     private Date date;
     @JsonProperty("area")
     private AlbumGetArea area;

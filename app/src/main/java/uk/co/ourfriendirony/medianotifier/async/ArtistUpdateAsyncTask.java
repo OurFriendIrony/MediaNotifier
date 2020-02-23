@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import uk.co.ourfriendirony.medianotifier.clients.DiscogsClient;
+import uk.co.ourfriendirony.medianotifier.clients.MusicBrainzClient;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
@@ -31,8 +31,7 @@ public class ArtistUpdateAsyncTask extends AsyncTask<MediaItem, Void, String> {
 
         for (MediaItem mediaItem : mediaItems) {
             try {
-                mediaItem = new DiscogsClient().getArtist(Integer.parseInt(mediaItem.getId()));
-//                mediaItem = new MusicBrainzClient().getArtist(mediaItem.getId());
+                mediaItem = new MusicBrainzClient().getArtist(mediaItem.getId());
                 new ArtistDatabase(getStaticContext()).update(mediaItem);
             } catch (Exception e) {
                 Log.e("FAILED_UPDATE", mediaItem.getTitle() + ": " + e.getMessage());

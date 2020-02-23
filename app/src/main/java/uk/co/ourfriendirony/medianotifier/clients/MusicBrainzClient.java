@@ -33,10 +33,15 @@ public class MusicBrainzClient extends AbstractClient {
                 replaceTokens(URL_ARTIST_QUERY, "@NAME@", cleanUrl(artist))
         );
         List<MediaItem> mediaItems = new ArrayList<>();
-        ArtistSearch rawSearch = OBJECT_MAPPER.readValue(payload, ArtistSearch.class);
-        for (ArtistSearchArtist a : rawSearch.getArtists()) {
-            mediaItems.add(new Artist(a));
+        try {
+            ArtistSearch rawSearch = OBJECT_MAPPER.readValue(payload, ArtistSearch.class);
+            for (ArtistSearchArtist a : rawSearch.getArtists()) {
+                mediaItems.add(new Artist(a));
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
+
         return mediaItems;
     }
 
@@ -47,8 +52,14 @@ public class MusicBrainzClient extends AbstractClient {
         ArtistGet ag = OBJECT_MAPPER.readValue(payload, ArtistGet.class);
         List<MediaItem> releases = new ArrayList<>();
         for (ArtistGetReleaseGroup agrg : ag.getReleaseGroups()) {
-            releases.add(new Release(agrg, artistID));
+            if (RELEASE_TYPES_WANTED.contains(agrg.getPrimaryType())) {
+                releases.add(new Release(agrg, artistID));
+            }
         }
         return new Artist(ag, releases);
     }
+
+    private final ArrayList RELEASE_TYPES_WANTED = new ArrayList<String>() {{
+        add("Album");
+    }};
 }

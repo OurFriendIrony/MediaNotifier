@@ -24,7 +24,7 @@ import static uk.co.ourfriendirony.medianotifier.general.Helper.dateToString;
 
 public class ArtistDatabase implements Database {
     private static final String SELECT_ARTISTS = "SELECT * FROM " + ArtistDatabaseDefinition.TABLE_ARTISTS + " ORDER BY " + ArtistDatabaseDefinition.TITLE + " ASC;";
-    private static final String SELECT_RELEASES = "SELECT * FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " WHERE " + ArtistDatabaseDefinition.ID + "=? ORDER BY " + ArtistDatabaseDefinition.SUBID + " ASC;";
+    private static final String SELECT_RELEASES = "SELECT * FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " WHERE " + ArtistDatabaseDefinition.ID + "=? ORDER BY " + ArtistDatabaseDefinition.RELEASE_DATE + " ASC;";
 
     private static final String GET_RELEASE_WATCHED_STATUS = "SELECT " + ArtistDatabaseDefinition.WATCHED + " FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " WHERE " + ArtistDatabaseDefinition.ID + "=? AND " + ArtistDatabaseDefinition.SUBID + "=?;";
 
@@ -70,6 +70,7 @@ public class ArtistDatabase implements Database {
     private void insert(SQLiteDatabase dbWritable, MediaItem artist) {
         ContentValues dbRow = new ContentValues();
         dbRow.put(ArtistDatabaseDefinition.ID, artist.getId());
+        dbRow.put(ArtistDatabaseDefinition.SUBID, artist.getSubId());
         dbRow.put(ArtistDatabaseDefinition.TITLE, cleanTitle(artist.getTitle()));
         dbRow.put(ArtistDatabaseDefinition.SUBTITLE, artist.getSubtitle());
         dbRow.put(ArtistDatabaseDefinition.EXTERNAL_URL, artist.getExternalLink());
@@ -84,7 +85,7 @@ public class ArtistDatabase implements Database {
         String currentWatchedStatus = getWatchedStatus(dbWritable, release);
         ContentValues dbRow = new ContentValues();
         dbRow.put(ArtistDatabaseDefinition.ID, release.getId());
-        dbRow.put(ArtistDatabaseDefinition.SUBID, release.getReleaseDateYear());
+        dbRow.put(ArtistDatabaseDefinition.SUBID, release.getSubId());
         dbRow.put(ArtistDatabaseDefinition.TITLE, cleanTitle(release.getTitle()));
         dbRow.put(ArtistDatabaseDefinition.SUBTITLE, release.getSubtitle());
         dbRow.put(ArtistDatabaseDefinition.RELEASE_DATE, dateToString(release.getReleaseDate()));
@@ -145,8 +146,8 @@ public class ArtistDatabase implements Database {
     @Override
     public void delete(String id) {
         SQLiteDatabase dbWritable = databaseHelper.getWritableDatabase();
-        dbWritable.execSQL("DELETE FROM " + ArtistDatabaseDefinition.TABLE_ARTISTS + " WHERE " + ArtistDatabaseDefinition.ID + "=" + id + ";");
-        dbWritable.execSQL("DELETE FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " WHERE " + ArtistDatabaseDefinition.ID + "=" + id + ";");
+        dbWritable.execSQL("DELETE FROM " + ArtistDatabaseDefinition.TABLE_ARTISTS + " WHERE " + ArtistDatabaseDefinition.ID + "=\"" + id + "\";");
+        dbWritable.execSQL("DELETE FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " WHERE " + ArtistDatabaseDefinition.ID + "=\"" + id + "\";");
         dbWritable.close();
     }
 

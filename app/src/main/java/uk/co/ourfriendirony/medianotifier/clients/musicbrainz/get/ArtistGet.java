@@ -31,7 +31,6 @@ import java.util.Map;
         "country"
 })
 public class ArtistGet {
-
     @JsonProperty("disambiguation")
     private String disambiguation;
     @JsonProperty("id")

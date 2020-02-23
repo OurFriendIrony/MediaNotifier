@@ -7,11 +7,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import uk.co.ourfriendirony.medianotifier.general.MultiDateDeserializer;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -38,10 +41,7 @@ public class ArtistGetReleaseGroup {
     private String primaryType;
     @JsonProperty("secondary-types")
     private List<String> secondaryTypes = null;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM")
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy")
-    @JsonProperty("first-release-date")
+    @JsonProperty("first-release-date") @JsonDeserialize(using = MultiDateDeserializer.class)
     private Date firstReleaseDate;
     @JsonProperty("primary-type-id")
     private String primaryTypeId;

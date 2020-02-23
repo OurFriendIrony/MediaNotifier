@@ -9,23 +9,30 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+//TODO: Make Abstract
 
 public class AbstractClient {
+    private int SLEEP = 1;
     private static final DefaultHttpClient client = new DefaultHttpClient();
 
     String httpGetRequest(String url) throws IOException {
-
+        HttpGet request = new HttpGet(url);
+        request.setHeader("User-Agent", "MediaNotifier/1.0.0 ( ourfriendirony@gmail.com )");
         while (true) {
-            HttpResponse httpResponse = client.execute(new HttpGet(url));
-            String payload = getPayload(httpResponse);
-            int statusCode = getStatusCode(httpResponse);
-            String headers = getHeaders(httpResponse);
+            try {
+                HttpResponse httpResponse = client.execute(request);
+                String payload = getPayload(httpResponse);
+                int statusCode = getStatusCode(httpResponse);
+                String headers = getHeaders(httpResponse);
 
-            logResponse(url, payload, headers, statusCode);
-            if (statusCode == 200) {
-                return payload;
-            } else {
-                sleep(1);
+                logResponse(url, payload, headers, statusCode);
+                if (statusCode == 200) {
+                    return payload;
+                } else {
+                    sleep(SLEEP);
+                }
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
             }
         }
 

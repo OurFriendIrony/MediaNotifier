@@ -18,6 +18,7 @@ import static uk.co.ourfriendirony.medianotifier.general.Helper.stringToDate;
 
 public class Movie implements MediaItem {
     private String id;
+    private String subid = "";
     private String title;
     private String subtitle = "";
     private String description = "";
@@ -53,6 +54,7 @@ public class Movie implements MediaItem {
 
     public Movie(Cursor cursor) {
         this.id = getColumnValue(cursor, MovieDatabaseDefinition.ID);
+        this.subid = getColumnValue(cursor, MovieDatabaseDefinition.SUBID);
         this.title = getColumnValue(cursor, MovieDatabaseDefinition.TITLE);
         this.subtitle = getColumnValue(cursor, MovieDatabaseDefinition.SUBTITLE);
         this.description = getColumnValue(cursor, MovieDatabaseDefinition.DESCRIPTION);
@@ -69,6 +71,11 @@ public class Movie implements MediaItem {
     @Override
     public String getId() {
         return id;
+    }
+
+    @Override
+    public String getSubId() {
+        return subid;
     }
 
     @Override

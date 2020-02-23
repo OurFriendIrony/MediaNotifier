@@ -70,6 +70,7 @@ public class TVShowDatabase implements Database {
     private void insert(SQLiteDatabase dbWritable, MediaItem mediaItem) {
         ContentValues dbRow = new ContentValues();
         dbRow.put(TVShowDatabaseDefinition.ID, mediaItem.getId());
+        dbRow.put(TVShowDatabaseDefinition.SUBID, mediaItem.getSubId());
         dbRow.put(TVShowDatabaseDefinition.TITLE, cleanTitle(mediaItem.getTitle()));
         dbRow.put(TVShowDatabaseDefinition.SUBTITLE, mediaItem.getSubtitle());
         dbRow.put(TVShowDatabaseDefinition.EXTERNAL_URL, mediaItem.getExternalLink());
@@ -83,7 +84,7 @@ public class TVShowDatabase implements Database {
         String currentWatchedStatus = getWatchedStatus(dbWritable, episode);
         ContentValues dbRow = new ContentValues();
         dbRow.put(TVShowDatabaseDefinition.ID, episode.getId());
-        dbRow.put(TVShowDatabaseDefinition.SUBID, episode.getSubtitle());
+        dbRow.put(TVShowDatabaseDefinition.SUBID, episode.getSubId());
         dbRow.put(TVShowDatabaseDefinition.TITLE, cleanTitle(episode.getTitle()));
         dbRow.put(TVShowDatabaseDefinition.SUBTITLE, episode.getSubtitle());
         dbRow.put(TVShowDatabaseDefinition.RELEASE_DATE, dateToString(episode.getReleaseDate()));

@@ -62,6 +62,7 @@ public class MovieDatabase implements Database {
         String currentWatchedStatus = getWatchedStatus(dbWritable, mediaItem);
         ContentValues dbRow = new ContentValues();
         dbRow.put(MovieDatabaseDefinition.ID, mediaItem.getId());
+        dbRow.put(MovieDatabaseDefinition.SUBID, mediaItem.getSubId());
         dbRow.put(MovieDatabaseDefinition.TITLE, cleanTitle(mediaItem.getTitle()));
         dbRow.put(MovieDatabaseDefinition.EXTERNAL_URL, mediaItem.getExternalLink());
         dbRow.put(MovieDatabaseDefinition.RELEASE_DATE, dateToString(mediaItem.getReleaseDate()));

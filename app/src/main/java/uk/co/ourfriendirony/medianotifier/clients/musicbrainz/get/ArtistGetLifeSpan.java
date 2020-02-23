@@ -7,10 +7,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import uk.co.ourfriendirony.medianotifier.general.MultiDateDeserializer;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -22,10 +25,8 @@ public class ArtistGetLifeSpan {
 
     @JsonProperty("ended")
     private Boolean ended;
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM")
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy")
-    @JsonProperty("begin")
+
+    @JsonProperty("begin") @JsonDeserialize(using = MultiDateDeserializer.class)
     private Date begin;
     @JsonProperty("end")
     private String end;

@@ -17,6 +17,7 @@ import static uk.co.ourfriendirony.medianotifier.general.Helper.stringToDate;
 
 public class TVEpisode implements MediaItem {
     private String id;
+    private String subid;
     private String title;
     private String subtitle = "";
     private String description = "";
@@ -27,6 +28,7 @@ public class TVEpisode implements MediaItem {
 
     public TVEpisode(TVSeasonGetEpisode episode, String showId) {
         this.id = String.valueOf(showId);
+        this.subid = String.format("S%02d", episode.getSeasonNumber()) + String.format("E%02d", episode.getEpisodeNumber());
         this.title = episode.getName();
         this.subtitle = String.format("S%02d", episode.getSeasonNumber()) + String.format("E%02d", episode.getEpisodeNumber());
         this.description = episode.getOverview();
@@ -36,6 +38,7 @@ public class TVEpisode implements MediaItem {
 
     public TVEpisode(Cursor cursor) {
         this.id = getColumnValue(cursor, TVShowDatabaseDefinition.ID);
+        this.subid = getColumnValue(cursor, TVShowDatabaseDefinition.SUBID);
         this.title = getColumnValue(cursor, TVShowDatabaseDefinition.TITLE);
         this.subtitle = getColumnValue(cursor, TVShowDatabaseDefinition.SUBTITLE);
         this.description = getColumnValue(cursor, TVShowDatabaseDefinition.DESCRIPTION);
@@ -51,6 +54,11 @@ public class TVEpisode implements MediaItem {
     @Override
     public String getId() {
         return id;
+    }
+
+    @Override
+    public String getSubId() {
+        return subid;
     }
 
     @Override

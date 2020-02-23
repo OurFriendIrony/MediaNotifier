@@ -7,11 +7,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import uk.co.ourfriendirony.medianotifier.general.MultiDateDeserializer;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -33,7 +36,6 @@ import java.util.Map;
         "text-representation"
 })
 public class AlbumGet {
-
     @JsonProperty("cover-art-archive")
     private AlbumGetCoverArtArchive coverArtArchive;
     @JsonProperty("barcode")
@@ -46,10 +48,7 @@ public class AlbumGet {
     private List<AlbumGetMedium> media = null;
     @JsonProperty("quality")
     private String quality;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM")
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy")
-    @JsonProperty("date")
+    @JsonProperty("date") @JsonDeserialize(using = MultiDateDeserializer.class)
     private Date date;
     @JsonProperty("packaging-id")
     private String packagingId;
