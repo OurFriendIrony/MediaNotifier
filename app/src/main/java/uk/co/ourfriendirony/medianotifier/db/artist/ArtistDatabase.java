@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.db.Database;
+import uk.co.ourfriendirony.medianotifier.general.Constants;
 import uk.co.ourfriendirony.medianotifier.general.Helper;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 import uk.co.ourfriendirony.medianotifier.mediaitem.artist.Artist;
@@ -19,6 +20,8 @@ import uk.co.ourfriendirony.medianotifier.mediaitem.artist.Release;
 
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getMarkWatchedIfAlreadyReleased;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetArtist;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.DB_FALSE;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.DB_TRUE;
 import static uk.co.ourfriendirony.medianotifier.general.Helper.cleanTitle;
 import static uk.co.ourfriendirony.medianotifier.general.Helper.dateToString;
 
@@ -29,15 +32,15 @@ public class ArtistDatabase implements Database {
     private static final String GET_RELEASE_WATCHED_STATUS = "SELECT " + ArtistDatabaseDefinition.WATCHED + " FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " WHERE " + ArtistDatabaseDefinition.ID + "=? AND " + ArtistDatabaseDefinition.SUBID + "=?;";
 
     private static final String COUNT_UNWATCHED_RELEASES_RELEASED = "SELECT COUNT(*) FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " " +
-            "WHERE " + ArtistDatabaseDefinition.WATCHED + "=" + ArtistDatabaseDefinition.WATCHED_FALSE + " AND " + ArtistDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@;";
+            "WHERE " + ArtistDatabaseDefinition.WATCHED + "=" + DB_FALSE + " AND " + ArtistDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@;";
 
     private static final String GET_UNWATCHED_RELEASES_RELEASED = "SELECT * " +
             "FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " " +
-            "WHERE " + ArtistDatabaseDefinition.WATCHED + "=" + ArtistDatabaseDefinition.WATCHED_FALSE + " AND " + ArtistDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@ ORDER BY " + ArtistDatabaseDefinition.RELEASE_DATE + " ASC;";
+            "WHERE " + ArtistDatabaseDefinition.WATCHED + "=" + DB_FALSE + " AND " + ArtistDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@ ORDER BY " + ArtistDatabaseDefinition.RELEASE_DATE + " ASC;";
 
     private static final String GET_UNWATCHED_RELEASES_TOTAL = "SELECT * " +
             "FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " " +
-            "WHERE " + ArtistDatabaseDefinition.WATCHED + "=" + ArtistDatabaseDefinition.WATCHED_FALSE + " ORDER BY " + ArtistDatabaseDefinition.RELEASE_DATE + " ASC;";
+            "WHERE " + ArtistDatabaseDefinition.WATCHED + "=" + DB_FALSE + " ORDER BY " + ArtistDatabaseDefinition.RELEASE_DATE + " ASC;";
 
     private final ArtistDatabaseDefinition databaseHelper;
     private final Context context;
@@ -91,7 +94,7 @@ public class ArtistDatabase implements Database {
         dbRow.put(ArtistDatabaseDefinition.RELEASE_DATE, dateToString(release.getReleaseDate()));
         dbRow.put(ArtistDatabaseDefinition.DESCRIPTION, release.getDescription());
         if (markWatchedIfReleased(isNew, release)) {
-            dbRow.put(ArtistDatabaseDefinition.WATCHED, ArtistDatabaseDefinition.WATCHED_TRUE);
+            dbRow.put(ArtistDatabaseDefinition.WATCHED, DB_TRUE);
         } else {
             dbRow.put(ArtistDatabaseDefinition.WATCHED, currentWatchedStatus);
         }
@@ -103,7 +106,7 @@ public class ArtistDatabase implements Database {
     public String getWatchedStatus(SQLiteDatabase dbReadable, MediaItem release) {
         String[] args = new String[]{release.getId(), release.getSubId()};
         Cursor cursor = dbReadable.rawQuery(GET_RELEASE_WATCHED_STATUS, args);
-        String watchedStatus = ArtistDatabaseDefinition.WATCHED_FALSE;
+        String watchedStatus = DB_FALSE;
 
         try {
             while (cursor.moveToNext()) {
@@ -121,7 +124,7 @@ public class ArtistDatabase implements Database {
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
         String[] args = new String[]{release.getId(), release.getSubId()};
         Cursor cursor = dbReadable.rawQuery(GET_RELEASE_WATCHED_STATUS, args);
-        String watchedStatus = ArtistDatabaseDefinition.WATCHED_FALSE;
+        String watchedStatus = DB_FALSE;
 
         try {
             while (cursor.moveToNext()) {
@@ -132,7 +135,7 @@ public class ArtistDatabase implements Database {
         }
 
         dbReadable.close();
-        return ArtistDatabaseDefinition.WATCHED_TRUE.equals(watchedStatus);
+        return DB_TRUE.equals(watchedStatus);
     }
 
     @Override
@@ -284,14 +287,3 @@ public class ArtistDatabase implements Database {
         return cursor.getString(cursor.getColumnIndex(field));
     }
 }
-
-
-
-
-
-
-
-
-
-
-

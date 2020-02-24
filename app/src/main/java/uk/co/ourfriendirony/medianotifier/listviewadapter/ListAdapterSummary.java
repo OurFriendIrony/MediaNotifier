@@ -16,8 +16,8 @@ import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
-import static uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabaseDefinition.WATCHED_FALSE;
-import static uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabaseDefinition.WATCHED_TRUE;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.DB_FALSE;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.DB_TRUE;
 
 public class ListAdapterSummary extends ArrayAdapter {
     private final List<MediaItem> mediaItems;
@@ -123,7 +123,7 @@ public class ListAdapterSummary extends ArrayAdapter {
 
         {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                db.updateWatchedStatus(mediaItem, (!isChecked) ? WATCHED_TRUE : WATCHED_FALSE);
+                db.updateWatchedStatus(mediaItem, (!isChecked) ? DB_TRUE : DB_FALSE);
             }
         });
 

@@ -19,6 +19,8 @@ import uk.co.ourfriendirony.medianotifier.mediaitem.tv.TVShow;
 
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getMarkWatchedIfAlreadyReleased;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetTV;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.DB_FALSE;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.DB_TRUE;
 import static uk.co.ourfriendirony.medianotifier.general.Helper.cleanTitle;
 import static uk.co.ourfriendirony.medianotifier.general.Helper.dateToString;
 
@@ -29,15 +31,15 @@ public class TVShowDatabase implements Database {
     private static final String GET_TVEPISODE_WATCHED_STATUS = "SELECT " + TVShowDatabaseDefinition.WATCHED + " FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " WHERE " + TVShowDatabaseDefinition.ID + "=? AND " + TVShowDatabaseDefinition.SUBTITLE + "=?;";
 
     private static final String COUNT_UNWATCHED_EPISODES_RELEASED = "SELECT COUNT(*) FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " " +
-            "WHERE " + TVShowDatabaseDefinition.WATCHED + "=" + TVShowDatabaseDefinition.WATCHED_FALSE + " AND " + TVShowDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@;";
+            "WHERE " + TVShowDatabaseDefinition.WATCHED + "=" + DB_FALSE + " AND " + TVShowDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@;";
 
     private static final String GET_UNWATCHED_EPISODES_RELEASED = "SELECT * " +
             "FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " " +
-            "WHERE " + TVShowDatabaseDefinition.WATCHED + "=" + TVShowDatabaseDefinition.WATCHED_FALSE + " AND " + TVShowDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@ ORDER BY " + TVShowDatabaseDefinition.RELEASE_DATE + " ASC;";
+            "WHERE " + TVShowDatabaseDefinition.WATCHED + "=" + DB_FALSE + " AND " + TVShowDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@ ORDER BY " + TVShowDatabaseDefinition.RELEASE_DATE + " ASC;";
 
     private static final String GET_UNWATCHED_EPISODES_TOTAL = "SELECT * " +
             "FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " " +
-            "WHERE " + TVShowDatabaseDefinition.WATCHED + "=" + TVShowDatabaseDefinition.WATCHED_FALSE + " ORDER BY " + TVShowDatabaseDefinition.RELEASE_DATE + " ASC;";
+            "WHERE " + TVShowDatabaseDefinition.WATCHED + "=" + DB_FALSE + " ORDER BY " + TVShowDatabaseDefinition.RELEASE_DATE + " ASC;";
 
     private final TVShowDatabaseDefinition databaseHelper;
     private final Context context;
@@ -90,7 +92,7 @@ public class TVShowDatabase implements Database {
         dbRow.put(TVShowDatabaseDefinition.RELEASE_DATE, dateToString(episode.getReleaseDate()));
         dbRow.put(TVShowDatabaseDefinition.DESCRIPTION, episode.getDescription());
         if (markWatchedIfReleased(isNewTVShow, episode)) {
-            dbRow.put(TVShowDatabaseDefinition.WATCHED, TVShowDatabaseDefinition.WATCHED_TRUE);
+            dbRow.put(TVShowDatabaseDefinition.WATCHED, DB_TRUE);
         } else {
             dbRow.put(TVShowDatabaseDefinition.WATCHED, currentWatchedStatus);
         }
@@ -102,7 +104,7 @@ public class TVShowDatabase implements Database {
     public String getWatchedStatus(SQLiteDatabase dbReadable, MediaItem mediaItem) {
         String[] args = new String[]{mediaItem.getId(), mediaItem.getSubtitle()};
         Cursor cursor = dbReadable.rawQuery(GET_TVEPISODE_WATCHED_STATUS, args);
-        String watchedStatus = TVShowDatabaseDefinition.WATCHED_FALSE;
+        String watchedStatus = DB_FALSE;
 
         try {
             while (cursor.moveToNext()) {
@@ -120,7 +122,7 @@ public class TVShowDatabase implements Database {
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
         String[] args = new String[]{mediaItem.getId(), mediaItem.getSubtitle()};
         Cursor cursor = dbReadable.rawQuery(GET_TVEPISODE_WATCHED_STATUS, args);
-        String watchedStatus = TVShowDatabaseDefinition.WATCHED_FALSE;
+        String watchedStatus = DB_FALSE;
 
         try {
             while (cursor.moveToNext()) {
@@ -131,7 +133,7 @@ public class TVShowDatabase implements Database {
         }
 
         dbReadable.close();
-        return TVShowDatabaseDefinition.WATCHED_TRUE.equals(watchedStatus);
+        return DB_TRUE.equals(watchedStatus);
     }
 
     @Override

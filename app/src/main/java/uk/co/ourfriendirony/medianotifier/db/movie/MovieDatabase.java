@@ -18,6 +18,8 @@ import uk.co.ourfriendirony.medianotifier.mediaitem.movie.Movie;
 
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getMarkWatchedIfAlreadyReleased;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetMovie;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.DB_FALSE;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.DB_TRUE;
 import static uk.co.ourfriendirony.medianotifier.general.Helper.cleanTitle;
 import static uk.co.ourfriendirony.medianotifier.general.Helper.dateToString;
 
@@ -27,14 +29,14 @@ public class MovieDatabase implements Database {
     private static final String GET_MOVIE_WATCHED_STATUS = "SELECT " + MovieDatabaseDefinition.WATCHED + " FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " WHERE " + MovieDatabaseDefinition.ID + "=?;";
 
     private static final String COUNT_UNWATCHED_MOVIES_RELEASED = "SELECT COUNT(*) FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " " +
-            "WHERE " + MovieDatabaseDefinition.WATCHED + "=" + MovieDatabaseDefinition.WATCHED_FALSE + " AND " + MovieDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@;";
+            "WHERE " + MovieDatabaseDefinition.WATCHED + "=" + DB_FALSE + " AND " + MovieDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@;";
     private static final String GET_UNWATCHED_MOVIES_RELEASED = "SELECT * " +
             "FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " " +
-            "WHERE " + MovieDatabaseDefinition.WATCHED + "=" + MovieDatabaseDefinition.WATCHED_FALSE + " AND " + MovieDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@ ORDER BY " + MovieDatabaseDefinition.RELEASE_DATE + " ASC;";
+            "WHERE " + MovieDatabaseDefinition.WATCHED + "=" + DB_FALSE + " AND " + MovieDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@ ORDER BY " + MovieDatabaseDefinition.RELEASE_DATE + " ASC;";
 
     private static final String GET_UNWATCHED_MOVIES_TOTAL = "SELECT * " +
             "FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " " +
-            "WHERE " + MovieDatabaseDefinition.WATCHED + "=" + MovieDatabaseDefinition.WATCHED_FALSE + " ORDER BY " + MovieDatabaseDefinition.RELEASE_DATE + " ASC;";
+            "WHERE " + MovieDatabaseDefinition.WATCHED + "=" + DB_FALSE + " ORDER BY " + MovieDatabaseDefinition.RELEASE_DATE + " ASC;";
 
     private final MovieDatabaseDefinition databaseHelper;
     private final Context context;
@@ -69,7 +71,7 @@ public class MovieDatabase implements Database {
         dbRow.put(MovieDatabaseDefinition.DESCRIPTION, mediaItem.getDescription());
         dbRow.put(MovieDatabaseDefinition.SUBTITLE, mediaItem.getSubtitle());
         if (markWatchedIfReleased(isNewItem, mediaItem)) {
-            dbRow.put(MovieDatabaseDefinition.WATCHED, MovieDatabaseDefinition.WATCHED_TRUE);
+            dbRow.put(MovieDatabaseDefinition.WATCHED, DB_TRUE);
         } else {
             dbRow.put(MovieDatabaseDefinition.WATCHED, currentWatchedStatus);
         }
@@ -81,7 +83,7 @@ public class MovieDatabase implements Database {
     public String getWatchedStatus(SQLiteDatabase dbReadable, MediaItem mediaItem) {
         String[] args = new String[]{mediaItem.getId()};
         Cursor cursor = dbReadable.rawQuery(GET_MOVIE_WATCHED_STATUS, args);
-        String watchedStatus = MovieDatabaseDefinition.WATCHED_FALSE;
+        String watchedStatus = DB_FALSE;
 
         try {
             while (cursor.moveToNext()) {
@@ -99,7 +101,7 @@ public class MovieDatabase implements Database {
         SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
         String[] args = new String[]{mediaItem.getId()};
         Cursor cursor = dbReadable.rawQuery(GET_MOVIE_WATCHED_STATUS, args);
-        String watchedStatus = MovieDatabaseDefinition.WATCHED_FALSE;
+        String watchedStatus = DB_FALSE;
 
         try {
             while (cursor.moveToNext()) {
@@ -110,7 +112,7 @@ public class MovieDatabase implements Database {
         }
 
         dbReadable.close();
-        return MovieDatabaseDefinition.WATCHED_TRUE.equals(watchedStatus);
+        return DB_TRUE.equals(watchedStatus);
     }
 
     @Override
