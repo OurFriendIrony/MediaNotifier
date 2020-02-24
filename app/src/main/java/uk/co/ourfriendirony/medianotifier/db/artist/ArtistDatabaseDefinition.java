@@ -6,16 +6,22 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 public class ArtistDatabaseDefinition extends SQLiteOpenHelper {
-
     public static final String WATCHED_FALSE = "0";
     public static final String WATCHED_TRUE = "1";
-    static final String TABLE_ARTISTS = "artists";
-    static final String TA_ID = "artist_id";
-    static final String TA_TITLE = "artist_title";
-    static final String TA_OVERVIEW = "artist_overview";
-    static final String TA_WATCHED = "artist_watched";
-    private static final String DATABASE_NAME = "artists";
-    private static final int DATABASE_VERSION = 4;
+
+    public static final String ID = "id";
+    public static final String SUBID = "sub_id";
+    public static final String TITLE = "title";
+    public static final String SUBTITLE = "subtitle";
+    public static final String DESCRIPTION = "description";
+    public static final String RELEASE_DATE = "release_date";
+    public static final String EXTERNAL_URL = "external_url";
+    public static final String WATCHED = "watched";
+
+    private static final int DATABASE_VERSION = 7;
+    public static final String DATABASE_NAME = "artists";
+    public static final String TABLE_ARTISTS = "artists";
+    public static final String TABLE_RELEASES = "releases";
 
     ArtistDatabaseDefinition(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -23,22 +29,37 @@ public class ArtistDatabaseDefinition extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.v(String.valueOf(this.getClass()), "onCreate");
-
+        Log.d("[DB CREATE]", String.valueOf(this.getClass()));
         db.execSQL("CREATE TABLE " + TABLE_ARTISTS + " (" +
-                TA_ID + " INTEGER, " +
-                TA_TITLE + " TEXT, " +
-                TA_OVERVIEW + " TEXT, " +
-                TA_WATCHED + " INTEGER DEFAULT " + WATCHED_FALSE + ", " +
-                "PRIMARY KEY (" + TA_ID + ")" +
+                ID + " TEXT, " +
+                SUBID + " TEXT, " +
+                TITLE + " TEXT, " +
+                SUBTITLE + " TEXT, " +
+                DESCRIPTION + " TEXT, " +
+                RELEASE_DATE + " TEXT, " +
+                EXTERNAL_URL + " TEXT, " +
+                WATCHED + " INTEGER DEFAULT " + WATCHED_FALSE + ", " +
+                "PRIMARY KEY (" + ID + ")" +
+                ")");
+
+        db.execSQL("CREATE TABLE " + TABLE_RELEASES + " (" +
+                ID + " TEXT, " +
+                SUBID + " TEXT, " +
+                TITLE + " TEXT, " +
+                SUBTITLE + " TEXT, " +
+                DESCRIPTION + " TEXT, " +
+                RELEASE_DATE + " TEXT, " +
+                EXTERNAL_URL + " TEXT, " +
+                WATCHED + " INTEGER DEFAULT " + WATCHED_FALSE + ", " +
+                "PRIMARY KEY (" + ID + "," + SUBID + ") " +
                 ")");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.v(String.valueOf(this.getClass()), "onUpdate: old=" + oldVersion + " new=" + newVersion);
-
+        Log.d("[DB UPGRADE]", String.valueOf(this.getClass()) + " version: " + oldVersion + " -> " + newVersion);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ARTISTS + ";");
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_RELEASES + ";");
         onCreate(db);
     }
 }

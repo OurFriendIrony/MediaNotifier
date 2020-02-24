@@ -7,27 +7,33 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier._objects.artist.Artist;
-import uk.co.ourfriendirony.medianotifier.clients.DiscogsDatabaseClient;
+import uk.co.ourfriendirony.medianotifier.clients.MusicBrainzClient;
+import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
-import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummaryArtist;
+import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummary;
+import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
+
 
 public class ActivityArtistFind extends AppCompatActivity {
-    private ArtistDatabase database;
-
-    private EditText findInput;
-    private ProgressBar findProgressBar;
-    private ListView findList;
-    private List<Artist> artists = new ArrayList<>();
-    private DiscogsDatabaseClient client = new DiscogsDatabaseClient();
+    private EditText input;
+    private ProgressBar progressBar;
+    private ListView listView;
+    private List<MediaItem> mediaItems = new ArrayList<>();
+    private MusicBrainzClient client = new MusicBrainzClient();
+    private Database database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +44,11 @@ public class ActivityArtistFind extends AppCompatActivity {
 
         database = new ArtistDatabase(getApplicationContext());
 
-        findInput = (EditText) findViewById(R.id.find_input);
-        findProgressBar = (ProgressBar) findViewById(R.id.find_progress);
-        findList = (ListView) findViewById(R.id.find_list);
+        input = (EditText) findViewById(R.id.find_input);
+        progressBar = (ProgressBar) findViewById(R.id.find_progress);
+        listView = (ListView) findViewById(R.id.find_list);
 
-        findInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        input.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
                 switch (actionId) {
@@ -59,7 +65,7 @@ public class ActivityArtistFind extends AppCompatActivity {
             }
         });
 
-        findList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView textViewID = (TextView) view.findViewById(R.id.list_item_generic_id);
@@ -69,36 +75,32 @@ public class ActivityArtistFind extends AppCompatActivity {
         });
     }
 
-    private class ArtistFindAsyncTask extends AsyncTask<String, Void, List<Artist>> {
+    private class ArtistFindAsyncTask extends AsyncTask<String, Void, List<MediaItem>> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            findProgressBar.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
-        protected List<Artist> doInBackground(String... params) {
-            String string = params[0];
+        protected List<MediaItem> doInBackground(String... params) {
+            String query = params[0];
             try {
-                artists = client.queryArtist(string);
-                for (int i = 0; i < artists.size(); i++) {
-                    artists.set(i, client.getArtist(artists.get(i).getId()));
-                }
+                mediaItems = client.queryArtist(query);
             } catch (IOException e) {
-                artists = new ArrayList<>();
-                Log.e(String.valueOf(this.getClass()), "Failed to query: " + e.getMessage());
+                mediaItems = new ArrayList<>();
             }
-            return artists;
+            return mediaItems;
         }
 
         @Override
-        protected void onPostExecute(List<Artist> result) {
-            findProgressBar.setVisibility(View.GONE);
+        protected void onPostExecute(List<MediaItem> result) {
+            progressBar.setVisibility(View.GONE);
 
-            if (artists.size() > 0) {
-                ListAdapterSummaryArtist adapter = new ListAdapterSummaryArtist(getBaseContext(), R.layout.list_item_generic, artists);
-                findList.setAdapter(adapter);
+            if (mediaItems.size() > 0) {
+                ListAdapterSummary adapter = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic, mediaItems, database);
+                listView.setAdapter(adapter);
             } else {
                 Toast.makeText(getBaseContext(), R.string.toast_no_results, Toast.LENGTH_LONG).show();
             }
@@ -112,7 +114,7 @@ public class ActivityArtistFind extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            findProgressBar.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -120,10 +122,10 @@ public class ActivityArtistFind extends AppCompatActivity {
             String artistId = params[0];
             String artistTitle = params[1];
 
-            Artist artist;
+            MediaItem artist;
             try {
-                artist = client.getArtist(Integer.parseInt(artistId));
-                database.addArtist(artist);
+                artist = client.getArtist(artistId);
+                database.add(artist);
             } catch (IOException e) {
                 Log.e(String.valueOf(this.getClass()), "Failed to add: " + e.getMessage());
             }
@@ -132,7 +134,7 @@ public class ActivityArtistFind extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String artistTitle) {
-            findProgressBar.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
             String toastMsg = "'" + artistTitle + "' " + getResources().getString(R.string.toast_db_added);
             Toast.makeText(getApplicationContext(), toastMsg, Toast.LENGTH_SHORT).show();
         }

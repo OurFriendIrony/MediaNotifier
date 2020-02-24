@@ -4,13 +4,13 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import uk.co.ourfriendirony.medianotifier._objects.artist.Artist;
-import uk.co.ourfriendirony.medianotifier.clients.DiscogsDatabaseClient;
+import uk.co.ourfriendirony.medianotifier.clients.MusicBrainzClient;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
+import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
 import static uk.co.ourfriendirony.medianotifier.general.StaticContext.getStaticContext;
 
-public class ArtistUpdateAsyncTask extends AsyncTask<Artist, Void, String> {
+public class ArtistUpdateAsyncTask extends AsyncTask<MediaItem, Void, String> {
         /* Background Task to Update an existing item */
 
     @Override
@@ -19,28 +19,29 @@ public class ArtistUpdateAsyncTask extends AsyncTask<Artist, Void, String> {
     }
 
     @Override
-    protected String doInBackground(Artist... artists) {
+    protected String doInBackground(MediaItem... mediaItems) {
         int failed = 0;
         String result = "";
 
-        if (artists.length == 1) {
-            result += "'" + artists[0].getTitle() + "' Updated";
+        if (mediaItems.length == 1) {
+            result += "'" + mediaItems[0].getTitle() + "' Updated";
         } else {
             result += "Artists Updated";
         }
 
-        for (Artist artist : artists) {
+        for (MediaItem mediaItem : mediaItems) {
             try {
-                artist = new DiscogsDatabaseClient().getArtist(artist.getId());
-                new ArtistDatabase(getStaticContext()).updateArtist(artist);
+                mediaItem = new MusicBrainzClient().getArtist(mediaItem.getId());
+                new ArtistDatabase(getStaticContext()).update(mediaItem);
             } catch (Exception e) {
-                Log.e("FAILED_UPDATE", artist.getTitle() + ": " + e.getMessage());
+                Log.e("FAILED_UPDATE", mediaItem.getTitle() + ": " + e.getMessage());
                 failed += 1;
             }
         }
 
-        if (failed > 0)
+        if (failed > 0) {
             result += " [Failed=" + failed + "]";
+        }
 
         return result;
     }

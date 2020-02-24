@@ -27,9 +27,9 @@ public class PropertyHelper {
 
     private static int THEME_DEFAULT = R.style.AppTheme_DARK;
 
-    public static boolean getMarkWatchedIfAlreadyReleased(Context context){
+    public static boolean getMarkWatchedIfAlreadyReleased(Context context) {
         SharedPreferences settings = getSharedPreferences(context);
-        return settings.getBoolean(MARK_WATCHED,MARK_WATCHED_DEFAULT);
+        return settings.getBoolean(MARK_WATCHED, MARK_WATCHED_DEFAULT);
     }
 
     public static String getNotificationTimeFull(Context context) {
@@ -87,7 +87,7 @@ public class PropertyHelper {
         return settings.getInt(THEME, THEME_DEFAULT);
     }
 
-    public static void setMarkWatchedIfAlreadyReleased(Context context, boolean markWatched){
+    public static void setMarkWatchedIfAlreadyReleased(Context context, boolean markWatched) {
         SharedPreferences.Editor editor = getSharedPreferencesEditor(context);
         editor.putBoolean(MARK_WATCHED, markWatched);
         editor.apply();

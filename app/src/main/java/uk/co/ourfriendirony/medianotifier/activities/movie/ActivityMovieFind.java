@@ -7,27 +7,32 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier._objects.movie.Movie;
-import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
+import uk.co.ourfriendirony.medianotifier.clients.TMDBClient;
+import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
-import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummaryMovie;
+import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummary;
+import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
 public class ActivityMovieFind extends AppCompatActivity {
-    private MovieDatabase database;
-
-    private EditText findInput;
-    private ProgressBar findProgressBar;
-    private ListView findList;
-    private List<Movie> movies = new ArrayList<>();
-    private MovieDatabaseClient client = new MovieDatabaseClient();
+    private EditText input;
+    private ProgressBar progressBar;
+    private ListView listView;
+    private List<MediaItem> mediaItems = new ArrayList<>();
+    private TMDBClient client = new TMDBClient();
+    private Database db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,13 +41,13 @@ public class ActivityMovieFind extends AppCompatActivity {
         super.getSupportActionBar().setTitle(R.string.title_find_movie);
         super.setContentView(R.layout.activity_find);
 
-        database = new MovieDatabase(getApplicationContext());
+        db = new MovieDatabase(getApplicationContext());
 
-        findInput = (EditText) findViewById(R.id.find_input);
-        findProgressBar = (ProgressBar) findViewById(R.id.find_progress);
-        findList = (ListView) findViewById(R.id.find_list);
+        input = (EditText) findViewById(R.id.find_input);
+        progressBar = (ProgressBar) findViewById(R.id.find_progress);
+        listView = (ListView) findViewById(R.id.find_list);
 
-        findInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        input.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
                 switch (actionId) {
@@ -59,7 +64,7 @@ public class ActivityMovieFind extends AppCompatActivity {
             }
         });
 
-        findList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView textViewID = (TextView) view.findViewById(R.id.list_item_generic_id);
@@ -69,33 +74,32 @@ public class ActivityMovieFind extends AppCompatActivity {
         });
     }
 
-    private class MovieFindAsyncTask extends AsyncTask<String, Void, List<Movie>> {
+    private class MovieFindAsyncTask extends AsyncTask<String, Void, List<MediaItem>> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            findProgressBar.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
-        protected List<Movie> doInBackground(String... params) {
-            String string = params[0];
+        protected List<MediaItem> doInBackground(String... params) {
+            String query = params[0];
             try {
-                movies = client.queryMovie(string);
+                mediaItems = client.queryMovie(query);
             } catch (IOException e) {
-                movies = new ArrayList<>();
-                Log.e(String.valueOf(this.getClass()), "Failed to query: " + e.getMessage());
+                mediaItems = new ArrayList<>();
             }
-            return movies;
+            return mediaItems;
         }
 
         @Override
-        protected void onPostExecute(List<Movie> result) {
-            findProgressBar.setVisibility(View.GONE);
+        protected void onPostExecute(List<MediaItem> result) {
+            progressBar.setVisibility(View.GONE);
 
-            if (movies.size() > 0) {
-                ListAdapterSummaryMovie adapter = new ListAdapterSummaryMovie(getBaseContext(), R.layout.list_item_generic, movies);
-                findList.setAdapter(adapter);
+            if (mediaItems.size() > 0) {
+                ListAdapterSummary adapter = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic, mediaItems, db);
+                listView.setAdapter(adapter);
             } else {
                 Toast.makeText(getBaseContext(), R.string.toast_no_results, Toast.LENGTH_LONG).show();
             }
@@ -109,7 +113,7 @@ public class ActivityMovieFind extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            findProgressBar.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -117,10 +121,10 @@ public class ActivityMovieFind extends AppCompatActivity {
             String movieId = params[0];
             String movieTitle = params[1];
 
-            Movie movie;
+            MediaItem mediaItem;
             try {
-                movie = client.getMovie(Integer.parseInt(movieId));
-                database.addMovie(movie);
+                mediaItem = client.getMovie(Integer.parseInt(movieId));
+                db.add(mediaItem);
             } catch (IOException e) {
                 Log.e(String.valueOf(this.getClass()), "Failed to add: " + e.getMessage());
             }
@@ -129,7 +133,7 @@ public class ActivityMovieFind extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String movieTitle) {
-            findProgressBar.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
             String toastMsg = "'" + movieTitle + "' " + getResources().getString(R.string.toast_db_added);
             Toast.makeText(getApplicationContext(), toastMsg, Toast.LENGTH_SHORT).show();
         }

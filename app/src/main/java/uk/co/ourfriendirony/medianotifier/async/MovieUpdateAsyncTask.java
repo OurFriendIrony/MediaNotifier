@@ -4,13 +4,13 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import uk.co.ourfriendirony.medianotifier._objects.movie.Movie;
-import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
+import uk.co.ourfriendirony.medianotifier.clients.TMDBClient;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
+import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
 import static uk.co.ourfriendirony.medianotifier.general.StaticContext.getStaticContext;
 
-public class MovieUpdateAsyncTask extends AsyncTask<Movie, Void, String> {
+public class MovieUpdateAsyncTask extends AsyncTask<MediaItem, Void, String> {
         /* Background Task to Update an existing item */
 
     @Override
@@ -19,28 +19,29 @@ public class MovieUpdateAsyncTask extends AsyncTask<Movie, Void, String> {
     }
 
     @Override
-    protected String doInBackground(Movie... movies) {
+    protected String doInBackground(MediaItem... mediaItems) {
         int failed = 0;
         String result = "";
 
-        if (movies.length == 1) {
-            result += "'" + movies[0].getTitle() + "' Updated";
+        if (mediaItems.length == 1) {
+            result += "'" + mediaItems[0].getTitle() + "' Updated";
         } else {
             result += "Movies Updated";
         }
 
-        for (Movie movie : movies) {
+        for (MediaItem mediaItem : mediaItems) {
             try {
-                movie = new MovieDatabaseClient().getMovie(movie.getId());
-                new MovieDatabase(getStaticContext()).updateMovie(movie);
+                mediaItem = new TMDBClient().getMovie(Integer.parseInt(mediaItem.getId()));
+                new MovieDatabase(getStaticContext()).update(mediaItem);
             } catch (Exception e) {
-                Log.e("FAILED_UPDATE", movie.getTitle() + ": " + e.getMessage());
+                Log.e("FAILED_UPDATE", mediaItem.getTitle() + ": " + e.getMessage());
                 failed += 1;
             }
         }
 
-        if (failed > 0)
+        if (failed > 0) {
             result += " [Failed=" + failed + "]";
+        }
 
         return result;
     }

@@ -15,7 +15,6 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
@@ -39,8 +38,6 @@ import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificati
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationDayOffsetTV;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationHour;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationMinute;
-import static uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabaseDefinition.WATCHED_FALSE;
-import static uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabaseDefinition.WATCHED_TRUE;
 
 public class ActivitySettings extends AppCompatActivity {
     private PopupWindow popupWindow;
@@ -89,7 +86,7 @@ public class ActivitySettings extends AppCompatActivity {
         buttonDeleteTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new TVShowDatabase(getApplicationContext()).deleteAllTVShows();
+                new TVShowDatabase(getApplicationContext()).deleteAll();
                 Toast.makeText(ActivitySettings.this, R.string.toast_db_table_cleared, Toast.LENGTH_SHORT).show();
             }
         });
@@ -97,7 +94,7 @@ public class ActivitySettings extends AppCompatActivity {
         buttonDeleteMovie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new MovieDatabase(getApplicationContext()).deleteAllMovies();
+                new MovieDatabase(getApplicationContext()).deleteAll();
                 Toast.makeText(ActivitySettings.this, R.string.toast_db_table_cleared, Toast.LENGTH_SHORT).show();
             }
         });
@@ -105,7 +102,7 @@ public class ActivitySettings extends AppCompatActivity {
         buttonDeleteArtist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new ArtistDatabase(getApplicationContext()).deleteAllArtists();
+                new ArtistDatabase(getApplicationContext()).deleteAll();
                 Toast.makeText(ActivitySettings.this, R.string.toast_db_table_cleared, Toast.LENGTH_SHORT).show();
             }
         });

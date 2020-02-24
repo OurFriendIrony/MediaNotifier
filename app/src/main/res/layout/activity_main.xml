@@ -172,19 +172,19 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="5dp"
                 android:layout_marginStart="5dp"
-                android:layout_toStartOf="@+id/badge_discogs"
+                android:layout_toStartOf="@+id/badge_musicbrainz"
                 android:contentDescription="@string/tvmb"
                 android:src="@drawable/img_external_tmdb" />
 
             <ImageView
-                android:id="@+id/badge_discogs"
+                android:id="@+id/badge_musicbrainz"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="5dp"
                 android:layout_marginStart="5dp"
-                android:contentDescription="@string/discogs"
-                android:src="@drawable/img_external_discogs" />
+                android:contentDescription="@string/musicbrainz"
+                android:src="@drawable/img_external_musicbrainz" />
         </RelativeLayout>
     </FrameLayout>
 </android.support.design.widget.CoordinatorLayout>

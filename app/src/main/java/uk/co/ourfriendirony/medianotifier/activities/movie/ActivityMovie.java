@@ -4,49 +4,50 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.*;
-import android.widget.*;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
 
 import java.util.Collections;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier._objects.movie.Movie;
 import uk.co.ourfriendirony.medianotifier.async.MovieUpdateAsyncTask;
-import uk.co.ourfriendirony.medianotifier.clients.MovieDatabaseClient;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
-import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummaryMovie;
+import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummary;
+import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
 public class ActivityMovie extends AppCompatActivity {
-
-    private Spinner movieSpinner;
-    private ListView movieList;
-    private List<Movie> movies;
+    private Spinner spinnerView;
+    private ListView listView;
+    private List<MediaItem> movies;
     private ProgressBar loadPageProgressBar;
-    private int currentMoviePosition;
-    private MovieDatabase database;
-    private MovieDatabaseClient client = new MovieDatabaseClient();
+    private int currentItemPos;
+    private MovieDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.setTheme(PropertyHelper.getTheme(getBaseContext()));
+        super.setTheme(PropertyHelper.getTheme(getApplicationContext()));
         super.getSupportActionBar().setTitle(R.string.title_library_movie);
         super.setContentView(R.layout.activity_movie);
 
-        database = new MovieDatabase(getApplicationContext());
+        db = new MovieDatabase(getApplicationContext());
 
-        movieSpinner = (Spinner) findViewById(R.id.movie_spinner);
-        movieList = (ListView) findViewById(R.id.movie_list);
-        loadPageProgressBar = (ProgressBar) findViewById(R.id.movie_progress);
+        spinnerView = (Spinner) findViewById(R.id.spinner);
+        listView = (ListView) findViewById(R.id.list);
+        loadPageProgressBar = (ProgressBar) findViewById(R.id.progress);
         new MovieListAsyncTask().execute();
-
-        movieSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int moviePosition, long id) {
-                displayMovies(moviePosition);
+            public void onItemSelected(AdapterView<?> parent, View view, int itemPos, long id) {
+                display(itemPos);
             }
 
             @Override
@@ -62,41 +63,41 @@ public class ActivityMovie extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Movie currentMovie = movies.get(currentMoviePosition);
-        switch (item.getItemId()) {
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        MediaItem mediaItem = movies.get(currentItemPos);
+        switch (menuItem.getItemId()) {
             case R.id.action_refresh:
-                new MovieUpdateAsyncTask().execute(currentMovie);
+                new MovieUpdateAsyncTask().execute(mediaItem);
                 this.recreate();
                 return true;
 
             case R.id.action_remove:
-                database.deleteMovie(currentMovie.getId());
+                db.delete(mediaItem.getId());
                 this.recreate();
                 return true;
 
-            case R.id.action_imdb:
-                Intent intent = IntentGenerator.getWebPageIntent("http://www.imdb.com/title/" + currentMovie.getImdbId() + "/");
+            case R.id.action_lookup:
+                Intent intent = IntentGenerator.getWebPageIntent(mediaItem.getExternalLink());
                 startActivity(intent);
                 return true;
 
             default:
-                return super.onOptionsItemSelected(item);
+                return super.onOptionsItemSelected(menuItem);
         }
     }
 
-    private void displayMovies() {
+    private void display() {
         if (movies.size() > 0) {
-            ListAdapterSummaryMovie listAdapterSummaryMovie = new ListAdapterSummaryMovie(getBaseContext(), R.layout.list_item_generic_title, movies);
-            movieSpinner.setAdapter(listAdapterSummaryMovie);
-            displayMovies(0);
+            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, movies, db);
+            spinnerView.setAdapter(listAdapterSummary);
+            display(0);
         }
     }
 
-    private void displayMovies(int moviePosition) {
-        currentMoviePosition = moviePosition;
-        ListAdapterSummaryMovie movieListAdapter = new ListAdapterSummaryMovie(getBaseContext(), R.layout.list_item_generic_toggle, Collections.singletonList(movies.get(moviePosition)));
-        movieList.setAdapter(movieListAdapter);
+    private void display(int itemPos) {
+        currentItemPos = itemPos;
+        ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_toggle, Collections.singletonList(movies.get(itemPos)), db);
+        listView.setAdapter(listAdapterSummary);
     }
 
     private class MovieListAsyncTask extends AsyncTask<String, Void, Void> {
@@ -112,14 +113,14 @@ public class ActivityMovie extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(String... params) {
-            movies = database.getAllMovies();
+            movies = db.getAll();
             return null;
         }
 
         @Override
         protected void onPostExecute(Void x) {
             loadPageProgressBar.setVisibility(View.GONE);
-            displayMovies();
+            display();
         }
     }
 }
