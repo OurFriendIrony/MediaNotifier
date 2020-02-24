@@ -20,7 +20,7 @@ public class ActivityArtistUnwatchedReleased extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.activity_tv_notifications, container, false);
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.activity_notifications, container, false);
         ListView listView = (ListView) rootView.findViewById(R.id.tv_notification_list);
 
         db = new ArtistDatabase(getContext());

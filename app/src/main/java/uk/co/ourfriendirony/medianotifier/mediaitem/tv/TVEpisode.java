@@ -1,6 +1,7 @@
 package uk.co.ourfriendirony.medianotifier.mediaitem.tv;
 
 import android.database.Cursor;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
@@ -29,12 +30,17 @@ public class TVEpisode implements MediaItem {
 
     public TVEpisode(TVSeasonGetEpisode episode, String showId) {
         this.id = String.valueOf(showId);
-        this.subid = String.format("S%02d", episode.getSeasonNumber()) + String.format("E%02d", episode.getEpisodeNumber());
+        this.subid = formatSubtitle(episode);
         this.title = episode.getName();
-        this.subtitle = String.format("S%02d", episode.getSeasonNumber()) + String.format("E%02d", episode.getEpisodeNumber());
+        this.subtitle = formatSubtitle(episode);
         this.description = episode.getOverview();
         this.releaseDate = episode.getAirDate();
         Log.d("[FROM GET]", this.toString());
+    }
+
+    @NonNull
+    private String formatSubtitle(TVSeasonGetEpisode episode) {
+        return String.format(Locale.UK, "S%02d", episode.getSeasonNumber()) + String.format(Locale.UK, "E%02d", episode.getEpisodeNumber());
     }
 
     public TVEpisode(Cursor cursor) {

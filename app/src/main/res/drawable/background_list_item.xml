@@ -7,9 +7,6 @@
     <item android:right="1dp">
         <shape android:shape="rectangle">
             <solid android:color="?attr/colorBackgroundPrimary3" />
-            <!--<corners-->
-                <!--android:bottomRightRadius="15dp"-->
-                <!--android:topRightRadius="5dp" />-->
         </shape>
     </item>
     <item
@@ -21,10 +18,7 @@
                 android:centerColor="?attr/colorBackgroundPrimary2"
                 android:endColor="?attr/colorBackgroundPrimary2"
                 android:startColor="?attr/colorBackgroundPrimary1" />
-            <corners
-                android:bottomRightRadius="7dp"
-                 />
-            <!--android:topRightRadius="5dp"-->
+            <corners android:bottomRightRadius="7dp" />
         </shape>
     </item>
 </layer-list>
