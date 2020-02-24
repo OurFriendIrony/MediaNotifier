@@ -16,10 +16,9 @@ public class MovieDatabaseDefinition extends SQLiteOpenHelper {
     public static final String RELEASE_DATE = "release_date";
     public static final String EXTERNAL_URL = "external_url";
     public static final String WATCHED = "watched";
-
-    private static final int DATABASE_VERSION = 6;
     public static final String DATABASE_NAME = "movies";
     public static final String TABLE_MOVIES = "movies";
+    private static final int DATABASE_VERSION = 6;
 
     MovieDatabaseDefinition(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

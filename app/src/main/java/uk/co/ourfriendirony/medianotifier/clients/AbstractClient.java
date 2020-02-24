@@ -12,8 +12,8 @@ import java.io.IOException;
 //TODO: Make Abstract
 
 public class AbstractClient {
-    private int SLEEP = 1;
     private static final DefaultHttpClient client = new DefaultHttpClient();
+    private int SLEEP = 1;
 
     protected String httpGetRequest(String url) throws IOException {
         HttpGet request = new HttpGet(url);

@@ -1,4 +1,3 @@
-
 package uk.co.ourfriendirony.medianotifier.clients.musicbrainz.release.get;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;

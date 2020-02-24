@@ -17,6 +17,7 @@ import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 import static uk.co.ourfriendirony.medianotifier.general.Helper.stringToDate;
 
 public class Movie implements MediaItem {
+    private static final String IMDB_URL = "http://www.imdb.com/title/";
     private String id;
     private String subid = "";
     private String title;
@@ -27,8 +28,6 @@ public class Movie implements MediaItem {
     // TODO: fully implement watched as an item
     private boolean watched = false;
     private List<MediaItem> children = new ArrayList<>();
-
-    private static final String IMDB_URL = "http://www.imdb.com/title/";
 
 
     public Movie(MovieGet movie) {

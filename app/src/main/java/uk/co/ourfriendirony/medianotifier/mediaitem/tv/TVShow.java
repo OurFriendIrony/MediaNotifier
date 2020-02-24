@@ -18,6 +18,7 @@ import static uk.co.ourfriendirony.medianotifier.general.Helper.getColumnValue;
 import static uk.co.ourfriendirony.medianotifier.general.Helper.stringToDate;
 
 public class TVShow implements MediaItem {
+    private static final String IMDB_URL = "http://www.imdb.com/title/";
     private String id;
     private String subid = "";
     private String title;
@@ -28,8 +29,6 @@ public class TVShow implements MediaItem {
     // TODO: fully implement watched as an item
     private boolean watched = false;
     private List<MediaItem> children = new ArrayList<>();
-
-    private static final String IMDB_URL = "http://www.imdb.com/title/";
 
     public TVShow(TVShowGet tvShow, List<MediaItem> children) {
         this.id = String.valueOf(tvShow.getId());

@@ -16,11 +16,10 @@ public class TVShowDatabaseDefinition extends SQLiteOpenHelper {
     public static final String RELEASE_DATE = "release_date";
     public static final String EXTERNAL_URL = "external_url";
     public static final String WATCHED = "watched";
-
-    private static final int DATABASE_VERSION = 6;
     public static final String DATABASE_NAME = "tv_shows";
     public static final String TABLE_TVSHOWS = "tv_shows";
     public static final String TABLE_EPISODES = "tv_shows_episodes";
+    private static final int DATABASE_VERSION = 6;
 
     public TVShowDatabaseDefinition(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

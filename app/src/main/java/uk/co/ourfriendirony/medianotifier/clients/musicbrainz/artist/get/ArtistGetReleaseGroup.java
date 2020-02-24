@@ -2,7 +2,6 @@ package uk.co.ourfriendirony.medianotifier.clients.musicbrainz.artist.get;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -41,7 +40,8 @@ public class ArtistGetReleaseGroup {
     private String primaryType;
     @JsonProperty("secondary-types")
     private List<String> secondaryTypes = null;
-    @JsonProperty("first-release-date") @JsonDeserialize(using = MultiDateDeserializer.class)
+    @JsonProperty("first-release-date")
+    @JsonDeserialize(using = MultiDateDeserializer.class)
     private Date firstReleaseDate;
     @JsonProperty("primary-type-id")
     private String primaryTypeId;

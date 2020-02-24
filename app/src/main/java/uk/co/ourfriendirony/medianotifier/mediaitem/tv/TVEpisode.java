@@ -38,11 +38,6 @@ public class TVEpisode implements MediaItem {
         Log.d("[FROM GET]", this.toString());
     }
 
-    @NonNull
-    private String formatSubtitle(TVSeasonGetEpisode episode) {
-        return String.format(Locale.UK, "S%02d", episode.getSeasonNumber()) + String.format(Locale.UK, "E%02d", episode.getEpisodeNumber());
-    }
-
     public TVEpisode(Cursor cursor) {
         this.id = getColumnValue(cursor, TVShowDatabaseDefinition.ID);
         this.subid = getColumnValue(cursor, TVShowDatabaseDefinition.SUBID);
@@ -52,6 +47,11 @@ public class TVEpisode implements MediaItem {
         this.releaseDate = stringToDate(getColumnValue(cursor, TVShowDatabaseDefinition.RELEASE_DATE));
         this.externalUrl = getColumnValue(cursor, TVShowDatabaseDefinition.EXTERNAL_URL);
         Log.d("[DB READ]", this.toString());
+    }
+
+    @NonNull
+    private String formatSubtitle(TVSeasonGetEpisode episode) {
+        return String.format(Locale.UK, "S%02d", episode.getSeasonNumber()) + String.format(Locale.UK, "E%02d", episode.getEpisodeNumber());
     }
 
     private String getColumnValue(Cursor cursor, String field) {

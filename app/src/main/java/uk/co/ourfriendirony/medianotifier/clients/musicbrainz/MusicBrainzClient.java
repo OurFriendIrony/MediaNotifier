@@ -26,9 +26,6 @@ public class MusicBrainzClient extends AbstractClient {
     private static final String URL_ARTIST_RELEASE_ID = HOST + "release/@ID@?inc=recordings&fmt=json";
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-
-    private String payload;
-
     private static final ArrayList<String> RELEASE_TYPES_UNWANTED = new ArrayList<String>() {{
         add("Compilation");
         add("EP");
@@ -36,6 +33,7 @@ public class MusicBrainzClient extends AbstractClient {
         add("Single");
         add("Demo");
     }};
+    private String payload;
 
     public List<MediaItem> queryArtist(String artist) throws IOException {
         payload = httpGetRequest(

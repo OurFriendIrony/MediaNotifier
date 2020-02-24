@@ -2,7 +2,6 @@ package uk.co.ourfriendirony.medianotifier.clients.musicbrainz.artist.get;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -26,7 +25,8 @@ public class ArtistGetLifeSpan {
     @JsonProperty("ended")
     private Boolean ended;
 
-    @JsonProperty("begin") @JsonDeserialize(using = MultiDateDeserializer.class)
+    @JsonProperty("begin")
+    @JsonDeserialize(using = MultiDateDeserializer.class)
     private Date begin;
     @JsonProperty("end")
     private String end;

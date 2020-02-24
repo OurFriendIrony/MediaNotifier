@@ -47,7 +47,8 @@ public class ReleaseGet {
     private List<ReleaseGetMedium> media = null;
     @JsonProperty("quality")
     private String quality;
-    @JsonProperty("date") @JsonDeserialize(using = MultiDateDeserializer.class)
+    @JsonProperty("date")
+    @JsonDeserialize(using = MultiDateDeserializer.class)
     private Date date;
     @JsonProperty("packaging-id")
     private String packagingId;

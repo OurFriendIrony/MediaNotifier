@@ -5,6 +5,7 @@ import java.util.List;
 
 public interface MediaItem {
     String getId();
+
     String getSubId();
 
     String getTitle();

@@ -1,9 +1,5 @@
-
 package uk.co.ourfriendirony.medianotifier.clients.musicbrainz.release.get;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -11,6 +7,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import uk.co.ourfriendirony.medianotifier.general.MultiDateDeserializer;
 
@@ -20,7 +20,8 @@ import uk.co.ourfriendirony.medianotifier.general.MultiDateDeserializer;
         "area"
 })
 public class ReleaseGetReleaseEvent {
-    @JsonProperty("date") @JsonDeserialize(using = MultiDateDeserializer.class)
+    @JsonProperty("date")
+    @JsonDeserialize(using = MultiDateDeserializer.class)
     private Date date;
     @JsonProperty("area")
     private ReleaseGetArea area;
