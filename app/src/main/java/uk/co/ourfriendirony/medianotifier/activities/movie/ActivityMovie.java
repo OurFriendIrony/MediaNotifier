@@ -36,7 +36,7 @@ public class ActivityMovie extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         super.setTheme(PropertyHelper.getTheme(getApplicationContext()));
         super.getSupportActionBar().setTitle(R.string.title_library_movie);
-        super.setContentView(R.layout.activity_movie);
+        super.setContentView(R.layout.activity_list);
 
         db = new MovieDatabase(getApplicationContext());
 

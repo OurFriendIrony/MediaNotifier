@@ -35,13 +35,13 @@ public class ActivityTV extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         super.setTheme(PropertyHelper.getTheme(getBaseContext()));
         super.getSupportActionBar().setTitle(R.string.title_library_tvshow);
-        super.setContentView(R.layout.activity_tv);
+        super.setContentView(R.layout.activity_list);
 
         db = new TVShowDatabase(getApplicationContext());
 
-        spinner = (Spinner) findViewById(R.id.tv_spinner);
-        listView = (ListView) findViewById(R.id.tv_list);
-        progressBar = (ProgressBar) findViewById(R.id.tv_progress);
+        spinner = (Spinner) findViewById(R.id.spinner);
+        listView = (ListView) findViewById(R.id.list);
+        progressBar = (ProgressBar) findViewById(R.id.progress);
         new TVShowListAsyncTask().execute();
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

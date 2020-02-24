@@ -34,13 +34,13 @@ public class ActivityArtist extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         super.setTheme(PropertyHelper.getTheme(getBaseContext()));
         super.getSupportActionBar().setTitle(R.string.title_library_artist);
-        super.setContentView(R.layout.activity_artist);
+        super.setContentView(R.layout.activity_list);
 
         db = new ArtistDatabase(getApplicationContext());
 
-        spinner = (Spinner) findViewById(R.id.artist_spinner);
-        listView = (ListView) findViewById(R.id.artist_list);
-        progressBar = (ProgressBar) findViewById(R.id.artist_progress);
+        spinner = (Spinner) findViewById(R.id.spinner);
+        listView = (ListView) findViewById(R.id.list);
+        progressBar = (ProgressBar) findViewById(R.id.progress);
         new ArtistListAsyncTask().execute();
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
