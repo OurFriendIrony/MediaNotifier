@@ -15,7 +15,7 @@ public class AbstractClient {
     private int SLEEP = 1;
     private static final DefaultHttpClient client = new DefaultHttpClient();
 
-    String httpGetRequest(String url) throws IOException {
+    protected String httpGetRequest(String url) throws IOException {
         HttpGet request = new HttpGet(url);
         request.setHeader("User-Agent", "MediaNotifier/1.0.0 ( ourfriendirony@gmail.com )");
         while (true) {

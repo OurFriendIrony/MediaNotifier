@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import uk.co.ourfriendirony.medianotifier.clients.MusicBrainzClient;
+import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.MusicBrainzClient;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 

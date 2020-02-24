@@ -9,8 +9,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.get.ArtistGet;
-import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.search.ArtistSearchArtist;
+import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.artist.get.ArtistGet;
+import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.artist.search.ArtistSearchArtist;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabaseDefinition;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 

@@ -9,8 +9,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import uk.co.ourfriendirony.medianotifier.clients.objects.tv.get.TVShowGet;
-import uk.co.ourfriendirony.medianotifier.clients.objects.tv.search.TVShowSearchResult;
+import uk.co.ourfriendirony.medianotifier.clients.tmdb.tvshow.get.TVShowGet;
+import uk.co.ourfriendirony.medianotifier.clients.tmdb.tvshow.search.TVShowSearchResult;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabaseDefinition;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
