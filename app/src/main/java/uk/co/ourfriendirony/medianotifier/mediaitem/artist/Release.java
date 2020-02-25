@@ -13,6 +13,7 @@ import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.artist.get.ArtistG
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabaseDefinition;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
+import static uk.co.ourfriendirony.medianotifier.general.Helper.getColumnValue;
 import static uk.co.ourfriendirony.medianotifier.general.Helper.stringToDate;
 
 public class Release implements MediaItem {
@@ -49,10 +50,6 @@ public class Release implements MediaItem {
         this.externalUrl = getColumnValue(cursor, ArtistDatabaseDefinition.EXTERNAL_URL);
 //        this.watched = Boolean.getBoolean(getColumnValue(cursor,ArtistDatabaseDefinition.WATCHED));
         Log.d("[DB READ]", this.toString());
-    }
-
-    private String getColumnValue(Cursor cursor, String field) {
-        return cursor.getString(cursor.getColumnIndex(field));
     }
 
     @Override

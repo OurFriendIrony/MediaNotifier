@@ -14,6 +14,7 @@ import uk.co.ourfriendirony.medianotifier.clients.tmdb.tvseason.get.TVSeasonGetE
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabaseDefinition;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
+import static uk.co.ourfriendirony.medianotifier.general.Helper.getColumnValue;
 import static uk.co.ourfriendirony.medianotifier.general.Helper.stringToDate;
 
 public class TVEpisode implements MediaItem {
@@ -51,11 +52,11 @@ public class TVEpisode implements MediaItem {
 
     @NonNull
     private String formatSubtitle(TVSeasonGetEpisode episode) {
-        return String.format(Locale.UK, "S%02d", episode.getSeasonNumber()) + String.format(Locale.UK, "E%02d", episode.getEpisodeNumber());
+        return pad(episode.getSeasonNumber(), "S", 2) + pad(episode.getEpisodeNumber(), "E", 2);
     }
 
-    private String getColumnValue(Cursor cursor, String field) {
-        return cursor.getString(cursor.getColumnIndex(field));
+    private static String pad(int num, String prefix, int size) {
+        return prefix + String.format(Locale.UK, "%0" + size + "d", num);
     }
 
     @Override

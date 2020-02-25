@@ -14,6 +14,7 @@ import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.artist.search.Arti
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabaseDefinition;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
+import static uk.co.ourfriendirony.medianotifier.general.Helper.getColumnValue;
 import static uk.co.ourfriendirony.medianotifier.general.Helper.stringToDate;
 
 public class Artist implements MediaItem {
@@ -66,10 +67,6 @@ public class Artist implements MediaItem {
         this.releaseDate = stringToDate(getColumnValue(cursor, ArtistDatabaseDefinition.RELEASE_DATE));
         this.children = releases;
         Log.d("[FROM DB]", this.toString());
-    }
-
-    private String getColumnValue(Cursor cursor, String field) {
-        return cursor.getString(cursor.getColumnIndex(field));
     }
 
     @Override

@@ -14,6 +14,7 @@ import uk.co.ourfriendirony.medianotifier.clients.tmdb.movie.search.MovieSearchR
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabaseDefinition;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
+import static uk.co.ourfriendirony.medianotifier.general.Helper.getColumnValue;
 import static uk.co.ourfriendirony.medianotifier.general.Helper.stringToDate;
 
 public class Movie implements MediaItem {
@@ -62,10 +63,6 @@ public class Movie implements MediaItem {
         this.externalUrl = getColumnValue(cursor, MovieDatabaseDefinition.EXTERNAL_URL);
         this.children = new ArrayList<>();
         Log.d("[FROM DB]", this.toString());
-    }
-
-    private String getColumnValue(Cursor cursor, String field) {
-        return cursor.getString(cursor.getColumnIndex(field));
     }
 
     @Override

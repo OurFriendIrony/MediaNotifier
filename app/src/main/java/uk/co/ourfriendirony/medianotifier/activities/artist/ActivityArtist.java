@@ -39,7 +39,7 @@ public class ActivityArtist extends AppCompatActivity {
         super.getSupportActionBar().setTitle(R.string.title_library_artist);
         super.setContentView(R.layout.activity_list);
 
-        db = new ArtistDatabase(getApplicationContext());
+        db = new ArtistDatabase(getBaseContext());
 
         spinner = (Spinner) findViewById(R.id.spinner);
         listView = (ListView) findViewById(R.id.list);

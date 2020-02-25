@@ -6,8 +6,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class Helper {
     private static final String[] PREFIXES = new String[]{"A ", "The "};
@@ -49,10 +49,6 @@ public class Helper {
         }
     }
 
-    public static String pad(int num, int size) {
-        return String.format("%0" + size + "d", num);
-    }
-
     public static String replaceTokens(String original, String token, String value) {
         return replaceTokens(original, new String[]{token}, new String[]{value});
     }
@@ -72,13 +68,6 @@ public class Helper {
         }
         return String.valueOf(num);
     }
-
-    public static Date getDefaultDate() {
-        Calendar x = Calendar.getInstance();
-        x.set(9999, 1, 1);
-        return x.getTime();
-    }
-
 
     public static String getColumnValue(Cursor cursor, String field) {
         return cursor.getString(cursor.getColumnIndex(field));
