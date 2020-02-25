@@ -1,6 +1,5 @@
 package uk.co.ourfriendirony.medianotifier.activities.movie;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
@@ -11,27 +10,20 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.async.AddAsyncTask;
+import uk.co.ourfriendirony.medianotifier.async.FindAsyncTask;
 import uk.co.ourfriendirony.medianotifier.clients.Client;
 import uk.co.ourfriendirony.medianotifier.clients.MovieClient;
 import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
-import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummary;
-import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
 public class ActivityMovieFind extends AppCompatActivity {
     private EditText input;
     private ProgressBar progressBar;
     private ListView listView;
-    private List<MediaItem> mediaItems = new ArrayList<>();
     private Client client = new MovieClient();
     private Database db;
 
@@ -55,7 +47,7 @@ public class ActivityMovieFind extends AppCompatActivity {
                     case EditorInfo.IME_ACTION_SEND:
                         String input = textView.getText().toString();
                         if (!"".equals(input)) {
-                            new MovieFindAsyncTask().execute(input);
+                            new FindAsyncTask(getBaseContext(), db, client, progressBar, listView).execute(input);
                         }
                         return true;
 
@@ -76,37 +68,5 @@ public class ActivityMovieFind extends AppCompatActivity {
                 );
             }
         });
-    }
-
-    private class MovieFindAsyncTask extends AsyncTask<String, Void, List<MediaItem>> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressBar.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected List<MediaItem> doInBackground(String... params) {
-            String query = params[0];
-            try {
-                mediaItems = client.searchMediaItem(query);
-            } catch (IOException e) {
-                mediaItems = new ArrayList<>();
-            }
-            return mediaItems;
-        }
-
-        @Override
-        protected void onPostExecute(List<MediaItem> result) {
-            progressBar.setVisibility(View.GONE);
-
-            if (mediaItems.size() > 0) {
-                ListAdapterSummary adapter = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic, mediaItems, db);
-                listView.setAdapter(adapter);
-            } else {
-                Toast.makeText(getBaseContext(), R.string.toast_no_results, Toast.LENGTH_LONG).show();
-            }
-        }
     }
 }
