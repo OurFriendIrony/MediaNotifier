@@ -30,7 +30,11 @@ public class Release implements MediaItem {
     public Release(ArtistGetReleaseGroup release, String artistId) {
         this.id = artistId;
         this.subid = release.getId();
-        this.title = release.getTitle();
+        if (!release.getDisambiguation().isEmpty()) {
+            this.title = release.getTitle() + " (" + release.getDisambiguation() + ")";
+        } else {
+            this.title = release.getTitle();
+        }
         this.releaseDate = release.getFirstReleaseDate();
         Log.d("[FROM GET]", this.toString());
     }
