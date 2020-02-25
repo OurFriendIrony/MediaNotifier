@@ -34,4 +34,6 @@ public interface Database {
     void updateWatchedStatus(MediaItem mediaItem, String watchedStatus);
 
     boolean markWatchedIfReleased(boolean isNew, MediaItem mediaItem);
+
+    String getCoreType();
 }

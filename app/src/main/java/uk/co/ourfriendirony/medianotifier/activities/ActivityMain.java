@@ -34,7 +34,10 @@ import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovieUnwatche
 import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTV;
 import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVFind;
 import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVUnwatched;
-import uk.co.ourfriendirony.medianotifier.async.MovieUpdateAsyncTask;
+import uk.co.ourfriendirony.medianotifier.async.UpdateAsyncTask;
+import uk.co.ourfriendirony.medianotifier.clients.ArtistClient;
+import uk.co.ourfriendirony.medianotifier.clients.MovieClient;
+import uk.co.ourfriendirony.medianotifier.clients.TVClient;
 import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
@@ -48,10 +51,13 @@ import static uk.co.ourfriendirony.medianotifier.general.Helper.getNotificationN
 import static uk.co.ourfriendirony.medianotifier.general.IntentGenerator.getContactEmailIntent;
 
 public class ActivityMain extends AppCompatActivity {
-
     private TVShowDatabase tvShowDatabase;
     private Database movieDatabase;
     private ArtistDatabase artistDatabase;
+
+    private TVClient tvShowClient = new TVClient();
+    private MovieClient movieClient = new MovieClient();
+    private ArtistClient artistClient = new ArtistClient();
 
     private TextView main_button_tv_notification;
     private TextView main_button_movie_notification;
@@ -227,9 +233,9 @@ public class ActivityMain extends AppCompatActivity {
                 return true;
 
             case R.id.action_refresh:
-                new MovieUpdateAsyncTask().execute(asArray(tvShowDatabase.getAll()));
-                new MovieUpdateAsyncTask().execute(asArray(movieDatabase.getAll()));
-                new MovieUpdateAsyncTask().execute(asArray(artistDatabase.getAll()));
+                new UpdateAsyncTask(tvShowDatabase, tvShowClient).execute(asArray(tvShowDatabase.getAll()));
+                new UpdateAsyncTask(movieDatabase, movieClient).execute(asArray(movieDatabase.getAll()));
+                new UpdateAsyncTask(artistDatabase, artistClient).execute(asArray(artistDatabase.getAll()));
                 return true;
 
             default:

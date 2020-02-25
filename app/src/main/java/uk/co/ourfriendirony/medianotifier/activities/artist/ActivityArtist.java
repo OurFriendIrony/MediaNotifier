@@ -15,7 +15,8 @@ import android.widget.Toast;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.async.ArtistUpdateAsyncTask;
+import uk.co.ourfriendirony.medianotifier.async.UpdateAsyncTask;
+import uk.co.ourfriendirony.medianotifier.clients.ArtistClient;
 import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
@@ -29,6 +30,7 @@ public class ActivityArtist extends AppCompatActivity {
     private ProgressBar progressBar;
     private int currentItemPos;
     private Database db;
+    private ArtistClient client = new ArtistClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +69,7 @@ public class ActivityArtist extends AppCompatActivity {
         MediaItem mediaItem = artists.get(currentItemPos);
         switch (menuItem.getItemId()) {
             case R.id.action_refresh:
-                new ArtistUpdateAsyncTask().execute(mediaItem);
+                new UpdateAsyncTask(db, client).execute(mediaItem);
                 this.recreate();
                 return true;
 

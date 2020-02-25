@@ -15,7 +15,8 @@ import android.widget.Spinner;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.async.TVShowUpdateAsyncTask;
+import uk.co.ourfriendirony.medianotifier.async.UpdateAsyncTask;
+import uk.co.ourfriendirony.medianotifier.clients.TVClient;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
@@ -29,6 +30,7 @@ public class ActivityTV extends AppCompatActivity {
     private ProgressBar progressBar;
     private int currentItemPos;
     private TVShowDatabase db;
+    private TVClient client = new TVClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +69,7 @@ public class ActivityTV extends AppCompatActivity {
         MediaItem show = tvShows.get(currentItemPos);
         switch (item.getItemId()) {
             case R.id.action_refresh:
-                new TVShowUpdateAsyncTask().execute(show);
+                new UpdateAsyncTask(db, client).execute(show);
                 this.recreate();
                 return true;
 

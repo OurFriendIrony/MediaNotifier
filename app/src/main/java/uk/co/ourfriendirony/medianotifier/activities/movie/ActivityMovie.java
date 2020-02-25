@@ -16,7 +16,8 @@ import java.util.Collections;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.async.MovieUpdateAsyncTask;
+import uk.co.ourfriendirony.medianotifier.async.UpdateAsyncTask;
+import uk.co.ourfriendirony.medianotifier.clients.MovieClient;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
@@ -30,6 +31,7 @@ public class ActivityMovie extends AppCompatActivity {
     private ProgressBar loadPageProgressBar;
     private int currentItemPos;
     private MovieDatabase db;
+    private MovieClient client = new MovieClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +69,7 @@ public class ActivityMovie extends AppCompatActivity {
         MediaItem mediaItem = movies.get(currentItemPos);
         switch (menuItem.getItemId()) {
             case R.id.action_refresh:
-                new MovieUpdateAsyncTask().execute(mediaItem);
+                new UpdateAsyncTask(db, client).execute(mediaItem);
                 this.recreate();
                 return true;
 

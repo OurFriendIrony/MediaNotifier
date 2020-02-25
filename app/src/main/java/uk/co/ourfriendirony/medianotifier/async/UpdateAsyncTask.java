@@ -4,16 +4,20 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import uk.co.ourfriendirony.medianotifier.clients.ArtistClient;
 import uk.co.ourfriendirony.medianotifier.clients.Client;
-import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
+import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
 import static uk.co.ourfriendirony.medianotifier.general.StaticContext.getStaticContext;
 
-public class ArtistUpdateAsyncTask extends AsyncTask<MediaItem, Void, String> {
-    /* Background Task to Update an existing item */
-    private Client client = new ArtistClient();
+public class UpdateAsyncTask extends AsyncTask<MediaItem, Void, String> {
+    private final Client client;
+    private final Database db;
+
+    public UpdateAsyncTask(Database db, Client client) {
+        this.db = db;
+        this.client = client;
+    }
 
     @Override
     protected void onPreExecute() {
@@ -26,17 +30,17 @@ public class ArtistUpdateAsyncTask extends AsyncTask<MediaItem, Void, String> {
         String result = "";
 
         if (mediaItems.length == 1) {
-            result += "'" + mediaItems[0].getTitle() + "' Updated";
+            result += db.getCoreType() + " '" + mediaItems[0].getTitle() + "' Updated";
         } else {
-            result += "Artists Updated";
+            result += "All " + db.getCoreType() + " Media Updated";
         }
 
         for (MediaItem mediaItem : mediaItems) {
             try {
                 mediaItem = client.getMediaItem(mediaItem.getId());
-                new ArtistDatabase(getStaticContext()).update(mediaItem);
+                db.update(mediaItem);
             } catch (Exception e) {
-                Log.e("FAILED_UPDATE", mediaItem.getTitle() + ": " + e.getMessage());
+                Log.e("[FAILED_UPDATE]", mediaItem.toString() + ": " + e.getMessage());
                 failed += 1;
             }
         }

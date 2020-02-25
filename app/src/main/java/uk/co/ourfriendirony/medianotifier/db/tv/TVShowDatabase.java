@@ -275,6 +275,12 @@ public class TVShowDatabase implements Database {
         return isNew && alreadyReleased(mediaItem) && getMarkWatchedIfAlreadyReleased(context);
     }
 
+    @Override
+    public String getCoreType() {
+        // TODO: This is a lazy and unneeded implementation. It should be removed
+        return "TVShow";
+    }
+
     private boolean alreadyReleased(MediaItem mediaItem) {
         if (mediaItem.getReleaseDate() == null) {
             return true;
