@@ -4,14 +4,16 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.TMDBClient;
+import uk.co.ourfriendirony.medianotifier.clients.Client;
+import uk.co.ourfriendirony.medianotifier.clients.TVClient;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
 import static uk.co.ourfriendirony.medianotifier.general.StaticContext.getStaticContext;
 
 public class TVShowUpdateAsyncTask extends AsyncTask<MediaItem, Void, String> {
-        /* Background Task to Update an existing item */
+    /* Background Task to Update an existing item */
+    private Client client = new TVClient();
 
     @Override
     protected void onPreExecute() {
@@ -30,7 +32,7 @@ public class TVShowUpdateAsyncTask extends AsyncTask<MediaItem, Void, String> {
         }
         for (MediaItem tvShow : tvShows) {
             try {
-                tvShow = new TMDBClient().getTVShow(Integer.parseInt(tvShow.getId()));
+                tvShow = client.getMediaItem(tvShow.getId());
                 new TVShowDatabase(getStaticContext()).update(tvShow);
             } catch (Exception e) {
                 Log.e("FAILED_UPDATE", tvShow.getTitle() + ": " + e.getMessage());

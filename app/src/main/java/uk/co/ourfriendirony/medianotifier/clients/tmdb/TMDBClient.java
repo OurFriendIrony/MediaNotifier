@@ -63,17 +63,17 @@ public class TMDBClient extends AbstractClient {
         return mediaItems;
     }
 
-    public MediaItem getMovie(int movieID) throws IOException {
+    public MediaItem getMovie(String movieID) throws IOException {
         payload = httpGetRequest(
-                replaceTokens(URL_MOVIE_ID, "@ID@", Integer.toString(movieID))
+                replaceTokens(URL_MOVIE_ID, "@ID@", movieID)
         );
         MovieGet mg = OBJECT_MAPPER.readValue(payload, MovieGet.class);
         return new Movie(mg);
     }
 
-    public MediaItem getTVShow(int tvShowID) throws IOException {
+    public MediaItem getTVShow(String tvShowID) throws IOException {
         payload = httpGetRequest(
-                replaceTokens(URL_TVSHOW_ID, "@ID@", Integer.toString(tvShowID))
+                replaceTokens(URL_TVSHOW_ID, "@ID@", tvShowID)
         );
         TVShowGet tg = OBJECT_MAPPER.readValue(payload, TVShowGet.class);
         List<MediaItem> mediaItems = new ArrayList<>();
@@ -83,16 +83,16 @@ public class TMDBClient extends AbstractClient {
         return new TVShow(tg, mediaItems);
     }
 
-    private List<MediaItem> getTVShowEpisodes(int tvShowID, int seasonNo) throws IOException {
+    private List<MediaItem> getTVShowEpisodes(String tvShowID, int seasonNo) throws IOException {
         payload = httpGetRequest(
                 replaceTokens(URL_TVSHOW_ID_SEASON,
                         new String[]{"@ID@", "@SEASON@"},
-                        new String[]{Integer.toString(tvShowID), Integer.toString(seasonNo)})
+                        new String[]{tvShowID, Integer.toString(seasonNo)})
         );
         TVSeasonGet tsg = OBJECT_MAPPER.readValue(payload, TVSeasonGet.class);
         List<MediaItem> mediaItems = new ArrayList<>();
         for (TVSeasonGetEpisode e : tsg.getTVSeasonGetEpisodes()) {
-            mediaItems.add(new TVEpisode(e, Integer.toString(tvShowID)));
+            mediaItems.add(new TVEpisode(e, tvShowID));
         }
         return mediaItems;
     }

@@ -19,7 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.TMDBClient;
+import uk.co.ourfriendirony.medianotifier.clients.Client;
+import uk.co.ourfriendirony.medianotifier.clients.TVClient;
 import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
@@ -31,7 +32,7 @@ public class ActivityTVFind extends AppCompatActivity {
     private ProgressBar progressBar;
     private ListView listView;
     private List<MediaItem> mediaItems = new ArrayList<>();
-    private TMDBClient client = new TMDBClient();
+    private Client client = new TVClient();
     private Database db;
 
     @Override
@@ -88,7 +89,7 @@ public class ActivityTVFind extends AppCompatActivity {
         protected List<MediaItem> doInBackground(String... params) {
             String query = params[0];
             try {
-                mediaItems = client.queryTVShow(query);
+                mediaItems = client.searchMediaItem(query);
             } catch (IOException e) {
                 mediaItems = new ArrayList<>();
             }
@@ -125,7 +126,7 @@ public class ActivityTVFind extends AppCompatActivity {
 
             MediaItem mediaItem;
             try {
-                mediaItem = client.getTVShow(Integer.parseInt(tvShowId));
+                mediaItem = client.getMediaItem(tvShowId);
                 db.add(mediaItem);
             } catch (IOException e) {
                 Log.e(String.valueOf(this.getClass()), "Failed to add: " + e.getMessage());

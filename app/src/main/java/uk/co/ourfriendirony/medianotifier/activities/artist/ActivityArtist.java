@@ -16,6 +16,7 @@ import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.async.ArtistUpdateAsyncTask;
+import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummary;
@@ -27,7 +28,7 @@ public class ActivityArtist extends AppCompatActivity {
     private List<MediaItem> artists;
     private ProgressBar progressBar;
     private int currentItemPos;
-    private ArtistDatabase db;
+    private Database db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -19,7 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.MusicBrainzClient;
+import uk.co.ourfriendirony.medianotifier.clients.ArtistClient;
+import uk.co.ourfriendirony.medianotifier.clients.Client;
 import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
@@ -32,8 +33,8 @@ public class ActivityArtistFind extends AppCompatActivity {
     private ProgressBar progressBar;
     private ListView listView;
     private List<MediaItem> mediaItems = new ArrayList<>();
-    private MusicBrainzClient client = new MusicBrainzClient();
-    private Database database;
+    private Client client = new ArtistClient();
+    private Database db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,7 @@ public class ActivityArtistFind extends AppCompatActivity {
         super.getSupportActionBar().setTitle(R.string.title_find_artist);
         super.setContentView(R.layout.activity_find);
 
-        database = new ArtistDatabase(getApplicationContext());
+        db = new ArtistDatabase(getApplicationContext());
 
         input = (EditText) findViewById(R.id.find_input);
         progressBar = (ProgressBar) findViewById(R.id.find_progress);
@@ -87,7 +88,7 @@ public class ActivityArtistFind extends AppCompatActivity {
         protected List<MediaItem> doInBackground(String... params) {
             String query = params[0];
             try {
-                mediaItems = client.queryArtist(query);
+                mediaItems = client.searchMediaItem(query);
             } catch (IOException e) {
                 mediaItems = new ArrayList<>();
             }
@@ -99,7 +100,7 @@ public class ActivityArtistFind extends AppCompatActivity {
             progressBar.setVisibility(View.GONE);
 
             if (mediaItems.size() > 0) {
-                ListAdapterSummary adapter = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic, mediaItems, database);
+                ListAdapterSummary adapter = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic, mediaItems, db);
                 listView.setAdapter(adapter);
             } else {
                 Toast.makeText(getBaseContext(), R.string.toast_no_results, Toast.LENGTH_LONG).show();
@@ -108,7 +109,7 @@ public class ActivityArtistFind extends AppCompatActivity {
     }
 
     private class ArtistAddAsyncTask extends AsyncTask<String, Void, String> {
-        /* Adds new item to database
+        /* Adds new item to db
          */
 
         @Override
@@ -124,8 +125,8 @@ public class ActivityArtistFind extends AppCompatActivity {
 
             MediaItem artist;
             try {
-                artist = client.getArtist(artistId);
-                database.add(artist);
+                artist = client.getMediaItem(artistId);
+                db.add(artist);
             } catch (IOException e) {
                 Log.e(String.valueOf(this.getClass()), "Failed to add: " + e.getMessage());
             }
