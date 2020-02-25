@@ -15,8 +15,11 @@ import android.widget.Spinner;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
+import uk.co.ourfriendirony.medianotifier.async.ListChildrenAsyncTask;
 import uk.co.ourfriendirony.medianotifier.async.UpdateAsyncTask;
+import uk.co.ourfriendirony.medianotifier.clients.Client;
 import uk.co.ourfriendirony.medianotifier.clients.TVClient;
+import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
@@ -24,13 +27,13 @@ import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummary;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
 public class ActivityTV extends AppCompatActivity {
-    private Spinner spinner;
+    private Spinner spinnerView;
     private ListView listView;
     private List<MediaItem> tvShows;
     private ProgressBar progressBar;
     private int currentItemPos;
-    private TVShowDatabase db;
-    private TVClient client = new TVClient();
+    private Database db;
+    private Client client = new TVClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,17 +42,18 @@ public class ActivityTV extends AppCompatActivity {
         super.getSupportActionBar().setTitle(R.string.title_library_tvshow);
         super.setContentView(R.layout.activity_list);
 
-        db = new TVShowDatabase(getApplicationContext());
+        db = new TVShowDatabase(getBaseContext());
 
-        spinner = (Spinner) findViewById(R.id.spinner);
+        spinnerView = (Spinner) findViewById(R.id.spinner);
         listView = (ListView) findViewById(R.id.list);
         progressBar = (ProgressBar) findViewById(R.id.progress);
         new TVShowListAsyncTask().execute();
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int showPosition, long id) {
-                displayEpisodes(showPosition);
+            public void onItemSelected(AdapterView<?> parent, View view, int itemPos, long id) {
+                currentItemPos = itemPos;
+                new ListChildrenAsyncTask(getBaseContext(), db, progressBar, listView).execute(tvShows.get(itemPos).getId());
             }
 
             @Override
@@ -65,54 +69,37 @@ public class ActivityTV extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        MediaItem show = tvShows.get(currentItemPos);
-        switch (item.getItemId()) {
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        MediaItem mediaItem = tvShows.get(currentItemPos);
+        switch (menuItem.getItemId()) {
             case R.id.action_refresh:
-                new UpdateAsyncTask(getApplicationContext(), db, client).execute(show);
-                this.recreate();
+                new UpdateAsyncTask(getApplicationContext(), db, client).execute(mediaItem);
+                new ListChildrenAsyncTask(getBaseContext(), db, progressBar, listView).execute(mediaItem.getId());
                 return true;
 
             case R.id.action_remove:
-                db.delete(show.getId());
+                db.delete(mediaItem.getId());
                 this.recreate();
                 return true;
 
             case R.id.action_lookup:
-                Intent intent = IntentGenerator.getWebPageIntent(show.getExternalLink());
+                Intent intent = IntentGenerator.getWebPageIntent(mediaItem.getExternalLink());
                 startActivity(intent);
                 return true;
 
             default:
-                return super.onOptionsItemSelected(item);
+                return super.onOptionsItemSelected(menuItem);
         }
     }
 
     private void displayShows() {
         if (tvShows.size() > 0) {
             ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, tvShows, db);
-            spinner.setAdapter(listAdapterSummary);
-            displayEpisodes(0);
-        }
-    }
-
-    private void displayEpisodes(int itemPos) {
-        currentItemPos = itemPos;
-        List<MediaItem> tvEpisodes = tvShows.get(itemPos).getChildren();
-        if (tvEpisodes.size() > 0) {
-            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_toggle, tvEpisodes, db);
-            listView.setAdapter(listAdapterSummary);
-            listView.setSelection(tvEpisodes.size());
-        } else {
-            listView.setAdapter(null);
+            spinnerView.setAdapter(listAdapterSummary);
         }
     }
 
     private class TVShowListAsyncTask extends AsyncTask<String, Void, Void> {
-        /* Responsible for retrieving all tv shows
-         * and displaying them
-         */
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();

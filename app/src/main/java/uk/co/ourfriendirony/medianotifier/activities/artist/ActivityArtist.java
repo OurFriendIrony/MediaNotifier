@@ -15,8 +15,10 @@ import android.widget.Toast;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
+import uk.co.ourfriendirony.medianotifier.async.ListChildrenAsyncTask;
 import uk.co.ourfriendirony.medianotifier.async.UpdateAsyncTask;
 import uk.co.ourfriendirony.medianotifier.clients.ArtistClient;
+import uk.co.ourfriendirony.medianotifier.clients.Client;
 import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
@@ -24,13 +26,13 @@ import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummary;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
 public class ActivityArtist extends AppCompatActivity {
-    private Spinner spinner;
+    private Spinner spinnerView;
     private ListView listView;
     private List<MediaItem> artists;
     private ProgressBar progressBar;
     private int currentItemPos;
     private Database db;
-    private ArtistClient client = new ArtistClient();
+    private Client client = new ArtistClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,15 +43,16 @@ public class ActivityArtist extends AppCompatActivity {
 
         db = new ArtistDatabase(getBaseContext());
 
-        spinner = (Spinner) findViewById(R.id.spinner);
+        spinnerView = (Spinner) findViewById(R.id.spinner);
         listView = (ListView) findViewById(R.id.list);
         progressBar = (ProgressBar) findViewById(R.id.progress);
         new ArtistListAsyncTask().execute();
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int itemPos, long id) {
-                displayReleases(itemPos);
+                currentItemPos = itemPos;
+                new ListChildrenAsyncTask(getBaseContext(), db, progressBar, listView).execute(artists.get(itemPos).getId());
             }
 
             @Override
@@ -70,7 +73,7 @@ public class ActivityArtist extends AppCompatActivity {
         switch (menuItem.getItemId()) {
             case R.id.action_refresh:
                 new UpdateAsyncTask(getApplicationContext(), db, client).execute(mediaItem);
-                this.recreate();
+                new ListChildrenAsyncTask(getBaseContext(), db, progressBar, listView).execute(mediaItem.getId());
                 return true;
 
             case R.id.action_remove:
@@ -90,29 +93,12 @@ public class ActivityArtist extends AppCompatActivity {
     private void displayArtists() {
         if (artists.size() > 0) {
             ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, artists, db);
-            spinner.setAdapter(listAdapterSummary);
-            displayReleases(0);
-        }
-    }
-
-    private void displayReleases(int itemPos) {
-        currentItemPos = itemPos;
-        List<MediaItem> releases = artists.get(currentItemPos).getChildren();
-        if (releases.size() > 0) {
-            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_toggle, releases, db);
-            listView.setAdapter(listAdapterSummary);
-            listView.setSelection(releases.size());
-        } else {
-            listView.setAdapter(null);
+            spinnerView.setAdapter(listAdapterSummary);
         }
     }
 
     // TODO: Another Async task to migrate
     private class ArtistListAsyncTask extends AsyncTask<String, Void, Void> {
-        /* Responsible for retrieving all tv shows
-         * and displaying them
-         */
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();

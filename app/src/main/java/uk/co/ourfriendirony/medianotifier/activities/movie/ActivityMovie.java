@@ -12,12 +12,14 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 
-import java.util.Collections;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
+import uk.co.ourfriendirony.medianotifier.async.ListChildrenAsyncTask;
 import uk.co.ourfriendirony.medianotifier.async.UpdateAsyncTask;
+import uk.co.ourfriendirony.medianotifier.clients.Client;
 import uk.co.ourfriendirony.medianotifier.clients.MovieClient;
+import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
@@ -28,28 +30,30 @@ public class ActivityMovie extends AppCompatActivity {
     private Spinner spinnerView;
     private ListView listView;
     private List<MediaItem> movies;
-    private ProgressBar loadPageProgressBar;
+    private ProgressBar progressBar;
     private int currentItemPos;
-    private MovieDatabase db;
-    private MovieClient client = new MovieClient();
+    private Database db;
+    private Client client = new MovieClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.setTheme(PropertyHelper.getTheme(getApplicationContext()));
+        super.setTheme(PropertyHelper.getTheme(getBaseContext()));
         super.getSupportActionBar().setTitle(R.string.title_library_movie);
         super.setContentView(R.layout.activity_list);
 
-        db = new MovieDatabase(getApplicationContext());
+        db = new MovieDatabase(getBaseContext());
 
         spinnerView = (Spinner) findViewById(R.id.spinner);
         listView = (ListView) findViewById(R.id.list);
-        loadPageProgressBar = (ProgressBar) findViewById(R.id.progress);
+        progressBar = (ProgressBar) findViewById(R.id.progress);
         new MovieListAsyncTask().execute();
+
         spinnerView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int itemPos, long id) {
-                display(itemPos);
+                currentItemPos = itemPos;
+                new ListChildrenAsyncTask(getBaseContext(), db, progressBar, listView).execute(movies.get(itemPos).getId());
             }
 
             @Override
@@ -70,7 +74,7 @@ public class ActivityMovie extends AppCompatActivity {
         switch (menuItem.getItemId()) {
             case R.id.action_refresh:
                 new UpdateAsyncTask(getApplicationContext(), db, client).execute(mediaItem);
-                this.recreate();
+                new ListChildrenAsyncTask(getBaseContext(), db, progressBar, listView).execute(mediaItem.getId());
                 return true;
 
             case R.id.action_remove:
@@ -92,25 +96,14 @@ public class ActivityMovie extends AppCompatActivity {
         if (movies.size() > 0) {
             ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, movies, db);
             spinnerView.setAdapter(listAdapterSummary);
-            display(0);
         }
     }
 
-    private void display(int itemPos) {
-        currentItemPos = itemPos;
-        ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_toggle, Collections.singletonList(movies.get(itemPos)), db);
-        listView.setAdapter(listAdapterSummary);
-    }
-
     private class MovieListAsyncTask extends AsyncTask<String, Void, Void> {
-        /* Responsible for retrieving all tv shows
-         * and displaying them
-         */
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            loadPageProgressBar.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -121,7 +114,7 @@ public class ActivityMovie extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void x) {
-            loadPageProgressBar.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
             display();
         }
     }
