@@ -107,6 +107,7 @@ public class ActivityArtist extends AppCompatActivity {
         }
     }
 
+    // TODO: Another Async task to migrate
     private class ArtistListAsyncTask extends AsyncTask<String, Void, Void> {
         /* Responsible for retrieving all tv shows
          * and displaying them

@@ -9,8 +9,6 @@ import uk.co.ourfriendirony.medianotifier.clients.Client;
 import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
-import static uk.co.ourfriendirony.medianotifier.general.StaticContext.getStaticContext;
-
 public class UpdateAsyncTask extends AsyncTask<MediaItem, Void, String> {
     private final Context context;
     private final Database db;
