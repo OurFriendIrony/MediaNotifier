@@ -69,7 +69,7 @@ public class ActivityTV extends AppCompatActivity {
         MediaItem show = tvShows.get(currentItemPos);
         switch (item.getItemId()) {
             case R.id.action_refresh:
-                new UpdateAsyncTask(db, client).execute(show);
+                new UpdateAsyncTask(getApplicationContext(), db, client).execute(show);
                 this.recreate();
                 return true;
 

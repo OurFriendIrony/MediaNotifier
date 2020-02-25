@@ -3,7 +3,6 @@ package uk.co.ourfriendirony.medianotifier.activities.artist;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -19,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
+import uk.co.ourfriendirony.medianotifier.async.AddAsyncTask;
 import uk.co.ourfriendirony.medianotifier.clients.ArtistClient;
 import uk.co.ourfriendirony.medianotifier.clients.Client;
 import uk.co.ourfriendirony.medianotifier.db.Database;
@@ -71,7 +71,10 @@ public class ActivityArtistFind extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView textViewID = (TextView) view.findViewById(R.id.list_item_generic_id);
                 TextView textViewTitle = (TextView) view.findViewById(R.id.list_item_generic_title);
-                new ArtistAddAsyncTask().execute(textViewID.getText().toString(), textViewTitle.getText().toString());
+                new AddAsyncTask(getApplicationContext(), db, client, progressBar).execute(
+                        textViewID.getText().toString(),
+                        textViewTitle.getText().toString()
+                );
             }
         });
     }
@@ -108,36 +111,5 @@ public class ActivityArtistFind extends AppCompatActivity {
         }
     }
 
-    private class ArtistAddAsyncTask extends AsyncTask<String, Void, String> {
-        /* Adds new item to db
-         */
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressBar.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            String artistId = params[0];
-            String artistTitle = params[1];
-
-            MediaItem artist;
-            try {
-                artist = client.getMediaItem(artistId);
-                db.add(artist);
-            } catch (IOException e) {
-                Log.e(String.valueOf(this.getClass()), "Failed to add: " + e.getMessage());
-            }
-            return artistTitle;
-        }
-
-        @Override
-        protected void onPostExecute(String artistTitle) {
-            progressBar.setVisibility(View.GONE);
-            String toastMsg = "'" + artistTitle + "' " + getResources().getString(R.string.toast_db_added);
-            Toast.makeText(getApplicationContext(), toastMsg, Toast.LENGTH_SHORT).show();
-        }
-    }
 }

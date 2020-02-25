@@ -69,7 +69,7 @@ public class ActivityMovie extends AppCompatActivity {
         MediaItem mediaItem = movies.get(currentItemPos);
         switch (menuItem.getItemId()) {
             case R.id.action_refresh:
-                new UpdateAsyncTask(db, client).execute(mediaItem);
+                new UpdateAsyncTask(getApplicationContext(), db, client).execute(mediaItem);
                 this.recreate();
                 return true;
 

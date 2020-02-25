@@ -1,5 +1,6 @@
 package uk.co.ourfriendirony.medianotifier.async;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -11,10 +12,12 @@ import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 import static uk.co.ourfriendirony.medianotifier.general.StaticContext.getStaticContext;
 
 public class UpdateAsyncTask extends AsyncTask<MediaItem, Void, String> {
-    private final Client client;
+    private final Context context;
     private final Database db;
+    private final Client client;
 
-    public UpdateAsyncTask(Database db, Client client) {
+    public UpdateAsyncTask(Context context, Database db, Client client) {
+        this.context = context;
         this.db = db;
         this.client = client;
     }
@@ -54,6 +57,6 @@ public class UpdateAsyncTask extends AsyncTask<MediaItem, Void, String> {
 
     @Override
     protected void onPostExecute(String toastMsg) {
-        Toast.makeText(getStaticContext(), toastMsg, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, toastMsg, Toast.LENGTH_SHORT).show();
     }
 }

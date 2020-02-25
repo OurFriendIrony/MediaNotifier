@@ -233,9 +233,9 @@ public class ActivityMain extends AppCompatActivity {
                 return true;
 
             case R.id.action_refresh:
-                new UpdateAsyncTask(tvShowDatabase, tvShowClient).execute(asArray(tvShowDatabase.getAll()));
-                new UpdateAsyncTask(movieDatabase, movieClient).execute(asArray(movieDatabase.getAll()));
-                new UpdateAsyncTask(artistDatabase, artistClient).execute(asArray(artistDatabase.getAll()));
+                new UpdateAsyncTask(getApplicationContext(), tvShowDatabase, tvShowClient).execute(asArray(tvShowDatabase.getAll()));
+                new UpdateAsyncTask(getApplicationContext(), movieDatabase, movieClient).execute(asArray(movieDatabase.getAll()));
+                new UpdateAsyncTask(getApplicationContext(), artistDatabase, artistClient).execute(asArray(artistDatabase.getAll()));
                 return true;
 
             default:
