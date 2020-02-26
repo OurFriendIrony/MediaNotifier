@@ -74,7 +74,7 @@ public class TVShowDatabase implements Database {
         dbRow.put(TVShowDatabaseDefinition.EXTERNAL_URL, mediaItem.getExternalLink());
         dbRow.put(TVShowDatabaseDefinition.RELEASE_DATE, dateToString(mediaItem.getReleaseDate()));
         dbRow.put(TVShowDatabaseDefinition.DESCRIPTION, mediaItem.getDescription());
-        Log.d("[DB INSERT TV]", dbRow.toString());
+        Log.d("[DB INSERT]", "TVShow: " + dbRow.toString());
         dbWritable.replace(TVShowDatabaseDefinition.TABLE_TVSHOWS, null, dbRow);
     }
 
@@ -92,7 +92,7 @@ public class TVShowDatabase implements Database {
         } else {
             dbRow.put(TVShowDatabaseDefinition.WATCHED, currentWatchedStatus);
         }
-        Log.d("[DB INSERT TV EPISODE]", dbRow.toString());
+        Log.d("[DB INSERT]", "TVEpisode: " + dbRow.toString());
         dbWritable.replace(TVShowDatabaseDefinition.TABLE_EPISODES, null, dbRow);
     }
 
@@ -101,7 +101,6 @@ public class TVShowDatabase implements Database {
         String[] args = new String[]{mediaItem.getId(), mediaItem.getSubtitle()};
         Cursor cursor = dbWritable.rawQuery(GET_TVEPISODE_WATCHED_STATUS, args);
         String watchedStatus = DB_FALSE;
-
         try {
             while (cursor.moveToNext()) {
                 watchedStatus = getColumnValue(cursor, TVShowDatabaseDefinition.WATCHED);
@@ -109,7 +108,6 @@ public class TVShowDatabase implements Database {
         } finally {
             cursor.close();
         }
-
         return watchedStatus;
     }
 
@@ -196,7 +194,6 @@ public class TVShowDatabase implements Database {
         String offset = "date('now','-" + getNotificationDayOffsetTV(context) + " days')";
         String query = Helper.replaceTokens(getQuery, "@OFFSET@", offset);
         List<MediaItem> mediaItems = new ArrayList<>();
-
         Cursor cursor = dbWritable.rawQuery(query, null);
         try {
             while (cursor.moveToNext()) {

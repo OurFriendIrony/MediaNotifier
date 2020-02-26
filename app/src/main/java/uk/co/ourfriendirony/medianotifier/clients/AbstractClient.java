@@ -39,10 +39,10 @@ public class AbstractClient {
     }
 
     private void logResponse(String url, String payload, String headers, int statusCode) {
-        Log.d("[CALL URL    ]", url);
-        Log.d("[CALL PAYLOAD]", payload);
-        Log.d("[CALL HEADERS]", headers);
-        Log.d("[CALL STATUSC]", String.valueOf(statusCode));
+        Log.d("[REQUEST URL]", url);
+        Log.d("[RESPONSE PAYLOAD]", payload);
+        Log.d("[RESPONSE HEADERS]", headers);
+        Log.d("[RESPONSE STATUSC]", String.valueOf(statusCode));
     }
 
     private void sleep(int time) {
@@ -60,7 +60,7 @@ public class AbstractClient {
     private String getHeaders(HttpResponse response) {
         StringBuilder x = new StringBuilder();
         for (Header header : response.getAllHeaders()) {
-            x.append(header.getName() + ":" + header.getValue() + " | ");
+            x.append(header.toString()).append(" | ");
         }
         return x.toString();
     }

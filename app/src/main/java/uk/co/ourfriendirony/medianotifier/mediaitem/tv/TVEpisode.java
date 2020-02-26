@@ -36,7 +36,7 @@ public class TVEpisode implements MediaItem {
         this.subtitle = formatSubtitle(episode);
         this.description = episode.getOverview();
         this.releaseDate = episode.getAirDate();
-        Log.d("[FROM GET]", this.toString());
+        Log.d("[API GET]", this.toString());
     }
 
     public TVEpisode(Cursor cursor) {

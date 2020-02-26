@@ -75,7 +75,7 @@ public class ArtistDatabase implements Database {
         dbRow.put(ArtistDatabaseDefinition.EXTERNAL_URL, artist.getExternalLink());
         dbRow.put(ArtistDatabaseDefinition.RELEASE_DATE, dateToString(artist.getReleaseDate()));
         dbRow.put(ArtistDatabaseDefinition.DESCRIPTION, artist.getDescription());
-        Log.d("[DB INSERT ARTIST]", dbRow.toString());
+        Log.d("[DB INSERT]", "Artist: " + dbRow.toString());
         dbWritable.replace(ArtistDatabaseDefinition.TABLE_ARTISTS, null, dbRow);
     }
 
@@ -93,7 +93,7 @@ public class ArtistDatabase implements Database {
         } else {
             dbRow.put(ArtistDatabaseDefinition.WATCHED, currentWatchedStatus);
         }
-        Log.d("[DB INSERT RELEASE]", dbRow.toString());
+        Log.d("[DB INSERT]", "Release: " + dbRow.toString());
         dbWritable.replace(ArtistDatabaseDefinition.TABLE_RELEASES, null, dbRow);
     }
 

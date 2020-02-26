@@ -41,7 +41,7 @@ public class Artist implements MediaItem {
             this.releaseDate = artist.getLifeSpan().getBegin();
         }
         this.children = children;
-        Log.d("[FROM GET]", this.toString());
+        Log.d("[API GET]", this.toString());
     }
 
     public Artist(ArtistSearchArtist artist) {
@@ -55,7 +55,7 @@ public class Artist implements MediaItem {
         if (artist.getLifeSpan() != null && artist.getLifeSpan().getBegin() != null) {
             this.releaseDate = artist.getLifeSpan().getBegin();
         }
-        Log.d("[FROM GET]", this.toString());
+        Log.d("[API SEARCH]", this.toString());
     }
 
     public Artist(Cursor cursor, List<MediaItem> releases) {
@@ -66,7 +66,7 @@ public class Artist implements MediaItem {
         this.description = getColumnValue(cursor, ArtistDatabaseDefinition.DESCRIPTION);
         this.releaseDate = stringToDate(getColumnValue(cursor, ArtistDatabaseDefinition.RELEASE_DATE));
         this.children = releases;
-        Log.d("[FROM DB]", this.toString());
+        Log.d("[DB READ]", this.toString());
     }
 
     public Artist(Cursor cursor) {
@@ -141,6 +141,6 @@ public class Artist implements MediaItem {
     }
 
     public String toString() {
-        return "Artist: " + getTitle() + " > " + getReleaseDateFull() + " > Children " + countChildren();
+        return "Artist: " + getTitle() + " > " + getReleaseDateFull() + " > Releases " + countChildren();
     }
 }

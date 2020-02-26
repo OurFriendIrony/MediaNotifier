@@ -39,7 +39,7 @@ public class TVShow implements MediaItem {
             this.externalUrl = IMDB_URL + tvShow.getExternalIds().getImdbId();
         }
         this.children = children;
-        Log.d("[FROM GET]", this.toString());
+        Log.d("[API GET]", this.toString());
     }
 
     public TVShow(TVShowSearchResult item) {
@@ -47,7 +47,7 @@ public class TVShow implements MediaItem {
         this.title = item.getName();
         this.description = item.getOverview();
         this.releaseDate = item.getFirstAirDate();
-        Log.d("[FROM SEARCH]", this.toString());
+        Log.d("[API SEARCH]", this.toString());
     }
 
     public TVShow(Cursor cursor, List<MediaItem> episodes) {

@@ -42,7 +42,7 @@ public class Movie implements MediaItem {
         if (movie.getImdbId() != null) {
             this.externalUrl = IMDB_URL + movie.getImdbId();
         }
-        Log.d("[FROM GET]", this.toString());
+        Log.d("[API GET]", this.toString());
     }
 
     public Movie(MovieSearchResult movie) {
@@ -50,7 +50,7 @@ public class Movie implements MediaItem {
         this.title = movie.getTitle();
         this.description = movie.getOverview();
         this.releaseDate = movie.getReleaseDate();
-        Log.d("[FROM SEARCH]", this.toString());
+        Log.d("[API SEARCH]", this.toString());
     }
 
     public Movie(Cursor cursor) {
@@ -62,7 +62,7 @@ public class Movie implements MediaItem {
         this.releaseDate = stringToDate(getColumnValue(cursor, MovieDatabaseDefinition.RELEASE_DATE));
         this.externalUrl = getColumnValue(cursor, MovieDatabaseDefinition.EXTERNAL_URL);
         this.children = new ArrayList<>();
-        Log.d("[FROM DB]", this.toString());
+        Log.d("[DB READ]", this.toString());
     }
 
     @Override
@@ -132,6 +132,6 @@ public class Movie implements MediaItem {
     }
 
     public String toString() {
-        return "Movie: " + getTitle() + " > " + getReleaseDateFull() + " > Children " + countChildren();
+        return "Movie: " + getTitle() + " > " + getReleaseDateFull();
     }
 }

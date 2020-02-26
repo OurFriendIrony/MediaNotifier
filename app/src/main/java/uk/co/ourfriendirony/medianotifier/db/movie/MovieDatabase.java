@@ -72,7 +72,7 @@ public class MovieDatabase implements Database {
         } else {
             dbRow.put(MovieDatabaseDefinition.WATCHED, currentWatchedStatus);
         }
-        Log.d("[DB INSERT MOVIE]", dbRow.toString());
+        Log.d("[DB INSERT]", "Movie: " + dbRow.toString());
         dbWritable.replace(MovieDatabaseDefinition.TABLE_MOVIES, null, dbRow);
     }
 
@@ -81,7 +81,6 @@ public class MovieDatabase implements Database {
         String[] args = new String[]{mediaItem.getId()};
         Cursor cursor = dbWritable.rawQuery(GET_MOVIE_WATCHED_STATUS, args);
         String watchedStatus = DB_FALSE;
-
         try {
             while (cursor.moveToNext()) {
                 watchedStatus = getColumnValue(cursor, MovieDatabaseDefinition.WATCHED);
@@ -89,7 +88,6 @@ public class MovieDatabase implements Database {
         } finally {
             cursor.close();
         }
-
         return watchedStatus;
     }
 

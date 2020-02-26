@@ -37,7 +37,7 @@ public class Release implements MediaItem {
             this.title = release.getTitle();
         }
         this.releaseDate = release.getFirstReleaseDate();
-        Log.d("[FROM GET]", this.toString());
+        Log.d("[API GET]", this.toString());
     }
 
     public Release(Cursor cursor) {
