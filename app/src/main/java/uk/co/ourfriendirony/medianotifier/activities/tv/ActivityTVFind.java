@@ -31,8 +31,9 @@ public class ActivityTVFind extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setTheme(PropertyHelper.getTheme(getBaseContext()));
-        super.getSupportActionBar().setTitle(R.string.title_find_tvshow);
         super.setContentView(R.layout.activity_find);
+        getSupportActionBar().setTitle(R.string.title_find_tvshow);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         db = new TVShowDatabase(getApplicationContext());
 

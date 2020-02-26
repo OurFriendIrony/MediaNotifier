@@ -25,13 +25,13 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.activities.artist.ActivityArtistBrowse;
+import uk.co.ourfriendirony.medianotifier.activities.artist.ActivityArtistLibrary;
 import uk.co.ourfriendirony.medianotifier.activities.artist.ActivityArtistFind;
 import uk.co.ourfriendirony.medianotifier.activities.artist.ActivityArtistUnwatched;
-import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovieBrowse;
+import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovieLibrary;
 import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovieFind;
 import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovieUnwatched;
-import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVBrowse;
+import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVLibrary;
 import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVFind;
 import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVUnwatched;
 import uk.co.ourfriendirony.medianotifier.async.UpdateAsyncTask;
@@ -111,19 +111,19 @@ public class ActivityMain extends AppCompatActivity {
         main_button_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), ActivityTVBrowse.class));
+                startActivity(new Intent(view.getContext(), ActivityTVLibrary.class));
             }
         });
         main_button_movie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), ActivityMovieBrowse.class));
+                startActivity(new Intent(view.getContext(), ActivityMovieLibrary.class));
             }
         });
         main_button_artist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), ActivityArtistBrowse.class));
+                startActivity(new Intent(view.getContext(), ActivityArtistLibrary.class));
             }
         });
 

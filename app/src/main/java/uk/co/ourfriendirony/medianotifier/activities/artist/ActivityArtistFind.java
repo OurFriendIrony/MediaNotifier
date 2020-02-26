@@ -31,8 +31,9 @@ public class ActivityArtistFind extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setTheme(PropertyHelper.getTheme(getBaseContext()));
-        super.getSupportActionBar().setTitle(R.string.title_find_artist);
         super.setContentView(R.layout.activity_find);
+        getSupportActionBar().setTitle(R.string.title_find_artist);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         db = new ArtistDatabase(getApplicationContext());
 

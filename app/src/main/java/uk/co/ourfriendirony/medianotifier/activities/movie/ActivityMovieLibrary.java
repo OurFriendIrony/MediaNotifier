@@ -25,7 +25,7 @@ import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummary;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
-public class ActivityMovieBrowse extends AppCompatActivity {
+public class ActivityMovieLibrary extends AppCompatActivity {
     private Spinner spinnerView;
     private ListView listView;
     private List<MediaItem> movies;
@@ -38,8 +38,9 @@ public class ActivityMovieBrowse extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setTheme(PropertyHelper.getTheme(getBaseContext()));
-        super.getSupportActionBar().setTitle(R.string.title_library_movie);
         super.setContentView(R.layout.activity_list);
+        getSupportActionBar().setTitle(R.string.title_library_movie);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         db = new MovieDatabase(getBaseContext());
 

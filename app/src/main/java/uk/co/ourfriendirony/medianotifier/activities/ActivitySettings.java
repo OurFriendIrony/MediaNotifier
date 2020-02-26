@@ -46,8 +46,9 @@ public class ActivitySettings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setTheme(PropertyHelper.getTheme(getBaseContext()));
-        super.getSupportActionBar().setTitle(R.string.title_settings);
         setContentView(R.layout.activity_settings);
+        getSupportActionBar().setTitle(R.string.title_settings);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Load Page Objects
 

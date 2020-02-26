@@ -20,16 +20,37 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.ActivityMain" />
-        <activity android:name=".activities.ActivitySettings" />
-        <activity android:name=".activities.movie.ActivityMovieBrowse" />
-        <activity android:name=".activities.movie.ActivityMovieFind" />
-        <activity android:name=".activities.movie.ActivityMovieUnwatched" />
-        <activity android:name=".activities.tv.ActivityTVBrowse" />
-        <activity android:name=".activities.tv.ActivityTVFind" />
-        <activity android:name=".activities.tv.ActivityTVUnwatched" />
-        <activity android:name=".activities.artist.ActivityArtistBrowse" />
-        <activity android:name=".activities.artist.ActivityArtistFind" />
-        <activity android:name=".activities.artist.ActivityArtistUnwatched" />
+        <activity
+            android:name=".activities.ActivitySettings"
+            android:parentActivityName=".activities.ActivityMain" />
+        <activity
+            android:name=".activities.movie.ActivityMovieLibrary"
+            android:parentActivityName=".activities.ActivityMain" />
+        <activity
+            android:name=".activities.movie.ActivityMovieFind"
+            android:parentActivityName=".activities.ActivityMain" />
+        <activity
+            android:name=".activities.movie.ActivityMovieUnwatched"
+            android:parentActivityName=".activities.ActivityMain" />
+        <activity
+            android:name=".activities.tv.ActivityTVLibrary"
+            android:parentActivityName=".activities.ActivityMain" />
+        <activity
+            android:name=".activities.tv.ActivityTVFind"
+            android:parentActivityName=".activities.ActivityMain" />
+        <activity
+            android:name=".activities.tv.ActivityTVUnwatched"
+            android:parentActivityName=".activities.ActivityMain" />
+        <activity
+            android:name=".activities.artist.ActivityArtistLibrary"
+            android:parentActivityName=".activities.ActivityMain" />
+        <activity
+            android:name=".activities.artist.ActivityArtistFind"
+            android:parentActivityName=".activities.ActivityMain" />
+        <activity
+            android:name=".activities.artist.ActivityArtistUnwatched"
+            android:parentActivityName=".activities.ActivityMain" />
+
         <receiver android:name=".notifier.BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

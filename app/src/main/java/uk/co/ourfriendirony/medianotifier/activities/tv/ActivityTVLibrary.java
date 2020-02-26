@@ -1,5 +1,6 @@
-package uk.co.ourfriendirony.medianotifier.activities.artist;
+package uk.co.ourfriendirony.medianotifier.activities.tv;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -9,38 +10,39 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.async.ListChildrenAsyncTask;
 import uk.co.ourfriendirony.medianotifier.async.UpdateAsyncTask;
-import uk.co.ourfriendirony.medianotifier.clients.ArtistClient;
 import uk.co.ourfriendirony.medianotifier.clients.Client;
+import uk.co.ourfriendirony.medianotifier.clients.TVClient;
 import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
-import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
+import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
+import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummary;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
-public class ActivityArtistBrowse extends AppCompatActivity {
+public class ActivityTVLibrary extends AppCompatActivity {
     private Spinner spinnerView;
     private ListView listView;
-    private List<MediaItem> artists;
+    private List<MediaItem> tvShows;
     private ProgressBar progressBar;
     private int currentItemPos;
     private Database db;
-    private Client client = new ArtistClient();
+    private Client client = new TVClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setTheme(PropertyHelper.getTheme(getBaseContext()));
-        super.getSupportActionBar().setTitle(R.string.title_library_artist);
         super.setContentView(R.layout.activity_list);
+        getSupportActionBar().setTitle(R.string.title_library_tvshow);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        db = new ArtistDatabase(getBaseContext());
+        db = new TVShowDatabase(getBaseContext());
 
         spinnerView = (Spinner) findViewById(R.id.spinner);
         listView = (ListView) findViewById(R.id.list);
@@ -49,14 +51,13 @@ public class ActivityArtistBrowse extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int itemPos, long id) {
                 currentItemPos = itemPos;
-                new ListChildrenAsyncTask(getBaseContext(), progressBar, listView, db).execute(artists.get(itemPos).getId());
+                new ListChildrenAsyncTask(getBaseContext(), progressBar, listView, db).execute(tvShows.get(itemPos).getId());
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-
         loadPage();
     }
 
@@ -68,7 +69,7 @@ public class ActivityArtistBrowse extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
-        MediaItem mediaItem = artists.get(currentItemPos);
+        MediaItem mediaItem = tvShows.get(currentItemPos);
         switch (menuItem.getItemId()) {
             case R.id.action_refresh:
                 new UpdateAsyncTask(getApplicationContext(), db, client).execute(mediaItem);
@@ -81,7 +82,8 @@ public class ActivityArtistBrowse extends AppCompatActivity {
                 return true;
 
             case R.id.action_lookup:
-                Toast.makeText(ActivityArtistBrowse.this, "NOT YET IMPLEMENTED", Toast.LENGTH_SHORT).show();
+                Intent intent = IntentGenerator.getWebPageIntent(mediaItem.getExternalLink());
+                startActivity(intent);
                 return true;
 
             default:
@@ -91,9 +93,9 @@ public class ActivityArtistBrowse extends AppCompatActivity {
 
     private void loadPage() {
         progressBar.setVisibility(View.VISIBLE);
-        artists = db.readAllParentItems();
-        if (artists.size() > 0) {
-            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, artists, db);
+        tvShows = db.readAllParentItems();
+        if (tvShows.size() > 0) {
+            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, tvShows, db);
             spinnerView.setAdapter(listAdapterSummary);
         }
         progressBar.setVisibility(View.GONE);

@@ -31,8 +31,9 @@ public class ActivityMovieFind extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setTheme(PropertyHelper.getTheme(getBaseContext()));
-        super.getSupportActionBar().setTitle(R.string.title_find_movie);
         super.setContentView(R.layout.activity_find);
+        getSupportActionBar().setTitle(R.string.title_find_movie);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         db = new MovieDatabase(getApplicationContext());
 
