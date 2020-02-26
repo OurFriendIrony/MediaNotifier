@@ -25,16 +25,19 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.activities.artist.ActivityArtist;
+import uk.co.ourfriendirony.medianotifier.activities.artist.ActivityArtistLibrary;
 import uk.co.ourfriendirony.medianotifier.activities.artist.ActivityArtistFind;
 import uk.co.ourfriendirony.medianotifier.activities.artist.ActivityArtistUnwatched;
-import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovie;
+import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovieLibrary;
 import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovieFind;
 import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovieUnwatched;
-import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTV;
+import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVLibrary;
 import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVFind;
 import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVUnwatched;
-import uk.co.ourfriendirony.medianotifier.async.MovieUpdateAsyncTask;
+import uk.co.ourfriendirony.medianotifier.async.UpdateAsyncTask;
+import uk.co.ourfriendirony.medianotifier.clients.ArtistClient;
+import uk.co.ourfriendirony.medianotifier.clients.MovieClient;
+import uk.co.ourfriendirony.medianotifier.clients.TVClient;
 import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
@@ -48,10 +51,13 @@ import static uk.co.ourfriendirony.medianotifier.general.Helper.getNotificationN
 import static uk.co.ourfriendirony.medianotifier.general.IntentGenerator.getContactEmailIntent;
 
 public class ActivityMain extends AppCompatActivity {
-
     private TVShowDatabase tvShowDatabase;
     private Database movieDatabase;
     private ArtistDatabase artistDatabase;
+
+    private TVClient tvShowClient = new TVClient();
+    private MovieClient movieClient = new MovieClient();
+    private ArtistClient artistClient = new ArtistClient();
 
     private TextView main_button_tv_notification;
     private TextView main_button_movie_notification;
@@ -105,19 +111,19 @@ public class ActivityMain extends AppCompatActivity {
         main_button_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), ActivityTV.class));
+                startActivity(new Intent(view.getContext(), ActivityTVLibrary.class));
             }
         });
         main_button_movie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), ActivityMovie.class));
+                startActivity(new Intent(view.getContext(), ActivityMovieLibrary.class));
             }
         });
         main_button_artist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), ActivityArtist.class));
+                startActivity(new Intent(view.getContext(), ActivityArtistLibrary.class));
             }
         });
 
@@ -227,9 +233,9 @@ public class ActivityMain extends AppCompatActivity {
                 return true;
 
             case R.id.action_refresh:
-                new MovieUpdateAsyncTask().execute(asArray(tvShowDatabase.getAll()));
-                new MovieUpdateAsyncTask().execute(asArray(movieDatabase.getAll()));
-                new MovieUpdateAsyncTask().execute(asArray(artistDatabase.getAll()));
+                new UpdateAsyncTask(getApplicationContext(), tvShowDatabase, tvShowClient).execute(asArray(tvShowDatabase.readAllItems()));
+                new UpdateAsyncTask(getApplicationContext(), movieDatabase, movieClient).execute(asArray(movieDatabase.readAllItems()));
+                new UpdateAsyncTask(getApplicationContext(), artistDatabase, artistClient).execute(asArray(artistDatabase.readAllItems()));
                 return true;
 
             default:

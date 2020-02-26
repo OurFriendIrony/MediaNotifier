@@ -1,7 +1,5 @@
 package uk.co.ourfriendirony.medianotifier.db;
 
-import android.database.sqlite.SQLiteDatabase;
-
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
@@ -11,7 +9,7 @@ public interface Database {
 
     void update(MediaItem i);
 
-    String getWatchedStatus(SQLiteDatabase dbReadable, MediaItem mediaItem);
+    String getWatchedStatus(MediaItem mediaItem);
 
     boolean getWatchedStatusAsBoolean(MediaItem mediaItem);
 
@@ -27,11 +25,15 @@ public interface Database {
 
     List<MediaItem> getUnwatched(String getQuery, String logTag);
 
-    List<MediaItem> getAll();
+    List<MediaItem> readAllItems();
 
-    List<MediaItem> getAllSubitems(String id);
+    List<MediaItem> readAllParentItems();
+
+    List<MediaItem> readChildItems(String id);
 
     void updateWatchedStatus(MediaItem mediaItem, String watchedStatus);
 
     boolean markWatchedIfReleased(boolean isNew, MediaItem mediaItem);
+
+    String getCoreType();
 }

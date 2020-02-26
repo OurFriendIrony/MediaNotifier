@@ -5,10 +5,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-public class ArtistDatabaseDefinition extends SQLiteOpenHelper {
-    public static final String WATCHED_FALSE = "0";
-    public static final String WATCHED_TRUE = "1";
+import static uk.co.ourfriendirony.medianotifier.general.Constants.DB_FALSE;
 
+public class ArtistDatabaseDefinition extends SQLiteOpenHelper {
     public static final String ID = "id";
     public static final String SUBID = "sub_id";
     public static final String TITLE = "title";
@@ -17,11 +16,10 @@ public class ArtistDatabaseDefinition extends SQLiteOpenHelper {
     public static final String RELEASE_DATE = "release_date";
     public static final String EXTERNAL_URL = "external_url";
     public static final String WATCHED = "watched";
-
-    private static final int DATABASE_VERSION = 7;
     public static final String DATABASE_NAME = "artists";
     public static final String TABLE_ARTISTS = "artists";
     public static final String TABLE_RELEASES = "releases";
+    private static final int DATABASE_VERSION = 7;
 
     ArtistDatabaseDefinition(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -38,7 +36,7 @@ public class ArtistDatabaseDefinition extends SQLiteOpenHelper {
                 DESCRIPTION + " TEXT, " +
                 RELEASE_DATE + " TEXT, " +
                 EXTERNAL_URL + " TEXT, " +
-                WATCHED + " INTEGER DEFAULT " + WATCHED_FALSE + ", " +
+                WATCHED + " INTEGER DEFAULT " + DB_FALSE + ", " +
                 "PRIMARY KEY (" + ID + ")" +
                 ")");
 
@@ -50,7 +48,7 @@ public class ArtistDatabaseDefinition extends SQLiteOpenHelper {
                 DESCRIPTION + " TEXT, " +
                 RELEASE_DATE + " TEXT, " +
                 EXTERNAL_URL + " TEXT, " +
-                WATCHED + " INTEGER DEFAULT " + WATCHED_FALSE + ", " +
+                WATCHED + " INTEGER DEFAULT " + DB_FALSE + ", " +
                 "PRIMARY KEY (" + ID + "," + SUBID + ") " +
                 ")");
     }

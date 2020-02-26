@@ -9,8 +9,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import uk.co.ourfriendirony.medianotifier.clients.objects.tv.get.TVShowGet;
-import uk.co.ourfriendirony.medianotifier.clients.objects.tv.search.TVShowSearchResult;
+import uk.co.ourfriendirony.medianotifier.clients.tmdb.tvshow.get.TVShowGet;
+import uk.co.ourfriendirony.medianotifier.clients.tmdb.tvshow.search.TVShowSearchResult;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabaseDefinition;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
@@ -18,6 +18,7 @@ import static uk.co.ourfriendirony.medianotifier.general.Helper.getColumnValue;
 import static uk.co.ourfriendirony.medianotifier.general.Helper.stringToDate;
 
 public class TVShow implements MediaItem {
+    private static final String IMDB_URL = "http://www.imdb.com/title/";
     private String id;
     private String subid = "";
     private String title;
@@ -29,8 +30,6 @@ public class TVShow implements MediaItem {
     private boolean watched = false;
     private List<MediaItem> children = new ArrayList<>();
 
-    private static final String IMDB_URL = "http://www.imdb.com/title/";
-
     public TVShow(TVShowGet tvShow, List<MediaItem> children) {
         this.id = String.valueOf(tvShow.getId());
         this.title = tvShow.getName();
@@ -40,7 +39,7 @@ public class TVShow implements MediaItem {
             this.externalUrl = IMDB_URL + tvShow.getExternalIds().getImdbId();
         }
         this.children = children;
-        Log.d("[FROM GET]", this.toString());
+        Log.d("[API GET]", this.toString());
     }
 
     public TVShow(TVShowSearchResult item) {
@@ -48,7 +47,7 @@ public class TVShow implements MediaItem {
         this.title = item.getName();
         this.description = item.getOverview();
         this.releaseDate = item.getFirstAirDate();
-        Log.d("[FROM SEARCH]", this.toString());
+        Log.d("[API SEARCH]", this.toString());
     }
 
     public TVShow(Cursor cursor, List<MediaItem> episodes) {
@@ -61,6 +60,10 @@ public class TVShow implements MediaItem {
         this.externalUrl = getColumnValue(cursor, TVShowDatabaseDefinition.EXTERNAL_URL);
         this.children = episodes;
         Log.d("[DB READ]", this.toString());
+    }
+
+    public TVShow(Cursor cursor) {
+        this(cursor, new ArrayList<MediaItem>());
     }
 
     @Override

@@ -19,55 +19,53 @@ import uk.co.ourfriendirony.medianotifier.mediaitem.tv.TVShow;
 
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getMarkWatchedIfAlreadyReleased;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetTV;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.DB_FALSE;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.DB_TRUE;
 import static uk.co.ourfriendirony.medianotifier.general.Helper.cleanTitle;
 import static uk.co.ourfriendirony.medianotifier.general.Helper.dateToString;
 
 public class TVShowDatabase implements Database {
     private static final String SELECT_TVSHOWS = "SELECT * FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS + " ORDER BY " + TVShowDatabaseDefinition.TITLE + " ASC;";
-    private static final String SELECT_TVEPISODES = "SELECT * FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " WHERE " + TVShowDatabaseDefinition.ID + "=? ORDER BY " + TVShowDatabaseDefinition.SUBTITLE + " ASC;";
+    private static final String SELECT_TVEPISODES_BY_ID = "SELECT * FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " WHERE " + TVShowDatabaseDefinition.ID + "=? ORDER BY " + TVShowDatabaseDefinition.SUBTITLE + " ASC;";
 
     private static final String GET_TVEPISODE_WATCHED_STATUS = "SELECT " + TVShowDatabaseDefinition.WATCHED + " FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " WHERE " + TVShowDatabaseDefinition.ID + "=? AND " + TVShowDatabaseDefinition.SUBTITLE + "=?;";
 
     private static final String COUNT_UNWATCHED_EPISODES_RELEASED = "SELECT COUNT(*) FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " " +
-            "WHERE " + TVShowDatabaseDefinition.WATCHED + "=" + TVShowDatabaseDefinition.WATCHED_FALSE + " AND " + TVShowDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@;";
+            "WHERE " + TVShowDatabaseDefinition.WATCHED + "=" + DB_FALSE + " AND " + TVShowDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@;";
 
     private static final String GET_UNWATCHED_EPISODES_RELEASED = "SELECT * " +
             "FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " " +
-            "WHERE " + TVShowDatabaseDefinition.WATCHED + "=" + TVShowDatabaseDefinition.WATCHED_FALSE + " AND " + TVShowDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@ ORDER BY " + TVShowDatabaseDefinition.RELEASE_DATE + " ASC;";
+            "WHERE " + TVShowDatabaseDefinition.WATCHED + "=" + DB_FALSE + " AND " + TVShowDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@ ORDER BY " + TVShowDatabaseDefinition.RELEASE_DATE + " ASC;";
 
     private static final String GET_UNWATCHED_EPISODES_TOTAL = "SELECT * " +
             "FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " " +
-            "WHERE " + TVShowDatabaseDefinition.WATCHED + "=" + TVShowDatabaseDefinition.WATCHED_FALSE + " ORDER BY " + TVShowDatabaseDefinition.RELEASE_DATE + " ASC;";
+            "WHERE " + TVShowDatabaseDefinition.WATCHED + "=" + DB_FALSE + " ORDER BY " + TVShowDatabaseDefinition.RELEASE_DATE + " ASC;";
 
-    private final TVShowDatabaseDefinition databaseHelper;
     private final Context context;
+    private final SQLiteDatabase dbWritable;
 
     public TVShowDatabase(Context context) {
-        this.databaseHelper = new TVShowDatabaseDefinition(context);
+        this.dbWritable = new TVShowDatabaseDefinition(context).getWritableDatabase();
         this.context = context;
     }
 
     @Override
     public void add(MediaItem show) {
-        SQLiteDatabase dbWritable = databaseHelper.getWritableDatabase();
         for (MediaItem episode : show.getChildren()) {
-            insertEpisode(dbWritable, episode, true);
+            insertEpisode(episode, true);
         }
-        insert(dbWritable, show);
-        dbWritable.close();
+        insert(show);
     }
 
     @Override
     public void update(MediaItem show) {
-        SQLiteDatabase dbWritable = databaseHelper.getWritableDatabase();
         for (MediaItem episode : show.getChildren()) {
-            insertEpisode(dbWritable, episode, false);
+            insertEpisode(episode, false);
         }
-        insert(dbWritable, show);
-        dbWritable.close();
+        insert(show);
     }
 
-    private void insert(SQLiteDatabase dbWritable, MediaItem mediaItem) {
+    private void insert(MediaItem mediaItem) {
         ContentValues dbRow = new ContentValues();
         dbRow.put(TVShowDatabaseDefinition.ID, mediaItem.getId());
         dbRow.put(TVShowDatabaseDefinition.SUBID, mediaItem.getSubId());
@@ -76,12 +74,12 @@ public class TVShowDatabase implements Database {
         dbRow.put(TVShowDatabaseDefinition.EXTERNAL_URL, mediaItem.getExternalLink());
         dbRow.put(TVShowDatabaseDefinition.RELEASE_DATE, dateToString(mediaItem.getReleaseDate()));
         dbRow.put(TVShowDatabaseDefinition.DESCRIPTION, mediaItem.getDescription());
-        Log.d("[DB INSERT TV]", dbRow.toString());
+        Log.d("[DB INSERT]", "TVShow: " + dbRow.toString());
         dbWritable.replace(TVShowDatabaseDefinition.TABLE_TVSHOWS, null, dbRow);
     }
 
-    private void insertEpisode(SQLiteDatabase dbWritable, MediaItem episode, boolean isNewTVShow) {
-        String currentWatchedStatus = getWatchedStatus(dbWritable, episode);
+    private void insertEpisode(MediaItem episode, boolean isNewTVShow) {
+        String currentWatchedStatus = getWatchedStatus(episode);
         ContentValues dbRow = new ContentValues();
         dbRow.put(TVShowDatabaseDefinition.ID, episode.getId());
         dbRow.put(TVShowDatabaseDefinition.SUBID, episode.getSubId());
@@ -90,20 +88,19 @@ public class TVShowDatabase implements Database {
         dbRow.put(TVShowDatabaseDefinition.RELEASE_DATE, dateToString(episode.getReleaseDate()));
         dbRow.put(TVShowDatabaseDefinition.DESCRIPTION, episode.getDescription());
         if (markWatchedIfReleased(isNewTVShow, episode)) {
-            dbRow.put(TVShowDatabaseDefinition.WATCHED, TVShowDatabaseDefinition.WATCHED_TRUE);
+            dbRow.put(TVShowDatabaseDefinition.WATCHED, DB_TRUE);
         } else {
             dbRow.put(TVShowDatabaseDefinition.WATCHED, currentWatchedStatus);
         }
-        Log.d("[DB INSERT TV EPISODE]", dbRow.toString());
+        Log.d("[DB INSERT]", "TVEpisode: " + dbRow.toString());
         dbWritable.replace(TVShowDatabaseDefinition.TABLE_EPISODES, null, dbRow);
     }
 
     @Override
-    public String getWatchedStatus(SQLiteDatabase dbReadable, MediaItem mediaItem) {
+    public String getWatchedStatus(MediaItem mediaItem) {
         String[] args = new String[]{mediaItem.getId(), mediaItem.getSubtitle()};
-        Cursor cursor = dbReadable.rawQuery(GET_TVEPISODE_WATCHED_STATUS, args);
-        String watchedStatus = TVShowDatabaseDefinition.WATCHED_FALSE;
-
+        Cursor cursor = dbWritable.rawQuery(GET_TVEPISODE_WATCHED_STATUS, args);
+        String watchedStatus = DB_FALSE;
         try {
             while (cursor.moveToNext()) {
                 watchedStatus = getColumnValue(cursor, TVShowDatabaseDefinition.WATCHED);
@@ -111,16 +108,14 @@ public class TVShowDatabase implements Database {
         } finally {
             cursor.close();
         }
-
         return watchedStatus;
     }
 
     @Override
     public boolean getWatchedStatusAsBoolean(MediaItem mediaItem) {
-        SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
         String[] args = new String[]{mediaItem.getId(), mediaItem.getSubtitle()};
-        Cursor cursor = dbReadable.rawQuery(GET_TVEPISODE_WATCHED_STATUS, args);
-        String watchedStatus = TVShowDatabaseDefinition.WATCHED_FALSE;
+        Cursor cursor = dbWritable.rawQuery(GET_TVEPISODE_WATCHED_STATUS, args);
+        String watchedStatus = DB_FALSE;
 
         try {
             while (cursor.moveToNext()) {
@@ -129,25 +124,19 @@ public class TVShowDatabase implements Database {
         } finally {
             cursor.close();
         }
-
-        dbReadable.close();
-        return TVShowDatabaseDefinition.WATCHED_TRUE.equals(watchedStatus);
+        return DB_TRUE.equals(watchedStatus);
     }
 
     @Override
     public void deleteAll() {
-        SQLiteDatabase dbWritable = databaseHelper.getWritableDatabase();
         dbWritable.execSQL("DELETE FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS + ";");
         dbWritable.execSQL("DELETE FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + ";");
-        dbWritable.close();
     }
 
     @Override
     public void delete(String id) {
-        SQLiteDatabase dbWritable = databaseHelper.getWritableDatabase();
         dbWritable.execSQL("DELETE FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS + " WHERE " + TVShowDatabaseDefinition.ID + "=" + id + ";");
         dbWritable.execSQL("DELETE FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " WHERE " + TVShowDatabaseDefinition.ID + "=" + id + ";");
-        dbWritable.close();
     }
 
     @NonNull
@@ -163,8 +152,7 @@ public class TVShowDatabase implements Database {
         String id = getColumnValue(cursor, TVShowDatabaseDefinition.ID);
         List<MediaItem> episodes = new ArrayList<>();
 
-        SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
-        Cursor subCursor = dbReadable.rawQuery(SELECT_TVEPISODES, new String[]{id});
+        Cursor subCursor = dbWritable.rawQuery(SELECT_TVEPISODES_BY_ID, new String[]{id});
         try {
             while (subCursor.moveToNext()) {
                 episodes.add(buildSubItemFromDB(subCursor));
@@ -172,7 +160,6 @@ public class TVShowDatabase implements Database {
         } finally {
             subCursor.close();
         }
-        dbReadable.close();
         return new TVShow(cursor, episodes);
     }
 
@@ -184,13 +171,11 @@ public class TVShowDatabase implements Database {
     private int countUnwatched(String countQuery) {
         String offset = "date('now','-" + getNotificationDayOffsetTV(context) + " days')";
         String query = Helper.replaceTokens(countQuery, "@OFFSET@", offset);
-        SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
 
-        Cursor cursor = dbReadable.rawQuery(query, null);
+        Cursor cursor = dbWritable.rawQuery(query, null);
         cursor.moveToFirst();
         int count = cursor.getInt(0);
         cursor.close();
-        dbReadable.close();
         return count;
     }
 
@@ -209,9 +194,7 @@ public class TVShowDatabase implements Database {
         String offset = "date('now','-" + getNotificationDayOffsetTV(context) + " days')";
         String query = Helper.replaceTokens(getQuery, "@OFFSET@", offset);
         List<MediaItem> mediaItems = new ArrayList<>();
-        SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
-
-        Cursor cursor = dbReadable.rawQuery(query, null);
+        Cursor cursor = dbWritable.rawQuery(query, null);
         try {
             while (cursor.moveToNext()) {
                 MediaItem mediaItem = buildSubItemFromDB(cursor);
@@ -220,57 +203,70 @@ public class TVShowDatabase implements Database {
         } finally {
             cursor.close();
         }
-        dbReadable.close();
         return mediaItems;
     }
 
     @Override
-    public List<MediaItem> getAll() {
-        List<MediaItem> shows = new ArrayList<>();
-        SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
-        Cursor cursor = dbReadable.rawQuery(SELECT_TVSHOWS, null);
+    public List<MediaItem> readAllItems() {
+        List<MediaItem> mediaItems = new ArrayList<>();
+        Cursor cursor = dbWritable.rawQuery(SELECT_TVSHOWS, null);
         try {
             while (cursor.moveToNext()) {
-                shows.add(buildItemFromDB(cursor));
+                mediaItems.add(buildItemFromDB(cursor));
             }
         } finally {
             cursor.close();
         }
-        dbReadable.close();
-        return shows;
+        return mediaItems;
     }
 
     @Override
-    public List<MediaItem> getAllSubitems(String id) {
+    public List<MediaItem> readAllParentItems() {
         List<MediaItem> mediaItems = new ArrayList<>();
-        SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
-        String[] args = {id};
-        Cursor tvShowCursor = dbReadable.rawQuery(SELECT_TVEPISODES, args);
+        Cursor cursor = dbWritable.rawQuery(SELECT_TVSHOWS, null);
         try {
-            while (tvShowCursor.moveToNext()) {
-                mediaItems.add(buildItemFromDB(tvShowCursor));
+            while (cursor.moveToNext()) {
+                mediaItems.add(new TVShow(cursor));
             }
         } finally {
-            tvShowCursor.close();
+            cursor.close();
         }
-        dbReadable.close();
+        return mediaItems;
+    }
+
+    @Override
+    public List<MediaItem> readChildItems(String id) {
+        List<MediaItem> mediaItems = new ArrayList<>();
+        String[] args = {id};
+        Cursor cursor = dbWritable.rawQuery(SELECT_TVEPISODES_BY_ID, args);
+        try {
+            while (cursor.moveToNext()) {
+                mediaItems.add(buildSubItemFromDB(cursor));
+            }
+        } finally {
+            cursor.close();
+        }
         return mediaItems;
     }
 
     @Override
     public void updateWatchedStatus(MediaItem mediaItem, String watchedStatus) {
-        SQLiteDatabase dbWriteable = databaseHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(TVShowDatabaseDefinition.WATCHED, watchedStatus);
         String where = TVShowDatabaseDefinition.ID + "=? and " + TVShowDatabaseDefinition.SUBID + "=?";
         String[] whereArgs = new String[]{mediaItem.getId(), mediaItem.getSubtitle()};
-        dbWriteable.update(TVShowDatabaseDefinition.TABLE_EPISODES, values, where, whereArgs);
-        dbWriteable.close();
+        dbWritable.update(TVShowDatabaseDefinition.TABLE_EPISODES, values, where, whereArgs);
     }
 
     @Override
     public boolean markWatchedIfReleased(boolean isNew, MediaItem mediaItem) {
         return isNew && alreadyReleased(mediaItem) && getMarkWatchedIfAlreadyReleased(context);
+    }
+
+    @Override
+    public String getCoreType() {
+        // TODO: This is a lazy and unneeded implementation. It should be removed
+        return "TVShow";
     }
 
     private boolean alreadyReleased(MediaItem mediaItem) {
@@ -283,13 +279,4 @@ public class TVShowDatabase implements Database {
     private String getColumnValue(Cursor cursor, String field) {
         return cursor.getString(cursor.getColumnIndex(field));
     }
-
 }
-
-
-
-
-
-
-
-

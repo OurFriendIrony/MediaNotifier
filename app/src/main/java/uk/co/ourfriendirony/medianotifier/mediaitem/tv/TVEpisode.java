@@ -1,6 +1,7 @@
 package uk.co.ourfriendirony.medianotifier.mediaitem.tv;
 
 import android.database.Cursor;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
@@ -9,10 +10,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import uk.co.ourfriendirony.medianotifier.clients.objects.tv.get.TVSeasonGetEpisode;
+import uk.co.ourfriendirony.medianotifier.clients.tmdb.tvseason.get.TVSeasonGetEpisode;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabaseDefinition;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
+import static uk.co.ourfriendirony.medianotifier.general.Helper.getColumnValue;
 import static uk.co.ourfriendirony.medianotifier.general.Helper.stringToDate;
 
 public class TVEpisode implements MediaItem {
@@ -29,12 +31,12 @@ public class TVEpisode implements MediaItem {
 
     public TVEpisode(TVSeasonGetEpisode episode, String showId) {
         this.id = String.valueOf(showId);
-        this.subid = String.format("S%02d", episode.getSeasonNumber()) + String.format("E%02d", episode.getEpisodeNumber());
+        this.subid = formatSubtitle(episode);
         this.title = episode.getName();
-        this.subtitle = String.format("S%02d", episode.getSeasonNumber()) + String.format("E%02d", episode.getEpisodeNumber());
+        this.subtitle = formatSubtitle(episode);
         this.description = episode.getOverview();
         this.releaseDate = episode.getAirDate();
-        Log.d("[FROM GET]", this.toString());
+        Log.d("[API GET]", this.toString());
     }
 
     public TVEpisode(Cursor cursor) {
@@ -48,8 +50,13 @@ public class TVEpisode implements MediaItem {
         Log.d("[DB READ]", this.toString());
     }
 
-    private String getColumnValue(Cursor cursor, String field) {
-        return cursor.getString(cursor.getColumnIndex(field));
+    private static String pad(int num, String prefix, int size) {
+        return prefix + String.format(Locale.UK, "%0" + size + "d", num);
+    }
+
+    @NonNull
+    private String formatSubtitle(TVSeasonGetEpisode episode) {
+        return pad(episode.getSeasonNumber(), "S", 2) + pad(episode.getEpisodeNumber(), "E", 2);
     }
 
     @Override

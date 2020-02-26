@@ -9,11 +9,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.get.ArtistGet;
-import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.search.ArtistSearchArtist;
+import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.artist.get.ArtistGet;
+import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.artist.search.ArtistSearchArtist;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabaseDefinition;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
+import static uk.co.ourfriendirony.medianotifier.general.Helper.getColumnValue;
 import static uk.co.ourfriendirony.medianotifier.general.Helper.stringToDate;
 
 public class Artist implements MediaItem {
@@ -40,7 +41,7 @@ public class Artist implements MediaItem {
             this.releaseDate = artist.getLifeSpan().getBegin();
         }
         this.children = children;
-        Log.d("[FROM GET]", this.toString());
+        Log.d("[API GET]", this.toString());
     }
 
     public Artist(ArtistSearchArtist artist) {
@@ -54,22 +55,23 @@ public class Artist implements MediaItem {
         if (artist.getLifeSpan() != null && artist.getLifeSpan().getBegin() != null) {
             this.releaseDate = artist.getLifeSpan().getBegin();
         }
-        this.children = children;
-        Log.d("[FROM GET]", this.toString());
+        Log.d("[API SEARCH]", this.toString());
     }
 
     public Artist(Cursor cursor, List<MediaItem> releases) {
+        // Build Artist from DB with children
         this.id = getColumnValue(cursor, ArtistDatabaseDefinition.ID);
         this.subid = getColumnValue(cursor, ArtistDatabaseDefinition.SUBID);
         this.title = getColumnValue(cursor, ArtistDatabaseDefinition.TITLE);
         this.description = getColumnValue(cursor, ArtistDatabaseDefinition.DESCRIPTION);
         this.releaseDate = stringToDate(getColumnValue(cursor, ArtistDatabaseDefinition.RELEASE_DATE));
         this.children = releases;
-        Log.d("[FROM DB]", this.toString());
+        Log.d("[DB READ]", this.toString());
     }
 
-    private String getColumnValue(Cursor cursor, String field) {
-        return cursor.getString(cursor.getColumnIndex(field));
+    public Artist(Cursor cursor) {
+        // Build Artist from DB without children
+        this(cursor, new ArrayList<MediaItem>());
     }
 
     @Override
@@ -139,6 +141,6 @@ public class Artist implements MediaItem {
     }
 
     public String toString() {
-        return "Artist: " + getTitle() + " > " + getReleaseDateFull() + " > Children " + countChildren();
+        return "Artist: " + getTitle() + " > " + getReleaseDateFull() + " > Releases " + countChildren();
     }
 }

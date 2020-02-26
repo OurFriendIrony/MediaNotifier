@@ -9,14 +9,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import uk.co.ourfriendirony.medianotifier.clients.objects.movie.get.MovieGet;
-import uk.co.ourfriendirony.medianotifier.clients.objects.movie.search.MovieSearchResult;
+import uk.co.ourfriendirony.medianotifier.clients.tmdb.movie.get.MovieGet;
+import uk.co.ourfriendirony.medianotifier.clients.tmdb.movie.search.MovieSearchResult;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabaseDefinition;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
+import static uk.co.ourfriendirony.medianotifier.general.Helper.getColumnValue;
 import static uk.co.ourfriendirony.medianotifier.general.Helper.stringToDate;
 
 public class Movie implements MediaItem {
+    private static final String IMDB_URL = "http://www.imdb.com/title/";
     private String id;
     private String subid = "";
     private String title;
@@ -27,8 +29,6 @@ public class Movie implements MediaItem {
     // TODO: fully implement watched as an item
     private boolean watched = false;
     private List<MediaItem> children = new ArrayList<>();
-
-    private static final String IMDB_URL = "http://www.imdb.com/title/";
 
 
     public Movie(MovieGet movie) {
@@ -42,7 +42,7 @@ public class Movie implements MediaItem {
         if (movie.getImdbId() != null) {
             this.externalUrl = IMDB_URL + movie.getImdbId();
         }
-        Log.d("[FROM GET]", this.toString());
+        Log.d("[API GET]", this.toString());
     }
 
     public Movie(MovieSearchResult movie) {
@@ -50,7 +50,7 @@ public class Movie implements MediaItem {
         this.title = movie.getTitle();
         this.description = movie.getOverview();
         this.releaseDate = movie.getReleaseDate();
-        Log.d("[FROM SEARCH]", this.toString());
+        Log.d("[API SEARCH]", this.toString());
     }
 
     public Movie(Cursor cursor) {
@@ -62,11 +62,7 @@ public class Movie implements MediaItem {
         this.releaseDate = stringToDate(getColumnValue(cursor, MovieDatabaseDefinition.RELEASE_DATE));
         this.externalUrl = getColumnValue(cursor, MovieDatabaseDefinition.EXTERNAL_URL);
         this.children = new ArrayList<>();
-        Log.d("[FROM DB]", this.toString());
-    }
-
-    private String getColumnValue(Cursor cursor, String field) {
-        return cursor.getString(cursor.getColumnIndex(field));
+        Log.d("[DB READ]", this.toString());
     }
 
     @Override
@@ -136,6 +132,6 @@ public class Movie implements MediaItem {
     }
 
     public String toString() {
-        return "Movie: " + getTitle() + " > " + getReleaseDateFull() + " > Children " + countChildren();
+        return "Movie: " + getTitle() + " > " + getReleaseDateFull();
     }
 }

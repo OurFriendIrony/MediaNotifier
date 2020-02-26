@@ -20,6 +20,8 @@ public class ActivityTVUnwatched extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         super.setTheme(PropertyHelper.getTheme(getBaseContext()));
         super.setContentView(R.layout.activity_core);
+        getSupportActionBar().setTitle(R.string.title_unwatched_tvshow);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         cancelNotifications();
 

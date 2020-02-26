@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/spinner_progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Spinner
+            android:id="@+id/spinner"
+            style="@style/input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/progress"
+            android:spinnerMode="dialog" />
+
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignBottom="@+id/spinner"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/spinner"
+            android:background="?attr/colorBackgroundDefault"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/list"
+        style="@style/style_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/spinner_progress"
+        android:divider="@null"
+        android:dividerHeight="0dp" />
+</RelativeLayout>

@@ -19,55 +19,54 @@ import uk.co.ourfriendirony.medianotifier.mediaitem.artist.Release;
 
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getMarkWatchedIfAlreadyReleased;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetArtist;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.DB_FALSE;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.DB_TRUE;
 import static uk.co.ourfriendirony.medianotifier.general.Helper.cleanTitle;
 import static uk.co.ourfriendirony.medianotifier.general.Helper.dateToString;
 
 public class ArtistDatabase implements Database {
     private static final String SELECT_ARTISTS = "SELECT * FROM " + ArtistDatabaseDefinition.TABLE_ARTISTS + " ORDER BY " + ArtistDatabaseDefinition.TITLE + " ASC;";
-    private static final String SELECT_RELEASES = "SELECT * FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " WHERE " + ArtistDatabaseDefinition.ID + "=? ORDER BY " + ArtistDatabaseDefinition.RELEASE_DATE + " ASC;";
+    private static final String SELECT_ARTISTS_BY_ID = "SELECT * FROM " + ArtistDatabaseDefinition.TABLE_ARTISTS + " WHERE " + ArtistDatabaseDefinition.ID + "=? ORDER BY " + ArtistDatabaseDefinition.TITLE + " ASC;";
+    private static final String SELECT_RELEASES_BY_ID = "SELECT * FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " WHERE " + ArtistDatabaseDefinition.ID + "=? ORDER BY " + ArtistDatabaseDefinition.RELEASE_DATE + " ASC;";
 
     private static final String GET_RELEASE_WATCHED_STATUS = "SELECT " + ArtistDatabaseDefinition.WATCHED + " FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " WHERE " + ArtistDatabaseDefinition.ID + "=? AND " + ArtistDatabaseDefinition.SUBID + "=?;";
 
     private static final String COUNT_UNWATCHED_RELEASES_RELEASED = "SELECT COUNT(*) FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " " +
-            "WHERE " + ArtistDatabaseDefinition.WATCHED + "=" + ArtistDatabaseDefinition.WATCHED_FALSE + " AND " + ArtistDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@;";
+            "WHERE " + ArtistDatabaseDefinition.WATCHED + "=" + DB_FALSE + " AND " + ArtistDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@;";
 
     private static final String GET_UNWATCHED_RELEASES_RELEASED = "SELECT * " +
             "FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " " +
-            "WHERE " + ArtistDatabaseDefinition.WATCHED + "=" + ArtistDatabaseDefinition.WATCHED_FALSE + " AND " + ArtistDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@ ORDER BY " + ArtistDatabaseDefinition.RELEASE_DATE + " ASC;";
+            "WHERE " + ArtistDatabaseDefinition.WATCHED + "=" + DB_FALSE + " AND " + ArtistDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@ ORDER BY " + ArtistDatabaseDefinition.RELEASE_DATE + " ASC;";
 
     private static final String GET_UNWATCHED_RELEASES_TOTAL = "SELECT * " +
             "FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " " +
-            "WHERE " + ArtistDatabaseDefinition.WATCHED + "=" + ArtistDatabaseDefinition.WATCHED_FALSE + " ORDER BY " + ArtistDatabaseDefinition.RELEASE_DATE + " ASC;";
+            "WHERE " + ArtistDatabaseDefinition.WATCHED + "=" + DB_FALSE + " ORDER BY " + ArtistDatabaseDefinition.RELEASE_DATE + " ASC;";
 
-    private final ArtistDatabaseDefinition databaseHelper;
     private final Context context;
+    private final SQLiteDatabase dbWritable;
 
     public ArtistDatabase(Context context) {
-        this.databaseHelper = new ArtistDatabaseDefinition(context);
+        this.dbWritable = new ArtistDatabaseDefinition(context).getWritableDatabase();
         this.context = context;
     }
 
     @Override
     public void add(MediaItem artist) {
-        SQLiteDatabase dbWritable = databaseHelper.getWritableDatabase();
         for (MediaItem release : artist.getChildren()) {
-            insertRelease(dbWritable, release, true);
+            insertRelease(release, true);
         }
-        insert(dbWritable, artist);
-        dbWritable.close();
+        insert(artist);
     }
 
     @Override
     public void update(MediaItem artist) {
-        SQLiteDatabase dbWritable = databaseHelper.getWritableDatabase();
         for (MediaItem release : artist.getChildren()) {
-            insertRelease(dbWritable, release, false);
+            insertRelease(release, false);
         }
-        insert(dbWritable, artist);
-        dbWritable.close();
+        insert(artist);
     }
 
-    private void insert(SQLiteDatabase dbWritable, MediaItem artist) {
+    private void insert(MediaItem artist) {
         ContentValues dbRow = new ContentValues();
         dbRow.put(ArtistDatabaseDefinition.ID, artist.getId());
         dbRow.put(ArtistDatabaseDefinition.SUBID, artist.getSubId());
@@ -76,13 +75,12 @@ public class ArtistDatabase implements Database {
         dbRow.put(ArtistDatabaseDefinition.EXTERNAL_URL, artist.getExternalLink());
         dbRow.put(ArtistDatabaseDefinition.RELEASE_DATE, dateToString(artist.getReleaseDate()));
         dbRow.put(ArtistDatabaseDefinition.DESCRIPTION, artist.getDescription());
-        Log.d("[DB INSERT ARTIST]", dbRow.toString());
+        Log.d("[DB INSERT]", "Artist: " + dbRow.toString());
         dbWritable.replace(ArtistDatabaseDefinition.TABLE_ARTISTS, null, dbRow);
-
     }
 
-    private void insertRelease(SQLiteDatabase dbWritable, MediaItem release, boolean isNew) {
-        String currentWatchedStatus = getWatchedStatus(dbWritable, release);
+    private void insertRelease(MediaItem release, boolean isNew) {
+        String currentWatchedStatus = getWatchedStatus(release);
         ContentValues dbRow = new ContentValues();
         dbRow.put(ArtistDatabaseDefinition.ID, release.getId());
         dbRow.put(ArtistDatabaseDefinition.SUBID, release.getSubId());
@@ -91,19 +89,19 @@ public class ArtistDatabase implements Database {
         dbRow.put(ArtistDatabaseDefinition.RELEASE_DATE, dateToString(release.getReleaseDate()));
         dbRow.put(ArtistDatabaseDefinition.DESCRIPTION, release.getDescription());
         if (markWatchedIfReleased(isNew, release)) {
-            dbRow.put(ArtistDatabaseDefinition.WATCHED, ArtistDatabaseDefinition.WATCHED_TRUE);
+            dbRow.put(ArtistDatabaseDefinition.WATCHED, DB_TRUE);
         } else {
             dbRow.put(ArtistDatabaseDefinition.WATCHED, currentWatchedStatus);
         }
-        Log.d("[DB INSERT RELEASE]", dbRow.toString());
+        Log.d("[DB INSERT]", "Release: " + dbRow.toString());
         dbWritable.replace(ArtistDatabaseDefinition.TABLE_RELEASES, null, dbRow);
     }
 
     @Override
-    public String getWatchedStatus(SQLiteDatabase dbReadable, MediaItem release) {
+    public String getWatchedStatus(MediaItem release) {
         String[] args = new String[]{release.getId(), release.getSubId()};
-        Cursor cursor = dbReadable.rawQuery(GET_RELEASE_WATCHED_STATUS, args);
-        String watchedStatus = ArtistDatabaseDefinition.WATCHED_FALSE;
+        Cursor cursor = dbWritable.rawQuery(GET_RELEASE_WATCHED_STATUS, args);
+        String watchedStatus = DB_FALSE;
 
         try {
             while (cursor.moveToNext()) {
@@ -118,10 +116,9 @@ public class ArtistDatabase implements Database {
 
     @Override
     public boolean getWatchedStatusAsBoolean(MediaItem release) {
-        SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
         String[] args = new String[]{release.getId(), release.getSubId()};
-        Cursor cursor = dbReadable.rawQuery(GET_RELEASE_WATCHED_STATUS, args);
-        String watchedStatus = ArtistDatabaseDefinition.WATCHED_FALSE;
+        Cursor cursor = dbWritable.rawQuery(GET_RELEASE_WATCHED_STATUS, args);
+        String watchedStatus = DB_FALSE;
 
         try {
             while (cursor.moveToNext()) {
@@ -130,25 +127,19 @@ public class ArtistDatabase implements Database {
         } finally {
             cursor.close();
         }
-
-        dbReadable.close();
-        return ArtistDatabaseDefinition.WATCHED_TRUE.equals(watchedStatus);
+        return DB_TRUE.equals(watchedStatus);
     }
 
     @Override
     public void deleteAll() {
-        SQLiteDatabase dbWritable = databaseHelper.getWritableDatabase();
         dbWritable.execSQL("DELETE FROM " + ArtistDatabaseDefinition.TABLE_ARTISTS + ";");
         dbWritable.execSQL("DELETE FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + ";");
-        dbWritable.close();
     }
 
     @Override
     public void delete(String id) {
-        SQLiteDatabase dbWritable = databaseHelper.getWritableDatabase();
         dbWritable.execSQL("DELETE FROM " + ArtistDatabaseDefinition.TABLE_ARTISTS + " WHERE " + ArtistDatabaseDefinition.ID + "=\"" + id + "\";");
         dbWritable.execSQL("DELETE FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " WHERE " + ArtistDatabaseDefinition.ID + "=\"" + id + "\";");
-        dbWritable.close();
     }
 
     @NonNull
@@ -163,9 +154,7 @@ public class ArtistDatabase implements Database {
 
         String id = getColumnValue(cursor, ArtistDatabaseDefinition.ID);
         List<MediaItem> releases = new ArrayList<>();
-
-        SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
-        Cursor subCursor = dbReadable.rawQuery(SELECT_RELEASES, new String[]{id});
+        Cursor subCursor = dbWritable.rawQuery(SELECT_RELEASES_BY_ID, new String[]{id});
         try {
             while (subCursor.moveToNext()) {
                 releases.add(buildSubItemFromDB(subCursor));
@@ -173,7 +162,6 @@ public class ArtistDatabase implements Database {
         } finally {
             subCursor.close();
         }
-        dbReadable.close();
         return new Artist(cursor, releases);
     }
 
@@ -185,13 +173,10 @@ public class ArtistDatabase implements Database {
     private int countUnwatched(String countQuery) {
         String offset = "date('now','-" + getNotificationDayOffsetArtist(context) + " days')";
         String query = Helper.replaceTokens(countQuery, "@OFFSET@", offset);
-        SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
-
-        Cursor cursor = dbReadable.rawQuery(query, null);
+        Cursor cursor = dbWritable.rawQuery(query, null);
         cursor.moveToFirst();
         int count = cursor.getInt(0);
         cursor.close();
-        dbReadable.close();
         return count;
     }
 
@@ -210,8 +195,7 @@ public class ArtistDatabase implements Database {
         String offset = "date('now','-" + getNotificationDayOffsetArtist(context) + " days')";
         String query = Helper.replaceTokens(getQuery, "@OFFSET@", offset);
         List<MediaItem> mediaItems = new ArrayList<>();
-        SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
-        Cursor cursor = dbReadable.rawQuery(query, null);
+        Cursor cursor = dbWritable.rawQuery(query, null);
         try {
             while (cursor.moveToNext()) {
                 MediaItem mediaItem = buildSubItemFromDB(cursor);
@@ -220,57 +204,70 @@ public class ArtistDatabase implements Database {
         } finally {
             cursor.close();
         }
-        dbReadable.close();
         return mediaItems;
     }
 
     @Override
-    public List<MediaItem> getAll() {
-        List<MediaItem> artists = new ArrayList<>();
-        SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
-        Cursor cursor = dbReadable.rawQuery(SELECT_ARTISTS, null);
+    public List<MediaItem> readAllItems() {
+        List<MediaItem> mediaItems = new ArrayList<>();
+        Cursor cursor = dbWritable.rawQuery(SELECT_ARTISTS, null);
         try {
             while (cursor.moveToNext()) {
-                artists.add(buildItemFromDB(cursor));
+                mediaItems.add(buildItemFromDB(cursor));
             }
         } finally {
             cursor.close();
         }
-        dbReadable.close();
-        return artists;
+        return mediaItems;
     }
 
     @Override
-    public List<MediaItem> getAllSubitems(String id) {
+    public List<MediaItem> readAllParentItems() {
         List<MediaItem> mediaItems = new ArrayList<>();
-        SQLiteDatabase dbReadable = databaseHelper.getReadableDatabase();
-        String[] args = {id};
-        Cursor tvShowCursor = dbReadable.rawQuery(SELECT_RELEASES, args);
+        Cursor cursor = dbWritable.rawQuery(SELECT_ARTISTS, null);
         try {
-            while (tvShowCursor.moveToNext()) {
-                mediaItems.add(buildItemFromDB(tvShowCursor));
+            while (cursor.moveToNext()) {
+                mediaItems.add(new Artist(cursor));
             }
         } finally {
-            tvShowCursor.close();
+            cursor.close();
         }
-        dbReadable.close();
+        return mediaItems;
+    }
+
+    @Override
+    public List<MediaItem> readChildItems(String id) {
+        List<MediaItem> mediaItems = new ArrayList<>();
+        String[] args = {id};
+        Cursor cursor = dbWritable.rawQuery(SELECT_RELEASES_BY_ID, args);
+        try {
+            while (cursor.moveToNext()) {
+                mediaItems.add(buildSubItemFromDB(cursor));
+            }
+        } finally {
+            cursor.close();
+        }
         return mediaItems;
     }
 
     @Override
     public void updateWatchedStatus(MediaItem mediaItem, String watchedStatus) {
-        SQLiteDatabase dbWriteable = databaseHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(ArtistDatabaseDefinition.WATCHED, watchedStatus);
         String where = ArtistDatabaseDefinition.ID + "=? and " + ArtistDatabaseDefinition.SUBID + "=?";
         String[] whereArgs = new String[]{mediaItem.getId(), mediaItem.getSubId()};
-        dbWriteable.update(ArtistDatabaseDefinition.TABLE_RELEASES, values, where, whereArgs);
-        dbWriteable.close();
+        dbWritable.update(ArtistDatabaseDefinition.TABLE_RELEASES, values, where, whereArgs);
     }
 
     @Override
     public boolean markWatchedIfReleased(boolean isNew, MediaItem mediaItem) {
         return isNew && alreadyReleased(mediaItem) && getMarkWatchedIfAlreadyReleased(context);
+    }
+
+    @Override
+    public String getCoreType() {
+        // TODO: This is a lazy and unneeded implementation. It should be removed
+        return "Artist";
     }
 
     private boolean alreadyReleased(MediaItem mediaItem) {
@@ -284,14 +281,3 @@ public class ArtistDatabase implements Database {
         return cursor.getString(cursor.getColumnIndex(field));
     }
 }
-
-
-
-
-
-
-
-
-
-
-

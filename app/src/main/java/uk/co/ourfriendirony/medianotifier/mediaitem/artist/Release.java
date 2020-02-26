@@ -9,10 +9,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.get.ArtistGetReleaseGroup;
+import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.artist.get.ArtistGetReleaseGroup;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabaseDefinition;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
+import static uk.co.ourfriendirony.medianotifier.general.Helper.getColumnValue;
 import static uk.co.ourfriendirony.medianotifier.general.Helper.stringToDate;
 
 public class Release implements MediaItem {
@@ -30,9 +31,13 @@ public class Release implements MediaItem {
     public Release(ArtistGetReleaseGroup release, String artistId) {
         this.id = artistId;
         this.subid = release.getId();
-        this.title = release.getTitle();
+        if (!release.getDisambiguation().isEmpty()) {
+            this.title = release.getTitle() + " (" + release.getDisambiguation() + ")";
+        } else {
+            this.title = release.getTitle();
+        }
         this.releaseDate = release.getFirstReleaseDate();
-        Log.d("[FROM GET]", this.toString());
+        Log.d("[API GET]", this.toString());
     }
 
     public Release(Cursor cursor) {
@@ -45,10 +50,6 @@ public class Release implements MediaItem {
         this.externalUrl = getColumnValue(cursor, ArtistDatabaseDefinition.EXTERNAL_URL);
 //        this.watched = Boolean.getBoolean(getColumnValue(cursor,ArtistDatabaseDefinition.WATCHED));
         Log.d("[DB READ]", this.toString());
-    }
-
-    private String getColumnValue(Cursor cursor, String field) {
-        return cursor.getString(cursor.getColumnIndex(field));
     }
 
     @Override

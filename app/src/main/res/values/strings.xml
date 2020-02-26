@@ -7,7 +7,9 @@
     <string name="title_library_tvshow">TV Show Library</string>
     <string name="title_library_movie">Movie Library</string>
     <string name="title_library_artist">Artist Library</string>
-    <string name="title_notifications">Released Media</string>
+    <string name="title_unwatched_tvshow">Released TV Shows</string>
+    <string name="title_unwatched_movie">Released Movies</string>
+    <string name="title_unwatched_artist">Released Artists</string>
     <string name="title_settings">Settings</string>
 
     <string name="action_settings">Settings</string>

@@ -21,14 +21,14 @@ public class ActivityMovieUnwatchedComingSoon extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.activity_tv_notifications, container, false);
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.activity_notifications, container, false);
         ListView listView = (ListView) rootView.findViewById(R.id.tv_notification_list);
 
         db = new MovieDatabase(getContext());
         List<MediaItem> mediaItems = db.getUnwatchedTotal();
         if (mediaItems.size() > 0) {
-            ListAdapterSummary listAdapterMovie = new ListAdapterSummary(getContext(), R.layout.list_item_generic_toggle, mediaItems, db);
-            listView.setAdapter(listAdapterMovie);
+            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getContext(), R.layout.list_item_generic_toggle, mediaItems, db);
+            listView.setAdapter(listAdapterSummary);
         }
         return rootView;
     }
