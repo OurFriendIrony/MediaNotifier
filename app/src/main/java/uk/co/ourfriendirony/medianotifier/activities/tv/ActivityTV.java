@@ -53,7 +53,7 @@ public class ActivityTV extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int itemPos, long id) {
                 currentItemPos = itemPos;
-                new ListChildrenAsyncTask(getBaseContext(), db, progressBar, listView).execute(tvShows.get(itemPos).getId());
+                new ListChildrenAsyncTask(getBaseContext(), progressBar, listView, db).execute(tvShows.get(itemPos).getId());
             }
 
             @Override
@@ -74,7 +74,7 @@ public class ActivityTV extends AppCompatActivity {
         switch (menuItem.getItemId()) {
             case R.id.action_refresh:
                 new UpdateAsyncTask(getApplicationContext(), db, client).execute(mediaItem);
-                new ListChildrenAsyncTask(getBaseContext(), db, progressBar, listView).execute(mediaItem.getId());
+                new ListChildrenAsyncTask(getBaseContext(), progressBar, listView, db).execute(mediaItem.getId());
                 return true;
 
             case R.id.action_remove:

@@ -8,6 +8,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,25 +19,25 @@ import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummary;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
 public class FindAsyncTask extends AsyncTask<String, Void, List<MediaItem>> {
-    private final Context context;
+    private final WeakReference<Context> context;
+    private final WeakReference<ProgressBar> progressBar;
+    private final WeakReference<ListView> listView;
     private final Database db;
     private final Client client;
-    private final ProgressBar progressBar;
-    private final ListView listView;
 
-    public FindAsyncTask(Context context, Database db, Client client, ProgressBar progressBar, ListView listView) {
-        this.context = context;
+    public FindAsyncTask(Context context, ProgressBar progressBar, ListView listView, Database db, Client client) {
+        // TODO: I'm pretty sure I can get the listView and the progressBar from the context, instead of this "pass-in" mess
+        this.context = new WeakReference<>(context);
+        this.progressBar = new WeakReference<>(progressBar);
+        this.listView = new WeakReference<>(listView);
         this.db = db;
         this.client = client;
-        this.listView = listView;
-        // TODO: I'm pretty sure there is a better way of feeding the progress bar object in...
-        this.progressBar = progressBar;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        progressBar.setVisibility(View.VISIBLE);
+        progressBar.get().setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -51,13 +52,12 @@ public class FindAsyncTask extends AsyncTask<String, Void, List<MediaItem>> {
 
     @Override
     protected void onPostExecute(List<MediaItem> mediaItems) {
-        progressBar.setVisibility(View.GONE);
-
+        progressBar.get().setVisibility(View.GONE);
         if (mediaItems.size() > 0) {
-            ListAdapterSummary adapter = new ListAdapterSummary(context, R.layout.list_item_generic, mediaItems, db);
-            listView.setAdapter(adapter);
+            ListAdapterSummary adapter = new ListAdapterSummary(context.get(), R.layout.list_item_generic, mediaItems, db);
+            listView.get().setAdapter(adapter);
         } else {
-            Toast.makeText(context, R.string.toast_no_results, Toast.LENGTH_LONG).show();
+            Toast.makeText(context.get(), R.string.toast_no_results, Toast.LENGTH_LONG).show();
         }
     }
 }

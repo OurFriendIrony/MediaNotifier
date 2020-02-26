@@ -47,7 +47,7 @@ public class ActivityArtistFind extends AppCompatActivity {
                     case EditorInfo.IME_ACTION_SEND:
                         String input = textView.getText().toString();
                         if (!"".equals(input)) {
-                            new FindAsyncTask(getBaseContext(), db, client, progressBar, listView).execute(input);
+                            new FindAsyncTask(getBaseContext(), progressBar, listView, db, client).execute(input);
                         }
                         return true;
 
@@ -62,7 +62,7 @@ public class ActivityArtistFind extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView textViewID = (TextView) view.findViewById(R.id.list_item_generic_id);
                 TextView textViewTitle = (TextView) view.findViewById(R.id.list_item_generic_title);
-                new AddAsyncTask(getApplicationContext(), db, client, progressBar).execute(
+                new AddAsyncTask(getApplicationContext(), progressBar, db, client).execute(
                         textViewID.getText().toString(),
                         textViewTitle.getText().toString()
                 );
