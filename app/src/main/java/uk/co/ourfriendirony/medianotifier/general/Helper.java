@@ -7,7 +7,6 @@ import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 public class Helper {
     private static final String[] PREFIXES = new String[]{"A ", "The "};

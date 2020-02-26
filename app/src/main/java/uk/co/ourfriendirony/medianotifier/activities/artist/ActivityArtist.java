@@ -1,6 +1,5 @@
 package uk.co.ourfriendirony.medianotifier.activities.artist;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -46,8 +45,6 @@ public class ActivityArtist extends AppCompatActivity {
         spinnerView = (Spinner) findViewById(R.id.spinner);
         listView = (ListView) findViewById(R.id.list);
         progressBar = (ProgressBar) findViewById(R.id.progress);
-        new ArtistListAsyncTask().execute();
-
         spinnerView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int itemPos, long id) {
@@ -59,6 +56,8 @@ public class ActivityArtist extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+
+        loadPage();
     }
 
     @Override
@@ -90,27 +89,13 @@ public class ActivityArtist extends AppCompatActivity {
         }
     }
 
-    // TODO: Another Async task to migrate
-    private class ArtistListAsyncTask extends AsyncTask<String, Void, Void> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressBar.setVisibility(View.VISIBLE);
+    private void loadPage() {
+        progressBar.setVisibility(View.VISIBLE);
+        artists = db.readAllParentItems();
+        if (artists.size() > 0) {
+            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, artists, db);
+            spinnerView.setAdapter(listAdapterSummary);
         }
-
-        @Override
-        protected Void doInBackground(String... params) {
-            artists = db.readAllParentItems();
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void x) {
-            progressBar.setVisibility(View.GONE);
-            if (artists.size() > 0) {
-                ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, artists, db);
-                spinnerView.setAdapter(listAdapterSummary);
-            }
-        }
+        progressBar.setVisibility(View.GONE);
     }
 }

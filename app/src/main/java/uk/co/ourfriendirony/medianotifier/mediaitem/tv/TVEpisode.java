@@ -50,13 +50,13 @@ public class TVEpisode implements MediaItem {
         Log.d("[DB READ]", this.toString());
     }
 
+    private static String pad(int num, String prefix, int size) {
+        return prefix + String.format(Locale.UK, "%0" + size + "d", num);
+    }
+
     @NonNull
     private String formatSubtitle(TVSeasonGetEpisode episode) {
         return pad(episode.getSeasonNumber(), "S", 2) + pad(episode.getEpisodeNumber(), "E", 2);
-    }
-
-    private static String pad(int num, String prefix, int size) {
-        return prefix + String.format(Locale.UK, "%0" + size + "d", num);
     }
 
     @Override

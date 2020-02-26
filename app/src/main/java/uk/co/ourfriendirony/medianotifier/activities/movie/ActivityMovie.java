@@ -1,7 +1,6 @@
 package uk.co.ourfriendirony.medianotifier.activities.movie;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -47,8 +46,6 @@ public class ActivityMovie extends AppCompatActivity {
         spinnerView = (Spinner) findViewById(R.id.spinner);
         listView = (ListView) findViewById(R.id.list);
         progressBar = (ProgressBar) findViewById(R.id.progress);
-        new MovieListAsyncTask().execute();
-
         spinnerView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int itemPos, long id) {
@@ -60,6 +57,7 @@ public class ActivityMovie extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+        loadPage();
     }
 
     @Override
@@ -92,26 +90,13 @@ public class ActivityMovie extends AppCompatActivity {
         }
     }
 
-    private class MovieListAsyncTask extends AsyncTask<String, Void, Void> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressBar.setVisibility(View.VISIBLE);
+    private void loadPage() {
+        progressBar.setVisibility(View.VISIBLE);
+        movies = db.readAllParentItems();
+        if (movies.size() > 0) {
+            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, movies, db);
+            spinnerView.setAdapter(listAdapterSummary);
         }
-
-        @Override
-        protected Void doInBackground(String... params) {
-            movies = db.readAllParentItems();
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void x) {
-            progressBar.setVisibility(View.GONE);
-            if (movies.size() > 0) {
-                ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, movies, db);
-                spinnerView.setAdapter(listAdapterSummary);
-            }
-        }
+        progressBar.setVisibility(View.GONE);
     }
 }
