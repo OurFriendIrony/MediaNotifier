@@ -62,6 +62,10 @@ public class TVShow implements MediaItem {
         Log.d("[DB READ]", this.toString());
     }
 
+    public TVShow(Cursor cursor) {
+        this(cursor, new ArrayList<MediaItem>());
+    }
+
     @Override
     public String getId() {
         return id;

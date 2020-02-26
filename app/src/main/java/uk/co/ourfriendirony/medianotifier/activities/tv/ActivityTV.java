@@ -92,13 +92,6 @@ public class ActivityTV extends AppCompatActivity {
         }
     }
 
-    private void displayShows() {
-        if (tvShows.size() > 0) {
-            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, tvShows, db);
-            spinnerView.setAdapter(listAdapterSummary);
-        }
-    }
-
     private class TVShowListAsyncTask extends AsyncTask<String, Void, Void> {
         @Override
         protected void onPreExecute() {
@@ -108,14 +101,17 @@ public class ActivityTV extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(String... params) {
-            tvShows = db.getAll();
+            tvShows = db.readAllParentItems();
             return null;
         }
 
         @Override
         protected void onPostExecute(Void x) {
             progressBar.setVisibility(View.GONE);
-            displayShows();
+            if (tvShows.size() > 0) {
+                ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, tvShows, db);
+                spinnerView.setAdapter(listAdapterSummary);
+            }
         }
     }
 }

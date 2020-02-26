@@ -167,7 +167,7 @@ public class MovieDatabase implements Database {
     }
 
     @Override
-    public List<MediaItem> getAll() {
+    public List<MediaItem> readAllItems() {
         List<MediaItem> mediaItems = new ArrayList<>();
         Cursor cursor = dbWritable.rawQuery(SELECT_MOVIES, null);
         try {
@@ -181,7 +181,22 @@ public class MovieDatabase implements Database {
     }
 
     @Override
-    public List<MediaItem> getAllSubitems(String id) {
+    public List<MediaItem> readAllParentItems() {
+        List<MediaItem> mediaItems = new ArrayList<>();
+        Cursor cursor = dbWritable.rawQuery(SELECT_MOVIES, null);
+        try {
+            while (cursor.moveToNext()) {
+                mediaItems.add(new Movie(cursor));
+            }
+        } finally {
+            cursor.close();
+        }
+        return mediaItems;
+    }
+
+    @Override
+    public List<MediaItem> readChildItems(String id) {
+        // TODO: Movies don't have child items. Currently just return the main item as if it was the child until the display is updated
         List<MediaItem> mediaItems = new ArrayList<>();
         String[] args = {id};
         Cursor cursor = dbWritable.rawQuery(SELECT_MOVIES_BY_ID, args);

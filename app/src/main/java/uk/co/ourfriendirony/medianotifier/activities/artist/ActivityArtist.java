@@ -90,13 +90,6 @@ public class ActivityArtist extends AppCompatActivity {
         }
     }
 
-    private void displayArtists() {
-        if (artists.size() > 0) {
-            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, artists, db);
-            spinnerView.setAdapter(listAdapterSummary);
-        }
-    }
-
     // TODO: Another Async task to migrate
     private class ArtistListAsyncTask extends AsyncTask<String, Void, Void> {
         @Override
@@ -107,14 +100,17 @@ public class ActivityArtist extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(String... params) {
-            artists = db.getAll();
+            artists = db.readAllParentItems();
             return null;
         }
 
         @Override
         protected void onPostExecute(Void x) {
             progressBar.setVisibility(View.GONE);
-            displayArtists();
+            if (artists.size() > 0) {
+                ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, artists, db);
+                spinnerView.setAdapter(listAdapterSummary);
+            }
         }
     }
 }

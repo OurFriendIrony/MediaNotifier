@@ -26,7 +26,7 @@ import static uk.co.ourfriendirony.medianotifier.general.Helper.dateToString;
 
 public class TVShowDatabase implements Database {
     private static final String SELECT_TVSHOWS = "SELECT * FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS + " ORDER BY " + TVShowDatabaseDefinition.TITLE + " ASC;";
-    private static final String SELECT_TVEPISODES = "SELECT * FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " WHERE " + TVShowDatabaseDefinition.ID + "=? ORDER BY " + TVShowDatabaseDefinition.SUBTITLE + " ASC;";
+    private static final String SELECT_TVEPISODES_BY_ID = "SELECT * FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " WHERE " + TVShowDatabaseDefinition.ID + "=? ORDER BY " + TVShowDatabaseDefinition.SUBTITLE + " ASC;";
 
     private static final String GET_TVEPISODE_WATCHED_STATUS = "SELECT " + TVShowDatabaseDefinition.WATCHED + " FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " WHERE " + TVShowDatabaseDefinition.ID + "=? AND " + TVShowDatabaseDefinition.SUBTITLE + "=?;";
 
@@ -154,7 +154,7 @@ public class TVShowDatabase implements Database {
         String id = getColumnValue(cursor, TVShowDatabaseDefinition.ID);
         List<MediaItem> episodes = new ArrayList<>();
 
-        Cursor subCursor = dbWritable.rawQuery(SELECT_TVEPISODES, new String[]{id});
+        Cursor subCursor = dbWritable.rawQuery(SELECT_TVEPISODES_BY_ID, new String[]{id});
         try {
             while (subCursor.moveToNext()) {
                 episodes.add(buildSubItemFromDB(subCursor));
@@ -210,30 +210,44 @@ public class TVShowDatabase implements Database {
     }
 
     @Override
-    public List<MediaItem> getAll() {
-        List<MediaItem> shows = new ArrayList<>();
+    public List<MediaItem> readAllItems() {
+        List<MediaItem> mediaItems = new ArrayList<>();
         Cursor cursor = dbWritable.rawQuery(SELECT_TVSHOWS, null);
         try {
             while (cursor.moveToNext()) {
-                shows.add(buildItemFromDB(cursor));
+                mediaItems.add(buildItemFromDB(cursor));
             }
         } finally {
             cursor.close();
         }
-        return shows;
+        return mediaItems;
     }
 
     @Override
-    public List<MediaItem> getAllSubitems(String id) {
+    public List<MediaItem> readAllParentItems() {
         List<MediaItem> mediaItems = new ArrayList<>();
-        String[] args = {id};
-        Cursor tvShowCursor = dbWritable.rawQuery(SELECT_TVEPISODES, args);
+        Cursor cursor = dbWritable.rawQuery(SELECT_TVSHOWS, null);
         try {
-            while (tvShowCursor.moveToNext()) {
-                mediaItems.add(buildItemFromDB(tvShowCursor));
+            while (cursor.moveToNext()) {
+                mediaItems.add(new TVShow(cursor));
             }
         } finally {
-            tvShowCursor.close();
+            cursor.close();
+        }
+        return mediaItems;
+    }
+
+    @Override
+    public List<MediaItem> readChildItems(String id) {
+        List<MediaItem> mediaItems = new ArrayList<>();
+        String[] args = {id};
+        Cursor cursor = dbWritable.rawQuery(SELECT_TVEPISODES_BY_ID, args);
+        try {
+            while (cursor.moveToNext()) {
+                mediaItems.add(buildSubItemFromDB(cursor));
+            }
+        } finally {
+            cursor.close();
         }
         return mediaItems;
     }

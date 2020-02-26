@@ -55,11 +55,11 @@ public class Artist implements MediaItem {
         if (artist.getLifeSpan() != null && artist.getLifeSpan().getBegin() != null) {
             this.releaseDate = artist.getLifeSpan().getBegin();
         }
-        this.children = children;
         Log.d("[FROM GET]", this.toString());
     }
 
     public Artist(Cursor cursor, List<MediaItem> releases) {
+        // Build Artist from DB with children
         this.id = getColumnValue(cursor, ArtistDatabaseDefinition.ID);
         this.subid = getColumnValue(cursor, ArtistDatabaseDefinition.SUBID);
         this.title = getColumnValue(cursor, ArtistDatabaseDefinition.TITLE);
@@ -67,6 +67,11 @@ public class Artist implements MediaItem {
         this.releaseDate = stringToDate(getColumnValue(cursor, ArtistDatabaseDefinition.RELEASE_DATE));
         this.children = releases;
         Log.d("[FROM DB]", this.toString());
+    }
+
+    public Artist(Cursor cursor) {
+        // Build Artist from DB without children
+        this(cursor, new ArrayList<MediaItem>());
     }
 
     @Override

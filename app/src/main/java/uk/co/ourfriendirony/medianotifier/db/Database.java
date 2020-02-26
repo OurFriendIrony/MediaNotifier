@@ -25,9 +25,11 @@ public interface Database {
 
     List<MediaItem> getUnwatched(String getQuery, String logTag);
 
-    List<MediaItem> getAll();
+    List<MediaItem> readAllItems();
 
-    List<MediaItem> getAllSubitems(String id);
+    List<MediaItem> readAllParentItems();
+
+    List<MediaItem> readChildItems(String id);
 
     void updateWatchedStatus(MediaItem mediaItem, String watchedStatus);
 

@@ -26,7 +26,8 @@ import static uk.co.ourfriendirony.medianotifier.general.Helper.dateToString;
 
 public class ArtistDatabase implements Database {
     private static final String SELECT_ARTISTS = "SELECT * FROM " + ArtistDatabaseDefinition.TABLE_ARTISTS + " ORDER BY " + ArtistDatabaseDefinition.TITLE + " ASC;";
-    private static final String SELECT_RELEASES = "SELECT * FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " WHERE " + ArtistDatabaseDefinition.ID + "=? ORDER BY " + ArtistDatabaseDefinition.RELEASE_DATE + " ASC;";
+    private static final String SELECT_ARTISTS_BY_ID = "SELECT * FROM " + ArtistDatabaseDefinition.TABLE_ARTISTS + " WHERE " + ArtistDatabaseDefinition.ID + "=? ORDER BY " + ArtistDatabaseDefinition.TITLE + " ASC;";
+    private static final String SELECT_RELEASES_BY_ID = "SELECT * FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " WHERE " + ArtistDatabaseDefinition.ID + "=? ORDER BY " + ArtistDatabaseDefinition.RELEASE_DATE + " ASC;";
 
     private static final String GET_RELEASE_WATCHED_STATUS = "SELECT " + ArtistDatabaseDefinition.WATCHED + " FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " WHERE " + ArtistDatabaseDefinition.ID + "=? AND " + ArtistDatabaseDefinition.SUBID + "=?;";
 
@@ -153,7 +154,7 @@ public class ArtistDatabase implements Database {
 
         String id = getColumnValue(cursor, ArtistDatabaseDefinition.ID);
         List<MediaItem> releases = new ArrayList<>();
-        Cursor subCursor = dbWritable.rawQuery(SELECT_RELEASES, new String[]{id});
+        Cursor subCursor = dbWritable.rawQuery(SELECT_RELEASES_BY_ID, new String[]{id});
         try {
             while (subCursor.moveToNext()) {
                 releases.add(buildSubItemFromDB(subCursor));
@@ -207,30 +208,44 @@ public class ArtistDatabase implements Database {
     }
 
     @Override
-    public List<MediaItem> getAll() {
-        List<MediaItem> artists = new ArrayList<>();
+    public List<MediaItem> readAllItems() {
+        List<MediaItem> mediaItems = new ArrayList<>();
         Cursor cursor = dbWritable.rawQuery(SELECT_ARTISTS, null);
         try {
             while (cursor.moveToNext()) {
-                artists.add(buildItemFromDB(cursor));
+                mediaItems.add(buildItemFromDB(cursor));
             }
         } finally {
             cursor.close();
         }
-        return artists;
+        return mediaItems;
     }
 
     @Override
-    public List<MediaItem> getAllSubitems(String id) {
+    public List<MediaItem> readAllParentItems() {
         List<MediaItem> mediaItems = new ArrayList<>();
-        String[] args = {id};
-        Cursor tvShowCursor = dbWritable.rawQuery(SELECT_RELEASES, args);
+        Cursor cursor = dbWritable.rawQuery(SELECT_ARTISTS, null);
         try {
-            while (tvShowCursor.moveToNext()) {
-                mediaItems.add(buildItemFromDB(tvShowCursor));
+            while (cursor.moveToNext()) {
+                mediaItems.add(new Artist(cursor));
             }
         } finally {
-            tvShowCursor.close();
+            cursor.close();
+        }
+        return mediaItems;
+    }
+
+    @Override
+    public List<MediaItem> readChildItems(String id) {
+        List<MediaItem> mediaItems = new ArrayList<>();
+        String[] args = {id};
+        Cursor cursor = dbWritable.rawQuery(SELECT_RELEASES_BY_ID, args);
+        try {
+            while (cursor.moveToNext()) {
+                mediaItems.add(buildSubItemFromDB(cursor));
+            }
+        } finally {
+            cursor.close();
         }
         return mediaItems;
     }

@@ -92,13 +92,6 @@ public class ActivityMovie extends AppCompatActivity {
         }
     }
 
-    private void display() {
-        if (movies.size() > 0) {
-            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, movies, db);
-            spinnerView.setAdapter(listAdapterSummary);
-        }
-    }
-
     private class MovieListAsyncTask extends AsyncTask<String, Void, Void> {
         @Override
         protected void onPreExecute() {
@@ -108,14 +101,17 @@ public class ActivityMovie extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(String... params) {
-            movies = db.getAll();
+            movies = db.readAllParentItems();
             return null;
         }
 
         @Override
         protected void onPostExecute(Void x) {
             progressBar.setVisibility(View.GONE);
-            display();
+            if (movies.size() > 0) {
+                ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, movies, db);
+                spinnerView.setAdapter(listAdapterSummary);
+            }
         }
     }
 }

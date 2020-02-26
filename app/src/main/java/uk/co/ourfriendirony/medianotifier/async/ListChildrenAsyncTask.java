@@ -9,12 +9,12 @@ import android.widget.ProgressBar;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.clients.Client;
 import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummary;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
 public class ListChildrenAsyncTask extends AsyncTask<String, Void, List<MediaItem>> {
+    // TODO: What the fuck is a 'static field leak' of the context object
     private final Context context;
     private final Database db;
     private final ProgressBar progressBar;
@@ -37,7 +37,7 @@ public class ListChildrenAsyncTask extends AsyncTask<String, Void, List<MediaIte
     @Override
     protected List<MediaItem> doInBackground(String... params) {
         String id = params[0];
-        return db.getAllSubitems(id);
+        return db.readChildItems(id);
     }
 
     @Override
