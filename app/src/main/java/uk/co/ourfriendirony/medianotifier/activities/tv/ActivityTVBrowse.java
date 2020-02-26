@@ -1,4 +1,4 @@
-package uk.co.ourfriendirony.medianotifier.activities.movie;
+package uk.co.ourfriendirony.medianotifier.activities.tv;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,31 +17,31 @@ import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.async.ListChildrenAsyncTask;
 import uk.co.ourfriendirony.medianotifier.async.UpdateAsyncTask;
 import uk.co.ourfriendirony.medianotifier.clients.Client;
-import uk.co.ourfriendirony.medianotifier.clients.MovieClient;
+import uk.co.ourfriendirony.medianotifier.clients.TVClient;
 import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
-import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
+import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummary;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
-public class ActivityMovie extends AppCompatActivity {
+public class ActivityTVBrowse extends AppCompatActivity {
     private Spinner spinnerView;
     private ListView listView;
-    private List<MediaItem> movies;
+    private List<MediaItem> tvShows;
     private ProgressBar progressBar;
     private int currentItemPos;
     private Database db;
-    private Client client = new MovieClient();
+    private Client client = new TVClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setTheme(PropertyHelper.getTheme(getBaseContext()));
-        super.getSupportActionBar().setTitle(R.string.title_library_movie);
+        super.getSupportActionBar().setTitle(R.string.title_library_tvshow);
         super.setContentView(R.layout.activity_list);
 
-        db = new MovieDatabase(getBaseContext());
+        db = new TVShowDatabase(getBaseContext());
 
         spinnerView = (Spinner) findViewById(R.id.spinner);
         listView = (ListView) findViewById(R.id.list);
@@ -50,7 +50,7 @@ public class ActivityMovie extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int itemPos, long id) {
                 currentItemPos = itemPos;
-                new ListChildrenAsyncTask(getBaseContext(), progressBar, listView, db).execute(movies.get(itemPos).getId());
+                new ListChildrenAsyncTask(getBaseContext(), progressBar, listView, db).execute(tvShows.get(itemPos).getId());
             }
 
             @Override
@@ -68,7 +68,7 @@ public class ActivityMovie extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
-        MediaItem mediaItem = movies.get(currentItemPos);
+        MediaItem mediaItem = tvShows.get(currentItemPos);
         switch (menuItem.getItemId()) {
             case R.id.action_refresh:
                 new UpdateAsyncTask(getApplicationContext(), db, client).execute(mediaItem);
@@ -92,9 +92,9 @@ public class ActivityMovie extends AppCompatActivity {
 
     private void loadPage() {
         progressBar.setVisibility(View.VISIBLE);
-        movies = db.readAllParentItems();
-        if (movies.size() > 0) {
-            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, movies, db);
+        tvShows = db.readAllParentItems();
+        if (tvShows.size() > 0) {
+            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, tvShows, db);
             spinnerView.setAdapter(listAdapterSummary);
         }
         progressBar.setVisibility(View.GONE);

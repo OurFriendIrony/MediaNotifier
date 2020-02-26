@@ -27,8 +27,8 @@ public class ActivityMovieUnwatchedComingSoon extends Fragment {
         db = new MovieDatabase(getContext());
         List<MediaItem> mediaItems = db.getUnwatchedTotal();
         if (mediaItems.size() > 0) {
-            ListAdapterSummary listAdapterMovie = new ListAdapterSummary(getContext(), R.layout.list_item_generic_toggle, mediaItems, db);
-            listView.setAdapter(listAdapterMovie);
+            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getContext(), R.layout.list_item_generic_toggle, mediaItems, db);
+            listView.setAdapter(listAdapterSummary);
         }
         return rootView;
     }

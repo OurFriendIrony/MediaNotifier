@@ -10,24 +10,25 @@ import android.widget.ListView;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
+import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummary;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
 public class ActivityTVUnwatchedReleased extends Fragment {
 
-    private TVShowDatabase database;
+    private Database db;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.activity_notifications, container, false);
         ListView listView = (ListView) rootView.findViewById(R.id.tv_notification_list);
 
-        database = new TVShowDatabase(getContext());
-        List<MediaItem> tvEpisodes = database.getUnwatchedReleased();
-        if (tvEpisodes.size() > 0) {
-            ListAdapterSummary listAdapterTVEpisode = new ListAdapterSummary(getContext(), R.layout.list_item_generic_toggle, tvEpisodes, database);
-            listView.setAdapter(listAdapterTVEpisode);
+        db = new TVShowDatabase(getContext());
+        List<MediaItem> mediaItems = db.getUnwatchedReleased();
+        if (mediaItems.size() > 0) {
+            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getContext(), R.layout.list_item_generic_toggle, mediaItems, db);
+            listView.setAdapter(listAdapterSummary);
         }
         return rootView;
     }

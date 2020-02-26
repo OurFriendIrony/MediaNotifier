@@ -21,13 +21,13 @@
         </activity>
         <activity android:name=".activities.ActivityMain" />
         <activity android:name=".activities.ActivitySettings" />
-        <activity android:name=".activities.movie.ActivityMovie" />
+        <activity android:name=".activities.movie.ActivityMovieBrowse" />
         <activity android:name=".activities.movie.ActivityMovieFind" />
         <activity android:name=".activities.movie.ActivityMovieUnwatched" />
-        <activity android:name=".activities.tv.ActivityTV" />
+        <activity android:name=".activities.tv.ActivityTVBrowse" />
         <activity android:name=".activities.tv.ActivityTVFind" />
         <activity android:name=".activities.tv.ActivityTVUnwatched" />
-        <activity android:name=".activities.artist.ActivityArtist" />
+        <activity android:name=".activities.artist.ActivityArtistBrowse" />
         <activity android:name=".activities.artist.ActivityArtistFind" />
         <activity android:name=".activities.artist.ActivityArtistUnwatched" />
         <receiver android:name=".notifier.BootReceiver">

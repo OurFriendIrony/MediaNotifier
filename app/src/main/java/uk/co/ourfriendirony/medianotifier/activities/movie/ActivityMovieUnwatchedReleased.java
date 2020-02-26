@@ -10,13 +10,14 @@ import android.widget.ListView;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
+import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummary;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
 public class ActivityMovieUnwatchedReleased extends Fragment {
 
-    private MovieDatabase db;
+    private Database db;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -26,8 +27,8 @@ public class ActivityMovieUnwatchedReleased extends Fragment {
         db = new MovieDatabase(getContext());
         List<MediaItem> mediaItems = db.getUnwatchedReleased();
         if (mediaItems.size() > 0) {
-            ListAdapterSummary listAdapterMovie = new ListAdapterSummary(getContext(), R.layout.list_item_generic_toggle, mediaItems, db);
-            listView.setAdapter(listAdapterMovie);
+            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getContext(), R.layout.list_item_generic_toggle, mediaItems, db);
+            listView.setAdapter(listAdapterSummary);
         }
         return rootView;
     }

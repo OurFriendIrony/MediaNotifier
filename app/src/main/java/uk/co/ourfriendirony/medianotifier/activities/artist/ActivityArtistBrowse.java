@@ -24,7 +24,7 @@ import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummary;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
-public class ActivityArtist extends AppCompatActivity {
+public class ActivityArtistBrowse extends AppCompatActivity {
     private Spinner spinnerView;
     private ListView listView;
     private List<MediaItem> artists;
@@ -81,7 +81,7 @@ public class ActivityArtist extends AppCompatActivity {
                 return true;
 
             case R.id.action_lookup:
-                Toast.makeText(ActivityArtist.this, "NOT YET IMPLEMENTED", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ActivityArtistBrowse.this, "NOT YET IMPLEMENTED", Toast.LENGTH_SHORT).show();
                 return true;
 
             default:
