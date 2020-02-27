@@ -1,4 +1,4 @@
-package uk.co.ourfriendirony.medianotifier.activities.movie;
+package uk.co.ourfriendirony.medianotifier.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -17,32 +18,38 @@ import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.async.ListChildrenAsyncTask;
 import uk.co.ourfriendirony.medianotifier.async.UpdateAsyncTask;
 import uk.co.ourfriendirony.medianotifier.clients.Client;
-import uk.co.ourfriendirony.medianotifier.clients.MovieClient;
+import uk.co.ourfriendirony.medianotifier.clients.ClientFactory;
 import uk.co.ourfriendirony.medianotifier.db.Database;
+import uk.co.ourfriendirony.medianotifier.db.DatabaseFactory;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
-import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
 import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummary;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
-public class ActivityMovieLibrary extends AppCompatActivity {
+import static uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY;
+
+public class ActivityLibrary extends AppCompatActivity {
     private Spinner spinnerView;
     private ListView listView;
-    private List<MediaItem> movies;
+    private List<MediaItem> mediaItems;
     private ProgressBar progressBar;
     private int currentItemPos;
     private Database db;
-    private Client client = new MovieClient();
+    private Client client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.setTheme(PropertyHelper.getTheme(getBaseContext()));
-        super.setContentView(R.layout.activity_list);
-        getSupportActionBar().setTitle(R.string.title_library_movie);
+
+        String intentKey = getIntent().getExtras().getString(INTENT_KEY);
+
+        setTheme(PropertyHelper.getTheme(getBaseContext()));
+        setContentView(R.layout.activity_list);
+        getSupportActionBar().setTitle(intentKey + " Library");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        db = new MovieDatabase(getBaseContext());
+        db = new DatabaseFactory().getDatabase(getBaseContext(), intentKey);
+        client = new ClientFactory().getClient(intentKey);
 
         spinnerView = (Spinner) findViewById(R.id.spinner);
         listView = (ListView) findViewById(R.id.list);
@@ -51,7 +58,7 @@ public class ActivityMovieLibrary extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int itemPos, long id) {
                 currentItemPos = itemPos;
-                new ListChildrenAsyncTask(getBaseContext(), progressBar, listView, db).execute(movies.get(itemPos).getId());
+                new ListChildrenAsyncTask(getBaseContext(), progressBar, listView, db).execute(mediaItems.get(itemPos).getId());
             }
 
             @Override
@@ -69,7 +76,7 @@ public class ActivityMovieLibrary extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
-        MediaItem mediaItem = movies.get(currentItemPos);
+        MediaItem mediaItem = mediaItems.get(currentItemPos);
         switch (menuItem.getItemId()) {
             case R.id.action_refresh:
                 new UpdateAsyncTask(getApplicationContext(), db, client).execute(mediaItem);
@@ -82,8 +89,12 @@ public class ActivityMovieLibrary extends AppCompatActivity {
                 return true;
 
             case R.id.action_lookup:
-                Intent intent = IntentGenerator.getWebPageIntent(mediaItem.getExternalLink());
-                startActivity(intent);
+                if (mediaItem.getExternalLink() != null) {
+                    Intent intent = IntentGenerator.getWebPageIntent(mediaItem.getExternalLink());
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(this, "No External Link", Toast.LENGTH_SHORT).show();
+                }
                 return true;
 
             default:
@@ -93,9 +104,9 @@ public class ActivityMovieLibrary extends AppCompatActivity {
 
     private void loadPage() {
         progressBar.setVisibility(View.VISIBLE);
-        movies = db.readAllParentItems();
-        if (movies.size() > 0) {
-            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, movies, db);
+        mediaItems = db.readAllParentItems();
+        if (mediaItems.size() > 0) {
+            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, mediaItems, db);
             spinnerView.setAdapter(listAdapterSummary);
         }
         progressBar.setVisibility(View.GONE);

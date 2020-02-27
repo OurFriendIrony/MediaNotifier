@@ -25,15 +25,6 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.activities.artist.ActivityArtistLibrary;
-import uk.co.ourfriendirony.medianotifier.activities.artist.ActivityArtistFind;
-import uk.co.ourfriendirony.medianotifier.activities.artist.ActivityArtistUnwatched;
-import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovieLibrary;
-import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovieFind;
-import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovieUnwatched;
-import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVLibrary;
-import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVFind;
-import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVUnwatched;
 import uk.co.ourfriendirony.medianotifier.async.UpdateAsyncTask;
 import uk.co.ourfriendirony.medianotifier.clients.ArtistClient;
 import uk.co.ourfriendirony.medianotifier.clients.MovieClient;
@@ -47,6 +38,10 @@ import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.switchTheme;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.ARTIST;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.MOVIE;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.TVSHOW;
 import static uk.co.ourfriendirony.medianotifier.general.Helper.getNotificationNumber;
 import static uk.co.ourfriendirony.medianotifier.general.IntentGenerator.getContactEmailIntent;
 
@@ -82,69 +77,16 @@ public class ActivityMain extends AppCompatActivity {
         main_button_movie_notification = (TextView) findViewById(R.id.main_button_movie_notification);
         main_button_artist_notification = (TextView) findViewById(R.id.main_button_artist_notification);
 
-        Button main_button_tv = (Button) findViewById(R.id.main_button_tv);
-        Button main_button_movie = (Button) findViewById(R.id.main_button_movie);
-        Button main_button_artist = (Button) findViewById(R.id.main_button_artist);
+        Button main_button_tv_library = (Button) findViewById(R.id.main_button_tv);
+        Button main_button_movie_library = (Button) findViewById(R.id.main_button_movie);
+        Button main_button_artist_library = (Button) findViewById(R.id.main_button_artist);
 
         ImageView tmdbImage = (ImageView) findViewById(R.id.badge_tmdb);
         ImageView musicbrainzImage = (ImageView) findViewById(R.id.badge_musicbrainz);
 
-        main_button_tv_find.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), ActivityTVFind.class));
-            }
-        });
-        main_button_movie_find.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), ActivityMovieFind.class));
-            }
-        });
-        main_button_artist_find.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), ActivityArtistFind.class));
-            }
-        });
-
-        main_button_tv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), ActivityTVLibrary.class));
-            }
-        });
-        main_button_movie.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), ActivityMovieLibrary.class));
-            }
-        });
-        main_button_artist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), ActivityArtistLibrary.class));
-            }
-        });
-
-        main_button_tv_notification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), ActivityTVUnwatched.class));
-            }
-        });
-        main_button_movie_notification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), ActivityMovieUnwatched.class));
-            }
-        });
-        main_button_artist_notification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), ActivityArtistUnwatched.class));
-            }
-        });
+        setupFindButtons(main_button_tv_find, main_button_movie_find, main_button_artist_find);
+        setupLibraryButtons(main_button_tv_library, main_button_movie_library, main_button_artist_library);
+        setupNotificationButtons();
 
         tmdbImage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -154,6 +96,79 @@ public class ActivityMain extends AppCompatActivity {
         musicbrainzImage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 startActivity(IntentGenerator.getWebPageIntent("https://musicbrainz.org/"));
+            }
+        });
+    }
+
+    private void setupLibraryButtons(Button main_button_tv, Button main_button_movie, Button main_button_artist) {
+        main_button_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), ActivityLibrary.class).putExtra(INTENT_KEY, TVSHOW);
+                startActivity(intent);
+            }
+        });
+        main_button_movie.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), ActivityLibrary.class).putExtra(INTENT_KEY, MOVIE);
+                startActivity(intent);
+            }
+        });
+        main_button_artist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), ActivityLibrary.class).putExtra(INTENT_KEY, ARTIST);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void setupFindButtons(FloatingActionButton main_button_tv_find, FloatingActionButton main_button_movie_find, FloatingActionButton main_button_artist_find) {
+        main_button_tv_find.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), ActivityFind.class).putExtra(INTENT_KEY, TVSHOW);
+                startActivity(intent);
+            }
+        });
+        main_button_movie_find.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), ActivityFind.class).putExtra(INTENT_KEY, MOVIE);
+                startActivity(intent);
+            }
+        });
+        main_button_artist_find.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), ActivityFind.class).putExtra(INTENT_KEY, ARTIST);
+                startActivity(intent);
+            }
+        });
+    }
+
+
+    private void setupNotificationButtons() {
+        main_button_tv_notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), ActivityUnwatched.class).putExtra(INTENT_KEY, TVSHOW);
+                startActivity(intent);
+            }
+        });
+        main_button_movie_notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), ActivityUnwatched.class).putExtra(INTENT_KEY, MOVIE);
+                startActivity(intent);
+            }
+        });
+        main_button_artist_notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), ActivityUnwatched.class).putExtra(INTENT_KEY, ARTIST);
+                startActivity(intent);
             }
         });
     }
