@@ -21,6 +21,13 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <ProgressBar
+                android:id="@+id/main_progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:background="?attr/colorBackgroundDefault" />
+
             <RelativeLayout
                 style="@style/style_input"
                 android:layout_width="match_parent"
@@ -166,15 +173,6 @@
                 android:paddingStart="5dp"
                 android:text="@string/footer_text"
                 android:textColor="?attr/colorTextPrimary" />
-
-            <ProgressBar
-                android:id="@+id/main_progress"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignBottom="@+id/main_footer_text"
-                android:layout_alignTop="@+id/main_footer_text"
-                android:layout_toEndOf="@id/main_footer_text"
-                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/badge_tmdb"

@@ -2,7 +2,6 @@ package uk.co.ourfriendirony.medianotifier.activities.async;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -10,8 +9,8 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.activities.viewadapter.ListAdapterSummary;
+import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
 public class ListChildren extends AsyncTask<String, Void, List<MediaItem>> {
@@ -30,7 +29,7 @@ public class ListChildren extends AsyncTask<String, Void, List<MediaItem>> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        progressBar.get().setVisibility(View.VISIBLE);
+        progressBar.get().setIndeterminate(true);
     }
 
     @Override
@@ -41,7 +40,7 @@ public class ListChildren extends AsyncTask<String, Void, List<MediaItem>> {
 
     @Override
     protected void onPostExecute(final List<MediaItem> children) {
-        progressBar.get().setVisibility(View.GONE);
+        progressBar.get().setIndeterminate(false);
         ListAdapterSummary adapter = new ListAdapterSummary(context.get(), R.layout.list_item_generic_toggle, children, db);
         listView.get().setAdapter(adapter);
         listView.get().setSelection(children.size());

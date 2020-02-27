@@ -30,7 +30,7 @@ public class AddMediaItem extends AsyncTask<String, Void, String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        progressBar.get().setVisibility(View.VISIBLE);
+        progressBar.get().setIndeterminate(true);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class AddMediaItem extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String toastMsg) {
-        progressBar.get().setVisibility(View.GONE);
+        progressBar.get().setIndeterminate(false);
         Toast.makeText(context.get(), toastMsg, Toast.LENGTH_SHORT).show();
     }
 }

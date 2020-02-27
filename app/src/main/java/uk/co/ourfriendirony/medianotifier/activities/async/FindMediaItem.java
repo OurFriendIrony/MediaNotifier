@@ -36,7 +36,7 @@ public class FindMediaItem extends AsyncTask<String, Void, List<MediaItem>> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        progressBar.get().setVisibility(View.VISIBLE);
+        progressBar.get().setIndeterminate(true);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class FindMediaItem extends AsyncTask<String, Void, List<MediaItem>> {
 
     @Override
     protected void onPostExecute(List<MediaItem> mediaItems) {
-        progressBar.get().setVisibility(View.GONE);
+        progressBar.get().setIndeterminate(false);
         if (mediaItems.size() > 0) {
             ListAdapterSummary adapter = new ListAdapterSummary(context.get(), R.layout.list_item_generic, mediaItems, db);
             listView.get().setAdapter(adapter);
