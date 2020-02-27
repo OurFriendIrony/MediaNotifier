@@ -1,4 +1,4 @@
-package uk.co.ourfriendirony.medianotifier.activities.movie;
+package uk.co.ourfriendirony.medianotifier.activities;
 
 import android.app.NotificationManager;
 import android.content.Context;
@@ -7,10 +7,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import uk.co.ourfriendirony.medianotifier.R;
+import uk.co.ourfriendirony.medianotifier.activities.pageradapter.UnwatchedPagerAdapter;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
-import uk.co.ourfriendirony.medianotifier.pageradapter.ActivityMoviePagerAdapter;
 
-public class ActivityMovieUnwatched extends AppCompatActivity {
+import static uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY;
+
+public class ActivityUnwatched extends AppCompatActivity {
 
     private ViewPager mPager;
     private android.support.v4.view.PagerAdapter mPagerAdapter;
@@ -18,15 +20,18 @@ public class ActivityMovieUnwatched extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.setTheme(PropertyHelper.getTheme(getBaseContext()));
-        super.setContentView(R.layout.activity_core);
-        getSupportActionBar().setTitle(R.string.title_unwatched_movie);
+
+        String intentKey = getIntent().getExtras().getString(INTENT_KEY);
+
+        setTheme(PropertyHelper.getTheme(getBaseContext()));
+        setContentView(R.layout.activity_core);
+        getSupportActionBar().setTitle("Released " + intentKey + "s");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         cancelNotifications();
 
         mPager = (ViewPager) findViewById(R.id.pager);
-        mPagerAdapter = new ActivityMoviePagerAdapter(getSupportFragmentManager());
+        mPagerAdapter = new UnwatchedPagerAdapter(getSupportFragmentManager(), intentKey);
         mPager.setAdapter(mPagerAdapter);
     }
 

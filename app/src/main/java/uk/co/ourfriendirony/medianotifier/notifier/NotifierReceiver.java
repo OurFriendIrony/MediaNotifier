@@ -12,12 +12,15 @@ import android.support.v4.app.NotificationCompat;
 import java.text.MessageFormat;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.activities.artist.ActivityArtistUnwatched;
-import uk.co.ourfriendirony.medianotifier.activities.movie.ActivityMovieUnwatched;
-import uk.co.ourfriendirony.medianotifier.activities.tv.ActivityTVUnwatched;
+import uk.co.ourfriendirony.medianotifier.activities.ActivityUnwatched;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
+
+import static uk.co.ourfriendirony.medianotifier.general.Constants.ARTIST;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.MOVIE;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.TVSHOW;
 
 public class NotifierReceiver extends BroadcastReceiver {
     int unwatchedEpisodes = 0;
@@ -51,13 +54,13 @@ public class NotifierReceiver extends BroadcastReceiver {
     @NonNull
     private Intent getNotificationIntent(Context context) {
         if (unwatchedEpisodes > 0) {
-            return new Intent(context, ActivityTVUnwatched.class);
+            return new Intent(context, ActivityUnwatched.class).putExtra(INTENT_KEY, TVSHOW);
         } else if (unwatchedMovies > 0) {
-            return new Intent(context, ActivityMovieUnwatched.class);
+            return new Intent(context, ActivityUnwatched.class).putExtra(INTENT_KEY, MOVIE);
         } else if (unwatchedAlbums > 0) {
-            return new Intent(context, ActivityArtistUnwatched.class);
+            return new Intent(context, ActivityUnwatched.class).putExtra(INTENT_KEY, ARTIST);
         }
-        return new Intent(context, ActivityTVUnwatched.class);
+        return new Intent(context, ActivityUnwatched.class).putExtra(INTENT_KEY, TVSHOW);
     }
 
     private NotificationCompat.Builder getBuilder(Context context) {

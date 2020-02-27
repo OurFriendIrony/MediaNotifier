@@ -1,4 +1,4 @@
-package uk.co.ourfriendirony.medianotifier.activities.artist;
+package uk.co.ourfriendirony.medianotifier.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,28 +14,34 @@ import android.widget.TextView;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.async.AddAsyncTask;
 import uk.co.ourfriendirony.medianotifier.async.FindAsyncTask;
-import uk.co.ourfriendirony.medianotifier.clients.ArtistClient;
 import uk.co.ourfriendirony.medianotifier.clients.Client;
+import uk.co.ourfriendirony.medianotifier.clients.ClientFactory;
 import uk.co.ourfriendirony.medianotifier.db.Database;
+import uk.co.ourfriendirony.medianotifier.db.DatabaseFactory;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
-import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
 
-public class ActivityArtistFind extends AppCompatActivity {
+import static uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY;
+
+public class ActivityFind extends AppCompatActivity {
     private EditText input;
     private ProgressBar progressBar;
     private ListView listView;
-    private Client client = new ArtistClient();
+    private Client client;
     private Database db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.setTheme(PropertyHelper.getTheme(getBaseContext()));
-        super.setContentView(R.layout.activity_find);
-        getSupportActionBar().setTitle(R.string.title_find_artist);
+
+        String intentKey = getIntent().getExtras().getString(INTENT_KEY);
+
+        setTheme(PropertyHelper.getTheme(getBaseContext()));
+        setContentView(R.layout.activity_find);
+        getSupportActionBar().setTitle("Find " + intentKey);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        db = new ArtistDatabase(getApplicationContext());
+        db = new DatabaseFactory().getDatabase(getApplicationContext(), intentKey);
+        client = new ClientFactory().getClient(intentKey);
 
         input = (EditText) findViewById(R.id.find_input);
         progressBar = (ProgressBar) findViewById(R.id.find_progress);
