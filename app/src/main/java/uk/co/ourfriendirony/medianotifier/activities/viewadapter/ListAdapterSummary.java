@@ -1,4 +1,4 @@
-package uk.co.ourfriendirony.medianotifier.listviewadapter;
+package uk.co.ourfriendirony.medianotifier.activities.viewadapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

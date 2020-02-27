@@ -15,15 +15,15 @@ import android.widget.Toast;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.async.ListChildrenAsyncTask;
-import uk.co.ourfriendirony.medianotifier.async.UpdateAsyncTask;
+import uk.co.ourfriendirony.medianotifier.activities.async.ListChildren;
+import uk.co.ourfriendirony.medianotifier.activities.async.UpdateMediaItem;
 import uk.co.ourfriendirony.medianotifier.clients.Client;
 import uk.co.ourfriendirony.medianotifier.clients.ClientFactory;
 import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.db.DatabaseFactory;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
-import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummary;
+import uk.co.ourfriendirony.medianotifier.activities.viewadapter.ListAdapterSummary;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
 import static uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY;
@@ -58,7 +58,7 @@ public class ActivityLibrary extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int itemPos, long id) {
                 currentItemPos = itemPos;
-                new ListChildrenAsyncTask(getBaseContext(), progressBar, listView, db).execute(mediaItems.get(itemPos).getId());
+                new ListChildren(getBaseContext(), progressBar, listView, db).execute(mediaItems.get(itemPos).getId());
             }
 
             @Override
@@ -79,8 +79,8 @@ public class ActivityLibrary extends AppCompatActivity {
         MediaItem mediaItem = mediaItems.get(currentItemPos);
         switch (menuItem.getItemId()) {
             case R.id.action_refresh:
-                new UpdateAsyncTask(getApplicationContext(), db, client).execute(mediaItem);
-                new ListChildrenAsyncTask(getBaseContext(), progressBar, listView, db).execute(mediaItem.getId());
+                new UpdateMediaItem(getApplicationContext(), progressBar, db, client).execute(mediaItem);
+                new ListChildren(getBaseContext(), progressBar, listView, db).execute(mediaItem.getId());
                 return true;
 
             case R.id.action_remove:

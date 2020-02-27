@@ -1,8 +1,10 @@
-package uk.co.ourfriendirony.medianotifier.async;
+package uk.co.ourfriendirony.medianotifier.activities.async;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
@@ -11,13 +13,15 @@ import uk.co.ourfriendirony.medianotifier.clients.Client;
 import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
-public class UpdateAsyncTask extends AsyncTask<MediaItem, Void, String> {
+public class UpdateMediaItem extends AsyncTask<MediaItem, Void, String> {
     private final WeakReference<Context> context;
+    private final WeakReference<ProgressBar> progressBar;
     private final Database db;
     private final Client client;
 
-    public UpdateAsyncTask(Context context, Database db, Client client) {
+    public UpdateMediaItem(Context context, ProgressBar progressBar, Database db, Client client) {
         this.context = new WeakReference<>(context);
+        this.progressBar = new WeakReference<>(progressBar);
         this.db = db;
         this.client = client;
     }
@@ -25,6 +29,7 @@ public class UpdateAsyncTask extends AsyncTask<MediaItem, Void, String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+        progressBar.get().setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -57,6 +62,7 @@ public class UpdateAsyncTask extends AsyncTask<MediaItem, Void, String> {
 
     @Override
     protected void onPostExecute(String toastMsg) {
+        progressBar.get().setVisibility(View.GONE);
         Toast.makeText(context.get(), toastMsg, Toast.LENGTH_SHORT).show();
     }
 }

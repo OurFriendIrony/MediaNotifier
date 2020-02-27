@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,8 +26,9 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.async.UpdateAsyncTask;
+import uk.co.ourfriendirony.medianotifier.activities.async.UpdateMediaItem;
 import uk.co.ourfriendirony.medianotifier.clients.ArtistClient;
+import uk.co.ourfriendirony.medianotifier.clients.Client;
 import uk.co.ourfriendirony.medianotifier.clients.MovieClient;
 import uk.co.ourfriendirony.medianotifier.clients.TVClient;
 import uk.co.ourfriendirony.medianotifier.db.Database;
@@ -46,24 +48,27 @@ import static uk.co.ourfriendirony.medianotifier.general.Helper.getNotificationN
 import static uk.co.ourfriendirony.medianotifier.general.IntentGenerator.getContactEmailIntent;
 
 public class ActivityMain extends AppCompatActivity {
-    private TVShowDatabase tvShowDatabase;
+    private Database tvShowDatabase;
     private Database movieDatabase;
-    private ArtistDatabase artistDatabase;
+    private Database artistDatabase;
 
-    private TVClient tvShowClient = new TVClient();
-    private MovieClient movieClient = new MovieClient();
-    private ArtistClient artistClient = new ArtistClient();
+    private Client tvShowClient = new TVClient();
+    private Client movieClient = new MovieClient();
+    private Client artistClient = new ArtistClient();
 
     private TextView main_button_tv_notification;
     private TextView main_button_movie_notification;
     private TextView main_button_artist_notification;
     private PopupWindow popupWindow;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.setTheme(PropertyHelper.getTheme(getBaseContext()));
-        super.setContentView(R.layout.activity_main);
+        setTheme(PropertyHelper.getTheme(getBaseContext()));
+        setContentView(R.layout.activity_main);
+
+        progressBar = (ProgressBar) findViewById(R.id.main_progress);
 
         tvShowDatabase = new TVShowDatabase(getApplicationContext());
         movieDatabase = new MovieDatabase(getApplicationContext());
@@ -248,9 +253,9 @@ public class ActivityMain extends AppCompatActivity {
                 return true;
 
             case R.id.action_refresh:
-                new UpdateAsyncTask(getApplicationContext(), tvShowDatabase, tvShowClient).execute(asArray(tvShowDatabase.readAllItems()));
-                new UpdateAsyncTask(getApplicationContext(), movieDatabase, movieClient).execute(asArray(movieDatabase.readAllItems()));
-                new UpdateAsyncTask(getApplicationContext(), artistDatabase, artistClient).execute(asArray(artistDatabase.readAllItems()));
+                new UpdateMediaItem(getApplicationContext(), progressBar, tvShowDatabase, tvShowClient).execute(asArray(tvShowDatabase.readAllItems()));
+                new UpdateMediaItem(getApplicationContext(), progressBar, movieDatabase, movieClient).execute(asArray(movieDatabase.readAllItems()));
+                new UpdateMediaItem(getApplicationContext(), progressBar, artistDatabase, artistClient).execute(asArray(artistDatabase.readAllItems()));
                 return true;
 
             default:

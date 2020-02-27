@@ -1,4 +1,4 @@
-package uk.co.ourfriendirony.medianotifier.async;
+package uk.co.ourfriendirony.medianotifier.activities.async;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -11,17 +11,16 @@ import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.db.Database;
-import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummary;
+import uk.co.ourfriendirony.medianotifier.activities.viewadapter.ListAdapterSummary;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
-public class ListChildrenAsyncTask extends AsyncTask<String, Void, List<MediaItem>> {
+public class ListChildren extends AsyncTask<String, Void, List<MediaItem>> {
     private final WeakReference<Context> context;
     private final WeakReference<ProgressBar> progressBar;
     private final WeakReference<ListView> listView;
     private final Database db;
 
-    public ListChildrenAsyncTask(Context context, ProgressBar progressBar, ListView listView, Database db) {
-        // TODO: I'm pretty sure I can get the listView and the progressBar from the context, instead of this "pass-in" mess
+    public ListChildren(Context context, ProgressBar progressBar, ListView listView, Database db) {
         this.context = new WeakReference<>(context);
         this.progressBar = new WeakReference<>(progressBar);
         this.listView = new WeakReference<>(listView);
