@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public class UnwatchedReleased extends Fragment {
 
         List<MediaItem> mediaItems = db.getUnwatchedReleased();
         if (mediaItems.size() > 0) {
-            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getContext(), R.layout.list_item_generic_toggle, mediaItems, db);
+            ArrayAdapter listAdapterSummary = new ListAdapterSummary(getContext(), R.layout.list_item_generic_toggle, mediaItems, db);
             listView.setAdapter(listAdapterSummary);
         }
         return rootView;

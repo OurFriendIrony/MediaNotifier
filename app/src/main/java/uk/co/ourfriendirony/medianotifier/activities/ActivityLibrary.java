@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -107,7 +108,7 @@ public class ActivityLibrary extends AppCompatActivity {
         progressBar.setIndeterminate(true);
         mediaItems = db.readAllParentItems();
         if (mediaItems.size() > 0) {
-            ListAdapterSummary listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, mediaItems, db);
+            ArrayAdapter listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, mediaItems, db);
             spinnerView.setAdapter(listAdapterSummary);
         }
         progressBar.setIndeterminate(true);

@@ -2,6 +2,7 @@ package uk.co.ourfriendirony.medianotifier.activities.async;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -41,7 +42,7 @@ public class ListChildren extends AsyncTask<String, Void, List<MediaItem>> {
     @Override
     protected void onPostExecute(final List<MediaItem> children) {
         progressBar.get().setIndeterminate(false);
-        ListAdapterSummary adapter = new ListAdapterSummary(context.get(), R.layout.list_item_generic_toggle, children, db);
+        ArrayAdapter adapter = new ListAdapterSummary(context.get(), R.layout.list_item_generic_toggle, children, db);
         listView.get().setAdapter(adapter);
         listView.get().setSelection(children.size());
     }
