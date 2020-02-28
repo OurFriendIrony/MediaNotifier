@@ -1,5 +1,6 @@
 package uk.co.ourfriendirony.medianotifier.activities;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
@@ -12,8 +13,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.async.AddAsyncTask;
-import uk.co.ourfriendirony.medianotifier.async.FindAsyncTask;
+import uk.co.ourfriendirony.medianotifier.activities.async.AddMediaItem;
+import uk.co.ourfriendirony.medianotifier.activities.async.FindMediaItem;
 import uk.co.ourfriendirony.medianotifier.clients.Client;
 import uk.co.ourfriendirony.medianotifier.clients.ClientFactory;
 import uk.co.ourfriendirony.medianotifier.db.Database;
@@ -54,10 +55,9 @@ public class ActivityFind extends AppCompatActivity {
                     case EditorInfo.IME_ACTION_SEND:
                         String input = textView.getText().toString();
                         if (!"".equals(input)) {
-                            new FindAsyncTask(getBaseContext(), progressBar, listView, db, client).execute(input);
+                            new FindMediaItem(getBaseContext(), progressBar, listView, db, client).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, input);
                         }
                         return true;
-
                     default:
                         return false;
                 }
@@ -69,7 +69,7 @@ public class ActivityFind extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView textViewID = (TextView) view.findViewById(R.id.list_item_generic_id);
                 TextView textViewTitle = (TextView) view.findViewById(R.id.list_item_generic_title);
-                new AddAsyncTask(getApplicationContext(), progressBar, db, client).execute(
+                new AddMediaItem(getApplicationContext(), progressBar, db, client).execute(
                         textViewID.getText().toString(),
                         textViewTitle.getText().toString()
                 );

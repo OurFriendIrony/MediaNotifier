@@ -3,28 +3,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ProgressBar
+        android:id="@+id/progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="?attr/colorBackgroundDefault" />
+
     <RelativeLayout
         android:id="@+id/spinner_progress"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/progress">
 
         <Spinner
             android:id="@+id/spinner"
             style="@style/input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@+id/progress"
             android:spinnerMode="dialog" />
-
-        <ProgressBar
-            android:id="@+id/progress"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignBottom="@+id/spinner"
-            android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/spinner"
-            android:background="?attr/colorBackgroundDefault"
-            android:visibility="gone" />
     </RelativeLayout>
 
     <ListView

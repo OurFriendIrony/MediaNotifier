@@ -3,29 +3,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:id="@+id/find_input_progress"
+    <ProgressBar
+        android:id="@+id/find_progress"
+        style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="4dp"
+        android:background="?attr/colorBackgroundDefault" />
+
+    <RelativeLayout
+        android:id="@+id/find_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/find_progress">
 
         <EditText
             android:id="@+id/find_input"
             style="@style/input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@+id/find_progress"
             android:imeOptions="actionSend"
             android:inputType="text" />
-
-        <ProgressBar
-            android:id="@+id/find_progress"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignBottom="@+id/find_input"
-            android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/find_input"
-            android:background="?attr/colorBackgroundDefault"
-            android:visibility="gone" />
     </RelativeLayout>
 
     <ListView
@@ -33,7 +30,7 @@
         style="@style/style_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/find_input_progress"
+        android:layout_below="@+id/find_top"
         android:divider="@null"
         android:dividerHeight="0dp" />
 </RelativeLayout>

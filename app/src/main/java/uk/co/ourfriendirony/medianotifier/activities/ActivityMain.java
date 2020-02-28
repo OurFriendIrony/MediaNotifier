@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,8 +26,9 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.async.UpdateAsyncTask;
+import uk.co.ourfriendirony.medianotifier.activities.async.UpdateMediaItem;
 import uk.co.ourfriendirony.medianotifier.clients.ArtistClient;
+import uk.co.ourfriendirony.medianotifier.clients.Client;
 import uk.co.ourfriendirony.medianotifier.clients.MovieClient;
 import uk.co.ourfriendirony.medianotifier.clients.TVClient;
 import uk.co.ourfriendirony.medianotifier.db.Database;
@@ -46,47 +48,58 @@ import static uk.co.ourfriendirony.medianotifier.general.Helper.getNotificationN
 import static uk.co.ourfriendirony.medianotifier.general.IntentGenerator.getContactEmailIntent;
 
 public class ActivityMain extends AppCompatActivity {
-    private TVShowDatabase tvShowDatabase;
+    private Database tvShowDatabase;
     private Database movieDatabase;
-    private ArtistDatabase artistDatabase;
+    private Database artistDatabase;
 
-    private TVClient tvShowClient = new TVClient();
-    private MovieClient movieClient = new MovieClient();
-    private ArtistClient artistClient = new ArtistClient();
+    private Client tvShowClient = new TVClient();
+    private Client movieClient = new MovieClient();
+    private Client artistClient = new ArtistClient();
 
-    private TextView main_button_tv_notification;
+    private TextView main_button_tvshow_notification;
     private TextView main_button_movie_notification;
     private TextView main_button_artist_notification;
     private PopupWindow popupWindow;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.setTheme(PropertyHelper.getTheme(getBaseContext()));
-        super.setContentView(R.layout.activity_main);
+        setTheme(PropertyHelper.getTheme(getBaseContext()));
+        setContentView(R.layout.activity_main);
+
+        progressBar = (ProgressBar) findViewById(R.id.main_progress);
 
         tvShowDatabase = new TVShowDatabase(getApplicationContext());
         movieDatabase = new MovieDatabase(getApplicationContext());
         artistDatabase = new ArtistDatabase(getApplicationContext());
 
-        FloatingActionButton main_button_tv_find = (FloatingActionButton) findViewById(R.id.main_button_tv_find);
+        FloatingActionButton main_button_tvshow_find = (FloatingActionButton) findViewById(R.id.main_button_tv_find);
         FloatingActionButton main_button_movie_find = (FloatingActionButton) findViewById(R.id.main_button_movie_find);
         FloatingActionButton main_button_artist_find = (FloatingActionButton) findViewById(R.id.main_button_artist_find);
 
-        main_button_tv_notification = (TextView) findViewById(R.id.main_button_tv_notification);
+        main_button_tvshow_notification = (TextView) findViewById(R.id.main_button_tv_notification);
         main_button_movie_notification = (TextView) findViewById(R.id.main_button_movie_notification);
         main_button_artist_notification = (TextView) findViewById(R.id.main_button_artist_notification);
 
-        Button main_button_tv_library = (Button) findViewById(R.id.main_button_tv);
+        Button main_button_tvshow_library = (Button) findViewById(R.id.main_button_tv);
         Button main_button_movie_library = (Button) findViewById(R.id.main_button_movie);
         Button main_button_artist_library = (Button) findViewById(R.id.main_button_artist);
 
         ImageView tmdbImage = (ImageView) findViewById(R.id.badge_tmdb);
         ImageView musicbrainzImage = (ImageView) findViewById(R.id.badge_musicbrainz);
 
-        setupFindButtons(main_button_tv_find, main_button_movie_find, main_button_artist_find);
-        setupLibraryButtons(main_button_tv_library, main_button_movie_library, main_button_artist_library);
-        setupNotificationButtons();
+        prepButton(main_button_tvshow_find, ActivityFind.class, TVSHOW);
+        prepButton(main_button_movie_find, ActivityFind.class, MOVIE);
+        prepButton(main_button_artist_find, ActivityFind.class, ARTIST);
+
+        prepButton(main_button_tvshow_library, ActivityLibrary.class, TVSHOW);
+        prepButton(main_button_movie_library, ActivityLibrary.class, MOVIE);
+        prepButton(main_button_artist_library, ActivityLibrary.class, ARTIST);
+
+        prepButton(main_button_tvshow_notification, ActivityUnwatched.class, TVSHOW);
+        prepButton(main_button_movie_notification, ActivityUnwatched.class, MOVIE);
+        prepButton(main_button_artist_notification, ActivityUnwatched.class, ARTIST);
 
         tmdbImage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -100,74 +113,11 @@ public class ActivityMain extends AppCompatActivity {
         });
     }
 
-    private void setupLibraryButtons(Button main_button_tv, Button main_button_movie, Button main_button_artist) {
-        main_button_tv.setOnClickListener(new View.OnClickListener() {
+    private void prepButton(View view, final Class c, final String type) {
+        view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), ActivityLibrary.class).putExtra(INTENT_KEY, TVSHOW);
-                startActivity(intent);
-            }
-        });
-        main_button_movie.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), ActivityLibrary.class).putExtra(INTENT_KEY, MOVIE);
-                startActivity(intent);
-            }
-        });
-        main_button_artist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), ActivityLibrary.class).putExtra(INTENT_KEY, ARTIST);
-                startActivity(intent);
-            }
-        });
-    }
-
-    private void setupFindButtons(FloatingActionButton main_button_tv_find, FloatingActionButton main_button_movie_find, FloatingActionButton main_button_artist_find) {
-        main_button_tv_find.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), ActivityFind.class).putExtra(INTENT_KEY, TVSHOW);
-                startActivity(intent);
-            }
-        });
-        main_button_movie_find.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), ActivityFind.class).putExtra(INTENT_KEY, MOVIE);
-                startActivity(intent);
-            }
-        });
-        main_button_artist_find.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), ActivityFind.class).putExtra(INTENT_KEY, ARTIST);
-                startActivity(intent);
-            }
-        });
-    }
-
-
-    private void setupNotificationButtons() {
-        main_button_tv_notification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), ActivityUnwatched.class).putExtra(INTENT_KEY, TVSHOW);
-                startActivity(intent);
-            }
-        });
-        main_button_movie_notification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), ActivityUnwatched.class).putExtra(INTENT_KEY, MOVIE);
-                startActivity(intent);
-            }
-        });
-        main_button_artist_notification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), ActivityUnwatched.class).putExtra(INTENT_KEY, ARTIST);
+                Intent intent = new Intent(view.getContext(), c).putExtra(INTENT_KEY, type);
                 startActivity(intent);
             }
         });
@@ -188,8 +138,8 @@ public class ActivityMain extends AppCompatActivity {
         Drawable movieNotifyBG = (numMovies > 0) ? notificationOn : notificationOff;
         Drawable albumNotifyBG = (numAlbums > 0) ? notificationOn : notificationOff;
 
-        main_button_tv_notification.setText(getNotificationNumber(numEpisodes));
-        main_button_tv_notification.setBackground(tvNotifyBG);
+        main_button_tvshow_notification.setText(getNotificationNumber(numEpisodes));
+        main_button_tvshow_notification.setBackground(tvNotifyBG);
 
         main_button_movie_notification.setBackground(movieNotifyBG);
         main_button_movie_notification.setText(getNotificationNumber(numMovies));
@@ -248,9 +198,9 @@ public class ActivityMain extends AppCompatActivity {
                 return true;
 
             case R.id.action_refresh:
-                new UpdateAsyncTask(getApplicationContext(), tvShowDatabase, tvShowClient).execute(asArray(tvShowDatabase.readAllItems()));
-                new UpdateAsyncTask(getApplicationContext(), movieDatabase, movieClient).execute(asArray(movieDatabase.readAllItems()));
-                new UpdateAsyncTask(getApplicationContext(), artistDatabase, artistClient).execute(asArray(artistDatabase.readAllItems()));
+                new UpdateMediaItem(getBaseContext(), progressBar, tvShowDatabase, tvShowClient).execute(asArray(tvShowDatabase.readAllItems()));
+                new UpdateMediaItem(getBaseContext(), progressBar, movieDatabase, movieClient).execute(asArray(movieDatabase.readAllItems()));
+                new UpdateMediaItem(getBaseContext(), progressBar, artistDatabase, artistClient).execute(asArray(artistDatabase.readAllItems()));
                 return true;
 
             default:

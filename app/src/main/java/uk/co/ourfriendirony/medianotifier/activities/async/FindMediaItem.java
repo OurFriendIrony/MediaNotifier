@@ -1,8 +1,7 @@
-package uk.co.ourfriendirony.medianotifier.async;
+package uk.co.ourfriendirony.medianotifier.activities.async;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -13,20 +12,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
+import uk.co.ourfriendirony.medianotifier.activities.viewadapter.ListAdapterSummary;
 import uk.co.ourfriendirony.medianotifier.clients.Client;
 import uk.co.ourfriendirony.medianotifier.db.Database;
-import uk.co.ourfriendirony.medianotifier.listviewadapter.ListAdapterSummary;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
-public class FindAsyncTask extends AsyncTask<String, Void, List<MediaItem>> {
+public class FindMediaItem extends AsyncTask<String, Void, List<MediaItem>> {
     private final WeakReference<Context> context;
     private final WeakReference<ProgressBar> progressBar;
     private final WeakReference<ListView> listView;
     private final Database db;
     private final Client client;
 
-    public FindAsyncTask(Context context, ProgressBar progressBar, ListView listView, Database db, Client client) {
-        // TODO: I'm pretty sure I can get the listView and the progressBar from the context, instead of this "pass-in" mess
+    public FindMediaItem(Context context, ProgressBar progressBar, ListView listView, Database db, Client client) {
         this.context = new WeakReference<>(context);
         this.progressBar = new WeakReference<>(progressBar);
         this.listView = new WeakReference<>(listView);
@@ -37,7 +35,7 @@ public class FindAsyncTask extends AsyncTask<String, Void, List<MediaItem>> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        progressBar.get().setVisibility(View.VISIBLE);
+        progressBar.get().setIndeterminate(true);
     }
 
     @Override
@@ -52,7 +50,7 @@ public class FindAsyncTask extends AsyncTask<String, Void, List<MediaItem>> {
 
     @Override
     protected void onPostExecute(List<MediaItem> mediaItems) {
-        progressBar.get().setVisibility(View.GONE);
+        progressBar.get().setIndeterminate(false);
         if (mediaItems.size() > 0) {
             ListAdapterSummary adapter = new ListAdapterSummary(context.get(), R.layout.list_item_generic, mediaItems, db);
             listView.get().setAdapter(adapter);
