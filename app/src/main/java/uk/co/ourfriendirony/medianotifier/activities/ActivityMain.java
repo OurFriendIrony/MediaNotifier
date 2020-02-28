@@ -198,9 +198,9 @@ public class ActivityMain extends AppCompatActivity {
                 return true;
 
             case R.id.action_refresh:
-                new UpdateMediaItem(getApplicationContext(), progressBar, tvShowDatabase, tvShowClient).execute(asArray(tvShowDatabase.readAllItems()));
-                new UpdateMediaItem(getApplicationContext(), progressBar, movieDatabase, movieClient).execute(asArray(movieDatabase.readAllItems()));
-                new UpdateMediaItem(getApplicationContext(), progressBar, artistDatabase, artistClient).execute(asArray(artistDatabase.readAllItems()));
+                new UpdateMediaItem(getBaseContext(), progressBar, tvShowDatabase, tvShowClient).execute(asArray(tvShowDatabase.readAllItems()));
+                new UpdateMediaItem(getBaseContext(), progressBar, movieDatabase, movieClient).execute(asArray(movieDatabase.readAllItems()));
+                new UpdateMediaItem(getBaseContext(), progressBar, artistDatabase, artistClient).execute(asArray(artistDatabase.readAllItems()));
                 return true;
 
             default:

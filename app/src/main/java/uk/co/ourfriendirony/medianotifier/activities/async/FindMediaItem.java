@@ -2,7 +2,6 @@ package uk.co.ourfriendirony.medianotifier.activities.async;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -13,9 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
+import uk.co.ourfriendirony.medianotifier.activities.viewadapter.ListAdapterSummary;
 import uk.co.ourfriendirony.medianotifier.clients.Client;
 import uk.co.ourfriendirony.medianotifier.db.Database;
-import uk.co.ourfriendirony.medianotifier.activities.viewadapter.ListAdapterSummary;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
 public class FindMediaItem extends AsyncTask<String, Void, List<MediaItem>> {

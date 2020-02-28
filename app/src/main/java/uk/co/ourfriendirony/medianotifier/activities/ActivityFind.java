@@ -1,5 +1,6 @@
 package uk.co.ourfriendirony.medianotifier.activities;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
@@ -54,7 +55,7 @@ public class ActivityFind extends AppCompatActivity {
                     case EditorInfo.IME_ACTION_SEND:
                         String input = textView.getText().toString();
                         if (!"".equals(input)) {
-                            new FindMediaItem(getBaseContext(), progressBar, listView, db, client).execute(input);
+                            new FindMediaItem(getBaseContext(), progressBar, listView, db, client).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, input);
                         }
                         return true;
                     default:
