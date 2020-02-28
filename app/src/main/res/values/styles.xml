@@ -138,6 +138,10 @@
         <item name="android:background">@drawable/background_list_item</item>
     </style>
 
+    <style name="style_list_item_indent" parent="AppTheme.DEFAULT">
+        <item name="android:background">@drawable/background_list_item_indent</item>
+    </style>
+
     <style name="style_input" parent="AppTheme.DEFAULT">
         <item name="android:background">@drawable/background_input</item>
     </style>

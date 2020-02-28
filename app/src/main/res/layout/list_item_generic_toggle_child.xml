@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/left"
+        style="@style/style_list_item_indent"
+        android:layout_width="10dp"
+        android:layout_height="0dp"
+        android:layout_alignBottom="@id/right"
+        android:layout_alignTop="@id/right"
+        android:paddingEnd="0dp"
+        android:paddingStart="0dp" />
+
+    <RelativeLayout
+        android:id="@+id/right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/left"
+        android:paddingEnd="0dp"
+        android:paddingStart="0dp">
+
+        <include layout="@layout/list_item_generic_toggle" />
+    </RelativeLayout>
+</RelativeLayout>
