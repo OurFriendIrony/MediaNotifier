@@ -7,11 +7,12 @@ import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class Helper {
     private static final String[] PREFIXES = new String[]{"A ", "The "};
 
-    private static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.UK);
 
     public static String cleanUrl(String url) {
         try {
@@ -71,5 +72,4 @@ public class Helper {
     public static String getColumnValue(Cursor cursor, String field) {
         return cursor.getString(cursor.getColumnIndex(field));
     }
-
 }

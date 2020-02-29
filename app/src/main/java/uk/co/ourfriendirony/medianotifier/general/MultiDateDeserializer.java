@@ -3,7 +3,6 @@ package uk.co.ourfriendirony.medianotifier.general;
 import android.util.Log;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
@@ -32,7 +31,7 @@ public class MultiDateDeserializer extends StdDeserializer<Date> {
     }
 
     @Override
-    public Date deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public Date deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
         JsonNode node = jp.getCodec().readTree(jp);
         final String date = node.textValue();
 
