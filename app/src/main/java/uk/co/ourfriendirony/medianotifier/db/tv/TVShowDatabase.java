@@ -26,9 +26,9 @@ import static uk.co.ourfriendirony.medianotifier.general.Helper.dateToString;
 
 public class TVShowDatabase implements Database {
     private static final String SELECT_TVSHOWS = "SELECT * FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS + " ORDER BY " + TVShowDatabaseDefinition.TITLE + " ASC;";
-    private static final String SELECT_TVEPISODES_BY_ID = "SELECT * FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " WHERE " + TVShowDatabaseDefinition.ID + "=? ORDER BY " + TVShowDatabaseDefinition.SUBTITLE + " ASC;";
+    private static final String SELECT_TVEPISODES_BY_ID = "SELECT * FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " WHERE " + TVShowDatabaseDefinition.ID + "=? ORDER BY " + TVShowDatabaseDefinition.SUBID + " ASC;";
 
-    private static final String GET_TVEPISODE_WATCHED_STATUS = "SELECT " + TVShowDatabaseDefinition.WATCHED + " FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " WHERE " + TVShowDatabaseDefinition.ID + "=? AND " + TVShowDatabaseDefinition.SUBTITLE + "=?;";
+    private static final String GET_TVEPISODE_WATCHED_STATUS = "SELECT " + TVShowDatabaseDefinition.WATCHED + " FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " WHERE " + TVShowDatabaseDefinition.ID + "=? AND " + TVShowDatabaseDefinition.SUBID + "=?;";
 
     private static final String COUNT_UNWATCHED_EPISODES_RELEASED = "SELECT COUNT(*) FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " " +
             "WHERE " + TVShowDatabaseDefinition.WATCHED + "=" + DB_FALSE + " AND " + TVShowDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@;";
@@ -98,7 +98,7 @@ public class TVShowDatabase implements Database {
 
     @Override
     public String getWatchedStatus(MediaItem mediaItem) {
-        String[] args = new String[]{mediaItem.getId(), mediaItem.getSubtitle()};
+        String[] args = new String[]{mediaItem.getId(), mediaItem.getSubId()};
         Cursor cursor = dbWritable.rawQuery(GET_TVEPISODE_WATCHED_STATUS, args);
         String watchedStatus = DB_FALSE;
         try {
@@ -113,7 +113,7 @@ public class TVShowDatabase implements Database {
 
     @Override
     public boolean getWatchedStatusAsBoolean(MediaItem mediaItem) {
-        String[] args = new String[]{mediaItem.getId(), mediaItem.getSubtitle()};
+        String[] args = new String[]{mediaItem.getId(), mediaItem.getSubId()};
         Cursor cursor = dbWritable.rawQuery(GET_TVEPISODE_WATCHED_STATUS, args);
         String watchedStatus = DB_FALSE;
 
@@ -254,7 +254,7 @@ public class TVShowDatabase implements Database {
         ContentValues values = new ContentValues();
         values.put(TVShowDatabaseDefinition.WATCHED, watchedStatus);
         String where = TVShowDatabaseDefinition.ID + "=? and " + TVShowDatabaseDefinition.SUBID + "=?";
-        String[] whereArgs = new String[]{mediaItem.getId(), mediaItem.getSubtitle()};
+        String[] whereArgs = new String[]{mediaItem.getId(), mediaItem.getSubId()};
         dbWritable.update(TVShowDatabaseDefinition.TABLE_EPISODES, values, where, whereArgs);
     }
 
