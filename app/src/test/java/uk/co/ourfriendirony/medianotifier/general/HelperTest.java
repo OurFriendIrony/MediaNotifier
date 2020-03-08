@@ -7,9 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import uk.co.ourfriendirony.medianotifier.db.Database;
-import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
-
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
 

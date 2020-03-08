@@ -117,6 +117,11 @@ public class Movie implements MediaItem {
     }
 
     @Override
+    public void setChildren(List<MediaItem> children) {
+        this.children = children;
+    }
+
+    @Override
     public int countChildren() {
         return children.size();
     }

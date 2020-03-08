@@ -30,7 +30,7 @@ public class TVShow implements MediaItem {
     private boolean watched = false;
     private List<MediaItem> children = new ArrayList<>();
 
-    public TVShow(TVShowGet tvShow, List<MediaItem> children) {
+    public TVShow(TVShowGet tvShow) {
         this.id = String.valueOf(tvShow.getId());
         this.title = tvShow.getName();
         this.description = tvShow.getOverview();
@@ -38,7 +38,6 @@ public class TVShow implements MediaItem {
         if (tvShow.getExternalIds() != null && tvShow.getExternalIds().getImdbId() != null) {
             this.externalUrl = IMDB_URL + tvShow.getExternalIds().getImdbId();
         }
-        this.children = children;
         Log.d("[API GET]", this.toString());
     }
 
@@ -98,23 +97,28 @@ public class TVShow implements MediaItem {
 
     @Override
     public String getReleaseDateFull() {
-        if (releaseDate == null) {
-            return "?";
+        if (releaseDate != null) {
+            return new SimpleDateFormat("dd/MM/yyyy", Locale.UK).format(releaseDate);
         }
-        return new SimpleDateFormat("dd/MM/yyyy", Locale.UK).format(releaseDate);
+        return "?";
     }
 
     @Override
     public String getReleaseDateYear() {
-        if (releaseDate == null) {
-            return "?";
+        if (releaseDate != null) {
+            return new SimpleDateFormat("yyyy", Locale.UK).format(releaseDate);
         }
-        return new SimpleDateFormat("yyyy", Locale.UK).format(releaseDate);
+        return "?";
     }
 
     @Override
     public List<MediaItem> getChildren() {
         return children;
+    }
+
+    @Override
+    public void setChildren(List<MediaItem> children) {
+        this.children = children;
     }
 
     @Override

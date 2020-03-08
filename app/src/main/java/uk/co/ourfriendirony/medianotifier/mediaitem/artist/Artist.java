@@ -29,7 +29,7 @@ public class Artist implements MediaItem {
     private boolean watched = false;
     private List<MediaItem> children = new ArrayList<>();
 
-    public Artist(ArtistGet artist, List<MediaItem> children) {
+    public Artist(ArtistGet artist) {
         this.id = artist.getId();
         this.title = artist.getName();
         if (artist.getDisambiguation() != null) {
@@ -40,8 +40,6 @@ public class Artist implements MediaItem {
         if (artist.getLifeSpan() != null && artist.getLifeSpan().getBegin() != null) {
             this.releaseDate = artist.getLifeSpan().getBegin();
         }
-        this.children = children;
-        Log.d("[API GET]", this.toString());
     }
 
     public Artist(ArtistSearchArtist artist) {
@@ -123,6 +121,11 @@ public class Artist implements MediaItem {
     @Override
     public List<MediaItem> getChildren() {
         return children;
+    }
+
+    @Override
+    public void setChildren(List<MediaItem> children) {
+        this.children = children;
     }
 
     @Override

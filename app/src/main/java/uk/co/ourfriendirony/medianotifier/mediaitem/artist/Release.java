@@ -28,14 +28,15 @@ public class Release implements MediaItem {
     private boolean watched = false;
     private List<MediaItem> children = new ArrayList<>();
 
-    public Release(ArtistGetReleaseGroup release, String artistId) {
-        this.id = artistId;
+    public Release(ArtistGetReleaseGroup release, Artist artist) {
+        this.id = artist.getId();
         this.subid = release.getId();
         if (!release.getDisambiguation().isEmpty()) {
             this.title = release.getTitle() + " (" + release.getDisambiguation() + ")";
         } else {
             this.title = release.getTitle();
         }
+        this.subtitle = artist.getTitle();
         this.releaseDate = release.getFirstReleaseDate();
         Log.d("[API GET]", this.toString());
     }
@@ -101,6 +102,11 @@ public class Release implements MediaItem {
     @Override
     public List<MediaItem> getChildren() {
         return children;
+    }
+
+    @Override
+    public void setChildren(List<MediaItem> children) {
+        this.children = children;
     }
 
     @Override

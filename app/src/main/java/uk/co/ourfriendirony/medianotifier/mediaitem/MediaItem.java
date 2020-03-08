@@ -22,6 +22,8 @@ public interface MediaItem {
 
     List<MediaItem> getChildren();
 
+    void setChildren(List<MediaItem> children);
+
     int countChildren();
 
     String getExternalLink();
