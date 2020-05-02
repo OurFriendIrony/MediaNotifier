@@ -37,7 +37,7 @@ public class MovieDatabase implements Database {
 
     private static final String GET_UNWATCHED_MOVIES_TOTAL = "SELECT * " +
             "FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " " +
-            "WHERE " + MovieDatabaseDefinition.WATCHED + "=" + DB_FALSE + " ORDER BY " + MovieDatabaseDefinition.RELEASE_DATE + " ASC;";
+            "WHERE " + MovieDatabaseDefinition.WATCHED + "=" + DB_FALSE + " AND " + MovieDatabaseDefinition.RELEASE_DATE + " != '' ORDER BY " + MovieDatabaseDefinition.RELEASE_DATE + " ASC;";
 
     private final Context context;
     private final SQLiteDatabase dbWritable;

@@ -39,7 +39,7 @@ public class ArtistDatabase implements Database {
 
     private static final String GET_UNWATCHED_RELEASES_TOTAL = "SELECT * " +
             "FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " " +
-            "WHERE " + ArtistDatabaseDefinition.WATCHED + "=" + DB_FALSE + " ORDER BY " + ArtistDatabaseDefinition.RELEASE_DATE + " ASC;";
+            "WHERE " + ArtistDatabaseDefinition.WATCHED + "=" + DB_FALSE + " AND " + ArtistDatabaseDefinition.RELEASE_DATE + " != '' ORDER BY " + ArtistDatabaseDefinition.RELEASE_DATE + " ASC;";
 
     private final Context context;
     private final SQLiteDatabase dbWritable;

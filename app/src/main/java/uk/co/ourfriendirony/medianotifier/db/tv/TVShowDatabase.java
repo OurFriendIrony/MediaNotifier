@@ -39,7 +39,7 @@ public class TVShowDatabase implements Database {
 
     private static final String GET_UNWATCHED_EPISODES_TOTAL = "SELECT * " +
             "FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " " +
-            "WHERE " + TVShowDatabaseDefinition.WATCHED + "=" + DB_FALSE + " ORDER BY " + TVShowDatabaseDefinition.RELEASE_DATE + " ASC;";
+            "WHERE " + TVShowDatabaseDefinition.WATCHED + "=" + DB_FALSE + " AND " + TVShowDatabaseDefinition.RELEASE_DATE + " != '' ORDER BY " + TVShowDatabaseDefinition.RELEASE_DATE + " ASC;";
 
     private final Context context;
     private final SQLiteDatabase dbWritable;
