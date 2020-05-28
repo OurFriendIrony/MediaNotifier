@@ -30,12 +30,12 @@
     <string name="toast_db_table_cleared">Table cleared</string>
     <string name="toast_no_results">No Matches</string>
 
-    <string name="notification_title">You\'ve got unviewed media</string>
+    <string name="notification_title">You\'ve got unplayed media</string>
     <string name="notification_text">New media count: </string>
 
-    <string name="tvmb">TVMB</string>
+    <string name="tmdb">TMDB</string>
     <string name="musicbrainz">musicbrainz</string>
-    <string name="rawg">rawg</string>
+    <string name="rawg">RAWG</string>
 
     <string name="action_logview">Logs</string>
     <string name="action_theme">theme</string>

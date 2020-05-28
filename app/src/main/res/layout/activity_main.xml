@@ -222,7 +222,7 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginStart="5dp"
                 android:layout_toStartOf="@+id/badge_musicbrainz"
-                android:contentDescription="@string/tvmb"
+                android:contentDescription="@string/tmdb"
                 android:src="@drawable/img_external_tmdb" />
 
             <ImageView
