@@ -78,30 +78,33 @@ public class ActivityLibrary extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
-        MediaItem mediaItem = mediaItems.get(currentItemPos);
-        switch (menuItem.getItemId()) {
-            case R.id.action_refresh:
-                new UpdateMediaItem(getBaseContext(), progressBar, db, client).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mediaItem);
-                new ListChildren(getBaseContext(), progressBar, listView, db).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mediaItem.getId());
-                return true;
+        if (mediaItems.size() > 0) {
+            MediaItem mediaItem = mediaItems.get(currentItemPos);
+            switch (menuItem.getItemId()) {
+                case R.id.action_refresh:
+                    new UpdateMediaItem(getBaseContext(), progressBar, db, client).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mediaItem);
+                    new ListChildren(getBaseContext(), progressBar, listView, db).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mediaItem.getId());
+                    return true;
 
-            case R.id.action_remove:
-                db.delete(mediaItem.getId());
-                this.recreate();
-                return true;
+                case R.id.action_remove:
+                    db.delete(mediaItem.getId());
+                    this.recreate();
+                    return true;
 
-            case R.id.action_lookup:
-                if (mediaItem.getExternalLink() != null) {
-                    Intent intent = IntentGenerator.getWebPageIntent(mediaItem.getExternalLink());
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(this, "No External Link", Toast.LENGTH_SHORT).show();
-                }
-                return true;
+                case R.id.action_lookup:
+                    if (mediaItem.getExternalLink() != null) {
+                        Intent intent = IntentGenerator.getWebPageIntent(mediaItem.getExternalLink());
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(this, "No External Link", Toast.LENGTH_SHORT).show();
+                    }
+                    return true;
 
-            default:
-                return super.onOptionsItemSelected(menuItem);
+                default:
+                    return super.onOptionsItemSelected(menuItem);
+            }
         }
+        return false;
     }
 
     private void loadPage() {
