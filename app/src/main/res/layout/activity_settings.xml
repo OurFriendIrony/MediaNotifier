@@ -219,6 +219,39 @@
                 android:layout_alignStart="@id/horiz_strut_22" />
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/settings_notification_day_offset_game_button_rel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/settings_notification_day_offset_artist_button_rel">
+
+            <View
+                android:id="@+id/horiz_strut_23"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/settings_notification_day_offset_game_button"
+                android:layout_alignEnd="@id/horiz_strut_23"
+                android:layout_alignParentStart="true"
+                android:layout_alignTop="@+id/settings_notification_day_offset_game_button"
+                android:gravity="center_vertical|end"
+                android:padding="5dp"
+                android:text="@string/button_games"
+                android:textColor="?attr/colorTextSecondary" />
+
+            <Button
+                android:id="@+id/settings_notification_day_offset_game_button"
+                style="@style/button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignStart="@id/horiz_strut_23" />
+        </RelativeLayout>
+
     </RelativeLayout>
 
     <!-- ################################################################# -->
@@ -349,6 +382,39 @@
                 android:layout_alignStart="@id/horiz_strut_92" />
         </RelativeLayout>
 
+
+        <RelativeLayout
+            android:id="@+id/settings_delete_game_button_rel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/settings_delete_artist_button_rel">
+
+            <View
+                android:id="@+id/horiz_strut_93"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/settings_button_delete_game_all"
+                android:layout_alignEnd="@id/horiz_strut_93"
+                android:layout_alignParentStart="true"
+                android:layout_alignTop="@+id/settings_button_delete_game_all"
+                android:gravity="center_vertical|end"
+                android:padding="5dp"
+                android:text="@string/button_games"
+                android:textColor="?attr/colorTextSecondary" />
+
+            <Button
+                android:id="@+id/settings_button_delete_game_all"
+                style="@style/button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignStart="@id/horiz_strut_93" />
+        </RelativeLayout>
     </RelativeLayout>
 
 </RelativeLayout>

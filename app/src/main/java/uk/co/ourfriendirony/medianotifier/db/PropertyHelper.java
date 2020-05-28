@@ -16,6 +16,7 @@ public class PropertyHelper {
     private static String NOTIFY_DAY_OFFSET_TV = "notification_day_offset_tv";
     private static String NOTIFY_DAY_OFFSET_MOVIE = "notification_day_offset_movie";
     private static String NOTIFY_DAY_OFFSET_ARTIST = "notification_day_offset_artist";
+    private static String NOTIFY_DAY_OFFSET_GAME = "notification_day_offset_game";
     private static String THEME = "theme";
 
     private static boolean MARK_WATCHED_DEFAULT = true;
@@ -52,17 +53,9 @@ public class PropertyHelper {
         return settings.getInt(NOTIFY_DAY_OFFSET_TV, NOTIFY_DAY_OFFSET_DEFAULT);
     }
 
-    public static String getNotificationDayOffsetTVAsText(Context context) {
-        return String.valueOf(getNotificationDayOffsetTV(context));
-    }
-
     public static int getNotificationDayOffsetMovie(Context context) {
         SharedPreferences settings = getSharedPreferences(context);
         return settings.getInt(NOTIFY_DAY_OFFSET_MOVIE, NOTIFY_DAY_OFFSET_DEFAULT);
-    }
-
-    public static String getNotificationDayOffsetMovieAsText(Context context) {
-        return String.valueOf(getNotificationDayOffsetMovie(context));
     }
 
     public static int getNotificationDayOffsetArtist(Context context) {
@@ -70,8 +63,9 @@ public class PropertyHelper {
         return settings.getInt(NOTIFY_DAY_OFFSET_ARTIST, NOTIFY_DAY_OFFSET_DEFAULT);
     }
 
-    public static String getNotificationDayOffsetArtistAsText(Context context) {
-        return String.valueOf(getNotificationDayOffsetArtist(context));
+    public static int getNotificationDayOffsetGame(Context context) {
+        SharedPreferences settings = getSharedPreferences(context);
+        return settings.getInt(NOTIFY_DAY_OFFSET_GAME, NOTIFY_DAY_OFFSET_DEFAULT);
     }
 
     public static int getNotificationDayOffsetMax() {
@@ -120,6 +114,12 @@ public class PropertyHelper {
     public static void setNotificationDayOffsetArtist(Context context, int newDayOffset) {
         SharedPreferences.Editor editor = getSharedPreferencesEditor(context);
         editor.putInt(NOTIFY_DAY_OFFSET_ARTIST, newDayOffset);
+        editor.apply();
+    }
+
+    public static void setNotificationDayOffsetGame(Context context, int newDayOffset) {
+        SharedPreferences.Editor editor = getSharedPreferencesEditor(context);
+        editor.putInt(NOTIFY_DAY_OFFSET_GAME, newDayOffset);
         editor.apply();
     }
 

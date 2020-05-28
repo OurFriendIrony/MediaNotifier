@@ -29,11 +29,13 @@ import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.activities.async.UpdateMediaItem;
 import uk.co.ourfriendirony.medianotifier.clients.ArtistClient;
 import uk.co.ourfriendirony.medianotifier.clients.Client;
+import uk.co.ourfriendirony.medianotifier.clients.GameClient;
 import uk.co.ourfriendirony.medianotifier.clients.MovieClient;
 import uk.co.ourfriendirony.medianotifier.clients.TVClient;
 import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
+import uk.co.ourfriendirony.medianotifier.db.game.GameDatabase;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
@@ -41,6 +43,7 @@ import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.switchTheme;
 import static uk.co.ourfriendirony.medianotifier.general.Constants.ARTIST;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.GAME;
 import static uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY;
 import static uk.co.ourfriendirony.medianotifier.general.Constants.MOVIE;
 import static uk.co.ourfriendirony.medianotifier.general.Constants.TVSHOW;
@@ -51,14 +54,18 @@ public class ActivityMain extends AppCompatActivity {
     private Database tvShowDatabase;
     private Database movieDatabase;
     private Database artistDatabase;
+    private Database gameDatabase;
 
     private Client tvShowClient = new TVClient();
     private Client movieClient = new MovieClient();
     private Client artistClient = new ArtistClient();
+    private Client gameClient = new GameClient();
 
     private TextView main_button_tvshow_notification;
     private TextView main_button_movie_notification;
     private TextView main_button_artist_notification;
+    private TextView main_button_game_notification;
+
     private PopupWindow popupWindow;
     private ProgressBar progressBar;
 
@@ -73,33 +80,41 @@ public class ActivityMain extends AppCompatActivity {
         tvShowDatabase = new TVShowDatabase(getApplicationContext());
         movieDatabase = new MovieDatabase(getApplicationContext());
         artistDatabase = new ArtistDatabase(getApplicationContext());
+        gameDatabase = new GameDatabase(getApplicationContext());
 
         FloatingActionButton main_button_tvshow_find = (FloatingActionButton) findViewById(R.id.main_button_tv_find);
         FloatingActionButton main_button_movie_find = (FloatingActionButton) findViewById(R.id.main_button_movie_find);
         FloatingActionButton main_button_artist_find = (FloatingActionButton) findViewById(R.id.main_button_artist_find);
+        FloatingActionButton main_button_game_find = (FloatingActionButton) findViewById(R.id.main_button_game_find);
 
         main_button_tvshow_notification = (TextView) findViewById(R.id.main_button_tv_notification);
         main_button_movie_notification = (TextView) findViewById(R.id.main_button_movie_notification);
         main_button_artist_notification = (TextView) findViewById(R.id.main_button_artist_notification);
+        main_button_game_notification = (TextView) findViewById(R.id.main_button_game_notification);
 
         Button main_button_tvshow_library = (Button) findViewById(R.id.main_button_tv);
         Button main_button_movie_library = (Button) findViewById(R.id.main_button_movie);
         Button main_button_artist_library = (Button) findViewById(R.id.main_button_artist);
+        Button main_button_game_library = (Button) findViewById(R.id.main_button_game);
 
         ImageView tmdbImage = (ImageView) findViewById(R.id.badge_tmdb);
         ImageView musicbrainzImage = (ImageView) findViewById(R.id.badge_musicbrainz);
+        ImageView rawgImage = (ImageView) findViewById(R.id.badge_rawg);
 
         prepButton(main_button_tvshow_find, ActivityFind.class, TVSHOW);
         prepButton(main_button_movie_find, ActivityFind.class, MOVIE);
         prepButton(main_button_artist_find, ActivityFind.class, ARTIST);
+        prepButton(main_button_game_find, ActivityFind.class, GAME);
 
         prepButton(main_button_tvshow_library, ActivityLibrary.class, TVSHOW);
         prepButton(main_button_movie_library, ActivityLibrary.class, MOVIE);
         prepButton(main_button_artist_library, ActivityLibrary.class, ARTIST);
+        prepButton(main_button_game_library, ActivityLibrary.class, GAME);
 
         prepButton(main_button_tvshow_notification, ActivityUnwatched.class, TVSHOW);
         prepButton(main_button_movie_notification, ActivityUnwatched.class, MOVIE);
         prepButton(main_button_artist_notification, ActivityUnwatched.class, ARTIST);
+        prepButton(main_button_game_notification, ActivityUnwatched.class, GAME);
 
         tmdbImage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -109,6 +124,11 @@ public class ActivityMain extends AppCompatActivity {
         musicbrainzImage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 startActivity(IntentGenerator.getWebPageIntent("https://musicbrainz.org/"));
+            }
+        });
+        rawgImage.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                startActivity(IntentGenerator.getWebPageIntent("https://rawg.io/"));
             }
         });
     }
@@ -133,10 +153,12 @@ public class ActivityMain extends AppCompatActivity {
         int numEpisodes = tvShowDatabase.countUnwatchedReleased();
         int numMovies = movieDatabase.countUnwatchedReleased();
         int numAlbums = artistDatabase.countUnwatchedReleased();
+        int numGames = gameDatabase.countUnwatchedReleased();
 
         Drawable tvNotifyBG = (numEpisodes > 0) ? notificationOn : notificationOff;
         Drawable movieNotifyBG = (numMovies > 0) ? notificationOn : notificationOff;
         Drawable albumNotifyBG = (numAlbums > 0) ? notificationOn : notificationOff;
+        Drawable gameNotifyBG = (numGames > 0) ? notificationOn : notificationOff;
 
         main_button_tvshow_notification.setText(getNotificationNumber(numEpisodes));
         main_button_tvshow_notification.setBackground(tvNotifyBG);
@@ -146,6 +168,9 @@ public class ActivityMain extends AppCompatActivity {
 
         main_button_artist_notification.setBackground(albumNotifyBG);
         main_button_artist_notification.setText(getNotificationNumber(numAlbums));
+
+        main_button_game_notification.setBackground(gameNotifyBG);
+        main_button_game_notification.setText(getNotificationNumber(numGames));
     }
 
     @Override
@@ -201,6 +226,7 @@ public class ActivityMain extends AppCompatActivity {
                 new UpdateMediaItem(getBaseContext(), progressBar, tvShowDatabase, tvShowClient).execute(asArray(tvShowDatabase.readAllItems()));
                 new UpdateMediaItem(getBaseContext(), progressBar, movieDatabase, movieClient).execute(asArray(movieDatabase.readAllItems()));
                 new UpdateMediaItem(getBaseContext(), progressBar, artistDatabase, artistClient).execute(asArray(artistDatabase.readAllItems()));
+                new UpdateMediaItem(getBaseContext(), progressBar, gameDatabase, artistClient).execute(asArray(gameDatabase.readAllItems()));
                 return true;
 
             default:

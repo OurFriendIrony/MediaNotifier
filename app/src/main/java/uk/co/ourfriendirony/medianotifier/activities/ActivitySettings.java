@@ -19,12 +19,14 @@ import android.widget.Toast;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
+import uk.co.ourfriendirony.medianotifier.db.game.GameDatabase;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.notifier.AlarmScheduler;
 
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getMarkWatchedIfAlreadyReleased;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetArtist;
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetGame;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetMax;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetMin;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetMovie;
@@ -34,6 +36,7 @@ import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificati
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationTimeFull;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setMarkWatchedIfAlreadyReleased;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationDayOffsetArtist;
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationDayOffsetGame;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationDayOffsetMovie;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationDayOffsetTV;
 import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationHour;
@@ -59,10 +62,12 @@ public class ActivitySettings extends AppCompatActivity {
         final Button buttonNotifyOffsetTV = (Button) findViewById(R.id.settings_notification_day_offset_tv_button);
         final Button buttonNotifyOffsetMovie = (Button) findViewById(R.id.settings_notification_day_offset_movie_button);
         final Button buttonNotifyOffsetArtist = (Button) findViewById(R.id.settings_notification_day_offset_artist_button);
+        final Button buttonNotifyOffsetGame = (Button) findViewById(R.id.settings_notification_day_offset_game_button);
 
         final Button buttonDeleteTV = (Button) findViewById(R.id.settings_button_delete_tv_all);
         final Button buttonDeleteMovie = (Button) findViewById(R.id.settings_button_delete_movie_all);
         final Button buttonDeleteArtist = (Button) findViewById(R.id.settings_button_delete_artist_all);
+        final Button buttonDeleteGame = (Button) findViewById(R.id.settings_button_delete_game_all);
 
         // Set Object Current Values
         toggleMarkWatched.setChecked(getMarkWatchedIfAlreadyReleased(getBaseContext()));
@@ -72,10 +77,12 @@ public class ActivitySettings extends AppCompatActivity {
         buttonNotifyOffsetTV.setText(String.valueOf(getNotificationDayOffsetTV(getBaseContext())));
         buttonNotifyOffsetMovie.setText(String.valueOf(getNotificationDayOffsetMovie(getBaseContext())));
         buttonNotifyOffsetArtist.setText(String.valueOf(getNotificationDayOffsetArtist(getBaseContext())));
+        buttonNotifyOffsetGame.setText(String.valueOf(getNotificationDayOffsetGame(getBaseContext())));
 
         buttonDeleteTV.setText(getResources().getString(R.string.button_delete_tv_all));
         buttonDeleteMovie.setText(getResources().getString(R.string.button_delete_movie_all));
         buttonDeleteArtist.setText(getResources().getString(R.string.button_delete_artist_all));
+        buttonDeleteGame.setText(getResources().getString(R.string.button_delete_game_all));
 
         // Define Object Actions
         toggleMarkWatched.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -104,6 +111,14 @@ public class ActivitySettings extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 new ArtistDatabase(getApplicationContext()).deleteAll();
+                Toast.makeText(ActivitySettings.this, R.string.toast_db_table_cleared, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        buttonDeleteGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new GameDatabase(getApplicationContext()).deleteAll();
                 Toast.makeText(ActivitySettings.this, R.string.toast_db_table_cleared, Toast.LENGTH_SHORT).show();
             }
         });
@@ -214,6 +229,34 @@ public class ActivitySettings extends AppCompatActivity {
                         setNotificationDayOffsetArtist(getApplicationContext(), picker.getValue());
                         popupWindow.dismiss();
                         buttonNotifyOffsetArtist.setText(String.valueOf(getNotificationDayOffsetArtist(getBaseContext())));
+                    }
+                });
+            }
+        });
+
+
+        buttonNotifyOffsetGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater inflater = (LayoutInflater) ActivitySettings.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View layout = inflater.inflate(R.layout.popup_offset_selector, (ViewGroup) findViewById(R.id.popup));
+
+                popupWindow = new PopupWindow(layout, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true);
+                popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+
+                final NumberPicker picker = (NumberPicker) popupWindow.getContentView().findViewById(R.id.popup_date_picker);
+                picker.setMaxValue(getNotificationDayOffsetMax());
+                picker.setMinValue(getNotificationDayOffsetMin());
+                picker.setValue(getNotificationDayOffsetGame(getApplicationContext()));
+                picker.setWrapSelectorWheel(false);
+
+                Button buttonOk = (Button) popupWindow.getContentView().findViewById(R.id.popup_ok);
+                buttonOk.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setNotificationDayOffsetGame(getApplicationContext(), picker.getValue());
+                        popupWindow.dismiss();
+                        buttonNotifyOffsetGame.setText(String.valueOf(getNotificationDayOffsetGame(getBaseContext())));
                     }
                 });
             }

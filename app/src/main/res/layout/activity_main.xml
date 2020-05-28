@@ -152,6 +152,47 @@
 
             </RelativeLayout>
 
+            <RelativeLayout
+                style="@style/style_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/main_button_game_find"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:backgroundTint="@color/grey_01"
+                    android:src="@android:drawable/ic_search_category_default"
+                    app:borderWidth="0dp" />
+
+                <Button
+                    android:id="@+id/main_button_game"
+                    style="@style/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="15dp"
+                    android:layout_toEndOf="@id/main_button_game_find"
+                    android:text="@string/button_games" />
+
+                <TextView
+                    android:id="@+id/main_button_game_notification"
+                    style="@style/notification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="5dp"
+                    android:clickable="true"
+                    android:elevation="10dp"
+                    android:gravity="center"
+                    android:text="0" />
+
+            </RelativeLayout>
+
         </LinearLayout>
     </FrameLayout>
 
@@ -188,11 +229,21 @@
                 android:id="@+id/badge_musicbrainz"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_toStartOf="@+id/badge_rawg"
+                android:contentDescription="@string/musicbrainz"
+                android:src="@drawable/img_external_musicbrainz" />
+
+            <ImageView
+                android:id="@+id/badge_rawg"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="5dp"
                 android:layout_marginStart="5dp"
-                android:contentDescription="@string/musicbrainz"
-                android:src="@drawable/img_external_musicbrainz" />
+                android:contentDescription="@string/rawg"
+                android:src="@drawable/img_external_rawg" />
         </RelativeLayout>
     </FrameLayout>
 </android.support.design.widget.CoordinatorLayout>

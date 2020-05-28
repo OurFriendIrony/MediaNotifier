@@ -4,12 +4,15 @@
     <string name="title_find_tvshow">Find TV Show</string>
     <string name="title_find_movie">Find Movie</string>
     <string name="title_find_artist">Find Artist</string>
+    <string name="title_find_game">Find Game</string>
     <string name="title_library_tvshow">TV Show Library</string>
     <string name="title_library_movie">Movie Library</string>
     <string name="title_library_artist">Artist Library</string>
+    <string name="title_library_game">Game Library</string>
     <string name="title_unwatched_tvshow">Released TV Shows</string>
     <string name="title_unwatched_movie">Released Movies</string>
     <string name="title_unwatched_artist">Released Artists</string>
+    <string name="title_unwatched_game">Released Games</string>
     <string name="title_settings">Settings</string>
 
     <string name="action_settings">Settings</string>
@@ -21,9 +24,11 @@
     <string name="button_tvshows">TV Shows</string>
     <string name="button_movies">Movies</string>
     <string name="button_artists">Artists</string>
+    <string name="button_games">Games</string>
     <string name="button_delete_tv_all">Delete TV Shows</string>
     <string name="button_delete_movie_all">Delete Movies</string>
     <string name="button_delete_artist_all">Delete Music</string>
+    <string name="button_delete_game_all">Delete Game</string>
 
     <string name="settings_watched_check">Mark newly added but released items as watched?</string>
 
@@ -42,6 +47,8 @@
 
     <string name="tvmb">TVMB</string>
     <string name="musicbrainz">musicbrainz</string>
+    <string name="rawg">rawg</string>
+
     <string name="action_logview">Logs</string>
     <string name="action_theme">theme</string>
 
