@@ -32,7 +32,7 @@
             android:layout_below="@id/settings_watched_text">
 
             <View
-                android:id="@+id/horiz_strut_-0"
+                android:id="@+id/horiz_strut_00"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_centerHorizontal="true" />
@@ -40,7 +40,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignEnd="@id/horiz_strut_-0"
+                android:layout_alignEnd="@id/horiz_strut_00"
                 android:layout_alignParentStart="true" />
 
             <include
@@ -49,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_alignStart="@id/horiz_strut_-0" />
+                android:layout_alignStart="@id/horiz_strut_00" />
         </RelativeLayout>
     </RelativeLayout>
 
@@ -79,7 +79,7 @@
             android:layout_below="@id/settings_notification_time_text">
 
             <View
-                android:id="@+id/horiz_strut_0"
+                android:id="@+id/horiz_strut_10"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_centerHorizontal="true" />
@@ -87,7 +87,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignEnd="@id/horiz_strut_0"
+                android:layout_alignEnd="@id/horiz_strut_10"
                 android:layout_alignParentStart="true" />
 
             <Button
@@ -96,7 +96,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_alignStart="@id/horiz_strut_0" />
+                android:layout_alignStart="@id/horiz_strut_10" />
         </RelativeLayout>
     </RelativeLayout>
 
@@ -126,7 +126,7 @@
             android:layout_below="@id/settings_notification_day_offset_text">
 
             <View
-                android:id="@+id/horiz_strut_1"
+                android:id="@+id/horiz_strut_20"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_centerHorizontal="true" />
@@ -135,7 +135,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/settings_notification_day_offset_tv_button"
-                android:layout_alignEnd="@id/horiz_strut_1"
+                android:layout_alignEnd="@id/horiz_strut_20"
                 android:layout_alignParentStart="true"
 
                 android:layout_alignTop="@+id/settings_notification_day_offset_tv_button"
@@ -150,7 +150,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_alignStart="@id/horiz_strut_1" />
+                android:layout_alignStart="@id/horiz_strut_20" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -160,7 +160,7 @@
             android:layout_below="@id/settings_notification_day_offset_tv_button_rel">
 
             <View
-                android:id="@+id/horiz_strut_2"
+                android:id="@+id/horiz_strut_21"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_centerHorizontal="true" />
@@ -169,7 +169,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/settings_notification_day_offset_movie_button"
-                android:layout_alignEnd="@id/horiz_strut_2"
+                android:layout_alignEnd="@id/horiz_strut_21"
                 android:layout_alignParentStart="true"
                 android:layout_alignTop="@+id/settings_notification_day_offset_movie_button"
                 android:gravity="center_vertical|end"
@@ -183,7 +183,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_alignStart="@id/horiz_strut_2" />
+                android:layout_alignStart="@id/horiz_strut_21" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -193,7 +193,7 @@
             android:layout_below="@id/settings_notification_day_offset_movie_button_rel">
 
             <View
-                android:id="@+id/horiz_strut_3"
+                android:id="@+id/horiz_strut_22"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_centerHorizontal="true" />
@@ -202,7 +202,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/settings_notification_day_offset_artist_button"
-                android:layout_alignEnd="@id/horiz_strut_3"
+                android:layout_alignEnd="@id/horiz_strut_22"
                 android:layout_alignParentStart="true"
                 android:layout_alignTop="@+id/settings_notification_day_offset_artist_button"
                 android:gravity="center_vertical|end"
@@ -216,7 +216,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_alignStart="@id/horiz_strut_3" />
+                android:layout_alignStart="@id/horiz_strut_22" />
         </RelativeLayout>
 
     </RelativeLayout>
@@ -257,7 +257,7 @@
             android:layout_below="@id/settings_delete_all_text">
 
             <View
-                android:id="@+id/horiz_strut_4"
+                android:id="@+id/horiz_strut_90"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_centerHorizontal="true" />
@@ -266,7 +266,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/settings_button_delete_tv_all"
-                android:layout_alignEnd="@id/horiz_strut_4"
+                android:layout_alignEnd="@id/horiz_strut_90"
                 android:layout_alignParentStart="true"
                 android:layout_alignTop="@+id/settings_button_delete_tv_all"
                 android:gravity="center_vertical|end"
@@ -280,7 +280,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_alignStart="@id/horiz_strut_4" />
+                android:layout_alignStart="@id/horiz_strut_90" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -290,7 +290,7 @@
             android:layout_below="@id/settings_delete_tv_button_rel">
 
             <View
-                android:id="@+id/horiz_strut_5"
+                android:id="@+id/horiz_strut_91"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_centerHorizontal="true" />
@@ -299,7 +299,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/settings_button_delete_movie_all"
-                android:layout_alignEnd="@id/horiz_strut_5"
+                android:layout_alignEnd="@id/horiz_strut_91"
                 android:layout_alignParentStart="true"
                 android:layout_alignTop="@+id/settings_button_delete_movie_all"
                 android:gravity="center_vertical|end"
@@ -313,7 +313,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_alignStart="@id/horiz_strut_5" />
+                android:layout_alignStart="@id/horiz_strut_91" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -323,7 +323,7 @@
             android:layout_below="@id/settings_delete_movie_button_rel">
 
             <View
-                android:id="@+id/horiz_strut_6"
+                android:id="@+id/horiz_strut_92"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_centerHorizontal="true" />
@@ -332,7 +332,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/settings_button_delete_artist_all"
-                android:layout_alignEnd="@id/horiz_strut_6"
+                android:layout_alignEnd="@id/horiz_strut_92"
                 android:layout_alignParentStart="true"
                 android:layout_alignTop="@+id/settings_button_delete_artist_all"
                 android:gravity="center_vertical|end"
@@ -346,7 +346,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_alignStart="@id/horiz_strut_6" />
+                android:layout_alignStart="@id/horiz_strut_92" />
         </RelativeLayout>
 
     </RelativeLayout>

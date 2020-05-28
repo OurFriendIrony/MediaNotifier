@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.assertNull;
 
 public class HelperTest {
     private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -48,10 +48,7 @@ public class HelperTest {
 
     @Test
     public void canHandleNullDateToString() {
-        assertEquals(
-                "",
-                Helper.dateToString(null)
-        );
+        assertNull(Helper.dateToString(null));
     }
 
     @Test
@@ -61,26 +58,6 @@ public class HelperTest {
         assertEquals(
                 expectedDate,
                 Helper.stringToDate(dateString)
-        );
-    }
-
-    @Test
-    public void willDefaultToNowIfFailsToParseDate() {
-        String dateString = "wibble";
-        long currentTime = new GregorianCalendar().getTime().getTime();
-        long exceptionTime = Helper.stringToDate(dateString).getTime();
-        assertTrue(currentTime <= exceptionTime);
-    }
-
-    @Test
-    public void canPadNumberWithLeadingZeros() {
-        assertEquals(
-                "0000003",
-                Helper.pad(3, 7)
-        );
-        assertEquals(
-                "00000000123",
-                Helper.pad(123, 11)
         );
     }
 

@@ -26,7 +26,6 @@ import static uk.co.ourfriendirony.medianotifier.general.Helper.dateToString;
 
 public class ArtistDatabase implements Database {
     private static final String SELECT_ARTISTS = "SELECT * FROM " + ArtistDatabaseDefinition.TABLE_ARTISTS + " ORDER BY " + ArtistDatabaseDefinition.TITLE + " ASC;";
-    private static final String SELECT_ARTISTS_BY_ID = "SELECT * FROM " + ArtistDatabaseDefinition.TABLE_ARTISTS + " WHERE " + ArtistDatabaseDefinition.ID + "=? ORDER BY " + ArtistDatabaseDefinition.TITLE + " ASC;";
     private static final String SELECT_RELEASES_BY_ID = "SELECT * FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " WHERE " + ArtistDatabaseDefinition.ID + "=? ORDER BY " + ArtistDatabaseDefinition.RELEASE_DATE + " ASC;";
 
     private static final String GET_RELEASE_WATCHED_STATUS = "SELECT " + ArtistDatabaseDefinition.WATCHED + " FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " WHERE " + ArtistDatabaseDefinition.ID + "=? AND " + ArtistDatabaseDefinition.SUBID + "=?;";
@@ -40,7 +39,7 @@ public class ArtistDatabase implements Database {
 
     private static final String GET_UNWATCHED_RELEASES_TOTAL = "SELECT * " +
             "FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " " +
-            "WHERE " + ArtistDatabaseDefinition.WATCHED + "=" + DB_FALSE + " ORDER BY " + ArtistDatabaseDefinition.RELEASE_DATE + " ASC;";
+            "WHERE " + ArtistDatabaseDefinition.WATCHED + "=" + DB_FALSE + " AND " + ArtistDatabaseDefinition.RELEASE_DATE + " != '' ORDER BY " + ArtistDatabaseDefinition.RELEASE_DATE + " ASC;";
 
     private final Context context;
     private final SQLiteDatabase dbWritable;

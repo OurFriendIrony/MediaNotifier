@@ -1,9 +1,7 @@
 buildscript {
     repositories {
-        mavenLocal()
-        jcenter()
         google()
-        maven { url 'http://repo1.maven.org/maven2' }
+        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.6.0'
@@ -11,31 +9,11 @@ buildscript {
     }
 }
 
-ext {
-    configCompileSdkVersion = 28
-    configTargetSdkVersion = 28
-    configBuildToolsVersion = '28.0.3'
-
-    supportVersion = '28.0.3'
-    support = [
-            annotations: "com.android.support:support-annotations:$supportVersion",
-            appCompat  : "com.android.support:appcompat-v7:$supportVersion"
-    ]
-
-    assertJCore = 'org.assertj:assertj-core:1.7.1'
-    junit = 'junit:junit:4.12'
-
-    supportTest = [
-            espressoCore: 'com.android.support.test.espresso:espresso-core:2.2.2',
-            rules       : 'com.android.support.test:rules:0.5'
-    ]
-}
-
 allprojects {
     repositories {
+        google()
         jcenter()
     }
-    project.version = '0.0.1'
 }
 
 task clean(type: Delete) {

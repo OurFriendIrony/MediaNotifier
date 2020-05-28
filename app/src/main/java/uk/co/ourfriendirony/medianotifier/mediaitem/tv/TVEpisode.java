@@ -29,11 +29,11 @@ public class TVEpisode implements MediaItem {
     private boolean watched = false;
     private List<MediaItem> children = new ArrayList<>();
 
-    public TVEpisode(TVSeasonGetEpisode episode, String showId) {
-        this.id = String.valueOf(showId);
-        this.subid = formatSubtitle(episode);
+    public TVEpisode(TVSeasonGetEpisode episode, TVShow tvShow) {
+        this.id = tvShow.getId();
+        this.subid = formatEpSe(episode);
         this.title = episode.getName();
-        this.subtitle = formatSubtitle(episode);
+        this.subtitle = formatEpSe(episode) + " " + tvShow.getTitle();
         this.description = episode.getOverview();
         this.releaseDate = episode.getAirDate();
         Log.d("[API GET]", this.toString());
@@ -55,7 +55,7 @@ public class TVEpisode implements MediaItem {
     }
 
     @NonNull
-    private String formatSubtitle(TVSeasonGetEpisode episode) {
+    private String formatEpSe(TVSeasonGetEpisode episode) {
         return pad(episode.getSeasonNumber(), "S", 2) + pad(episode.getEpisodeNumber(), "E", 2);
     }
 
@@ -108,6 +108,11 @@ public class TVEpisode implements MediaItem {
     @Override
     public List<MediaItem> getChildren() {
         return children;
+    }
+
+    @Override
+    public void setChildren(List<MediaItem> children) {
+        this.children = children;
     }
 
     @Override

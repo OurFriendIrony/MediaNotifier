@@ -57,13 +57,17 @@ public class MusicBrainzClient extends AbstractClient {
                 replaceTokens(URL_ARTIST_ID, "@ID@", artistID)
         );
         ArtistGet ag = OBJECT_MAPPER.readValue(payload, ArtistGet.class);
+        Artist artist = new Artist(ag);
+
         List<MediaItem> releases = new ArrayList<>();
         for (ArtistGetReleaseGroup rawRelease : ag.getReleaseGroups()) {
             if (isWanted(rawRelease) && hasADate(rawRelease)) {
-                releases.add(new Release(rawRelease, artistID));
+                releases.add(new Release(rawRelease, artist));
             }
         }
-        return new Artist(ag, releases);
+
+        artist.setChildren(releases);
+        return artist;
     }
 
     private boolean hasADate(ArtistGetReleaseGroup rawRelease) {
