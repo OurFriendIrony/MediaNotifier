@@ -25,8 +25,8 @@ public class Artist implements MediaItem {
     private String description = "";
     private Date releaseDate;
     private String externalUrl;
-    // TODO: fully implement watched as an item
-    private boolean watched = false;
+    // TODO: fully implement played as an item
+    private boolean played = false;
     private List<MediaItem> children = new ArrayList<>();
 
     public Artist(ArtistGet artist) {
@@ -139,8 +139,8 @@ public class Artist implements MediaItem {
     }
 
     @Override
-    public Boolean getWatched() {
-        return watched;
+    public Boolean getPlayed() {
+        return played;
     }
 
     public String toString() {

@@ -7,12 +7,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.activities.pageradapter.UnwatchedPagerAdapter;
+import uk.co.ourfriendirony.medianotifier.activities.pageradapter.UnplayedPagerAdapter;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 
 import static uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY;
 
-public class ActivityUnwatched extends AppCompatActivity {
+public class ActivityUnplayed extends AppCompatActivity {
 
     private ViewPager mPager;
     private android.support.v4.view.PagerAdapter mPagerAdapter;
@@ -31,7 +31,7 @@ public class ActivityUnwatched extends AppCompatActivity {
         cancelNotifications();
 
         mPager = (ViewPager) findViewById(R.id.pager);
-        mPagerAdapter = new UnwatchedPagerAdapter(getSupportFragmentManager(), intentKey);
+        mPagerAdapter = new UnplayedPagerAdapter(getSupportFragmentManager(), intentKey);
         mPager.setAdapter(mPagerAdapter);
     }
 

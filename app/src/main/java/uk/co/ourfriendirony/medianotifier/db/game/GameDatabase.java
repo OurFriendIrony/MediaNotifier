@@ -27,17 +27,17 @@ public class GameDatabase implements Database {
     private static final String SELECT_GAMES = "SELECT * FROM " + GameDatabaseDefinition.TABLE_GAMES + " ORDER BY " + GameDatabaseDefinition.TITLE + " ASC;";
     private static final String SELECT_GAMES_BY_ID = "SELECT * FROM " + GameDatabaseDefinition.TABLE_GAMES + " WHERE " + GameDatabaseDefinition.ID + "=? ORDER BY " + GameDatabaseDefinition.ID + " ASC;";
 
-    private static final String GET_GAME_WATCHED_STATUS = "SELECT " + GameDatabaseDefinition.WATCHED + " FROM " + GameDatabaseDefinition.TABLE_GAMES + " WHERE " + GameDatabaseDefinition.ID + "=?;";
+    private static final String GET_GAME_WATCHED_STATUS = "SELECT " + GameDatabaseDefinition.PLAYED + " FROM " + GameDatabaseDefinition.TABLE_GAMES + " WHERE " + GameDatabaseDefinition.ID + "=?;";
 
     private static final String COUNT_UNWATCHED_GAMES_RELEASED = "SELECT COUNT(*) FROM " + GameDatabaseDefinition.TABLE_GAMES + " " +
-            "WHERE " + GameDatabaseDefinition.WATCHED + "=" + DB_FALSE + " AND " + GameDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@;";
+            "WHERE " + GameDatabaseDefinition.PLAYED + "=" + DB_FALSE + " AND " + GameDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@;";
     private static final String GET_UNWATCHED_GAMES_RELEASED = "SELECT * " +
             "FROM " + GameDatabaseDefinition.TABLE_GAMES + " " +
-            "WHERE " + GameDatabaseDefinition.WATCHED + "=" + DB_FALSE + " AND " + GameDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@ ORDER BY " + GameDatabaseDefinition.RELEASE_DATE + " ASC;";
+            "WHERE " + GameDatabaseDefinition.PLAYED + "=" + DB_FALSE + " AND " + GameDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@ ORDER BY " + GameDatabaseDefinition.RELEASE_DATE + " ASC;";
 
     private static final String GET_UNWATCHED_GAMES_TOTAL = "SELECT * " +
             "FROM " + GameDatabaseDefinition.TABLE_GAMES + " " +
-            "WHERE " + GameDatabaseDefinition.WATCHED + "=" + DB_FALSE + " AND " + GameDatabaseDefinition.RELEASE_DATE + " != '' ORDER BY " + GameDatabaseDefinition.RELEASE_DATE + " ASC;";
+            "WHERE " + GameDatabaseDefinition.PLAYED + "=" + DB_FALSE + " AND " + GameDatabaseDefinition.RELEASE_DATE + " != '' ORDER BY " + GameDatabaseDefinition.RELEASE_DATE + " ASC;";
 
     private final Context context;
     private final SQLiteDatabase dbWritable;
@@ -67,10 +67,10 @@ public class GameDatabase implements Database {
         dbRow.put(GameDatabaseDefinition.RELEASE_DATE, dateToString(mediaItem.getReleaseDate()));
         dbRow.put(GameDatabaseDefinition.DESCRIPTION, mediaItem.getDescription());
         dbRow.put(GameDatabaseDefinition.SUBTITLE, mediaItem.getSubtitle());
-        if (markWatchedIfReleased(isNewItem, mediaItem)) {
-            dbRow.put(GameDatabaseDefinition.WATCHED, DB_TRUE);
+        if (markPlayedIfReleased(isNewItem, mediaItem)) {
+            dbRow.put(GameDatabaseDefinition.PLAYED, DB_TRUE);
         } else {
-            dbRow.put(GameDatabaseDefinition.WATCHED, currentWatchedStatus);
+            dbRow.put(GameDatabaseDefinition.PLAYED, currentWatchedStatus);
         }
         Log.d("[DB INSERT]", "Game: " + dbRow.toString());
         dbWritable.replace(GameDatabaseDefinition.TABLE_GAMES, null, dbRow);
@@ -80,31 +80,31 @@ public class GameDatabase implements Database {
     public String getWatchedStatus(MediaItem mediaItem) {
         String[] args = new String[]{mediaItem.getId()};
         Cursor cursor = dbWritable.rawQuery(GET_GAME_WATCHED_STATUS, args);
-        String watchedStatus = DB_FALSE;
+        String playedStatus = DB_FALSE;
         try {
             while (cursor.moveToNext()) {
-                watchedStatus = getColumnValue(cursor, GameDatabaseDefinition.WATCHED);
+                playedStatus = getColumnValue(cursor, GameDatabaseDefinition.PLAYED);
             }
         } finally {
             cursor.close();
         }
-        return watchedStatus;
+        return playedStatus;
     }
 
     @Override
     public boolean getWatchedStatusAsBoolean(MediaItem mediaItem) {
         String[] args = new String[]{mediaItem.getId()};
         Cursor cursor = dbWritable.rawQuery(GET_GAME_WATCHED_STATUS, args);
-        String watchedStatus = DB_FALSE;
+        String playedStatus = DB_FALSE;
 
         try {
             while (cursor.moveToNext()) {
-                watchedStatus = getColumnValue(cursor, GameDatabaseDefinition.WATCHED);
+                playedStatus = getColumnValue(cursor, GameDatabaseDefinition.PLAYED);
             }
         } finally {
             cursor.close();
         }
-        return DB_TRUE.equals(watchedStatus);
+        return DB_TRUE.equals(playedStatus);
     }
 
     @Override
@@ -118,21 +118,21 @@ public class GameDatabase implements Database {
     }
 
     @Override
-    public int countUnwatchedReleased() {
-        return countUnwatched(COUNT_UNWATCHED_GAMES_RELEASED);
+    public int countUnplayedReleased() {
+        return countUnplayed(COUNT_UNWATCHED_GAMES_RELEASED);
     }
 
     @Override
-    public List<MediaItem> getUnwatchedReleased() {
-        return getUnwatched(GET_UNWATCHED_GAMES_RELEASED, "UNWATCHED RELEASED");
+    public List<MediaItem> getUnplayedReleased() {
+        return getUnplayed(GET_UNWATCHED_GAMES_RELEASED, "UNWATCHED RELEASED");
     }
 
     @Override
-    public List<MediaItem> getUnwatchedTotal() {
-        return getUnwatched(GET_UNWATCHED_GAMES_TOTAL, "UNWATCHED TOTAL");
+    public List<MediaItem> getUnplayedTotal() {
+        return getUnplayed(GET_UNWATCHED_GAMES_TOTAL, "UNWATCHED TOTAL");
     }
 
-    private int countUnwatched(String countQuery) {
+    private int countUnplayed(String countQuery) {
         String offset = "date('now','-" + getNotificationDayOffsetGame(context) + " days')";
         String query = Helper.replaceTokens(countQuery, "@OFFSET@", offset);
         Cursor cursor = dbWritable.rawQuery(query, null);
@@ -143,7 +143,7 @@ public class GameDatabase implements Database {
     }
 
     @Override
-    public List<MediaItem> getUnwatched(String getQuery, String logTag) {
+    public List<MediaItem> getUnplayed(String getQuery, String logTag) {
         String offset = "date('now','-" + getNotificationDayOffsetGame(context) + " days')";
         String query = Helper.replaceTokens(getQuery, "@OFFSET@", offset);
         List<MediaItem> mediaItems = new ArrayList<>();
@@ -209,16 +209,16 @@ public class GameDatabase implements Database {
     }
 
     @Override
-    public void updateWatchedStatus(MediaItem mediaItem, String watchedStatus) {
+    public void updatePlayedStatus(MediaItem mediaItem, String playedStatus) {
         ContentValues values = new ContentValues();
-        values.put(GameDatabaseDefinition.WATCHED, watchedStatus);
+        values.put(GameDatabaseDefinition.PLAYED, playedStatus);
         String where = GameDatabaseDefinition.ID + "=?";
         String[] whereArgs = new String[]{mediaItem.getId()};
         dbWritable.update(GameDatabaseDefinition.TABLE_GAMES, values, where, whereArgs);
     }
 
     @Override
-    public boolean markWatchedIfReleased(boolean isNew, MediaItem mediaItem) {
+    public boolean markPlayedIfReleased(boolean isNew, MediaItem mediaItem) {
         return isNew && alreadyReleased(mediaItem) && getMarkWatchedIfAlreadyReleased(context);
     }
 

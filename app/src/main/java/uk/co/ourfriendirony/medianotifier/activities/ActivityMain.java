@@ -111,10 +111,10 @@ public class ActivityMain extends AppCompatActivity {
         prepButton(main_button_artist_library, ActivityLibrary.class, ARTIST);
         prepButton(main_button_game_library, ActivityLibrary.class, GAME);
 
-        prepButton(main_button_tvshow_notification, ActivityUnwatched.class, TVSHOW);
-        prepButton(main_button_movie_notification, ActivityUnwatched.class, MOVIE);
-        prepButton(main_button_artist_notification, ActivityUnwatched.class, ARTIST);
-        prepButton(main_button_game_notification, ActivityUnwatched.class, GAME);
+        prepButton(main_button_tvshow_notification, ActivityUnplayed.class, TVSHOW);
+        prepButton(main_button_movie_notification, ActivityUnplayed.class, MOVIE);
+        prepButton(main_button_artist_notification, ActivityUnplayed.class, ARTIST);
+        prepButton(main_button_game_notification, ActivityUnplayed.class, GAME);
 
         tmdbImage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -150,10 +150,10 @@ public class ActivityMain extends AppCompatActivity {
         final Drawable notificationOn = getResources().getDrawable(R.drawable.button_notification_on);
         final Drawable notificationOff = getResources().getDrawable(R.drawable.button_notification_off);
 
-        int numEpisodes = tvShowDatabase.countUnwatchedReleased();
-        int numMovies = movieDatabase.countUnwatchedReleased();
-        int numAlbums = artistDatabase.countUnwatchedReleased();
-        int numGames = gameDatabase.countUnwatchedReleased();
+        int numEpisodes = tvShowDatabase.countUnplayedReleased();
+        int numMovies = movieDatabase.countUnplayedReleased();
+        int numAlbums = artistDatabase.countUnplayedReleased();
+        int numGames = gameDatabase.countUnplayedReleased();
 
         Drawable tvNotifyBG = (numEpisodes > 0) ? notificationOn : notificationOff;
         Drawable movieNotifyBG = (numMovies > 0) ? notificationOn : notificationOff;

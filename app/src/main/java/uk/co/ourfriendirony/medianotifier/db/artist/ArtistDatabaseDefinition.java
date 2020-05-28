@@ -15,7 +15,7 @@ public class ArtistDatabaseDefinition extends SQLiteOpenHelper {
     public static final String DESCRIPTION = "description";
     public static final String RELEASE_DATE = "release_date";
     public static final String EXTERNAL_URL = "external_url";
-    public static final String WATCHED = "watched";
+    public static final String PLAYED = "watched";
     public static final String DATABASE_NAME = "artists";
     public static final String TABLE_ARTISTS = "artists";
     public static final String TABLE_RELEASES = "releases";
@@ -36,7 +36,7 @@ public class ArtistDatabaseDefinition extends SQLiteOpenHelper {
                 DESCRIPTION + " TEXT, " +
                 RELEASE_DATE + " TEXT, " +
                 EXTERNAL_URL + " TEXT, " +
-                WATCHED + " INTEGER DEFAULT " + DB_FALSE + ", " +
+                PLAYED + " INTEGER DEFAULT " + DB_FALSE + ", " +
                 "PRIMARY KEY (" + ID + ")" +
                 ")");
 
@@ -48,7 +48,7 @@ public class ArtistDatabaseDefinition extends SQLiteOpenHelper {
                 DESCRIPTION + " TEXT, " +
                 RELEASE_DATE + " TEXT, " +
                 EXTERNAL_URL + " TEXT, " +
-                WATCHED + " INTEGER DEFAULT " + DB_FALSE + ", " +
+                PLAYED + " INTEGER DEFAULT " + DB_FALSE + ", " +
                 "PRIMARY KEY (" + ID + "," + SUBID + ") " +
                 ")");
     }

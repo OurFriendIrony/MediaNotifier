@@ -6,18 +6,18 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
 
-import uk.co.ourfriendirony.medianotifier.activities.fragment.UnwatchedComingSoon;
-import uk.co.ourfriendirony.medianotifier.activities.fragment.UnwatchedReleased;
+import uk.co.ourfriendirony.medianotifier.activities.fragment.UnplayedComingSoon;
+import uk.co.ourfriendirony.medianotifier.activities.fragment.UnplayedReleased;
 
 import static uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY;
 
-public class UnwatchedPagerAdapter extends FragmentStatePagerAdapter {
+public class UnplayedPagerAdapter extends FragmentStatePagerAdapter {
 
     private static final int NUM_PAGES = 2;
     private Bundle b = new Bundle();
     private Fragment fragment = null;
 
-    public UnwatchedPagerAdapter(FragmentManager fm, String type) {
+    public UnplayedPagerAdapter(FragmentManager fm, String type) {
         super(fm);
         this.b.putString(INTENT_KEY, type);
     }
@@ -26,10 +26,10 @@ public class UnwatchedPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                fragment = new UnwatchedReleased();
+                fragment = new UnplayedReleased();
                 break;
             case 1:
-                fragment = new UnwatchedComingSoon();
+                fragment = new UnplayedComingSoon();
                 break;
             default:
                 Log.e("[FRAGMENT]", "Invalid Fragment Index");

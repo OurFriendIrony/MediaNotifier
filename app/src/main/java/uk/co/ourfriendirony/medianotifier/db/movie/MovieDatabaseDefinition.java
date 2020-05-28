@@ -15,7 +15,7 @@ public class MovieDatabaseDefinition extends SQLiteOpenHelper {
     public static final String DESCRIPTION = "description";
     public static final String RELEASE_DATE = "release_date";
     public static final String EXTERNAL_URL = "external_url";
-    public static final String WATCHED = "watched";
+    public static final String PLAYED = "watched";
     public static final String DATABASE_NAME = "movies";
     public static final String TABLE_MOVIES = "movies";
     private static final int DATABASE_VERSION = 6;
@@ -35,7 +35,7 @@ public class MovieDatabaseDefinition extends SQLiteOpenHelper {
                 DESCRIPTION + " TEXT, " +
                 RELEASE_DATE + " TEXT, " +
                 EXTERNAL_URL + " TEXT, " +
-                WATCHED + " INTEGER DEFAULT " + DB_FALSE + ", " +
+                PLAYED + " INTEGER DEFAULT " + DB_FALSE + ", " +
                 "PRIMARY KEY (" + ID + ")" +
                 ")");
     }

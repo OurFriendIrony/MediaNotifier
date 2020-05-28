@@ -12,8 +12,9 @@ import android.support.v4.app.NotificationCompat;
 import java.text.MessageFormat;
 
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.activities.ActivityUnwatched;
+import uk.co.ourfriendirony.medianotifier.activities.ActivityUnplayed;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
+import uk.co.ourfriendirony.medianotifier.db.game.GameDatabase;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
 
@@ -24,22 +25,21 @@ import static uk.co.ourfriendirony.medianotifier.general.Constants.MOVIE;
 import static uk.co.ourfriendirony.medianotifier.general.Constants.TVSHOW;
 
 public class NotifierReceiver extends BroadcastReceiver {
-    int unwatchedEpisodes = 0;
-    int unwatchedMovies = 0;
-    int unwatchedAlbums = 0;
-    int unwatchedGames = 0;
-    int unwatchedTotal = 0;
+    int unplayedEpisodes = 0;
+    int unplayedMovies = 0;
+    int unplayedAlbums = 0;
+    int unplayedGames = 0;
+    int unplayedTotal = 0;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        unwatchedEpisodes = new TVShowDatabase(context).countUnwatchedReleased();
-        unwatchedMovies = new MovieDatabase(context).countUnwatchedReleased();
-        unwatchedAlbums = new ArtistDatabase(context).countUnwatchedReleased();
-//        unwatchedGames = new GameDatabase(context).countUnwatchedReleased();
-        unwatchedGames = 0;
-        unwatchedTotal = unwatchedEpisodes + unwatchedMovies + unwatchedAlbums + unwatchedGames;
+        unplayedEpisodes = new TVShowDatabase(context).countUnplayedReleased();
+        unplayedMovies = new MovieDatabase(context).countUnplayedReleased();
+        unplayedAlbums = new ArtistDatabase(context).countUnplayedReleased();
+        unplayedGames = new GameDatabase(context).countUnplayedReleased();
+        unplayedTotal = unplayedEpisodes + unplayedMovies + unplayedAlbums + unplayedGames;
 
-        if (unwatchedTotal > 0) {
+        if (unplayedTotal > 0) {
             NotificationCompat.Builder notification = getBuilder(context);
 
             PendingIntent notificationIntent = PendingIntent.getActivity(
@@ -57,22 +57,22 @@ public class NotifierReceiver extends BroadcastReceiver {
 
     @NonNull
     private Intent getNotificationIntent(Context context) {
-        if (unwatchedEpisodes > 0) {
-            return new Intent(context, ActivityUnwatched.class).putExtra(INTENT_KEY, TVSHOW);
-        } else if (unwatchedMovies > 0) {
-            return new Intent(context, ActivityUnwatched.class).putExtra(INTENT_KEY, MOVIE);
-        } else if (unwatchedAlbums > 0) {
-            return new Intent(context, ActivityUnwatched.class).putExtra(INTENT_KEY, ARTIST);
-        } else if (unwatchedGames > 0) {
-            return new Intent(context, ActivityUnwatched.class).putExtra(INTENT_KEY, GAME);
+        if (unplayedEpisodes > 0) {
+            return new Intent(context, ActivityUnplayed.class).putExtra(INTENT_KEY, TVSHOW);
+        } else if (unplayedMovies > 0) {
+            return new Intent(context, ActivityUnplayed.class).putExtra(INTENT_KEY, MOVIE);
+        } else if (unplayedAlbums > 0) {
+            return new Intent(context, ActivityUnplayed.class).putExtra(INTENT_KEY, ARTIST);
+        } else if (unplayedGames > 0) {
+            return new Intent(context, ActivityUnplayed.class).putExtra(INTENT_KEY, GAME);
         }
-        return new Intent(context, ActivityUnwatched.class).putExtra(INTENT_KEY, TVSHOW);
+        return new Intent(context, ActivityUnplayed.class).putExtra(INTENT_KEY, TVSHOW);
     }
 
     private NotificationCompat.Builder getBuilder(Context context) {
         String text = MessageFormat.format("Episodes: {1}  /  Movies: {2}  /  Albums: {3}  /  Games: {4}",
                 context.getString(R.string.notification_text),
-                unwatchedEpisodes, unwatchedMovies, unwatchedAlbums, unwatchedGames
+                unplayedEpisodes, unplayedMovies, unplayedAlbums, unplayedGames
         );
         return new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.img_app_icon)

@@ -28,18 +28,18 @@ public class TVShowDatabase implements Database {
     private static final String SELECT_TVSHOWS = "SELECT * FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS + " ORDER BY " + TVShowDatabaseDefinition.TITLE + " ASC;";
     private static final String SELECT_TVEPISODES_BY_ID = "SELECT * FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " WHERE " + TVShowDatabaseDefinition.ID + "=? ORDER BY " + TVShowDatabaseDefinition.SUBID + " ASC;";
 
-    private static final String GET_TVEPISODE_WATCHED_STATUS = "SELECT " + TVShowDatabaseDefinition.WATCHED + " FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " WHERE " + TVShowDatabaseDefinition.ID + "=? AND " + TVShowDatabaseDefinition.SUBID + "=?;";
+    private static final String GET_TVEPISODE_WATCHED_STATUS = "SELECT " + TVShowDatabaseDefinition.PLAYED + " FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " WHERE " + TVShowDatabaseDefinition.ID + "=? AND " + TVShowDatabaseDefinition.SUBID + "=?;";
 
     private static final String COUNT_UNWATCHED_EPISODES_RELEASED = "SELECT COUNT(*) FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " " +
-            "WHERE " + TVShowDatabaseDefinition.WATCHED + "=" + DB_FALSE + " AND " + TVShowDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@;";
+            "WHERE " + TVShowDatabaseDefinition.PLAYED + "=" + DB_FALSE + " AND " + TVShowDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@;";
 
     private static final String GET_UNWATCHED_EPISODES_RELEASED = "SELECT * " +
             "FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " " +
-            "WHERE " + TVShowDatabaseDefinition.WATCHED + "=" + DB_FALSE + " AND " + TVShowDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@ ORDER BY " + TVShowDatabaseDefinition.RELEASE_DATE + " ASC;";
+            "WHERE " + TVShowDatabaseDefinition.PLAYED + "=" + DB_FALSE + " AND " + TVShowDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@ ORDER BY " + TVShowDatabaseDefinition.RELEASE_DATE + " ASC;";
 
     private static final String GET_UNWATCHED_EPISODES_TOTAL = "SELECT * " +
             "FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " " +
-            "WHERE " + TVShowDatabaseDefinition.WATCHED + "=" + DB_FALSE + " AND " + TVShowDatabaseDefinition.RELEASE_DATE + " != '' ORDER BY " + TVShowDatabaseDefinition.RELEASE_DATE + " ASC;";
+            "WHERE " + TVShowDatabaseDefinition.PLAYED + "=" + DB_FALSE + " AND " + TVShowDatabaseDefinition.RELEASE_DATE + " != '' ORDER BY " + TVShowDatabaseDefinition.RELEASE_DATE + " ASC;";
 
     private final Context context;
     private final SQLiteDatabase dbWritable;
@@ -87,10 +87,10 @@ public class TVShowDatabase implements Database {
         dbRow.put(TVShowDatabaseDefinition.SUBTITLE, episode.getSubtitle());
         dbRow.put(TVShowDatabaseDefinition.RELEASE_DATE, dateToString(episode.getReleaseDate()));
         dbRow.put(TVShowDatabaseDefinition.DESCRIPTION, episode.getDescription());
-        if (markWatchedIfReleased(isNewTVShow, episode)) {
-            dbRow.put(TVShowDatabaseDefinition.WATCHED, DB_TRUE);
+        if (markPlayedIfReleased(isNewTVShow, episode)) {
+            dbRow.put(TVShowDatabaseDefinition.PLAYED, DB_TRUE);
         } else {
-            dbRow.put(TVShowDatabaseDefinition.WATCHED, currentWatchedStatus);
+            dbRow.put(TVShowDatabaseDefinition.PLAYED, currentWatchedStatus);
         }
         Log.d("[DB INSERT]", "TVEpisode: " + dbRow.toString());
         dbWritable.replace(TVShowDatabaseDefinition.TABLE_EPISODES, null, dbRow);
@@ -100,31 +100,31 @@ public class TVShowDatabase implements Database {
     public String getWatchedStatus(MediaItem mediaItem) {
         String[] args = new String[]{mediaItem.getId(), mediaItem.getSubId()};
         Cursor cursor = dbWritable.rawQuery(GET_TVEPISODE_WATCHED_STATUS, args);
-        String watchedStatus = DB_FALSE;
+        String playedStatus = DB_FALSE;
         try {
             while (cursor.moveToNext()) {
-                watchedStatus = getColumnValue(cursor, TVShowDatabaseDefinition.WATCHED);
+                playedStatus = getColumnValue(cursor, TVShowDatabaseDefinition.PLAYED);
             }
         } finally {
             cursor.close();
         }
-        return watchedStatus;
+        return playedStatus;
     }
 
     @Override
     public boolean getWatchedStatusAsBoolean(MediaItem mediaItem) {
         String[] args = new String[]{mediaItem.getId(), mediaItem.getSubId()};
         Cursor cursor = dbWritable.rawQuery(GET_TVEPISODE_WATCHED_STATUS, args);
-        String watchedStatus = DB_FALSE;
+        String playedStatus = DB_FALSE;
 
         try {
             while (cursor.moveToNext()) {
-                watchedStatus = getColumnValue(cursor, TVShowDatabaseDefinition.WATCHED);
+                playedStatus = getColumnValue(cursor, TVShowDatabaseDefinition.PLAYED);
             }
         } finally {
             cursor.close();
         }
-        return DB_TRUE.equals(watchedStatus);
+        return DB_TRUE.equals(playedStatus);
     }
 
     @Override
@@ -164,11 +164,11 @@ public class TVShowDatabase implements Database {
     }
 
     @Override
-    public int countUnwatchedReleased() {
-        return countUnwatched(COUNT_UNWATCHED_EPISODES_RELEASED);
+    public int countUnplayedReleased() {
+        return countPlayed(COUNT_UNWATCHED_EPISODES_RELEASED);
     }
 
-    private int countUnwatched(String countQuery) {
+    private int countPlayed(String countQuery) {
         String offset = "date('now','-" + getNotificationDayOffsetTV(context) + " days')";
         String query = Helper.replaceTokens(countQuery, "@OFFSET@", offset);
 
@@ -180,17 +180,17 @@ public class TVShowDatabase implements Database {
     }
 
     @Override
-    public List<MediaItem> getUnwatchedReleased() {
-        return getUnwatched(GET_UNWATCHED_EPISODES_RELEASED, "UNWATCHED RELEASED");
+    public List<MediaItem> getUnplayedReleased() {
+        return getUnplayed(GET_UNWATCHED_EPISODES_RELEASED, "UNWATCHED RELEASED");
     }
 
     @Override
-    public List<MediaItem> getUnwatchedTotal() {
-        return getUnwatched(GET_UNWATCHED_EPISODES_TOTAL, "UNWATCHED TOTAL");
+    public List<MediaItem> getUnplayedTotal() {
+        return getUnplayed(GET_UNWATCHED_EPISODES_TOTAL, "UNWATCHED TOTAL");
     }
 
     @Override
-    public List<MediaItem> getUnwatched(String getQuery, String logTag) {
+    public List<MediaItem> getUnplayed(String getQuery, String logTag) {
         String offset = "date('now','-" + getNotificationDayOffsetTV(context) + " days')";
         String query = Helper.replaceTokens(getQuery, "@OFFSET@", offset);
         List<MediaItem> mediaItems = new ArrayList<>();
@@ -250,16 +250,16 @@ public class TVShowDatabase implements Database {
     }
 
     @Override
-    public void updateWatchedStatus(MediaItem mediaItem, String watchedStatus) {
+    public void updatePlayedStatus(MediaItem mediaItem, String playedStatus) {
         ContentValues values = new ContentValues();
-        values.put(TVShowDatabaseDefinition.WATCHED, watchedStatus);
+        values.put(TVShowDatabaseDefinition.PLAYED, playedStatus);
         String where = TVShowDatabaseDefinition.ID + "=? and " + TVShowDatabaseDefinition.SUBID + "=?";
         String[] whereArgs = new String[]{mediaItem.getId(), mediaItem.getSubId()};
         dbWritable.update(TVShowDatabaseDefinition.TABLE_EPISODES, values, where, whereArgs);
     }
 
     @Override
-    public boolean markWatchedIfReleased(boolean isNew, MediaItem mediaItem) {
+    public boolean markPlayedIfReleased(boolean isNew, MediaItem mediaItem) {
         return isNew && alreadyReleased(mediaItem) && getMarkWatchedIfAlreadyReleased(context);
     }
 
