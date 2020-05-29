@@ -17,13 +17,13 @@ public interface Database {
 
     void delete(String id);
 
-    int countUnwatchedReleased();
+    int countUnplayedReleased();
 
-    List<MediaItem> getUnwatchedReleased();
+    List<MediaItem> getUnplayedReleased();
 
-    List<MediaItem> getUnwatchedTotal();
+    List<MediaItem> getUnplayedTotal();
 
-    List<MediaItem> getUnwatched(String getQuery, String logTag);
+    List<MediaItem> getUnplayed(String getQuery, String logTag);
 
     List<MediaItem> readAllItems();
 
@@ -31,9 +31,9 @@ public interface Database {
 
     List<MediaItem> readChildItems(String id);
 
-    void updateWatchedStatus(MediaItem mediaItem, String watchedStatus);
+    void updatePlayedStatus(MediaItem mediaItem, String playedStatus);
 
-    boolean markWatchedIfReleased(boolean isNew, MediaItem mediaItem);
+    boolean markPlayedIfReleased(boolean isNew, MediaItem mediaItem);
 
     String getCoreType();
 }

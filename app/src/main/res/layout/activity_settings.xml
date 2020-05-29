@@ -10,26 +10,26 @@
     <!-- ################################################################# -->
 
     <RelativeLayout
-        android:id="@+id/settings_watched"
+        android:id="@+id/settings_played"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/background_list_item_basic">
 
         <TextView
-            android:id="@+id/settings_watched_text"
+            android:id="@+id/settings_played_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top|start"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
-            android:text="@string/settings_watched_check"
+            android:text="@string/settings_played_check"
             android:textColor="?attr/colorTextPrimary" />
 
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/settings_watched_text">
+            android:layout_below="@id/settings_played_text">
 
             <View
                 android:id="@+id/horiz_strut_00"
@@ -44,7 +44,7 @@
                 android:layout_alignParentStart="true" />
 
             <include
-                android:id="@+id/settings_watched_toggle"
+                android:id="@+id/settings_played_toggle"
                 layout="@layout/button_toggle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
         android:id="@+id/settings_notification_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/settings_watched"
+        android:layout_below="@+id/settings_played"
         android:background="@drawable/background_list_item_basic">
 
         <TextView

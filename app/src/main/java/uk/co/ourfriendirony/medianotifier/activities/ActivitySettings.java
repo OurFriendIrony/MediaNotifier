@@ -55,7 +55,7 @@ public class ActivitySettings extends AppCompatActivity {
 
         // Load Page Objects
 
-        final SwitchCompat toggleMarkWatched = (SwitchCompat) findViewById(R.id.settings_watched_toggle);
+        final SwitchCompat toggleMarkWatched = (SwitchCompat) findViewById(R.id.settings_played_toggle);
 
         final Button buttonNotifyTimer = (Button) findViewById(R.id.settings_notification_time_button);
 

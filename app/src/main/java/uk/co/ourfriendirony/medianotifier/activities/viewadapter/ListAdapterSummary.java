@@ -123,7 +123,7 @@ public class ListAdapterSummary extends ArrayAdapter {
 
         {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                db.updateWatchedStatus(mediaItem, (!isChecked) ? DB_TRUE : DB_FALSE);
+                db.updatePlayedStatus(mediaItem, (!isChecked) ? DB_TRUE : DB_FALSE);
             }
         });
 

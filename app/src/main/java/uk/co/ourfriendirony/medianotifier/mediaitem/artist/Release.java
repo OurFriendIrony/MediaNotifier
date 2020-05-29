@@ -24,8 +24,8 @@ public class Release implements MediaItem {
     private String description = "";
     private Date releaseDate;
     private String externalUrl;
-    // TODO: fully implement watched as an item
-    private boolean watched = false;
+    // TODO: fully implement played as an item
+    private boolean played = false;
     private List<MediaItem> children = new ArrayList<>();
 
     public Release(ArtistGetReleaseGroup release, Artist artist) {
@@ -49,7 +49,6 @@ public class Release implements MediaItem {
         this.description = getColumnValue(cursor, ArtistDatabaseDefinition.DESCRIPTION);
         this.releaseDate = stringToDate(getColumnValue(cursor, ArtistDatabaseDefinition.RELEASE_DATE));
         this.externalUrl = getColumnValue(cursor, ArtistDatabaseDefinition.EXTERNAL_URL);
-//        this.watched = Boolean.getBoolean(getColumnValue(cursor,ArtistDatabaseDefinition.WATCHED));
         Log.d("[DB READ]", this.toString());
     }
 
@@ -120,8 +119,8 @@ public class Release implements MediaItem {
     }
 
     @Override
-    public Boolean getWatched() {
-        return watched;
+    public Boolean getPlayed() {
+        return played;
     }
 
     public String toString() {

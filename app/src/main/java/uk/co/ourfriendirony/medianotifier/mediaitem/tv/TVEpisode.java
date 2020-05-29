@@ -25,8 +25,8 @@ public class TVEpisode implements MediaItem {
     private String description = "";
     private Date releaseDate;
     private String externalUrl;
-    // TODO: fully implement watched as an item
-    private boolean watched = false;
+    // TODO: fully implement played as an item
+    private boolean played = false;
     private List<MediaItem> children = new ArrayList<>();
 
     public TVEpisode(TVSeasonGetEpisode episode, TVShow tvShow) {
@@ -126,8 +126,8 @@ public class TVEpisode implements MediaItem {
     }
 
     @Override
-    public Boolean getWatched() {
-        return watched;
+    public Boolean getPlayed() {
+        return played;
     }
 
     public String toString() {

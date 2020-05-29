@@ -33,7 +33,7 @@
             android:name=".activities.ActivityLibrary"
             android:parentActivityName=".activities.ActivityMain" />
         <activity
-            android:name=".activities.ActivityUnwatched"
+            android:name=".activities.ActivityUnplayed"
             android:parentActivityName=".activities.ActivityMain" />
 
         <receiver android:name=".notifier.BootReceiver">

@@ -28,5 +28,5 @@ public interface MediaItem {
 
     String getExternalLink();
 
-    Boolean getWatched();
+    Boolean getPlayed();
 }

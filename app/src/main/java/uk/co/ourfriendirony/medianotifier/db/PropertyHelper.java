@@ -10,7 +10,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class PropertyHelper {
     private static String PROP_NAME = String.valueOf(R.string.app_name);
 
-    private static String MARK_WATCHED = "mark_watched";
+    private static String MARK_PLAYED = "mark_watched";
     private static String NOTIFY_HOUR = "notification_hour";
     private static String NOTIFY_MIN = "notification_minute";
     private static String NOTIFY_DAY_OFFSET_TV = "notification_day_offset_tv";
@@ -30,7 +30,7 @@ public class PropertyHelper {
 
     public static boolean getMarkWatchedIfAlreadyReleased(Context context) {
         SharedPreferences settings = getSharedPreferences(context);
-        return settings.getBoolean(MARK_WATCHED, MARK_WATCHED_DEFAULT);
+        return settings.getBoolean(MARK_PLAYED, MARK_WATCHED_DEFAULT);
     }
 
     public static String getNotificationTimeFull(Context context) {
@@ -83,7 +83,7 @@ public class PropertyHelper {
 
     public static void setMarkWatchedIfAlreadyReleased(Context context, boolean markWatched) {
         SharedPreferences.Editor editor = getSharedPreferencesEditor(context);
-        editor.putBoolean(MARK_WATCHED, markWatched);
+        editor.putBoolean(MARK_PLAYED, markWatched);
         editor.apply();
     }
 
