@@ -38,7 +38,7 @@ public class Game implements MediaItem {
         this.subtitle = getPlatformsCompressed(game);
         this.description = game.getDescriptionRaw();
         this.releaseDate = game.getReleased();
-        if (game.getWebsite() != null) {
+        if (!game.getWebsite().equals("") && game.getWebsite() != null) {
             this.externalUrl = game.getWebsite();
         }
         Log.d("[API GET]", this.toString());
