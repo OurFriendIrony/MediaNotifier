@@ -102,18 +102,40 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/list_item_generic_primarybar"
         android:orientation="horizontal"
-        android:paddingTop="0dp"
+        android:paddingBottom="0dp"
         android:paddingEnd="0dp"
-        android:paddingStart="0dp">
+        android:paddingStart="0dp"
+        android:paddingTop="0dp">
+
+<!--        <ListView-->
+<!--            android:id="@+id/testing"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/list_item_generic_overview"-->
+<!--            android:paddingEnd="0dp"-->
+<!--            android:paddingStart="20dp" />-->
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/list_item_generic_overview"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:layout_alignParentBottom="true"-->
+        <!--            android:layout_below="@+id/settings_notification_day_offset"-->
+        <!--            android:scrollbars="vertical"-->
+        <!--            android:text="overview"-->
+        <!--            android:textColor="@color/white" />-->
 
         <TextView
             android:id="@+id/list_item_generic_overview"
             style="@style/text"
+            android:scrollbars="vertical"
+            android:maxLines="4"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingEnd="0dp"
             android:paddingStart="0dp"
             android:text="-overview-" />
+
     </RelativeLayout>
 
     <TextView

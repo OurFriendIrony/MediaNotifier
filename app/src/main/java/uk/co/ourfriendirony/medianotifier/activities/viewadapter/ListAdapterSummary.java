@@ -3,6 +3,7 @@ package uk.co.ourfriendirony.medianotifier.activities.viewadapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.SwitchCompat;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import uk.co.ourfriendirony.medianotifier.R;
+import uk.co.ourfriendirony.medianotifier.ScrollableText;
 import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
@@ -78,6 +80,7 @@ public class ListAdapterSummary extends ArrayAdapter {
         textTitle.setText(mediaItem.getTitle());
         textDate.setText(mediaItem.getReleaseDateYear());
         textOverview.setText(mediaItem.getDescription());
+
         return view;
     }
 
@@ -91,37 +94,55 @@ public class ListAdapterSummary extends ArrayAdapter {
         TextView textDate = (TextView) view.findViewById(R.id.list_item_generic_date);
         TextView textOverview = (TextView) view.findViewById(R.id.list_item_generic_overview);
 
+        //        ListView list = (ListView) view.findViewById(R.id.testing);
+
         final MediaItem mediaItem = mediaItems.get(position);
 
         textTitle.setText(mediaItem.getTitle());
         textSubTitle.setText(mediaItem.getSubtitle());
         textDate.setText(mediaItem.getReleaseDateFull());
         textOverview.setText("");
+
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView overview = (TextView) v.findViewById(R.id.list_item_generic_overview);
-                String t = (overview.getText() == "") ? mediaItem.getDescription() : "";
-                overview.setText(t);
                 System.out.println("SHORT CLICK");
+                TextView overview = (TextView) v.findViewById(R.id.list_item_generic_overview);
+                if (overview.getText() == "") {
+                    overview.setText(mediaItem.getDescription());
+                    overview.setMovementMethod(new ScrollingMovementMethod());
+                    overview.setOnTouchListener(new ScrollableText());
+                } else {
+                    overview.setText("");
+//                    overview.setMovementMethod(null);
+//                    overview.setOnTouchListener(null);
+                }
+//                String t = (overview.getText() == "") ? mediaItem.getDescription() : "";
+//                overview.setText(t);
+
             }
         });
+
         view.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                TextView overview = (TextView) v.findViewById(R.id.list_item_generic_overview);
-                String t = (overview.getText() == "") ? mediaItem.getDescription() : "";
-                overview.setText(t);
                 System.out.println("LONG CLICK");
+                TextView textOverview = (TextView) v.findViewById(R.id.list_item_generic_overview);
+                String t = (textOverview.getText() == "") ? mediaItem.getDescription() : "";
+                textOverview.setText(t);
+//                textOverview.setMovementMethod(new ScrollingMovementMethod());
+//                textOverview.setOnTouchListener(new ScrollableText());
+
+//                ArrayAdapter listAdapterSummary = new ListAdapterSummary(getContext(), R.layout.list_item_generic_toggle, mediaItems, db);
+//                list.setAdapter(listAdapterSummary);
+
                 return true;
             }
         });
         SwitchCompat toggle = (SwitchCompat) view.findViewById(R.id.list_item_toggle);
 
         toggle.setChecked(!db.getWatchedStatusAsBoolean(mediaItem));
-        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
-
-        {
+        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 db.updatePlayedStatus(mediaItem, (!isChecked) ? DB_TRUE : DB_FALSE);
             }
