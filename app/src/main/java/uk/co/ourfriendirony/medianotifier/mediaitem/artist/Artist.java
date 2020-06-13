@@ -107,7 +107,7 @@ public class Artist implements MediaItem {
         if (releaseDate != null) {
             return new SimpleDateFormat("dd/MM/yyyy", Locale.UK).format(releaseDate);
         }
-        return "?";
+        return MediaItem.NO_DATE;
     }
 
     @Override
@@ -115,7 +115,7 @@ public class Artist implements MediaItem {
         if (releaseDate != null) {
             return new SimpleDateFormat("yyyy", Locale.UK).format(releaseDate);
         }
-        return "?";
+        return MediaItem.NO_DATE;
     }
 
     @Override

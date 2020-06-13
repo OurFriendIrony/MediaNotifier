@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 public interface MediaItem {
+    String NO_DATE = "No Date Yet";
+
     String getId();
 
     String getSubId();
