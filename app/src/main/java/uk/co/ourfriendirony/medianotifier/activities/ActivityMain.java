@@ -226,7 +226,7 @@ public class ActivityMain extends AppCompatActivity {
                 new UpdateMediaItem(getBaseContext(), progressBar, tvShowDatabase, tvShowClient).execute(asArray(tvShowDatabase.readAllItems()));
                 new UpdateMediaItem(getBaseContext(), progressBar, movieDatabase, movieClient).execute(asArray(movieDatabase.readAllItems()));
                 new UpdateMediaItem(getBaseContext(), progressBar, artistDatabase, artistClient).execute(asArray(artistDatabase.readAllItems()));
-                new UpdateMediaItem(getBaseContext(), progressBar, gameDatabase, artistClient).execute(asArray(gameDatabase.readAllItems()));
+                new UpdateMediaItem(getBaseContext(), progressBar, gameDatabase, gameClient).execute(asArray(gameDatabase.readAllItems()));
                 return true;
 
             default:
