@@ -2,10 +2,7 @@ package uk.co.ourfriendirony.medianotifier.activities;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.KeyEvent;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -44,35 +41,29 @@ public class ActivityFind extends AppCompatActivity {
         db = new DatabaseFactory().getDatabase(getApplicationContext(), intentKey);
         client = new ClientFactory().getClient(intentKey);
 
-        input = (EditText) findViewById(R.id.find_input);
-        progressBar = (ProgressBar) findViewById(R.id.find_progress);
-        listView = (ListView) findViewById(R.id.find_list);
+        input = findViewById(R.id.find_input);
+        progressBar = findViewById(R.id.find_progress);
+        listView = findViewById(R.id.find_list);
 
-        input.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEND) {
-                    String input = textView.getText().toString();
-                    if (!"".equals(input)) {
-                        new FindMediaItem(getBaseContext(), progressBar, listView, db, client).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, input);
-                    }
-                    return true;
-                } else {
-                    return false;
+        input.setOnEditorActionListener((textView, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEND) {
+                String input = textView.getText().toString();
+                if (!"".equals(input)) {
+                    new FindMediaItem(getBaseContext(), progressBar, listView, db, client).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, input);
                 }
+                return true;
+            } else {
+                return false;
             }
         });
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView textViewID = (TextView) view.findViewById(R.id.list_item_generic_id);
-                TextView textViewTitle = (TextView) view.findViewById(R.id.list_item_generic_title);
-                new AddMediaItem(getApplicationContext(), progressBar, db, client).execute(
-                        textViewID.getText().toString(),
-                        textViewTitle.getText().toString()
-                );
-            }
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            TextView textViewID = view.findViewById(R.id.list_item_generic_id);
+            TextView textViewTitle = view.findViewById(R.id.list_item_generic_title);
+            new AddMediaItem(getApplicationContext(), progressBar, db, client).execute(
+                    textViewID.getText().toString(),
+                    textViewTitle.getText().toString()
+            );
         });
     }
 }

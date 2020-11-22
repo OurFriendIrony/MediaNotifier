@@ -15,9 +15,6 @@ import static uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY;
 
 public class ActivityUnplayed extends AppCompatActivity {
 
-    private ViewPager mPager;
-    private PagerAdapter mPagerAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,8 +28,8 @@ public class ActivityUnplayed extends AppCompatActivity {
 
         cancelNotifications();
 
-        mPager = (ViewPager) findViewById(R.id.pager);
-        mPagerAdapter = new UnplayedPagerAdapter(getSupportFragmentManager(), intentKey);
+        ViewPager mPager = findViewById(R.id.pager);
+        PagerAdapter mPagerAdapter = new UnplayedPagerAdapter(getSupportFragmentManager(), intentKey);
         mPager.setAdapter(mPagerAdapter);
     }
 

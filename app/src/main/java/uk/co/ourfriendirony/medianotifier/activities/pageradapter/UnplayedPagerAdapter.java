@@ -14,12 +14,12 @@ import static uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY;
 public class UnplayedPagerAdapter extends FragmentStatePagerAdapter {
 
     private static final int NUM_PAGES = 2;
-    private Bundle b = new Bundle();
+    private final Bundle bundle = new Bundle();
     private Fragment fragment = null;
 
     public UnplayedPagerAdapter(FragmentManager fm, String type) {
-        super(fm);
-        this.b.putString(INTENT_KEY, type);
+        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        this.bundle.putString(INTENT_KEY, type);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class UnplayedPagerAdapter extends FragmentStatePagerAdapter {
                 Log.e("[FRAGMENT]", "Invalid Fragment Index");
                 break;
         }
-        fragment.setArguments(b);
+        fragment.setArguments(bundle);
         return fragment;
     }
 

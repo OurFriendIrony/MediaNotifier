@@ -5,17 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.ToggleButton;
-
-import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.SwitchCompat;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
@@ -27,11 +22,9 @@ public class ListAdapterSummary extends ArrayAdapter {
     private final List<MediaItem> mediaItems;
     private final int defaultLayoutId;
     private final Database db;
-    private final Context context;
 
     public ListAdapterSummary(Context context, int defaultLayoutId, List<MediaItem> mediaItems, Database db) {
         super(context, defaultLayoutId, mediaItems);
-        this.context = context;
         this.defaultLayoutId = defaultLayoutId;
         this.mediaItems = mediaItems;
         this.db = db;
@@ -67,10 +60,10 @@ public class ListAdapterSummary extends ArrayAdapter {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(R.layout.list_item_generic, null);
 
-        TextView textId = (TextView) view.findViewById(R.id.list_item_generic_id);
-        TextView textTitle = (TextView) view.findViewById(R.id.list_item_generic_title);
-        TextView textDate = (TextView) view.findViewById(R.id.list_item_generic_date);
-        TextView textOverview = (TextView) view.findViewById(R.id.list_item_generic_overview);
+        TextView textId = view.findViewById(R.id.list_item_generic_id);
+        TextView textTitle = view.findViewById(R.id.list_item_generic_title);
+        TextView textDate = view.findViewById(R.id.list_item_generic_date);
+        TextView textOverview = view.findViewById(R.id.list_item_generic_overview);
 
         MediaItem mediaItem = mediaItems.get(position);
 
@@ -86,10 +79,10 @@ public class ListAdapterSummary extends ArrayAdapter {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(R.layout.list_item_generic_toggle, null);
 
-        TextView textTitle = (TextView) view.findViewById(R.id.list_item_generic_title);
-        TextView textSubTitle = (TextView) view.findViewById(R.id.list_item_generic_subtitle);
-        TextView textDate = (TextView) view.findViewById(R.id.list_item_generic_date);
-        TextView textOverview = (TextView) view.findViewById(R.id.list_item_generic_overview);
+        TextView textTitle = view.findViewById(R.id.list_item_generic_title);
+        TextView textSubTitle = view.findViewById(R.id.list_item_generic_subtitle);
+        TextView textDate = view.findViewById(R.id.list_item_generic_date);
+        TextView textOverview = view.findViewById(R.id.list_item_generic_overview);
 
         final MediaItem mediaItem = mediaItems.get(position);
 
@@ -97,32 +90,24 @@ public class ListAdapterSummary extends ArrayAdapter {
         textSubTitle.setText(mediaItem.getSubtitle());
         textDate.setText(mediaItem.getReleaseDateFull());
         textOverview.setText("");
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TextView overview = (TextView) v.findViewById(R.id.list_item_generic_overview);
-                String t = (overview.getText() == "") ? mediaItem.getDescription() : "";
-                overview.setText(t);
-                System.out.println("SHORT CLICK");
-            }
+        view.setOnClickListener(subView -> {
+            TextView overview = subView.findViewById(R.id.list_item_generic_overview);
+            String t = (overview.getText() == "") ? mediaItem.getDescription() : "";
+            overview.setText(t);
+            System.out.println("SHORT CLICK");
         });
-        view.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                TextView overview = (TextView) v.findViewById(R.id.list_item_generic_overview);
-                String t = (overview.getText() == "") ? mediaItem.getDescription() : "";
-                overview.setText(t);
-                System.out.println("LONG CLICK");
-                return true;
-            }
+        view.setOnLongClickListener(subView -> {
+            TextView overview = subView.findViewById(R.id.list_item_generic_overview);
+            String t = (overview.getText() == "") ? mediaItem.getDescription() : "";
+            overview.setText(t);
+            System.out.println("LONG CLICK");
+            return true;
         });
         ToggleButton toggle = view.findViewById(R.id.list_item_toggle);
 
         toggle.setChecked(!db.getWatchedStatusAsBoolean(mediaItem));
-        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                db.updatePlayedStatus(mediaItem, (!isChecked) ? DB_TRUE : DB_FALSE);
-            }
+        toggle.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            db.updatePlayedStatus(mediaItem, (!isChecked) ? DB_TRUE : DB_FALSE);
         });
 
         return view;
@@ -133,7 +118,7 @@ public class ListAdapterSummary extends ArrayAdapter {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(defaultLayoutId, null);
 
-        TextView textTitle = (TextView) view.findViewById(R.id.list_item_generic_title);
+        TextView textTitle = view.findViewById(R.id.list_item_generic_title);
         MediaItem mediaItem = mediaItems.get(position);
         textTitle.setText(mediaItem.getTitle());
 

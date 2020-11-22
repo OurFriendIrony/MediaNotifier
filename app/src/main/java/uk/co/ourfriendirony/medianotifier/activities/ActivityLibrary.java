@@ -53,9 +53,9 @@ public class ActivityLibrary extends AppCompatActivity {
         db = new DatabaseFactory().getDatabase(getBaseContext(), intentKey);
         client = new ClientFactory().getClient(intentKey);
 
-        spinnerView = (Spinner) findViewById(R.id.spinner);
-        listView = (ListView) findViewById(R.id.list);
-        progressBar = (ProgressBar) findViewById(R.id.progress);
+        spinnerView = findViewById(R.id.spinner);
+        listView = findViewById(R.id.list);
+        progressBar = findViewById(R.id.progress);
         spinnerView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int itemPos, long id) {
