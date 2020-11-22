@@ -1,11 +1,11 @@
 package uk.co.ourfriendirony.medianotifier.activities.pageradapter;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import uk.co.ourfriendirony.medianotifier.activities.fragment.UnplayedComingSoon;
 import uk.co.ourfriendirony.medianotifier.activities.fragment.UnplayedReleased;
 

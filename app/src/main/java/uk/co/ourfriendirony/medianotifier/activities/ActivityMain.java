@@ -1,12 +1,27 @@
 package uk.co.ourfriendirony.medianotifier.activities;
 
+//import android.content.Context;
+//import android.content.Intent;
+//import android.graphics.drawable.Drawable;
+//import android.os.Bundle;
+//import android.view.Gravity;
+//import android.view.LayoutInflater;
+//import android.view.Menu;
+//import android.view.MenuItem;
+//import android.view.View;
+//import android.view.ViewGroup;
+//import android.widget.Button;
+//import android.widget.ImageView;
+//import android.widget.PopupWindow;
+//import android.widget.ProgressBar;
+//import android.widget.RelativeLayout;
+//import android.widget.TextView;
+//import android.widget.Toast;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,10 +36,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.activities.async.UpdateMediaItem;
 import uk.co.ourfriendirony.medianotifier.clients.ArtistClient;
@@ -184,53 +203,46 @@ public class ActivityMain extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                Intent intent = new Intent(this, ActivitySettings.class);
-                startActivity(intent);
-                return true;
+        if (item.getItemId() == R.id.action_settings) {
+            Intent intent = new Intent(this, ActivitySettings.class);
+            startActivity(intent);
+            return true;
+        } else if (item.getItemId() == R.id.action_theme) {
+            setTheme(switchTheme(getBaseContext()));
+            this.recreate();
+            return true;
+        } else if (item.getItemId() == R.id.action_contact) {
+            startActivity(getContactEmailIntent());
+            return true;
+        } else if (item.getItemId() == R.id.action_logview) {
+            LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View layout = inflater.inflate(R.layout.popup_logviewer, (ViewGroup) findViewById(R.id.popup));
 
-            case R.id.action_theme:
-                setTheme(switchTheme(getBaseContext()));
-                this.recreate();
-                return true;
+            popupWindow = new PopupWindow(layout, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true);
+            popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
 
-            case R.id.action_contact:
-                startActivity(getContactEmailIntent());
-                return true;
+            final TextView logViewer = (TextView) popupWindow.getContentView().findViewById(R.id.popup_text);
+            logViewer.setText(getLogcatLog());
 
-            case R.id.action_logview:
-                LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View layout = inflater.inflate(R.layout.popup_logviewer, (ViewGroup) findViewById(R.id.popup));
-
-                popupWindow = new PopupWindow(layout, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true);
-                popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
-
-                final TextView logViewer = (TextView) popupWindow.getContentView().findViewById(R.id.popup_text);
-                logViewer.setText(getLogcatLog());
-
-                Button buttonOk = (Button) popupWindow.getContentView().findViewById(R.id.popup_ok);
-                buttonOk.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        popupWindow.dismiss();
-                    }
-                });
-                return true;
-
-            case R.id.action_debug:
-                Toast.makeText(ActivityMain.this, "NOT YET IMPLEMENTED", Toast.LENGTH_SHORT).show();
-                return true;
-
-            case R.id.action_refresh:
-                new UpdateMediaItem(getBaseContext(), progressBar, tvShowDatabase, tvShowClient).execute(asArray(tvShowDatabase.readAllItems()));
-                new UpdateMediaItem(getBaseContext(), progressBar, movieDatabase, movieClient).execute(asArray(movieDatabase.readAllItems()));
-                new UpdateMediaItem(getBaseContext(), progressBar, artistDatabase, artistClient).execute(asArray(artistDatabase.readAllItems()));
-                new UpdateMediaItem(getBaseContext(), progressBar, gameDatabase, gameClient).execute(asArray(gameDatabase.readAllItems()));
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
+            Button buttonOk = (Button) popupWindow.getContentView().findViewById(R.id.popup_ok);
+            buttonOk.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    popupWindow.dismiss();
+                }
+            });
+            return true;
+        } else if (item.getItemId() == R.id.action_debug) {
+            Toast.makeText(ActivityMain.this, "NOT YET IMPLEMENTED", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (item.getItemId() == R.id.action_refresh) {
+            new UpdateMediaItem(getBaseContext(), progressBar, tvShowDatabase, tvShowClient).execute(asArray(tvShowDatabase.readAllItems()));
+            new UpdateMediaItem(getBaseContext(), progressBar, movieDatabase, movieClient).execute(asArray(movieDatabase.readAllItems()));
+            new UpdateMediaItem(getBaseContext(), progressBar, artistDatabase, artistClient).execute(asArray(artistDatabase.readAllItems()));
+            new UpdateMediaItem(getBaseContext(), progressBar, gameDatabase, gameClient).execute(asArray(gameDatabase.readAllItems()));
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
     }
 
@@ -250,7 +262,7 @@ public class ActivityMain extends AppCompatActivity {
 
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                log.append(line + "\n");
+                log.append(line).append("\n");
             }
         } catch (Exception e) {
             // do nothing

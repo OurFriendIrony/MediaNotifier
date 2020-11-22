@@ -1,17 +1,21 @@
 package uk.co.ourfriendirony.medianotifier.activities.viewadapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.ToggleButton;
+
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SwitchCompat;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
@@ -41,16 +45,12 @@ public class ListAdapterSummary extends ArrayAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
-        switch (defaultLayoutId) {
-            case R.layout.list_item_generic:
-                view = getFindView(position, view);
-                break;
-            case R.layout.list_item_generic_toggle:
-                view = getChecklistView(position, view);
-                break;
-            default:
-                view = getTitleView(position, view);
-                break;
+        if (defaultLayoutId == R.layout.list_item_generic) {
+            view = getFindView(position, view, parent);
+        } else if (defaultLayoutId == R.layout.list_item_generic_toggle) {
+            view = getChecklistView(position, view, parent);
+        } else {
+            view = getTitleView(position, view, parent);
         }
         return view;
     }
@@ -58,12 +58,12 @@ public class ListAdapterSummary extends ArrayAdapter {
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
-        view = getFindView(position, view);
+        view = getFindView(position, view, parent);
         return view;
     }
 
     @NonNull
-    private View getFindView(int position, View view) {
+    private View getFindView(int position, View view, ViewGroup viewGroup) {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(R.layout.list_item_generic, null);
 
@@ -82,7 +82,7 @@ public class ListAdapterSummary extends ArrayAdapter {
     }
 
     @NonNull
-    private View getChecklistView(int position, View view) {
+    private View getChecklistView(int position, View view, ViewGroup viewGroup) {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(R.layout.list_item_generic_toggle, null);
 
@@ -116,12 +116,10 @@ public class ListAdapterSummary extends ArrayAdapter {
                 return true;
             }
         });
-        SwitchCompat toggle = (SwitchCompat) view.findViewById(R.id.list_item_toggle);
+        ToggleButton toggle = view.findViewById(R.id.list_item_toggle);
 
         toggle.setChecked(!db.getWatchedStatusAsBoolean(mediaItem));
-        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
-
-        {
+        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 db.updatePlayedStatus(mediaItem, (!isChecked) ? DB_TRUE : DB_FALSE);
             }
@@ -131,7 +129,7 @@ public class ListAdapterSummary extends ArrayAdapter {
     }
 
     @NonNull
-    private View getTitleView(int position, View view) {
+    private View getTitleView(int position, View view, ViewGroup viewGroup) {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(defaultLayoutId, null);
 

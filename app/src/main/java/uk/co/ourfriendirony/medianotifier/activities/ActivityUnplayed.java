@@ -3,9 +3,10 @@ package uk.co.ourfriendirony.medianotifier.activities;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.activities.pageradapter.UnplayedPagerAdapter;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
@@ -15,7 +16,7 @@ import static uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY;
 public class ActivityUnplayed extends AppCompatActivity {
 
     private ViewPager mPager;
-    private android.support.v4.view.PagerAdapter mPagerAdapter;
+    private PagerAdapter mPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

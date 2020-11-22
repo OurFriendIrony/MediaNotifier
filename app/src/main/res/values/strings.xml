@@ -41,4 +41,8 @@
     <string name="action_theme">theme</string>
 
     <string name="footer_text">Powered By:</string>
+    <string name="placeholder_title">-title-</string>
+    <string name="placeholder_overview">-overview-</string>
+    <string name="placeholder_date">-date-</string>
+    <string name="placeholder_subtext">-subtext-</string>
 </resources>

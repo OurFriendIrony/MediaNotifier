@@ -2,7 +2,6 @@ package uk.co.ourfriendirony.medianotifier.activities;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -12,6 +11,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.activities.async.AddMediaItem;
 import uk.co.ourfriendirony.medianotifier.activities.async.FindMediaItem;
@@ -51,15 +51,14 @@ public class ActivityFind extends AppCompatActivity {
         input.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
-                switch (actionId) {
-                    case EditorInfo.IME_ACTION_SEND:
-                        String input = textView.getText().toString();
-                        if (!"".equals(input)) {
-                            new FindMediaItem(getBaseContext(), progressBar, listView, db, client).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, input);
-                        }
-                        return true;
-                    default:
-                        return false;
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    String input = textView.getText().toString();
+                    if (!"".equals(input)) {
+                        new FindMediaItem(getBaseContext(), progressBar, listView, db, client).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, input);
+                    }
+                    return true;
+                } else {
+                    return false;
                 }
             }
         });

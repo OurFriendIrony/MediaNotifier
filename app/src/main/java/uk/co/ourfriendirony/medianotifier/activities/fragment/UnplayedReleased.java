@@ -1,7 +1,6 @@
 package uk.co.ourfriendirony.medianotifier.activities.fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +9,7 @@ import android.widget.ListView;
 
 import java.util.List;
 
+import androidx.fragment.app.Fragment;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.activities.viewadapter.ListAdapterSummary;
 import uk.co.ourfriendirony.medianotifier.db.Database;

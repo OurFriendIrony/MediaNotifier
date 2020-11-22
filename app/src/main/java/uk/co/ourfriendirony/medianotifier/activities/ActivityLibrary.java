@@ -3,7 +3,6 @@ package uk.co.ourfriendirony.medianotifier.activities;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +15,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import androidx.appcompat.app.AppCompatActivity;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.activities.async.ListChildren;
 import uk.co.ourfriendirony.medianotifier.activities.async.UpdateMediaItem;
@@ -80,28 +80,24 @@ public class ActivityLibrary extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         if (mediaItems.size() > 0) {
             MediaItem mediaItem = mediaItems.get(currentItemPos);
-            switch (menuItem.getItemId()) {
-                case R.id.action_refresh:
-                    new UpdateMediaItem(getBaseContext(), progressBar, db, client).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mediaItem);
-                    new ListChildren(getBaseContext(), progressBar, listView, db).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mediaItem.getId());
-                    return true;
-
-                case R.id.action_remove:
-                    db.delete(mediaItem.getId());
-                    this.recreate();
-                    return true;
-
-                case R.id.action_lookup:
-                    if (mediaItem.getExternalLink() != null) {
-                        Intent intent = IntentGenerator.getWebPageIntent(mediaItem.getExternalLink());
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(this, "No External Link", Toast.LENGTH_SHORT).show();
-                    }
-                    return true;
-
-                default:
-                    return super.onOptionsItemSelected(menuItem);
+            if (menuItem.getItemId() == R.id.action_refresh) {
+                new UpdateMediaItem(getBaseContext(), progressBar, db, client).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mediaItem);
+                new ListChildren(getBaseContext(), progressBar, listView, db).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mediaItem.getId());
+                return true;
+            } else if (menuItem.getItemId() == R.id.action_remove) {
+                db.delete(mediaItem.getId());
+                this.recreate();
+                return true;
+            } else if (menuItem.getItemId() == R.id.action_lookup) {
+                if (mediaItem.getExternalLink() != null) {
+                    Intent intent = IntentGenerator.getWebPageIntent(mediaItem.getExternalLink());
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(this, "No External Link", Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            } else {
+                return super.onOptionsItemSelected(menuItem);
             }
         }
         return false;

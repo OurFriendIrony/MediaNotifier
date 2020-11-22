@@ -2,8 +2,6 @@ package uk.co.ourfriendirony.medianotifier.activities;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SwitchCompat;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +13,10 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
@@ -55,7 +56,7 @@ public class ActivitySettings extends AppCompatActivity {
 
         // Load Page Objects
 
-        final SwitchCompat toggleMarkWatched = (SwitchCompat) findViewById(R.id.settings_played_toggle);
+        final ToggleButton toggleMarkWatched = (ToggleButton) findViewById(R.id.settings_played_toggle);
 
         final Button buttonNotifyTimer = (Button) findViewById(R.id.settings_notification_time_button);
 
