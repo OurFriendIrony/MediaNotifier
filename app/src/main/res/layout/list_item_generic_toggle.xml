@@ -86,9 +86,9 @@
         android:paddingEnd="0dp"
         android:paddingStart="10dp">
 
-        <include
+        <ToggleButton
+            android:textOn="UNPLAYED" android:textOff="PLAYED"
             android:id="@+id/list_item_toggle"
-            layout="@layout/button_toggle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end|bottom"

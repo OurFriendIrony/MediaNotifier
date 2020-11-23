@@ -9,7 +9,6 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.activities.pageradapter.UnplayedPagerAdapter;
-import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 
 import static uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY;
 
@@ -18,11 +17,9 @@ public class ActivityUnplayed extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_core);
 
         String intentKey = getIntent().getExtras().getString(INTENT_KEY);
-
-        setTheme(PropertyHelper.getTheme(getBaseContext()));
-        setContentView(R.layout.activity_core);
         getSupportActionBar().setTitle("Released " + intentKey + "s");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

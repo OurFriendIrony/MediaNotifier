@@ -1,29 +1,8 @@
 package uk.co.ourfriendirony.medianotifier.activities;
 
-//import android.content.Context;
-//import android.content.Intent;
-//import android.graphics.drawable.Drawable;
-//import android.os.Bundle;
-//import android.view.Gravity;
-//import android.view.LayoutInflater;
-//import android.view.Menu;
-//import android.view.MenuItem;
-//import android.view.View;
-//import android.view.ViewGroup;
-//import android.widget.Button;
-//import android.widget.ImageView;
-//import android.widget.PopupWindow;
-//import android.widget.ProgressBar;
-//import android.widget.RelativeLayout;
-//import android.widget.TextView;
-//import android.widget.Toast;
-
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,14 +10,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -51,7 +26,6 @@ import uk.co.ourfriendirony.medianotifier.clients.GameClient;
 import uk.co.ourfriendirony.medianotifier.clients.MovieClient;
 import uk.co.ourfriendirony.medianotifier.clients.TVClient;
 import uk.co.ourfriendirony.medianotifier.db.Database;
-import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
 import uk.co.ourfriendirony.medianotifier.db.game.GameDatabase;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
@@ -59,7 +33,6 @@ import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.switchTheme;
 import static uk.co.ourfriendirony.medianotifier.general.Constants.ARTIST;
 import static uk.co.ourfriendirony.medianotifier.general.Constants.GAME;
 import static uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY;
@@ -90,7 +63,6 @@ public class ActivityMain extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(PropertyHelper.getTheme(getBaseContext()));
         setContentView(R.layout.activity_main);
 
         progressBar = findViewById(R.id.main_progress);
@@ -185,8 +157,6 @@ public class ActivityMain extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        menu.findItem(R.id.action_debug).setEnabled(false);
-        menu.findItem(R.id.action_logview).setEnabled(false);
         menu.findItem(R.id.action_about).setEnabled(false);
         return true;
     }
@@ -197,30 +167,8 @@ public class ActivityMain extends AppCompatActivity {
             Intent intent = new Intent(this, ActivitySettings.class);
             startActivity(intent);
             return true;
-        } else if (item.getItemId() == R.id.action_theme) {
-            setTheme(switchTheme(getBaseContext()));
-            this.recreate();
-            return true;
         } else if (item.getItemId() == R.id.action_contact) {
             startActivity(getContactEmailIntent());
-            return true;
-        } else if (item.getItemId() == R.id.action_logview) {
-            LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View layout = inflater.inflate(R.layout.popup_logviewer, findViewById(R.id.popup));
-
-            popupWindow = new PopupWindow(layout, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true);
-            popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
-
-            final TextView logViewer = popupWindow.getContentView().findViewById(R.id.popup_text);
-            logViewer.setText(getLogcatLog());
-
-            Button buttonOk = popupWindow.getContentView().findViewById(R.id.popup_ok);
-            buttonOk.setOnClickListener(view -> {
-                popupWindow.dismiss();
-            });
-            return true;
-        } else if (item.getItemId() == R.id.action_debug) {
-            Toast.makeText(ActivityMain.this, "NOT YET IMPLEMENTED", Toast.LENGTH_SHORT).show();
             return true;
         } else if (item.getItemId() == R.id.action_refresh) {
             new UpdateMediaItem(getBaseContext(), progressBar, tvShowDatabase, tvShowClient).execute(asArray(tvShowDatabase.readAllItems()));
@@ -237,23 +185,5 @@ public class ActivityMain extends AppCompatActivity {
     private MediaItem[] asArray(List<MediaItem> items) {
         MediaItem[] itemsArray = new MediaItem[items.size()];
         return items.toArray(itemsArray);
-    }
-
-    @NonNull
-    private String getLogcatLog() {
-        StringBuilder log = new StringBuilder();
-        try {
-            Process process = Runtime.getRuntime().exec("logcat -d");
-            BufferedReader bufferedReader = new BufferedReader(
-                    new InputStreamReader(process.getInputStream()));
-
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                log.append(line).append("\n");
-            }
-        } catch (Exception e) {
-            // do nothing
-        }
-        return log.toString();
     }
 }

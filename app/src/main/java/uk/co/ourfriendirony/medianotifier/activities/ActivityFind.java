@@ -16,7 +16,6 @@ import uk.co.ourfriendirony.medianotifier.clients.Client;
 import uk.co.ourfriendirony.medianotifier.clients.ClientFactory;
 import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.db.DatabaseFactory;
-import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 
 import static uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY;
 
@@ -30,11 +29,9 @@ public class ActivityFind extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_find);
 
         String intentKey = getIntent().getExtras().getString(INTENT_KEY);
-
-        setTheme(PropertyHelper.getTheme(getBaseContext()));
-        setContentView(R.layout.activity_find);
         getSupportActionBar().setTitle("Find " + intentKey);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

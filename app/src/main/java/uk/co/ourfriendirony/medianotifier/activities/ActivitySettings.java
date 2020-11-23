@@ -11,11 +11,10 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
 import uk.co.ourfriendirony.medianotifier.db.game.GameDatabase;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
@@ -46,14 +45,14 @@ public class ActivitySettings extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.setTheme(PropertyHelper.getTheme(getBaseContext()));
         setContentView(R.layout.activity_settings);
+
         getSupportActionBar().setTitle(R.string.title_settings);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Load Page Objects
 
-        final ToggleButton toggleMarkWatched = findViewById(R.id.settings_played_toggle);
+        final SwitchCompat toggleMarkWatched = findViewById(R.id.settings_played_toggle);
 
         final Button buttonNotifyTimer = findViewById(R.id.settings_notification_time_button);
 

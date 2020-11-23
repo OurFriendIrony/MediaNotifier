@@ -37,9 +37,6 @@
     <string name="musicbrainz">musicbrainz</string>
     <string name="rawg">RAWG</string>
 
-    <string name="action_logview">Logs</string>
-    <string name="action_theme">theme</string>
-
     <string name="footer_text">Powered By:</string>
     <string name="placeholder_title">-title-</string>
     <string name="placeholder_overview">-overview-</string>

@@ -24,7 +24,6 @@ import uk.co.ourfriendirony.medianotifier.clients.Client;
 import uk.co.ourfriendirony.medianotifier.clients.ClientFactory;
 import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.db.DatabaseFactory;
-import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
@@ -42,11 +41,9 @@ public class ActivityLibrary extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_list);
 
         String intentKey = getIntent().getExtras().getString(INTENT_KEY);
-
-        setTheme(PropertyHelper.getTheme(getBaseContext()));
-        setContentView(R.layout.activity_list);
         getSupportActionBar().setTitle(intentKey + " Library");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

@@ -17,7 +17,6 @@ public class PropertyHelper {
     private static String NOTIFY_DAY_OFFSET_MOVIE = "notification_day_offset_movie";
     private static String NOTIFY_DAY_OFFSET_ARTIST = "notification_day_offset_artist";
     private static String NOTIFY_DAY_OFFSET_GAME = "notification_day_offset_game";
-    private static String THEME = "theme";
 
     private static boolean MARK_WATCHED_DEFAULT = true;
     private static int NOTIFY_HOUR_DEFAULT = 21;
@@ -25,8 +24,6 @@ public class PropertyHelper {
     private static int NOTIFY_DAY_OFFSET_DEFAULT = 0;
     private static int NOTIFY_DAY_OFFSET_MAX_DEFAULT = +90;
     private static int NOTIFY_DAY_OFFSET_MIN_DEFAULT = 0;
-
-    private static int THEME_DEFAULT = R.style.AppTheme_DARK;
 
     public static boolean getMarkWatchedIfAlreadyReleased(Context context) {
         SharedPreferences settings = getSharedPreferences(context);
@@ -76,11 +73,6 @@ public class PropertyHelper {
         return NOTIFY_DAY_OFFSET_MIN_DEFAULT;
     }
 
-    public static int getTheme(Context context) {
-        SharedPreferences settings = getSharedPreferences(context);
-        return settings.getInt(THEME, THEME_DEFAULT);
-    }
-
     public static void setMarkWatchedIfAlreadyReleased(Context context, boolean markWatched) {
         SharedPreferences.Editor editor = getSharedPreferencesEditor(context);
         editor.putBoolean(MARK_PLAYED, markWatched);
@@ -121,16 +113,6 @@ public class PropertyHelper {
         SharedPreferences.Editor editor = getSharedPreferencesEditor(context);
         editor.putInt(NOTIFY_DAY_OFFSET_GAME, newDayOffset);
         editor.apply();
-    }
-
-    public static int switchTheme(Context context) {
-        SharedPreferences.Editor editor = getSharedPreferencesEditor(context);
-        int currentTheme = (getTheme(context) == R.style.AppTheme_DARK) ? R.style.AppTheme_LIGHT : R.style.AppTheme_DARK;
-
-        editor.putInt(THEME, currentTheme);
-        editor.apply();
-
-        return currentTheme;
     }
 
     private static SharedPreferences getSharedPreferences(Context context) {

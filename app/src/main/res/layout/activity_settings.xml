@@ -43,9 +43,8 @@
                 android:layout_alignEnd="@id/horiz_strut_00"
                 android:layout_alignParentStart="true" />
 
-            <include
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/settings_played_toggle"
-                layout="@layout/button_toggle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
