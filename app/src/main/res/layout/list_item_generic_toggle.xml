@@ -86,7 +86,7 @@
         android:paddingEnd="0dp"
         android:paddingStart="10dp">
 
-        <ToggleButton
+        <androidx.appcompat.widget.SwitchCompat
             android:textOn="UNPLAYED" android:textOff="PLAYED"
             android:id="@+id/list_item_toggle"
             android:layout_width="wrap_content"

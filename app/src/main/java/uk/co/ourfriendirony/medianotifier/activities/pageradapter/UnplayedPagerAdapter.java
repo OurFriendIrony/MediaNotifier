@@ -3,6 +3,7 @@ package uk.co.ourfriendirony.medianotifier.activities.pageradapter;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -22,6 +23,7 @@ public class UnplayedPagerAdapter extends FragmentStatePagerAdapter {
         this.bundle.putString(INTENT_KEY, type);
     }
 
+    @NonNull
     @Override
     public Fragment getItem(int position) {
         switch (position) {

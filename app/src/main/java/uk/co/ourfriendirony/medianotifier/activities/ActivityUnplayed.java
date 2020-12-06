@@ -28,6 +28,7 @@ public class ActivityUnplayed extends AppCompatActivity {
         ViewPager mPager = findViewById(R.id.pager);
         PagerAdapter mPagerAdapter = new UnplayedPagerAdapter(getSupportFragmentManager(), intentKey);
         mPager.setAdapter(mPagerAdapter);
+        mPager.setCurrentItem(0);
     }
 
     private void cancelNotifications() {

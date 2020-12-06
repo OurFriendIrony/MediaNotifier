@@ -13,9 +13,11 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.List;
 
-import androidx.appcompat.app.AppCompatActivity;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.activities.async.ListChildren;
 import uk.co.ourfriendirony.medianotifier.activities.async.UpdateMediaItem;
@@ -57,14 +59,23 @@ public class ActivityLibrary extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int itemPos, long id) {
                 currentItemPos = itemPos;
-                new ListChildren(getBaseContext(), progressBar, listView, db).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mediaItems.get(itemPos).getId());
+
+                new ListChildren(parent.getContext(), progressBar, listView, db)
+                        .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mediaItems.get(itemPos).getId());
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-        loadPage();
+
+        progressBar.setIndeterminate(true);
+        mediaItems = db.readAllParentItems();
+        if (mediaItems.size() > 0) {
+            ArrayAdapter listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, mediaItems, db);
+            spinnerView.setAdapter(listAdapterSummary);
+        }
+        progressBar.setIndeterminate(true);
     }
 
     @Override
@@ -74,7 +85,7 @@ public class ActivityLibrary extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem menuItem) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem menuItem) {
         if (mediaItems.size() > 0) {
             MediaItem mediaItem = mediaItems.get(currentItemPos);
             if (menuItem.getItemId() == R.id.action_refresh) {
@@ -98,15 +109,5 @@ public class ActivityLibrary extends AppCompatActivity {
             }
         }
         return false;
-    }
-
-    private void loadPage() {
-        progressBar.setIndeterminate(true);
-        mediaItems = db.readAllParentItems();
-        if (mediaItems.size() > 0) {
-            ArrayAdapter listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, mediaItems, db);
-            spinnerView.setAdapter(listAdapterSummary);
-        }
-        progressBar.setIndeterminate(true);
     }
 }

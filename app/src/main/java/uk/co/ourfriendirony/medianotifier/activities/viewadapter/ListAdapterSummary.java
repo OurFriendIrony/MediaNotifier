@@ -6,11 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import android.widget.ToggleButton;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SwitchCompat;
 
 import java.util.List;
 
-import androidx.annotation.NonNull;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
@@ -103,7 +104,7 @@ public class ListAdapterSummary extends ArrayAdapter {
             System.out.println("LONG CLICK");
             return true;
         });
-        ToggleButton toggle = view.findViewById(R.id.list_item_toggle);
+        SwitchCompat toggle = view.findViewById(R.id.list_item_toggle);
 
         toggle.setChecked(!db.getWatchedStatusAsBoolean(mediaItem));
         toggle.setOnCheckedChangeListener((buttonView, isChecked) -> {
