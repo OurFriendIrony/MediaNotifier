@@ -36,8 +36,9 @@ public class ListAdapterSummary extends ArrayAdapter {
         return super.getCount();
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         View view = convertView;
         if (defaultLayoutId == R.layout.list_item_generic) {
             view = getFindView(position, view, parent);
@@ -50,7 +51,7 @@ public class ListAdapterSummary extends ArrayAdapter {
     }
 
     @Override
-    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+    public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
         View view = convertView;
         view = getFindView(position, view, parent);
         return view;

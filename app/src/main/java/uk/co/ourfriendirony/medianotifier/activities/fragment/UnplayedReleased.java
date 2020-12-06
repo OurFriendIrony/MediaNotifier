@@ -7,9 +7,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import androidx.fragment.app.Fragment;
+
 import java.util.List;
 
-import androidx.fragment.app.Fragment;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.activities.viewadapter.ListAdapterSummary;
 import uk.co.ourfriendirony.medianotifier.db.Database;
@@ -29,7 +30,7 @@ public class UnplayedReleased extends Fragment {
 
         List<MediaItem> mediaItems = db.getUnplayedReleased();
         if (mediaItems.size() > 0) {
-            ArrayAdapter listAdapterSummary = new ListAdapterSummary(getContext(), R.layout.list_item_generic_toggle, mediaItems, db);
+            ArrayAdapter<?> listAdapterSummary = new ListAdapterSummary(getContext(), R.layout.list_item_generic_toggle, mediaItems, db);
             listView.setAdapter(listAdapterSummary);
         }
         return rootView;

@@ -1,10 +1,8 @@
 package uk.co.ourfriendirony.medianotifier.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -74,7 +72,7 @@ public class ActivityLibrary extends AppCompatActivity {
         mediaItems = db.readAllParentItems();
         if (mediaItems.size() > 0) {
             progressBar.setIndeterminate(true);
-            ArrayAdapter listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, mediaItems, db);
+            ArrayAdapter<?> listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, mediaItems, db);
             spinnerView.setAdapter(listAdapterSummary);
         } else {
             findViewById(R.id.spinner_progress).setLayoutParams(new RelativeLayout.LayoutParams(0, 0));

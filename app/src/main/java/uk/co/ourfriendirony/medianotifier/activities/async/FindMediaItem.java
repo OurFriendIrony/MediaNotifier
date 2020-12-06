@@ -53,7 +53,7 @@ public class FindMediaItem extends AsyncTask<String, Void, List<MediaItem>> {
     protected void onPostExecute(List<MediaItem> mediaItems) {
         progressBar.get().setIndeterminate(false);
         if (mediaItems.size() > 0) {
-            ArrayAdapter adapter = new ListAdapterSummary(context.get(), R.layout.list_item_generic, mediaItems, db);
+            ArrayAdapter<?> adapter = new ListAdapterSummary(context.get(), R.layout.list_item_generic, mediaItems, db);
             listView.get().setAdapter(adapter);
         } else {
             Toast.makeText(context.get(), R.string.toast_no_results, Toast.LENGTH_LONG).show();

@@ -8,16 +8,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.activities.async.UpdateMediaItem;
 import uk.co.ourfriendirony.medianotifier.clients.ArtistClient;
@@ -42,16 +42,14 @@ import static uk.co.ourfriendirony.medianotifier.general.Helper.getNotificationN
 import static uk.co.ourfriendirony.medianotifier.general.IntentGenerator.getContactEmailIntent;
 
 public class ActivityMain extends AppCompatActivity {
-    private Database tvShowDatabase;
-    private Database movieDatabase;
-    private Database artistDatabase;
-    private Database gameDatabase;
-
     private final Client tvShowClient = new TVClient();
     private final Client movieClient = new MovieClient();
     private final Client artistClient = new ArtistClient();
     private final Client gameClient = new GameClient();
-
+    private Database tvShowDatabase;
+    private Database movieDatabase;
+    private Database artistDatabase;
+    private Database gameDatabase;
     private TextView main_button_tvshow_notification;
     private TextView main_button_movie_notification;
     private TextView main_button_artist_notification;

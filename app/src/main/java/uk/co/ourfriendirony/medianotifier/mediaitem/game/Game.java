@@ -52,6 +52,18 @@ public class Game implements MediaItem {
         Log.d("[API SEARCH]", this.toString());
     }
 
+    public Game(Cursor cursor) {
+        this.id = getColumnValue(cursor, GameDatabaseDefinition.ID);
+        this.subid = getColumnValue(cursor, GameDatabaseDefinition.SUBID);
+        this.title = getColumnValue(cursor, GameDatabaseDefinition.TITLE);
+        this.subtitle = getColumnValue(cursor, GameDatabaseDefinition.SUBTITLE);
+        this.description = getColumnValue(cursor, GameDatabaseDefinition.DESCRIPTION);
+        this.releaseDate = stringToDate(getColumnValue(cursor, GameDatabaseDefinition.RELEASE_DATE));
+        this.externalUrl = getColumnValue(cursor, GameDatabaseDefinition.EXTERNAL_URL);
+        this.children = new ArrayList<>();
+        Log.d("[DB READ]", this.toString());
+    }
+
     private String getPlatformsCompressed(GameGet game) {
         List<String> platforms = new ArrayList<>();
         if (game.getParentPlatforms() != null) {
@@ -70,18 +82,6 @@ public class Game implements MediaItem {
             }
         }
         return TextUtils.join(", ", platforms);
-    }
-
-    public Game(Cursor cursor) {
-        this.id = getColumnValue(cursor, GameDatabaseDefinition.ID);
-        this.subid = getColumnValue(cursor, GameDatabaseDefinition.SUBID);
-        this.title = getColumnValue(cursor, GameDatabaseDefinition.TITLE);
-        this.subtitle = getColumnValue(cursor, GameDatabaseDefinition.SUBTITLE);
-        this.description = getColumnValue(cursor, GameDatabaseDefinition.DESCRIPTION);
-        this.releaseDate = stringToDate(getColumnValue(cursor, GameDatabaseDefinition.RELEASE_DATE));
-        this.externalUrl = getColumnValue(cursor, GameDatabaseDefinition.EXTERNAL_URL);
-        this.children = new ArrayList<>();
-        Log.d("[DB READ]", this.toString());
     }
 
     @Override

@@ -7,10 +7,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import java.text.MessageFormat;
-
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
+
+import java.text.MessageFormat;
+
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.activities.ActivityUnplayed;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
