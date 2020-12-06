@@ -3,7 +3,7 @@
     <style name="Theme.MediaNotifier" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/app_header</item>
         <item name="colorPrimaryDark">@color/app_taskbar</item>
-        <item name="colorAccent">@color/purple_regular</item>
+        <item name="colorAccent">@color/white</item>
 
         <item name="android:typeface">monospace</item>
         <item name="android:textStyle">bold</item>
