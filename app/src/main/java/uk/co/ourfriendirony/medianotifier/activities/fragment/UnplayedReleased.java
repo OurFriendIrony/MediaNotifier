@@ -22,7 +22,7 @@ public class UnplayedReleased extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.activity_notifications, container, false);
-        ListView listView = (ListView) rootView.findViewById(R.id.tv_notification_list);
+        ListView listView = (ListView) rootView.findViewById(R.id.notification_list);
 
         String intentKey = this.getArguments().getString(INTENT_KEY);
         Database db = new DatabaseFactory().getDatabase(getContext(), intentKey);
