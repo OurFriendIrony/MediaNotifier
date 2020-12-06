@@ -55,7 +55,7 @@ public class ArtistDatabaseDefinition extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.d("[DB UPGRADE]", String.valueOf(this.getClass()) + " version: " + oldVersion + " -> " + newVersion);
+        Log.d("[DB UPGRADE]", this.getClass() + " version: " + oldVersion + " -> " + newVersion);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ARTISTS + ";");
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_RELEASES + ";");
         onCreate(db);

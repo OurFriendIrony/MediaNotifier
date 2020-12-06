@@ -4,6 +4,8 @@ import android.database.Cursor;
 import android.text.TextUtils;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -155,6 +157,7 @@ public class Game implements MediaItem {
         return played;
     }
 
+    @NonNull
     public String toString() {
         return "Game: " + getTitle() + " > " + getReleaseDateFull();
     }

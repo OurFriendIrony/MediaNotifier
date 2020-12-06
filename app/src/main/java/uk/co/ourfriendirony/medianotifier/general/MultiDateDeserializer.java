@@ -12,6 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Locale;
 
 public class MultiDateDeserializer extends StdDeserializer<Date> {
     private static final long serialVersionUID = 1L;
@@ -37,8 +38,9 @@ public class MultiDateDeserializer extends StdDeserializer<Date> {
 
         for (String DATE_FORMAT : DATE_FORMATS) {
             try {
-                return new SimpleDateFormat(DATE_FORMAT).parse(date);
+                return new SimpleDateFormat(DATE_FORMAT, Locale.UK).parse(date);
             } catch (ParseException e) {
+                // Ignore and check the next deserialise pattern
             }
         }
 

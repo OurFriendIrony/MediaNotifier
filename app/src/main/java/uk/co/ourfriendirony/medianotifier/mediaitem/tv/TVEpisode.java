@@ -131,6 +131,7 @@ public class TVEpisode implements MediaItem {
         return played;
     }
 
+    @NonNull
     public String toString() {
         return "TVEpisode: " + getSubtitle() + " > " + getTitle() + " > " + getReleaseDateFull();
     }

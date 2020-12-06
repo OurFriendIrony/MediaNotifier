@@ -153,13 +153,10 @@ public class TVShowDatabase implements Database {
         String id = getColumnValue(cursor, TVShowDatabaseDefinition.ID);
         List<MediaItem> episodes = new ArrayList<>();
 
-        Cursor subCursor = dbWritable.rawQuery(SELECT_TVEPISODES_BY_ID, new String[]{id});
-        try {
+        try (Cursor subCursor = dbWritable.rawQuery(SELECT_TVEPISODES_BY_ID, new String[]{id})) {
             while (subCursor.moveToNext()) {
                 episodes.add(buildSubItemFromDB(subCursor));
             }
-        } finally {
-            subCursor.close();
         }
         return new TVShow(cursor, episodes);
     }
@@ -195,14 +192,11 @@ public class TVShowDatabase implements Database {
         String offset = "date('now','-" + getNotificationDayOffsetTV(context) + " days')";
         String query = Helper.replaceTokens(getQuery, "@OFFSET@", offset);
         List<MediaItem> mediaItems = new ArrayList<>();
-        Cursor cursor = dbWritable.rawQuery(query, null);
-        try {
+        try (Cursor cursor = dbWritable.rawQuery(query, null)) {
             while (cursor.moveToNext()) {
                 MediaItem mediaItem = buildSubItemFromDB(cursor);
                 mediaItems.add(mediaItem);
             }
-        } finally {
-            cursor.close();
         }
         return mediaItems;
     }
@@ -210,13 +204,10 @@ public class TVShowDatabase implements Database {
     @Override
     public List<MediaItem> readAllItems() {
         List<MediaItem> mediaItems = new ArrayList<>();
-        Cursor cursor = dbWritable.rawQuery(SELECT_TVSHOWS, null);
-        try {
+        try (Cursor cursor = dbWritable.rawQuery(SELECT_TVSHOWS, null)) {
             while (cursor.moveToNext()) {
                 mediaItems.add(buildItemFromDB(cursor));
             }
-        } finally {
-            cursor.close();
         }
         return mediaItems;
     }
@@ -224,13 +215,10 @@ public class TVShowDatabase implements Database {
     @Override
     public List<MediaItem> readAllParentItems() {
         List<MediaItem> mediaItems = new ArrayList<>();
-        Cursor cursor = dbWritable.rawQuery(SELECT_TVSHOWS, null);
-        try {
+        try (Cursor cursor = dbWritable.rawQuery(SELECT_TVSHOWS, null)) {
             while (cursor.moveToNext()) {
                 mediaItems.add(new TVShow(cursor));
             }
-        } finally {
-            cursor.close();
         }
         return mediaItems;
     }
@@ -239,13 +227,10 @@ public class TVShowDatabase implements Database {
     public List<MediaItem> readChildItems(String id) {
         List<MediaItem> mediaItems = new ArrayList<>();
         String[] args = {id};
-        Cursor cursor = dbWritable.rawQuery(SELECT_TVEPISODES_BY_ID, args);
-        try {
+        try (Cursor cursor = dbWritable.rawQuery(SELECT_TVEPISODES_BY_ID, args)) {
             while (cursor.moveToNext()) {
                 mediaItems.add(buildSubItemFromDB(cursor));
             }
-        } finally {
-            cursor.close();
         }
         return mediaItems;
     }

@@ -3,6 +3,8 @@ package uk.co.ourfriendirony.medianotifier.mediaitem.artist;
 import android.database.Cursor;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -69,7 +71,7 @@ public class Artist implements MediaItem {
 
     public Artist(Cursor cursor) {
         // Build Artist from DB without children
-        this(cursor, new ArrayList<MediaItem>());
+        this(cursor, new ArrayList<>());
     }
 
     @Override
@@ -143,6 +145,7 @@ public class Artist implements MediaItem {
         return played;
     }
 
+    @NonNull
     public String toString() {
         return "Artist: " + getTitle() + " > " + getReleaseDateFull() + " > Releases " + countChildren();
     }
