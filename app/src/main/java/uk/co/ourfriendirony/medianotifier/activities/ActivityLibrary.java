@@ -1,8 +1,10 @@
 package uk.co.ourfriendirony.medianotifier.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -59,7 +62,6 @@ public class ActivityLibrary extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int itemPos, long id) {
                 currentItemPos = itemPos;
-
                 new ListChildren(parent.getContext(), progressBar, listView, db)
                         .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mediaItems.get(itemPos).getId());
             }
@@ -69,13 +71,14 @@ public class ActivityLibrary extends AppCompatActivity {
             }
         });
 
-        progressBar.setIndeterminate(true);
         mediaItems = db.readAllParentItems();
         if (mediaItems.size() > 0) {
+            progressBar.setIndeterminate(true);
             ArrayAdapter listAdapterSummary = new ListAdapterSummary(getBaseContext(), R.layout.list_item_generic_title, mediaItems, db);
             spinnerView.setAdapter(listAdapterSummary);
+        } else {
+            findViewById(R.id.spinner_progress).setLayoutParams(new RelativeLayout.LayoutParams(0, 0));
         }
-        progressBar.setIndeterminate(true);
     }
 
     @Override
@@ -89,8 +92,8 @@ public class ActivityLibrary extends AppCompatActivity {
         if (mediaItems.size() > 0) {
             MediaItem mediaItem = mediaItems.get(currentItemPos);
             if (menuItem.getItemId() == R.id.action_refresh) {
-                new UpdateMediaItem(getBaseContext(), progressBar, db, client).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mediaItem);
-                new ListChildren(getBaseContext(), progressBar, listView, db).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mediaItem.getId());
+                new UpdateMediaItem(ActivityLibrary.this, progressBar, db, client).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mediaItem);
+                new ListChildren(ActivityLibrary.this, progressBar, listView, db).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mediaItem.getId());
                 return true;
             } else if (menuItem.getItemId() == R.id.action_remove) {
                 db.delete(mediaItem.getId());

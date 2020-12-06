@@ -57,7 +57,6 @@ public class ActivityMain extends AppCompatActivity {
     private TextView main_button_artist_notification;
     private TextView main_button_game_notification;
 
-    private PopupWindow popupWindow;
     private ProgressBar progressBar;
 
     @Override
