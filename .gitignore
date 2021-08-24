@@ -7,3 +7,6 @@
 /build
 /captures
 *.hprof
+
+.idea/caches/build_file_checksums.ser
+

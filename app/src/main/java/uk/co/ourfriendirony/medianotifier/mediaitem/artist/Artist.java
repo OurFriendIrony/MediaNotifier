@@ -49,7 +49,7 @@ public class Artist implements MediaItem {
         this.title = artist.getName();
         if (artist.getDisambiguation() != null) {
             this.description = artist.getDisambiguation();
-        } else if (artist.getArea().getName() != null && artist.getType() != null) {
+        } else if (artist.getArea() != null && artist.getArea().getName() != null && artist.getType() != null) {
             this.description = artist.getType() + " from " + artist.getArea().getName();
         }
         if (artist.getLifeSpan() != null && artist.getLifeSpan().getBegin() != null) {

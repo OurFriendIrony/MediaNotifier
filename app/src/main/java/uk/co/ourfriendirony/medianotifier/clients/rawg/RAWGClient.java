@@ -17,13 +17,15 @@ import static uk.co.ourfriendirony.medianotifier.general.Helper.cleanUrl;
 import static uk.co.ourfriendirony.medianotifier.general.Helper.replaceTokens;
 
 public class RAWGClient extends AbstractClient {
+    private static final String API_KEY = "89ef6832aaab49bc808264be6ea2c591";
 
     private static final String HOST = "https://api.rawg.io/api/";
     private static final String URL_PAGE = "&page=1&page_size=20";
+    private static final String URL_API = "key=" + API_KEY;
     private static final String EXCLUDE_ADDITIONS = "&exclude_additions";
 
-    private static final String URL_GAME_QUERY = HOST + "games?search=@NAME@" + URL_PAGE + EXCLUDE_ADDITIONS;
-    private static final String URL_GAME_ID = HOST + "games/@ID@";
+    private static final String URL_GAME_QUERY = HOST + "games?search=@NAME@" + URL_PAGE + EXCLUDE_ADDITIONS + "&"+URL_API;
+    private static final String URL_GAME_ID = HOST + "games/@ID@"+ "?"+URL_API;
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
