@@ -2,6 +2,7 @@ package uk.co.ourfriendirony.medianotifier.activities.async;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -45,6 +46,7 @@ public class FindMediaItem extends AsyncTask<String, Void, List<MediaItem>> {
         try {
             return client.searchMediaItem(query);
         } catch (IOException e) {
+            Log.e("Exception", e.getLocalizedMessage());
             return new ArrayList<>();
         }
     }
@@ -53,7 +55,7 @@ public class FindMediaItem extends AsyncTask<String, Void, List<MediaItem>> {
     protected void onPostExecute(List<MediaItem> mediaItems) {
         progressBar.get().setIndeterminate(false);
         if (mediaItems.size() > 0) {
-            ArrayAdapter adapter = new ListAdapterSummary(context.get(), R.layout.list_item_generic, mediaItems, db);
+            ArrayAdapter<?> adapter = new ListAdapterSummary(context.get(), R.layout.list_item_generic, mediaItems, db);
             listView.get().setAdapter(adapter);
         } else {
             Toast.makeText(context.get(), R.string.toast_no_results, Toast.LENGTH_LONG).show();

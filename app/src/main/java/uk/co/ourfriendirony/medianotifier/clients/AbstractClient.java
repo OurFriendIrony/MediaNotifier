@@ -2,40 +2,36 @@ package uk.co.ourfriendirony.medianotifier.clients;
 
 import android.util.Log;
 
-import org.apache.http.Header;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-
 import java.io.IOException;
-//TODO: Make Abstract
 
-public class AbstractClient {
-    private static final DefaultHttpClient client = new DefaultHttpClient();
-    private int SLEEP = 1;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
+public abstract class AbstractClient {
+    private static final int SLEEP = 1;
 
     protected String httpGetRequest(String url) throws IOException {
-        HttpGet request = new HttpGet(url);
-        request.setHeader("User-Agent", "MediaNotifier/1.0.0 ( ourfriendirony@gmail.com )");
+        OkHttpClient client = new OkHttpClient();
+        Request req = new Request.Builder()
+                .url(url)
+                .addHeader("User-Agent", "MediaNotifier/1.0.0 ( ourfriendirony@gmail.com )")
+                .build();
         while (true) {
-            try {
-                HttpResponse httpResponse = client.execute(request);
-                String payload = getPayload(httpResponse);
-                int statusCode = getStatusCode(httpResponse);
-                String headers = getHeaders(httpResponse);
+            try (Response res = client.newCall(req).execute()) {
+                String payload = res.body().string();
+                int statusCode = res.code();
+                String headers = parseHeaders(res);
 
                 logResponse(url, payload, headers, statusCode);
                 if (statusCode == 200) {
                     return payload;
                 } else {
+                    // TODO: This is 100% unacceptable implementation for a production release product
                     sleep(SLEEP);
                 }
-            } catch (Exception e) {
-                System.err.println(e.getMessage());
             }
         }
-
     }
 
     private void logResponse(String url, String payload, String headers, int statusCode) {
@@ -53,19 +49,11 @@ public class AbstractClient {
         }
     }
 
-    private String getPayload(HttpResponse response) throws IOException {
-        return EntityUtils.toString(response.getEntity());
-    }
-
-    private String getHeaders(HttpResponse response) {
-        StringBuilder x = new StringBuilder();
-        for (Header header : response.getAllHeaders()) {
-            x.append(header.toString()).append(" | ");
+    private String parseHeaders(Response res) {
+        StringBuilder builder = new StringBuilder();
+        for (String name : res.headers().names()) {
+            builder.append(name).append(":").append(res.headers().get(name)).append("|");
         }
-        return x.toString();
-    }
-
-    private int getStatusCode(HttpResponse response) {
-        return response.getStatusLine().getStatusCode();
+        return builder.toString();
     }
 }

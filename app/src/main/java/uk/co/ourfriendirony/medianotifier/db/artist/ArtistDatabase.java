@@ -4,8 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.NonNull;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -153,13 +154,10 @@ public class ArtistDatabase implements Database {
 
         String id = getColumnValue(cursor, ArtistDatabaseDefinition.ID);
         List<MediaItem> releases = new ArrayList<>();
-        Cursor subCursor = dbWritable.rawQuery(SELECT_RELEASES_BY_ID, new String[]{id});
-        try {
+        try (Cursor subCursor = dbWritable.rawQuery(SELECT_RELEASES_BY_ID, new String[]{id})) {
             while (subCursor.moveToNext()) {
                 releases.add(buildSubItemFromDB(subCursor));
             }
-        } finally {
-            subCursor.close();
         }
         return new Artist(cursor, releases);
     }
@@ -194,14 +192,11 @@ public class ArtistDatabase implements Database {
         String offset = "date('now','-" + getNotificationDayOffsetArtist(context) + " days')";
         String query = Helper.replaceTokens(getQuery, "@OFFSET@", offset);
         List<MediaItem> mediaItems = new ArrayList<>();
-        Cursor cursor = dbWritable.rawQuery(query, null);
-        try {
+        try (Cursor cursor = dbWritable.rawQuery(query, null)) {
             while (cursor.moveToNext()) {
                 MediaItem mediaItem = buildSubItemFromDB(cursor);
                 mediaItems.add(mediaItem);
             }
-        } finally {
-            cursor.close();
         }
         return mediaItems;
     }
@@ -209,13 +204,10 @@ public class ArtistDatabase implements Database {
     @Override
     public List<MediaItem> readAllItems() {
         List<MediaItem> mediaItems = new ArrayList<>();
-        Cursor cursor = dbWritable.rawQuery(SELECT_ARTISTS, null);
-        try {
+        try (Cursor cursor = dbWritable.rawQuery(SELECT_ARTISTS, null)) {
             while (cursor.moveToNext()) {
                 mediaItems.add(buildItemFromDB(cursor));
             }
-        } finally {
-            cursor.close();
         }
         return mediaItems;
     }
@@ -223,13 +215,10 @@ public class ArtistDatabase implements Database {
     @Override
     public List<MediaItem> readAllParentItems() {
         List<MediaItem> mediaItems = new ArrayList<>();
-        Cursor cursor = dbWritable.rawQuery(SELECT_ARTISTS, null);
-        try {
+        try (Cursor cursor = dbWritable.rawQuery(SELECT_ARTISTS, null)) {
             while (cursor.moveToNext()) {
                 mediaItems.add(new Artist(cursor));
             }
-        } finally {
-            cursor.close();
         }
         return mediaItems;
     }
@@ -238,13 +227,10 @@ public class ArtistDatabase implements Database {
     public List<MediaItem> readChildItems(String id) {
         List<MediaItem> mediaItems = new ArrayList<>();
         String[] args = {id};
-        Cursor cursor = dbWritable.rawQuery(SELECT_RELEASES_BY_ID, args);
-        try {
+        try (Cursor cursor = dbWritable.rawQuery(SELECT_RELEASES_BY_ID, args)) {
             while (cursor.moveToNext()) {
                 mediaItems.add(buildSubItemFromDB(cursor));
             }
-        } finally {
-            cursor.close();
         }
         return mediaItems;
     }

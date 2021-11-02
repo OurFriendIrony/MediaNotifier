@@ -3,6 +3,8 @@ package uk.co.ourfriendirony.medianotifier.mediaitem.movie;
 import android.database.Cursor;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -136,6 +138,7 @@ public class Movie implements MediaItem {
         return played;
     }
 
+    @NonNull
     public String toString() {
         return "Movie: " + getTitle() + " > " + getReleaseDateFull();
     }

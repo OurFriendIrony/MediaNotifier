@@ -4,8 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.NonNull;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -147,14 +148,11 @@ public class MovieDatabase implements Database {
         String offset = "date('now','-" + getNotificationDayOffsetMovie(context) + " days')";
         String query = Helper.replaceTokens(getQuery, "@OFFSET@", offset);
         List<MediaItem> mediaItems = new ArrayList<>();
-        Cursor cursor = dbWritable.rawQuery(query, null);
-        try {
+        try (Cursor cursor = dbWritable.rawQuery(query, null)) {
             while (cursor.moveToNext()) {
                 MediaItem mediaItem = buildItemFromDB(cursor);
                 mediaItems.add(mediaItem);
             }
-        } finally {
-            cursor.close();
         }
         return mediaItems;
     }
@@ -167,13 +165,10 @@ public class MovieDatabase implements Database {
     @Override
     public List<MediaItem> readAllItems() {
         List<MediaItem> mediaItems = new ArrayList<>();
-        Cursor cursor = dbWritable.rawQuery(SELECT_MOVIES, null);
-        try {
+        try (Cursor cursor = dbWritable.rawQuery(SELECT_MOVIES, null)) {
             while (cursor.moveToNext()) {
                 mediaItems.add(buildItemFromDB(cursor));
             }
-        } finally {
-            cursor.close();
         }
         return mediaItems;
     }
@@ -181,13 +176,10 @@ public class MovieDatabase implements Database {
     @Override
     public List<MediaItem> readAllParentItems() {
         List<MediaItem> mediaItems = new ArrayList<>();
-        Cursor cursor = dbWritable.rawQuery(SELECT_MOVIES, null);
-        try {
+        try (Cursor cursor = dbWritable.rawQuery(SELECT_MOVIES, null)) {
             while (cursor.moveToNext()) {
                 mediaItems.add(new Movie(cursor));
             }
-        } finally {
-            cursor.close();
         }
         return mediaItems;
     }
@@ -197,13 +189,10 @@ public class MovieDatabase implements Database {
         // TODO: Movies don't have child items. Currently just return the main item as if it was the child until the display is updated
         List<MediaItem> mediaItems = new ArrayList<>();
         String[] args = {id};
-        Cursor cursor = dbWritable.rawQuery(SELECT_MOVIES_BY_ID, args);
-        try {
+        try (Cursor cursor = dbWritable.rawQuery(SELECT_MOVIES_BY_ID, args)) {
             while (cursor.moveToNext()) {
                 mediaItems.add(buildItemFromDB(cursor));
             }
-        } finally {
-            cursor.close();
         }
         return mediaItems;
     }

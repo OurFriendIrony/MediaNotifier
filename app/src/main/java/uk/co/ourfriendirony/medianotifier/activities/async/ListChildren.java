@@ -42,7 +42,7 @@ public class ListChildren extends AsyncTask<String, Void, List<MediaItem>> {
     @Override
     protected void onPostExecute(final List<MediaItem> children) {
         progressBar.get().setIndeterminate(false);
-        ArrayAdapter adapter = new ListAdapterSummary(context.get(), R.layout.list_item_generic_toggle, children, db);
+        ArrayAdapter<?> adapter = new ListAdapterSummary(context.get(), R.layout.list_item_generic_toggle, children, db);
         listView.get().setAdapter(adapter);
         listView.get().setSelection(children.size());
     }

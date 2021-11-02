@@ -4,7 +4,7 @@
     android:id="@+id/settings"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorBackgroundDefault"
+    android:background="@color/black"
     tools:context=".activities.ActivitySettings">
 
     <!-- ################################################################# -->
@@ -23,7 +23,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:text="@string/settings_played_check"
-            android:textColor="?attr/colorTextPrimary" />
+            android:textColor="@color/white" />
 
 
         <RelativeLayout
@@ -43,9 +43,8 @@
                 android:layout_alignEnd="@id/horiz_strut_00"
                 android:layout_alignParentStart="true" />
 
-            <include
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/settings_played_toggle"
-                layout="@layout/button_toggle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -70,7 +69,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:text="@string/settings_notification_time"
-            android:textColor="?attr/colorTextPrimary" />
+            android:textColor="@color/white" />
 
 
         <RelativeLayout
@@ -117,7 +116,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:text="@string/settings_notification_offsets"
-            android:textColor="?attr/colorTextPrimary" />
+            android:textColor="@color/white" />
 
         <RelativeLayout
             android:id="@+id/settings_notification_day_offset_tv_button_rel"
@@ -142,7 +141,7 @@
                 android:gravity="center_vertical|end"
                 android:padding="5dp"
                 android:text="@string/button_tvshows"
-                android:textColor="?attr/colorTextSecondary" />
+                android:textColor="@color/grey_04" />
 
             <Button
                 android:id="@+id/settings_notification_day_offset_tv_button"
@@ -175,7 +174,7 @@
                 android:gravity="center_vertical|end"
                 android:padding="5dp"
                 android:text="@string/button_movies"
-                android:textColor="?attr/colorTextSecondary" />
+                android:textColor="@color/grey_04" />
 
             <Button
                 android:id="@+id/settings_notification_day_offset_movie_button"
@@ -208,7 +207,7 @@
                 android:gravity="center_vertical|end"
                 android:padding="5dp"
                 android:text="@string/button_artists"
-                android:textColor="?attr/colorTextSecondary" />
+                android:textColor="@color/grey_04" />
 
             <Button
                 android:id="@+id/settings_notification_day_offset_artist_button"
@@ -241,7 +240,7 @@
                 android:gravity="center_vertical|end"
                 android:padding="5dp"
                 android:text="@string/button_games"
-                android:textColor="?attr/colorTextSecondary" />
+                android:textColor="@color/grey_04" />
 
             <Button
                 android:id="@+id/settings_notification_day_offset_game_button"
@@ -281,7 +280,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:text="@string/settings_notification_delete"
-            android:textColor="?attr/colorTextPrimary" />
+            android:textColor="@color/white" />
 
         <RelativeLayout
             android:id="@+id/settings_delete_tv_button_rel"
@@ -305,7 +304,7 @@
                 android:gravity="center_vertical|end"
                 android:padding="5dp"
                 android:text="@string/button_tvshows"
-                android:textColor="?attr/colorTextSecondary" />
+                android:textColor="@color/grey_04" />
 
             <Button
                 android:id="@+id/settings_button_delete_tv_all"
@@ -338,7 +337,7 @@
                 android:gravity="center_vertical|end"
                 android:padding="5dp"
                 android:text="@string/button_movies"
-                android:textColor="?attr/colorTextSecondary" />
+                android:textColor="@color/grey_04" />
 
             <Button
                 android:id="@+id/settings_button_delete_movie_all"
@@ -371,7 +370,7 @@
                 android:gravity="center_vertical|end"
                 android:padding="5dp"
                 android:text="@string/button_artists"
-                android:textColor="?attr/colorTextSecondary" />
+                android:textColor="@color/grey_04" />
 
             <Button
                 android:id="@+id/settings_button_delete_artist_all"
@@ -405,7 +404,7 @@
                 android:gravity="center_vertical|end"
                 android:padding="5dp"
                 android:text="@string/button_games"
-                android:textColor="?attr/colorTextSecondary" />
+                android:textColor="@color/grey_04" />
 
             <Button
                 android:id="@+id/settings_button_delete_game_all"

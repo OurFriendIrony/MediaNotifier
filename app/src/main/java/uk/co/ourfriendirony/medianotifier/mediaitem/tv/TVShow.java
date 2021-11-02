@@ -3,6 +3,8 @@ package uk.co.ourfriendirony.medianotifier.mediaitem.tv;
 import android.database.Cursor;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -62,7 +64,7 @@ public class TVShow implements MediaItem {
     }
 
     public TVShow(Cursor cursor) {
-        this(cursor, new ArrayList<MediaItem>());
+        this(cursor, new ArrayList<>());
     }
 
     @Override
@@ -136,6 +138,7 @@ public class TVShow implements MediaItem {
         return played;
     }
 
+    @NonNull
     public String toString() {
         return "TVShow: " + getTitle() + " > " + getReleaseDateFull() + " > Episodes " + countChildren();
     }

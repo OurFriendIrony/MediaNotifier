@@ -3,30 +3,29 @@ package uk.co.ourfriendirony.medianotifier.db;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.Locale;
+
 import uk.co.ourfriendirony.medianotifier.R;
 
 import static android.content.Context.MODE_PRIVATE;
 
 public class PropertyHelper {
-    private static String PROP_NAME = String.valueOf(R.string.app_name);
+    private static final String PROP_NAME = String.valueOf(R.string.app_name);
 
-    private static String MARK_PLAYED = "mark_watched";
-    private static String NOTIFY_HOUR = "notification_hour";
-    private static String NOTIFY_MIN = "notification_minute";
-    private static String NOTIFY_DAY_OFFSET_TV = "notification_day_offset_tv";
-    private static String NOTIFY_DAY_OFFSET_MOVIE = "notification_day_offset_movie";
-    private static String NOTIFY_DAY_OFFSET_ARTIST = "notification_day_offset_artist";
-    private static String NOTIFY_DAY_OFFSET_GAME = "notification_day_offset_game";
-    private static String THEME = "theme";
+    private static final String MARK_PLAYED = "mark_watched";
+    private static final String NOTIFY_HOUR = "notification_hour";
+    private static final String NOTIFY_MIN = "notification_minute";
+    private static final String NOTIFY_DAY_OFFSET_TV = "notification_day_offset_tv";
+    private static final String NOTIFY_DAY_OFFSET_MOVIE = "notification_day_offset_movie";
+    private static final String NOTIFY_DAY_OFFSET_ARTIST = "notification_day_offset_artist";
+    private static final String NOTIFY_DAY_OFFSET_GAME = "notification_day_offset_game";
 
-    private static boolean MARK_WATCHED_DEFAULT = true;
-    private static int NOTIFY_HOUR_DEFAULT = 21;
-    private static int NOTIFY_MIN_DEFAULT = 0;
-    private static int NOTIFY_DAY_OFFSET_DEFAULT = 0;
-    private static int NOTIFY_DAY_OFFSET_MAX_DEFAULT = +90;
-    private static int NOTIFY_DAY_OFFSET_MIN_DEFAULT = 0;
-
-    private static int THEME_DEFAULT = R.style.AppTheme_DARK;
+    private static final boolean MARK_WATCHED_DEFAULT = true;
+    private static final int NOTIFY_HOUR_DEFAULT = 21;
+    private static final int NOTIFY_MIN_DEFAULT = 0;
+    private static final int NOTIFY_DAY_OFFSET_DEFAULT = 0;
+    private static final int NOTIFY_DAY_OFFSET_MAX_DEFAULT = +90;
+    private static final int NOTIFY_DAY_OFFSET_MIN_DEFAULT = 0;
 
     public static boolean getMarkWatchedIfAlreadyReleased(Context context) {
         SharedPreferences settings = getSharedPreferences(context);
@@ -35,7 +34,7 @@ public class PropertyHelper {
 
     public static String getNotificationTimeFull(Context context) {
         SharedPreferences settings = getSharedPreferences(context);
-        return String.format("%02d", settings.getInt(NOTIFY_HOUR, NOTIFY_HOUR_DEFAULT)) + ":" + String.format("%02d", settings.getInt(NOTIFY_MIN, NOTIFY_MIN_DEFAULT));
+        return String.format(Locale.UK, "%02d", settings.getInt(NOTIFY_HOUR, NOTIFY_HOUR_DEFAULT)) + ":" + String.format(Locale.UK, "%02d", settings.getInt(NOTIFY_MIN, NOTIFY_MIN_DEFAULT));
     }
 
     public static int getNotificationHour(Context context) {
@@ -74,11 +73,6 @@ public class PropertyHelper {
 
     public static int getNotificationDayOffsetMin() {
         return NOTIFY_DAY_OFFSET_MIN_DEFAULT;
-    }
-
-    public static int getTheme(Context context) {
-        SharedPreferences settings = getSharedPreferences(context);
-        return settings.getInt(THEME, THEME_DEFAULT);
     }
 
     public static void setMarkWatchedIfAlreadyReleased(Context context, boolean markWatched) {
@@ -121,16 +115,6 @@ public class PropertyHelper {
         SharedPreferences.Editor editor = getSharedPreferencesEditor(context);
         editor.putInt(NOTIFY_DAY_OFFSET_GAME, newDayOffset);
         editor.apply();
-    }
-
-    public static int switchTheme(Context context) {
-        SharedPreferences.Editor editor = getSharedPreferencesEditor(context);
-        int currentTheme = (getTheme(context) == R.style.AppTheme_DARK) ? R.style.AppTheme_LIGHT : R.style.AppTheme_DARK;
-
-        editor.putInt(THEME, currentTheme);
-        editor.apply();
-
-        return currentTheme;
     }
 
     private static SharedPreferences getSharedPreferences(Context context) {

@@ -2,22 +2,20 @@ package uk.co.ourfriendirony.medianotifier.activities;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SwitchCompat;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.NumberPicker;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
+
 import uk.co.ourfriendirony.medianotifier.R;
-import uk.co.ourfriendirony.medianotifier.db.PropertyHelper;
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
 import uk.co.ourfriendirony.medianotifier.db.game.GameDatabase;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
@@ -48,26 +46,26 @@ public class ActivitySettings extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.setTheme(PropertyHelper.getTheme(getBaseContext()));
         setContentView(R.layout.activity_settings);
+
         getSupportActionBar().setTitle(R.string.title_settings);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Load Page Objects
 
-        final SwitchCompat toggleMarkWatched = (SwitchCompat) findViewById(R.id.settings_played_toggle);
+        final SwitchCompat toggleMarkWatched = findViewById(R.id.settings_played_toggle);
 
-        final Button buttonNotifyTimer = (Button) findViewById(R.id.settings_notification_time_button);
+        final Button buttonNotifyTimer = findViewById(R.id.settings_notification_time_button);
 
-        final Button buttonNotifyOffsetTV = (Button) findViewById(R.id.settings_notification_day_offset_tv_button);
-        final Button buttonNotifyOffsetMovie = (Button) findViewById(R.id.settings_notification_day_offset_movie_button);
-        final Button buttonNotifyOffsetArtist = (Button) findViewById(R.id.settings_notification_day_offset_artist_button);
-        final Button buttonNotifyOffsetGame = (Button) findViewById(R.id.settings_notification_day_offset_game_button);
+        final Button buttonNotifyOffsetTV = findViewById(R.id.settings_notification_day_offset_tv_button);
+        final Button buttonNotifyOffsetMovie = findViewById(R.id.settings_notification_day_offset_movie_button);
+        final Button buttonNotifyOffsetArtist = findViewById(R.id.settings_notification_day_offset_artist_button);
+        final Button buttonNotifyOffsetGame = findViewById(R.id.settings_notification_day_offset_game_button);
 
-        final Button buttonDeleteTV = (Button) findViewById(R.id.settings_button_delete_tv_all);
-        final Button buttonDeleteMovie = (Button) findViewById(R.id.settings_button_delete_movie_all);
-        final Button buttonDeleteArtist = (Button) findViewById(R.id.settings_button_delete_artist_all);
-        final Button buttonDeleteGame = (Button) findViewById(R.id.settings_button_delete_game_all);
+        final Button buttonDeleteTV = findViewById(R.id.settings_button_delete_tv_all);
+        final Button buttonDeleteMovie = findViewById(R.id.settings_button_delete_movie_all);
+        final Button buttonDeleteArtist = findViewById(R.id.settings_button_delete_artist_all);
+        final Button buttonDeleteGame = findViewById(R.id.settings_button_delete_game_all);
 
         // Set Object Current Values
         toggleMarkWatched.setChecked(getMarkWatchedIfAlreadyReleased(getBaseContext()));
@@ -85,181 +83,137 @@ public class ActivitySettings extends AppCompatActivity {
         buttonDeleteGame.setText(getResources().getString(R.string.button_delete_game_all));
 
         // Define Object Actions
-        toggleMarkWatched.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                setMarkWatchedIfAlreadyReleased(getBaseContext(), isChecked);
-            }
+        toggleMarkWatched.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            setMarkWatchedIfAlreadyReleased(getBaseContext(), isChecked);
         });
 
-        buttonDeleteTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new TVShowDatabase(getApplicationContext()).deleteAll();
-                Toast.makeText(ActivitySettings.this, R.string.toast_db_table_cleared, Toast.LENGTH_SHORT).show();
-            }
+        buttonDeleteTV.setOnClickListener(view -> {
+            new TVShowDatabase(getApplicationContext()).deleteAll();
+            Toast.makeText(ActivitySettings.this, R.string.toast_db_table_cleared, Toast.LENGTH_SHORT).show();
         });
 
-        buttonDeleteMovie.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new MovieDatabase(getApplicationContext()).deleteAll();
-                Toast.makeText(ActivitySettings.this, R.string.toast_db_table_cleared, Toast.LENGTH_SHORT).show();
-            }
+        buttonDeleteMovie.setOnClickListener(view -> {
+            new MovieDatabase(getApplicationContext()).deleteAll();
+            Toast.makeText(ActivitySettings.this, R.string.toast_db_table_cleared, Toast.LENGTH_SHORT).show();
         });
 
-        buttonDeleteArtist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new ArtistDatabase(getApplicationContext()).deleteAll();
-                Toast.makeText(ActivitySettings.this, R.string.toast_db_table_cleared, Toast.LENGTH_SHORT).show();
-            }
+        buttonDeleteArtist.setOnClickListener(view -> {
+            new ArtistDatabase(getApplicationContext()).deleteAll();
+            Toast.makeText(ActivitySettings.this, R.string.toast_db_table_cleared, Toast.LENGTH_SHORT).show();
         });
 
-        buttonDeleteGame.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new GameDatabase(getApplicationContext()).deleteAll();
-                Toast.makeText(ActivitySettings.this, R.string.toast_db_table_cleared, Toast.LENGTH_SHORT).show();
-            }
+        buttonDeleteGame.setOnClickListener(view -> {
+            new GameDatabase(getApplicationContext()).deleteAll();
+            Toast.makeText(ActivitySettings.this, R.string.toast_db_table_cleared, Toast.LENGTH_SHORT).show();
         });
 
-        buttonNotifyTimer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LayoutInflater inflater = (LayoutInflater) ActivitySettings.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View layout = inflater.inflate(R.layout.popup_time_selector, (ViewGroup) findViewById(R.id.popup));
+        buttonNotifyTimer.setOnClickListener(view -> {
+            LayoutInflater inflater = (LayoutInflater) ActivitySettings.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View layout = inflater.inflate(R.layout.popup_time_selector, findViewById(R.id.popup));
 
-                popupWindow = new PopupWindow(layout, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true);
-                popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+            popupWindow = new PopupWindow(layout, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true);
+            popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
 
-                final TimePicker timePicker = (TimePicker) popupWindow.getContentView().findViewById(R.id.popup_time_picker);
-                timePicker.setIs24HourView(true);
-                timePicker.setCurrentHour(getNotificationHour(getApplicationContext()));
-                timePicker.setCurrentMinute(getNotificationMinute(getApplicationContext()));
+            final TimePicker timePicker = popupWindow.getContentView().findViewById(R.id.popup_time_picker);
+            timePicker.setIs24HourView(true);
+            timePicker.setHour(getNotificationHour(getApplicationContext()));
+            timePicker.setMinute(getNotificationMinute(getApplicationContext()));
 
-                Button buttonOk = (Button) popupWindow.getContentView().findViewById(R.id.popup_ok);
-                buttonOk.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        setNotificationHour(getApplicationContext(), timePicker.getCurrentHour());
-                        setNotificationMinute(getApplicationContext(), timePicker.getCurrentMinute());
+            Button buttonOk = popupWindow.getContentView().findViewById(R.id.popup_ok);
+            buttonOk.setOnClickListener(v1 -> {
+                setNotificationHour(getApplicationContext(), timePicker.getCurrentHour());
+                setNotificationMinute(getApplicationContext(), timePicker.getCurrentMinute());
 
-                        AlarmScheduler.reschedule(getApplicationContext());
-                        popupWindow.dismiss();
+                AlarmScheduler.reschedule(getApplicationContext());
+                popupWindow.dismiss();
 
-                        buttonNotifyTimer.setText(getNotificationTimeFull(getBaseContext()));
-                    }
-                });
-            }
+                buttonNotifyTimer.setText(getNotificationTimeFull(getBaseContext()));
+            });
         });
 
-        buttonNotifyOffsetTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LayoutInflater inflater = (LayoutInflater) ActivitySettings.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View layout = inflater.inflate(R.layout.popup_offset_selector, (ViewGroup) findViewById(R.id.popup));
+        buttonNotifyOffsetTV.setOnClickListener(view -> {
+            LayoutInflater inflater = (LayoutInflater) ActivitySettings.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View layout = inflater.inflate(R.layout.popup_offset_selector, findViewById(R.id.popup));
 
-                popupWindow = new PopupWindow(layout, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true);
-                popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+            popupWindow = new PopupWindow(layout, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true);
+            popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
 
-                final NumberPicker picker = (NumberPicker) popupWindow.getContentView().findViewById(R.id.popup_date_picker);
-                picker.setMaxValue(getNotificationDayOffsetMax());
-                picker.setMinValue(getNotificationDayOffsetMin());
-                picker.setValue(getNotificationDayOffsetTV(getApplicationContext()));
-                picker.setWrapSelectorWheel(false);
+            final NumberPicker picker = popupWindow.getContentView().findViewById(R.id.popup_date_picker);
+            picker.setMaxValue(getNotificationDayOffsetMax());
+            picker.setMinValue(getNotificationDayOffsetMin());
+            picker.setValue(getNotificationDayOffsetTV(getApplicationContext()));
+            picker.setWrapSelectorWheel(false);
 
-                Button buttonOk = (Button) popupWindow.getContentView().findViewById(R.id.popup_ok);
-                buttonOk.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        setNotificationDayOffsetTV(getApplicationContext(), picker.getValue());
-                        popupWindow.dismiss();
-                        buttonNotifyOffsetTV.setText(String.valueOf(getNotificationDayOffsetTV(getBaseContext())));
-                    }
-                });
-            }
+            Button buttonOk = popupWindow.getContentView().findViewById(R.id.popup_ok);
+            buttonOk.setOnClickListener(subView -> {
+                setNotificationDayOffsetTV(getApplicationContext(), picker.getValue());
+                popupWindow.dismiss();
+                buttonNotifyOffsetTV.setText(String.valueOf(getNotificationDayOffsetTV(getBaseContext())));
+            });
         });
 
-        buttonNotifyOffsetMovie.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LayoutInflater inflater = (LayoutInflater) ActivitySettings.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View layout = inflater.inflate(R.layout.popup_offset_selector, (ViewGroup) findViewById(R.id.popup));
+        buttonNotifyOffsetMovie.setOnClickListener(view -> {
+            LayoutInflater inflater = (LayoutInflater) ActivitySettings.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View layout = inflater.inflate(R.layout.popup_offset_selector, findViewById(R.id.popup));
 
-                popupWindow = new PopupWindow(layout, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true);
-                popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+            popupWindow = new PopupWindow(layout, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true);
+            popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
 
-                final NumberPicker picker = (NumberPicker) popupWindow.getContentView().findViewById(R.id.popup_date_picker);
-                picker.setMaxValue(getNotificationDayOffsetMax());
-                picker.setMinValue(getNotificationDayOffsetMin());
-                picker.setValue(getNotificationDayOffsetMovie(getApplicationContext()));
-                picker.setWrapSelectorWheel(false);
+            final NumberPicker picker = popupWindow.getContentView().findViewById(R.id.popup_date_picker);
+            picker.setMaxValue(getNotificationDayOffsetMax());
+            picker.setMinValue(getNotificationDayOffsetMin());
+            picker.setValue(getNotificationDayOffsetMovie(getApplicationContext()));
+            picker.setWrapSelectorWheel(false);
 
-                Button buttonOk = (Button) popupWindow.getContentView().findViewById(R.id.popup_ok);
-                buttonOk.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        setNotificationDayOffsetMovie(getApplicationContext(), picker.getValue());
-                        popupWindow.dismiss();
-                        buttonNotifyOffsetMovie.setText(String.valueOf(getNotificationDayOffsetMovie(getBaseContext())));
-                    }
-                });
-            }
+            Button buttonOk = popupWindow.getContentView().findViewById(R.id.popup_ok);
+            buttonOk.setOnClickListener(subView -> {
+                setNotificationDayOffsetMovie(getApplicationContext(), picker.getValue());
+                popupWindow.dismiss();
+                buttonNotifyOffsetMovie.setText(String.valueOf(getNotificationDayOffsetMovie(getBaseContext())));
+            });
         });
 
-        buttonNotifyOffsetArtist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LayoutInflater inflater = (LayoutInflater) ActivitySettings.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View layout = inflater.inflate(R.layout.popup_offset_selector, (ViewGroup) findViewById(R.id.popup));
+        buttonNotifyOffsetArtist.setOnClickListener(view -> {
+            LayoutInflater inflater = (LayoutInflater) ActivitySettings.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View layout = inflater.inflate(R.layout.popup_offset_selector, findViewById(R.id.popup));
 
-                popupWindow = new PopupWindow(layout, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true);
-                popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+            popupWindow = new PopupWindow(layout, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true);
+            popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
 
-                final NumberPicker picker = (NumberPicker) popupWindow.getContentView().findViewById(R.id.popup_date_picker);
-                picker.setMaxValue(getNotificationDayOffsetMax());
-                picker.setMinValue(getNotificationDayOffsetMin());
-                picker.setValue(getNotificationDayOffsetArtist(getApplicationContext()));
-                picker.setWrapSelectorWheel(false);
+            final NumberPicker picker = popupWindow.getContentView().findViewById(R.id.popup_date_picker);
+            picker.setMaxValue(getNotificationDayOffsetMax());
+            picker.setMinValue(getNotificationDayOffsetMin());
+            picker.setValue(getNotificationDayOffsetArtist(getApplicationContext()));
+            picker.setWrapSelectorWheel(false);
 
-                Button buttonOk = (Button) popupWindow.getContentView().findViewById(R.id.popup_ok);
-                buttonOk.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        setNotificationDayOffsetArtist(getApplicationContext(), picker.getValue());
-                        popupWindow.dismiss();
-                        buttonNotifyOffsetArtist.setText(String.valueOf(getNotificationDayOffsetArtist(getBaseContext())));
-                    }
-                });
-            }
+            Button buttonOk = popupWindow.getContentView().findViewById(R.id.popup_ok);
+            buttonOk.setOnClickListener(subView -> {
+                setNotificationDayOffsetArtist(getApplicationContext(), picker.getValue());
+                popupWindow.dismiss();
+                buttonNotifyOffsetArtist.setText(String.valueOf(getNotificationDayOffsetArtist(getBaseContext())));
+            });
         });
 
 
-        buttonNotifyOffsetGame.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LayoutInflater inflater = (LayoutInflater) ActivitySettings.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View layout = inflater.inflate(R.layout.popup_offset_selector, (ViewGroup) findViewById(R.id.popup));
+        buttonNotifyOffsetGame.setOnClickListener(view -> {
+            LayoutInflater inflater = (LayoutInflater) ActivitySettings.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View layout = inflater.inflate(R.layout.popup_offset_selector, findViewById(R.id.popup));
 
-                popupWindow = new PopupWindow(layout, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true);
-                popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+            popupWindow = new PopupWindow(layout, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true);
+            popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
 
-                final NumberPicker picker = (NumberPicker) popupWindow.getContentView().findViewById(R.id.popup_date_picker);
-                picker.setMaxValue(getNotificationDayOffsetMax());
-                picker.setMinValue(getNotificationDayOffsetMin());
-                picker.setValue(getNotificationDayOffsetGame(getApplicationContext()));
-                picker.setWrapSelectorWheel(false);
+            final NumberPicker picker = popupWindow.getContentView().findViewById(R.id.popup_date_picker);
+            picker.setMaxValue(getNotificationDayOffsetMax());
+            picker.setMinValue(getNotificationDayOffsetMin());
+            picker.setValue(getNotificationDayOffsetGame(getApplicationContext()));
+            picker.setWrapSelectorWheel(false);
 
-                Button buttonOk = (Button) popupWindow.getContentView().findViewById(R.id.popup_ok);
-                buttonOk.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        setNotificationDayOffsetGame(getApplicationContext(), picker.getValue());
-                        popupWindow.dismiss();
-                        buttonNotifyOffsetGame.setText(String.valueOf(getNotificationDayOffsetGame(getBaseContext())));
-                    }
-                });
-            }
+            Button buttonOk = popupWindow.getContentView().findViewById(R.id.popup_ok);
+            buttonOk.setOnClickListener(subView -> {
+                setNotificationDayOffsetGame(getApplicationContext(), picker.getValue());
+                popupWindow.dismiss();
+                buttonNotifyOffsetGame.setText(String.valueOf(getNotificationDayOffsetGame(getBaseContext())));
+            });
         });
     }
 }

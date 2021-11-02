@@ -1,12 +1,13 @@
 package uk.co.ourfriendirony.medianotifier.activities.fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import androidx.fragment.app.Fragment;
 
 import java.util.List;
 
@@ -22,14 +23,14 @@ public class UnplayedComingSoon extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.activity_notifications, container, false);
-        ListView listView = (ListView) rootView.findViewById(R.id.tv_notification_list);
+        ListView listView = rootView.findViewById(R.id.notification_list);
 
         String intentKey = this.getArguments().getString(INTENT_KEY);
         Database db = new DatabaseFactory().getDatabase(getContext(), intentKey);
 
         List<MediaItem> mediaItems = db.getUnplayedTotal();
         if (mediaItems.size() > 0) {
-            ArrayAdapter listAdapterSummary = new ListAdapterSummary(getContext(), R.layout.list_item_generic_toggle, mediaItems, db);
+            ArrayAdapter<?> listAdapterSummary = new ListAdapterSummary(getContext(), R.layout.list_item_generic_toggle, mediaItems, db);
             listView.setAdapter(listAdapterSummary);
         }
         return rootView;

@@ -1,24 +1,24 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="?attr/colorBackgroundDefault" />
+            <solid android:color="@color/black" />
         </shape>
     </item>
     <item android:right="1dp">
         <shape android:shape="rectangle">
-            <solid android:color="?attr/colorBackgroundPrimary3" />
+            <solid android:color="@color/black" />
         </shape>
     </item>
     <item
         android:bottom="1dp"
         android:right="2dp">
         <shape android:shape="rectangle">
+            <corners android:bottomRightRadius="7dp" />
             <gradient
                 android:angle="270"
-                android:centerColor="?attr/colorBackgroundPrimary2"
-                android:endColor="?attr/colorBackgroundPrimary2"
-                android:startColor="?attr/colorBackgroundPrimary1" />
-            <corners android:bottomRightRadius="7dp" />
+                android:centerColor="@color/grey_13"
+                android:endColor="@color/grey_13"
+                android:startColor="@color/grey_13" />
         </shape>
     </item>
 </layer-list>

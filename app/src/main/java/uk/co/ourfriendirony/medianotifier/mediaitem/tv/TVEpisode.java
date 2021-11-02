@@ -1,8 +1,9 @@
 package uk.co.ourfriendirony.medianotifier.mediaitem.tv;
 
 import android.database.Cursor;
-import android.support.annotation.NonNull;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -130,6 +131,7 @@ public class TVEpisode implements MediaItem {
         return played;
     }
 
+    @NonNull
     public String toString() {
         return "TVEpisode: " + getSubtitle() + " > " + getTitle() + " > " + getReleaseDateFull();
     }

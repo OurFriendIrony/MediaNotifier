@@ -12,7 +12,7 @@ import java.util.Locale;
 public class Helper {
     private static final String[] PREFIXES = new String[]{"A ", "The "};
 
-    private static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.UK);
+    private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.UK);
 
     public static String cleanUrl(String url) {
         try {

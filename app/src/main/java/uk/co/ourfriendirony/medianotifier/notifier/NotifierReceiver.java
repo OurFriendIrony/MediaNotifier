@@ -6,8 +6,9 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v4.app.NotificationCompat;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
 
 import java.text.MessageFormat;
 
@@ -74,7 +75,7 @@ public class NotifierReceiver extends BroadcastReceiver {
                 context.getString(R.string.notification_text),
                 unplayedEpisodes, unplayedMovies, unplayedAlbums, unplayedGames
         );
-        return new NotificationCompat.Builder(context)
+        return new NotificationCompat.Builder(context,"MediaNotifier")
                 .setSmallIcon(R.drawable.img_app_icon)
                 .setContentTitle(context.getString(R.string.notification_title))
                 .setContentText(text)
