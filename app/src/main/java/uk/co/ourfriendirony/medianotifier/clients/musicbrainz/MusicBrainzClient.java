@@ -19,7 +19,7 @@ import static uk.co.ourfriendirony.medianotifier.general.Helper.cleanUrl;
 import static uk.co.ourfriendirony.medianotifier.general.Helper.replaceTokens;
 
 public class MusicBrainzClient extends AbstractClient {
-    private static final String HOST = "http://musicbrainz.org/ws/2/";
+    private static final String HOST = "https://musicbrainz.org/ws/2/";
 
     private static final String URL_ARTIST_QUERY = HOST + "artist/?query=artist:@NAME@&fmt=json";
     private static final String URL_ARTIST_ID = HOST + "artist/@ID@/?inc=release-groups&fmt=json";
