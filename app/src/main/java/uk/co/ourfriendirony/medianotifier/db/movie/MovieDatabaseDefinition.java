@@ -1,11 +1,11 @@
 package uk.co.ourfriendirony.medianotifier.db.movie;
 
+import static uk.co.ourfriendirony.medianotifier.general.Constants.DB_FALSE;
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-
-import static uk.co.ourfriendirony.medianotifier.general.Constants.DB_FALSE;
 
 public class MovieDatabaseDefinition extends SQLiteOpenHelper {
     public static final String ID = "id";

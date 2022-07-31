@@ -29,7 +29,7 @@ public class ArtistSearchLifeSpan {
     @JsonProperty("ended")
     private Object ended;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("begin")
     public Date getBegin() {

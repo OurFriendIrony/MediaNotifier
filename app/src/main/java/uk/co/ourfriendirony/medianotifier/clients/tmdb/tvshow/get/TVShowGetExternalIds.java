@@ -40,7 +40,7 @@ public class TVShowGetExternalIds {
     @JsonProperty("twitter_id")
     private String twitterId;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("imdb_id")
     public String getImdbId() {

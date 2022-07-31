@@ -28,7 +28,7 @@ public class MovieGetProductionCompany {
     @JsonProperty("origin_country")
     private String originCountry;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("id")
     public Integer getId() {

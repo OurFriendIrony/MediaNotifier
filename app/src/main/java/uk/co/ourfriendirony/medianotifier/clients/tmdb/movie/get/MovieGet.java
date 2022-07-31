@@ -98,7 +98,7 @@ public class MovieGet {
     @JsonProperty("external_ids")
     private MovieGetExternalIds movieGetExternalIds;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("adult")
     public Boolean getAdult() {

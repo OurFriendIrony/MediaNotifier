@@ -40,7 +40,7 @@ public class ArtistSearchAlias {
     @JsonProperty("end-date")
     private Object endDate;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("sort-name")
     public String getSortName() {

@@ -1,14 +1,14 @@
 package uk.co.ourfriendirony.medianotifier.general;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNull;
+
 import org.junit.Test;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
-
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNull;
 
 public class HelperTest {
     private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

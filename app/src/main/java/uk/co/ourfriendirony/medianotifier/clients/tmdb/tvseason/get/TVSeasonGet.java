@@ -45,7 +45,7 @@ public class TVSeasonGet {
     @JsonProperty("external_ids")
     private TVSeasonGetExternalIds TVSeasonGetExternalIds;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("_id")
     public String getIdCore() {

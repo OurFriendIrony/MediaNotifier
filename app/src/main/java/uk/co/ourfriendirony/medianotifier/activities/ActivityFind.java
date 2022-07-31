@@ -1,5 +1,7 @@
 package uk.co.ourfriendirony.medianotifier.activities;
 
+import static uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.inputmethod.EditorInfo;
@@ -17,8 +19,6 @@ import uk.co.ourfriendirony.medianotifier.clients.Client;
 import uk.co.ourfriendirony.medianotifier.clients.ClientFactory;
 import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.db.DatabaseFactory;
-
-import static uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY;
 
 public class ActivityFind extends AppCompatActivity {
     private EditText input;

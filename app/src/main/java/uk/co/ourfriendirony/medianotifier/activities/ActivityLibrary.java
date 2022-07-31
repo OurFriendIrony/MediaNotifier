@@ -1,5 +1,7 @@
 package uk.co.ourfriendirony.medianotifier.activities;
 
+import static uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY;
+
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,7 +16,6 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.List;
@@ -29,8 +30,6 @@ import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.db.DatabaseFactory;
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
-
-import static uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY;
 
 public class ActivityLibrary extends AppCompatActivity {
     private Spinner spinnerView;
@@ -86,7 +85,7 @@ public class ActivityLibrary extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem menuItem) {
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
         if (mediaItems.size() > 0) {
             MediaItem mediaItem = mediaItems.get(currentItemPos);
             if (menuItem.getItemId() == R.id.action_refresh) {

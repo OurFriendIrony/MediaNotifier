@@ -49,7 +49,7 @@ public class TVShowGetLastEpisodeToAir {
     @JsonProperty("vote_count")
     private Integer voteCount;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("air_date")
     public String getAirDate() {

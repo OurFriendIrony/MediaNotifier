@@ -1,5 +1,8 @@
 package uk.co.ourfriendirony.medianotifier.mediaitem.artist;
 
+import static uk.co.ourfriendirony.medianotifier.general.Helper.getColumnValue;
+import static uk.co.ourfriendirony.medianotifier.general.Helper.stringToDate;
+
 import android.database.Cursor;
 import android.util.Log;
 
@@ -15,19 +18,16 @@ import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.artist.get.ArtistG
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabaseDefinition;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
-import static uk.co.ourfriendirony.medianotifier.general.Helper.getColumnValue;
-import static uk.co.ourfriendirony.medianotifier.general.Helper.stringToDate;
-
 public class Release implements MediaItem {
-    private String id;
+    private final String id;
+    private final String title;
+    private final Date releaseDate;
+    // TODO: fully implement played as an item
+    private final boolean played = false;
     private String subid = "";
-    private String title;
     private String subtitle = "";
     private String description = "";
-    private Date releaseDate;
     private String externalUrl;
-    // TODO: fully implement played as an item
-    private boolean played = false;
     private List<MediaItem> children = new ArrayList<>();
 
     public Release(ArtistGetReleaseGroup release, Artist artist) {

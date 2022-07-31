@@ -1,14 +1,14 @@
 package uk.co.ourfriendirony.medianotifier.notifier;
 
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationHour;
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationMinute;
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
 import java.util.Calendar;
-
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationHour;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationMinute;
 
 public class AlarmScheduler {
     public static void reschedule(Context context) {

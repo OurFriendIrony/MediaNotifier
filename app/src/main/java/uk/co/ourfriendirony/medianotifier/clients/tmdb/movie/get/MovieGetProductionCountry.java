@@ -22,7 +22,7 @@ public class MovieGetProductionCountry {
     @JsonProperty("name")
     private String name;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("iso_3166_1")
     public String getIso31661() {

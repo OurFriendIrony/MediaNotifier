@@ -1,5 +1,8 @@
 package uk.co.ourfriendirony.medianotifier.mediaitem.tv;
 
+import static uk.co.ourfriendirony.medianotifier.general.Helper.getColumnValue;
+import static uk.co.ourfriendirony.medianotifier.general.Helper.stringToDate;
+
 import android.database.Cursor;
 import android.util.Log;
 
@@ -15,19 +18,16 @@ import uk.co.ourfriendirony.medianotifier.clients.tmdb.tvseason.get.TVSeasonGetE
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabaseDefinition;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 
-import static uk.co.ourfriendirony.medianotifier.general.Helper.getColumnValue;
-import static uk.co.ourfriendirony.medianotifier.general.Helper.stringToDate;
-
 public class TVEpisode implements MediaItem {
-    private String id;
-    private String subid;
-    private String title;
+    private final String id;
+    private final String subid;
+    private final String title;
+    private final Date releaseDate;
+    // TODO: fully implement played as an item
+    private final boolean played = false;
     private String subtitle = "";
     private String description = "";
-    private Date releaseDate;
     private String externalUrl;
-    // TODO: fully implement played as an item
-    private boolean played = false;
     private List<MediaItem> children = new ArrayList<>();
 
     public TVEpisode(TVSeasonGetEpisode episode, TVShow tvShow) {

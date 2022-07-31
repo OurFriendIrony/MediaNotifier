@@ -69,7 +69,7 @@ public class ReleaseGet {
     @JsonProperty("text-representation")
     private ReleaseGetTextRepresentation textRepresentation;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("cover-art-archive")
     public ReleaseGetCoverArtArchive getCoverArtArchive() {

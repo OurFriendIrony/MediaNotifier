@@ -38,7 +38,7 @@ public class ReleaseGetMedium {
     @JsonProperty("format")
     private String format;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("tracks")
     public List<ReleaseGetTrack> getTracks() {

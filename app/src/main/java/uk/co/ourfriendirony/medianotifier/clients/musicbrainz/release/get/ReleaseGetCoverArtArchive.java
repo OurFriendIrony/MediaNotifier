@@ -31,7 +31,7 @@ public class ReleaseGetCoverArtArchive {
     @JsonProperty("back")
     private Boolean back;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("darkened")
     public Boolean getDarkened() {

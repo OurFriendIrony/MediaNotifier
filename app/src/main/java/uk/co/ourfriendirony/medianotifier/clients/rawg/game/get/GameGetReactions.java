@@ -25,7 +25,7 @@ public class GameGetReactions {
     @JsonProperty("12")
     private Integer _12;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("2")
     public Integer get2() {

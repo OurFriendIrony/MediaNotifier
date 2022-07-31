@@ -113,7 +113,7 @@ public class TVShowGet {
     @JsonProperty("external_ids")
     private MovieGetExternalIds externalIds;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("backdrop_path")
     public String getBackdropPath() {

@@ -1,5 +1,11 @@
 package uk.co.ourfriendirony.medianotifier.notifier;
 
+import static uk.co.ourfriendirony.medianotifier.general.Constants.ARTIST;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.GAME;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.MOVIE;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.TVSHOW;
+
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -18,12 +24,6 @@ import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase;
 import uk.co.ourfriendirony.medianotifier.db.game.GameDatabase;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
-
-import static uk.co.ourfriendirony.medianotifier.general.Constants.ARTIST;
-import static uk.co.ourfriendirony.medianotifier.general.Constants.GAME;
-import static uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY;
-import static uk.co.ourfriendirony.medianotifier.general.Constants.MOVIE;
-import static uk.co.ourfriendirony.medianotifier.general.Constants.TVSHOW;
 
 public class NotifierReceiver extends BroadcastReceiver {
     int unplayedEpisodes = 0;
@@ -75,7 +75,7 @@ public class NotifierReceiver extends BroadcastReceiver {
                 context.getString(R.string.notification_text),
                 unplayedEpisodes, unplayedMovies, unplayedAlbums, unplayedGames
         );
-        return new NotificationCompat.Builder(context,"MediaNotifier")
+        return new NotificationCompat.Builder(context, "MediaNotifier")
                 .setSmallIcon(R.drawable.img_app_icon)
                 .setContentTitle(context.getString(R.string.notification_title))
                 .setContentText(text)

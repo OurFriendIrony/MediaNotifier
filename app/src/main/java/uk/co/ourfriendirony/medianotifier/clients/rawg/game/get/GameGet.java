@@ -183,7 +183,7 @@ public class GameGet {
     @JsonProperty("description_raw")
     private String descriptionRaw;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("id")
     public Integer getId() {

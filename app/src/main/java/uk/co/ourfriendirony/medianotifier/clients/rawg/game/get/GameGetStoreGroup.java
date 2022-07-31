@@ -25,7 +25,7 @@ public class GameGetStoreGroup {
     @JsonProperty("store")
     private GameGetStore store;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("id")
     public Integer getId() {

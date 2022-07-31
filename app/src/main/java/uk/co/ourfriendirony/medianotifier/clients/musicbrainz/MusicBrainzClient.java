@@ -1,5 +1,8 @@
 package uk.co.ourfriendirony.medianotifier.clients.musicbrainz;
 
+import static uk.co.ourfriendirony.medianotifier.general.Helper.cleanUrl;
+import static uk.co.ourfriendirony.medianotifier.general.Helper.replaceTokens;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -14,9 +17,6 @@ import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.artist.search.Arti
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 import uk.co.ourfriendirony.medianotifier.mediaitem.artist.Artist;
 import uk.co.ourfriendirony.medianotifier.mediaitem.artist.Release;
-
-import static uk.co.ourfriendirony.medianotifier.general.Helper.cleanUrl;
-import static uk.co.ourfriendirony.medianotifier.general.Helper.replaceTokens;
 
 public class MusicBrainzClient extends AbstractClient {
     private static final String HOST = "https://musicbrainz.org/ws/2/";

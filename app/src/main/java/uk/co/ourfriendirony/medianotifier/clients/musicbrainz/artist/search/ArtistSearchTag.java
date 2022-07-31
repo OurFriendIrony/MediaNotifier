@@ -22,7 +22,7 @@ public class ArtistSearchTag {
     @JsonProperty("name")
     private String name;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("count")
     public Integer getCount() {

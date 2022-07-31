@@ -64,7 +64,7 @@ public class ArtistGet {
     @JsonProperty("country")
     private String country;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("disambiguation")
     public String getDisambiguation() {

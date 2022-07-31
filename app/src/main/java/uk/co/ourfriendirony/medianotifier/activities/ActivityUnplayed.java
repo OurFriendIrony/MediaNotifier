@@ -1,5 +1,7 @@
 package uk.co.ourfriendirony.medianotifier.activities;
 
+import static uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY;
+
 import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Bundle;
@@ -10,8 +12,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.activities.pageradapter.UnplayedPagerAdapter;
-
-import static uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY;
 
 public class ActivityUnplayed extends AppCompatActivity {
 

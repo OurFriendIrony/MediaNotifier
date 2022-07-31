@@ -1,13 +1,13 @@
 package uk.co.ourfriendirony.medianotifier.db;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import java.util.Locale;
 
 import uk.co.ourfriendirony.medianotifier.R;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public class PropertyHelper {
     private static final String PROP_NAME = String.valueOf(R.string.app_name);

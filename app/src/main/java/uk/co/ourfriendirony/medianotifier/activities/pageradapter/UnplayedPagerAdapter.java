@@ -1,17 +1,16 @@
 package uk.co.ourfriendirony.medianotifier.activities.pageradapter;
 
+import static uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY;
+
 import android.os.Bundle;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import uk.co.ourfriendirony.medianotifier.activities.fragment.UnplayedComingSoon;
 import uk.co.ourfriendirony.medianotifier.activities.fragment.UnplayedReleased;
-
-import static uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY;
 
 public class UnplayedPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -24,7 +23,6 @@ public class UnplayedPagerAdapter extends FragmentStatePagerAdapter {
         this.bundle.putString(INTENT_KEY, type);
     }
 
-    @NonNull
     @Override
     public Fragment getItem(int position) {
         switch (position) {

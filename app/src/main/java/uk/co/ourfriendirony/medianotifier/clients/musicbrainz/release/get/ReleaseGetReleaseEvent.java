@@ -26,7 +26,7 @@ public class ReleaseGetReleaseEvent {
     @JsonProperty("area")
     private ReleaseGetArea area;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("date")
     public Date getDate() {

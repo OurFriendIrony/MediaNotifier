@@ -29,7 +29,7 @@ public class MovieGetBelongsToCollection {
     @JsonProperty("backdrop_path")
     private String backdropPath;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("id")
     public Integer getId() {

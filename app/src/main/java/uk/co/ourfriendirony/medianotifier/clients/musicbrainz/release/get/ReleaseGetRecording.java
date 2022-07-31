@@ -31,7 +31,7 @@ public class ReleaseGetRecording {
     @JsonProperty("length")
     private Integer length;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("title")
     public String getTitle() {

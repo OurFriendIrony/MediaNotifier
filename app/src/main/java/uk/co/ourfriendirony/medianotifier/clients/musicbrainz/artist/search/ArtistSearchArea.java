@@ -34,7 +34,7 @@ public class ArtistSearchArea {
     @JsonProperty("life-span")
     private ArtistSearchLifeSpan lifeSpan;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("id")
     public String getId() {

@@ -1,5 +1,12 @@
 package uk.co.ourfriendirony.medianotifier.db.movie;
 
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getMarkWatchedIfAlreadyReleased;
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetMovie;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.DB_FALSE;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.DB_TRUE;
+import static uk.co.ourfriendirony.medianotifier.general.Helper.cleanTitle;
+import static uk.co.ourfriendirony.medianotifier.general.Helper.dateToString;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -16,13 +23,6 @@ import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.general.Helper;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 import uk.co.ourfriendirony.medianotifier.mediaitem.movie.Movie;
-
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getMarkWatchedIfAlreadyReleased;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetMovie;
-import static uk.co.ourfriendirony.medianotifier.general.Constants.DB_FALSE;
-import static uk.co.ourfriendirony.medianotifier.general.Constants.DB_TRUE;
-import static uk.co.ourfriendirony.medianotifier.general.Helper.cleanTitle;
-import static uk.co.ourfriendirony.medianotifier.general.Helper.dateToString;
 
 public class MovieDatabase implements Database {
     private static final String SELECT_MOVIES = "SELECT * FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " ORDER BY " + MovieDatabaseDefinition.TITLE + " ASC;";
@@ -73,7 +73,7 @@ public class MovieDatabase implements Database {
         } else {
             dbRow.put(MovieDatabaseDefinition.PLAYED, currentWatchedStatus);
         }
-        Log.d("[DB INSERT]", "Movie: " + dbRow.toString());
+        Log.d("[DB INSERT]", "Movie: " + dbRow);
         dbWritable.replace(MovieDatabaseDefinition.TABLE_MOVIES, null, dbRow);
     }
 

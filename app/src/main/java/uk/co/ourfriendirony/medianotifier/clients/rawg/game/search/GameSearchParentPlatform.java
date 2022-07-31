@@ -25,7 +25,7 @@ public class GameSearchParentPlatform {
     @JsonProperty("slug")
     private String slug;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("id")
     public Integer getId() {

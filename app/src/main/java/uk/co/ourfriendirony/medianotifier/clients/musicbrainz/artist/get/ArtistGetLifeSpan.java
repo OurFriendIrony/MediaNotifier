@@ -31,7 +31,7 @@ public class ArtistGetLifeSpan {
     @JsonProperty("end")
     private String end;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("ended")
     public Boolean getEnded() {

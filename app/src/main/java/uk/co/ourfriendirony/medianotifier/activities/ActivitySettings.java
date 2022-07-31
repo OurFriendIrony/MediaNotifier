@@ -1,5 +1,23 @@
 package uk.co.ourfriendirony.medianotifier.activities;
 
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getMarkWatchedIfAlreadyReleased;
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetArtist;
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetGame;
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetMax;
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetMin;
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetMovie;
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetTV;
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationHour;
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationMinute;
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationTimeFull;
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setMarkWatchedIfAlreadyReleased;
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationDayOffsetArtist;
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationDayOffsetGame;
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationDayOffsetMovie;
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationDayOffsetTV;
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationHour;
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationMinute;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -21,24 +39,6 @@ import uk.co.ourfriendirony.medianotifier.db.game.GameDatabase;
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.notifier.AlarmScheduler;
-
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getMarkWatchedIfAlreadyReleased;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetArtist;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetGame;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetMax;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetMin;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetMovie;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetTV;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationHour;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationMinute;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationTimeFull;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setMarkWatchedIfAlreadyReleased;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationDayOffsetArtist;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationDayOffsetGame;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationDayOffsetMovie;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationDayOffsetTV;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationHour;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.setNotificationMinute;
 
 public class ActivitySettings extends AppCompatActivity {
     private PopupWindow popupWindow;

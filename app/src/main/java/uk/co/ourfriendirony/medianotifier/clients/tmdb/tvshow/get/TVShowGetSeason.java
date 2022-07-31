@@ -37,7 +37,7 @@ public class TVShowGetSeason {
     @JsonProperty("season_number")
     private Integer seasonNumber;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("air_date")
     public String getAirDate() {

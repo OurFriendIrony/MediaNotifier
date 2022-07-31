@@ -28,7 +28,7 @@ public class ArtistGetBeginArea {
     @JsonProperty("sort-name")
     private String sortName;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("name")
     public String getName() {

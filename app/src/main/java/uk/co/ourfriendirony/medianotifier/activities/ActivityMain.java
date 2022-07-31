@@ -1,5 +1,13 @@
 package uk.co.ourfriendirony.medianotifier.activities;
 
+import static uk.co.ourfriendirony.medianotifier.general.Constants.ARTIST;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.GAME;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.MOVIE;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.TVSHOW;
+import static uk.co.ourfriendirony.medianotifier.general.Helper.getNotificationNumber;
+import static uk.co.ourfriendirony.medianotifier.general.IntentGenerator.getContactEmailIntent;
+
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -11,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -32,14 +39,6 @@ import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase;
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase;
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
-
-import static uk.co.ourfriendirony.medianotifier.general.Constants.ARTIST;
-import static uk.co.ourfriendirony.medianotifier.general.Constants.GAME;
-import static uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY;
-import static uk.co.ourfriendirony.medianotifier.general.Constants.MOVIE;
-import static uk.co.ourfriendirony.medianotifier.general.Constants.TVSHOW;
-import static uk.co.ourfriendirony.medianotifier.general.Helper.getNotificationNumber;
-import static uk.co.ourfriendirony.medianotifier.general.IntentGenerator.getContactEmailIntent;
 
 public class ActivityMain extends AppCompatActivity {
     private final Client tvShowClient = new TVClient();
@@ -178,7 +177,6 @@ public class ActivityMain extends AppCompatActivity {
         }
     }
 
-    @NonNull
     private MediaItem[] asArray(List<MediaItem> items) {
         MediaItem[] itemsArray = new MediaItem[items.size()];
         return items.toArray(itemsArray);

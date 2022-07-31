@@ -34,7 +34,7 @@ public class ReleaseGetTrack {
     @JsonProperty("id")
     private String id;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("position")
     public Integer getPosition() {

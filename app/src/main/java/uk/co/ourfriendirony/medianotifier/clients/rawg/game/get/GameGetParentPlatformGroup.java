@@ -19,7 +19,7 @@ public class GameGetParentPlatformGroup {
     @JsonProperty("platform")
     private GameGetParentPlatform platform;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("platform")
     public GameGetParentPlatform getPlatform() {

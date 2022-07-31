@@ -1,11 +1,11 @@
 package uk.co.ourfriendirony.medianotifier.clients;
 
-import android.util.Log;
-
 import static uk.co.ourfriendirony.medianotifier.general.Constants.ARTIST;
 import static uk.co.ourfriendirony.medianotifier.general.Constants.GAME;
 import static uk.co.ourfriendirony.medianotifier.general.Constants.MOVIE;
 import static uk.co.ourfriendirony.medianotifier.general.Constants.TVSHOW;
+
+import android.util.Log;
 
 public class ClientFactory {
     public Client getClient(String type) {

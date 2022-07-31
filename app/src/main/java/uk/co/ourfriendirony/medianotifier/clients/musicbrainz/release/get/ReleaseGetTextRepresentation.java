@@ -22,7 +22,7 @@ public class ReleaseGetTextRepresentation {
     @JsonProperty("script")
     private String script;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("language")
     public String getLanguage() {

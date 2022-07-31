@@ -1,5 +1,8 @@
 package uk.co.ourfriendirony.medianotifier.activities.viewadapter;
 
+import static uk.co.ourfriendirony.medianotifier.general.Constants.DB_FALSE;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.DB_TRUE;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SwitchCompat;
 
 import java.util.List;
@@ -15,9 +17,6 @@ import java.util.List;
 import uk.co.ourfriendirony.medianotifier.R;
 import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
-
-import static uk.co.ourfriendirony.medianotifier.general.Constants.DB_FALSE;
-import static uk.co.ourfriendirony.medianotifier.general.Constants.DB_TRUE;
 
 public class ListAdapterSummary extends ArrayAdapter {
     private final List<MediaItem> mediaItems;
@@ -36,9 +35,8 @@ public class ListAdapterSummary extends ArrayAdapter {
         return super.getCount();
     }
 
-    @NonNull
     @Override
-    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
         if (defaultLayoutId == R.layout.list_item_generic) {
             view = getFindView(position, view, parent);
@@ -51,13 +49,12 @@ public class ListAdapterSummary extends ArrayAdapter {
     }
 
     @Override
-    public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
+    public View getDropDownView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
         view = getFindView(position, view, parent);
         return view;
     }
 
-    @NonNull
     private View getFindView(int position, View view, ViewGroup viewGroup) {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(R.layout.list_item_generic, null);
@@ -76,7 +73,6 @@ public class ListAdapterSummary extends ArrayAdapter {
         return view;
     }
 
-    @NonNull
     private View getChecklistView(int position, View view, ViewGroup viewGroup) {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(R.layout.list_item_generic_toggle, null);
@@ -115,7 +111,6 @@ public class ListAdapterSummary extends ArrayAdapter {
         return view;
     }
 
-    @NonNull
     private View getTitleView(int position, View view, ViewGroup viewGroup) {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(defaultLayoutId, null);

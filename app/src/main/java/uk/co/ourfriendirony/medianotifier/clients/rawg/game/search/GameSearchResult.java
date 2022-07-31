@@ -104,7 +104,7 @@ public class GameSearchResult {
     @JsonProperty("genres")
     private List<GameSearchGenre> genres = null;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("slug")
     public String getSlug() {

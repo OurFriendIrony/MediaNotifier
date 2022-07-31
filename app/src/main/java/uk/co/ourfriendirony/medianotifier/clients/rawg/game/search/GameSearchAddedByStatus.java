@@ -34,7 +34,7 @@ public class GameSearchAddedByStatus {
     @JsonProperty("playing")
     private Integer playing;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("yet")
     public Integer getYet() {

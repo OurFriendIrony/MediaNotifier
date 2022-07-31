@@ -1,5 +1,12 @@
 package uk.co.ourfriendirony.medianotifier.db.artist;
 
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getMarkWatchedIfAlreadyReleased;
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetArtist;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.DB_FALSE;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.DB_TRUE;
+import static uk.co.ourfriendirony.medianotifier.general.Helper.cleanTitle;
+import static uk.co.ourfriendirony.medianotifier.general.Helper.dateToString;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -17,13 +24,6 @@ import uk.co.ourfriendirony.medianotifier.general.Helper;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 import uk.co.ourfriendirony.medianotifier.mediaitem.artist.Artist;
 import uk.co.ourfriendirony.medianotifier.mediaitem.artist.Release;
-
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getMarkWatchedIfAlreadyReleased;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetArtist;
-import static uk.co.ourfriendirony.medianotifier.general.Constants.DB_FALSE;
-import static uk.co.ourfriendirony.medianotifier.general.Constants.DB_TRUE;
-import static uk.co.ourfriendirony.medianotifier.general.Helper.cleanTitle;
-import static uk.co.ourfriendirony.medianotifier.general.Helper.dateToString;
 
 public class ArtistDatabase implements Database {
     private static final String SELECT_ARTISTS = "SELECT * FROM " + ArtistDatabaseDefinition.TABLE_ARTISTS + " ORDER BY " + ArtistDatabaseDefinition.TITLE + " ASC;";
@@ -75,7 +75,7 @@ public class ArtistDatabase implements Database {
         dbRow.put(ArtistDatabaseDefinition.EXTERNAL_URL, artist.getExternalLink());
         dbRow.put(ArtistDatabaseDefinition.RELEASE_DATE, dateToString(artist.getReleaseDate()));
         dbRow.put(ArtistDatabaseDefinition.DESCRIPTION, artist.getDescription());
-        Log.d("[DB INSERT]", "Artist: " + dbRow.toString());
+        Log.d("[DB INSERT]", "Artist: " + dbRow);
         dbWritable.replace(ArtistDatabaseDefinition.TABLE_ARTISTS, null, dbRow);
     }
 
@@ -93,7 +93,7 @@ public class ArtistDatabase implements Database {
         } else {
             dbRow.put(ArtistDatabaseDefinition.PLAYED, currentWatchedStatus);
         }
-        Log.d("[DB INSERT]", "Release: " + dbRow.toString());
+        Log.d("[DB INSERT]", "Release: " + dbRow);
         dbWritable.replace(ArtistDatabaseDefinition.TABLE_RELEASES, null, dbRow);
     }
 

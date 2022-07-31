@@ -22,7 +22,7 @@ public class GameSearchShortScreenshot {
     @JsonProperty("image")
     private String image;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("id")
     public Integer getId() {

@@ -1,5 +1,7 @@
 package uk.co.ourfriendirony.medianotifier.activities.fragment;
 
+import static uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +18,6 @@ import uk.co.ourfriendirony.medianotifier.activities.viewadapter.ListAdapterSumm
 import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.db.DatabaseFactory;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
-
-import static uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY;
 
 public class UnplayedComingSoon extends Fragment {
     @Override

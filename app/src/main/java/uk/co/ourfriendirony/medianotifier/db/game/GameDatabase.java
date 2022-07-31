@@ -1,5 +1,12 @@
 package uk.co.ourfriendirony.medianotifier.db.game;
 
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getMarkWatchedIfAlreadyReleased;
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetGame;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.DB_FALSE;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.DB_TRUE;
+import static uk.co.ourfriendirony.medianotifier.general.Helper.cleanTitle;
+import static uk.co.ourfriendirony.medianotifier.general.Helper.dateToString;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -16,13 +23,6 @@ import uk.co.ourfriendirony.medianotifier.db.Database;
 import uk.co.ourfriendirony.medianotifier.general.Helper;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 import uk.co.ourfriendirony.medianotifier.mediaitem.game.Game;
-
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getMarkWatchedIfAlreadyReleased;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetGame;
-import static uk.co.ourfriendirony.medianotifier.general.Constants.DB_FALSE;
-import static uk.co.ourfriendirony.medianotifier.general.Constants.DB_TRUE;
-import static uk.co.ourfriendirony.medianotifier.general.Helper.cleanTitle;
-import static uk.co.ourfriendirony.medianotifier.general.Helper.dateToString;
 
 public class GameDatabase implements Database {
     private static final String SELECT_GAMES = "SELECT * FROM " + GameDatabaseDefinition.TABLE_GAMES + " ORDER BY " + GameDatabaseDefinition.TITLE + " ASC;";
@@ -73,7 +73,7 @@ public class GameDatabase implements Database {
         } else {
             dbRow.put(GameDatabaseDefinition.PLAYED, currentWatchedStatus);
         }
-        Log.d("[DB INSERT]", "Game: " + dbRow.toString());
+        Log.d("[DB INSERT]", "Game: " + dbRow);
         dbWritable.replace(GameDatabaseDefinition.TABLE_GAMES, null, dbRow);
     }
 

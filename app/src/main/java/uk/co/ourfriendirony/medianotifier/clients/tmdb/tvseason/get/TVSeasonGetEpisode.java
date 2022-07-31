@@ -59,7 +59,7 @@ public class TVSeasonGetEpisode {
     @JsonProperty("guest_stars")
     private List<TVSeasonGetGuestStar> TVSeasonGetGuestStars = null;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("air_date")
     public Date getAirDate() {

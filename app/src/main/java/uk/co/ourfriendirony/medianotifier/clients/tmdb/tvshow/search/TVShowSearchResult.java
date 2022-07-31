@@ -59,7 +59,7 @@ public class TVShowSearchResult {
     @JsonProperty("poster_path")
     private String posterPath;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("original_name")
     public String getOriginalName() {

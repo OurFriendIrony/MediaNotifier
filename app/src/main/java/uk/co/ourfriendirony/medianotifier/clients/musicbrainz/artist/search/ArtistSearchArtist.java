@@ -62,7 +62,7 @@ public class ArtistSearchArtist {
     @JsonProperty("gender")
     private String gender;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("id")
     public String getId() {

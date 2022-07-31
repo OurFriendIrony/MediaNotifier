@@ -1,5 +1,12 @@
 package uk.co.ourfriendirony.medianotifier.db.tv;
 
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getMarkWatchedIfAlreadyReleased;
+import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetTV;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.DB_FALSE;
+import static uk.co.ourfriendirony.medianotifier.general.Constants.DB_TRUE;
+import static uk.co.ourfriendirony.medianotifier.general.Helper.cleanTitle;
+import static uk.co.ourfriendirony.medianotifier.general.Helper.dateToString;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -17,13 +24,6 @@ import uk.co.ourfriendirony.medianotifier.general.Helper;
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 import uk.co.ourfriendirony.medianotifier.mediaitem.tv.TVEpisode;
 import uk.co.ourfriendirony.medianotifier.mediaitem.tv.TVShow;
-
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getMarkWatchedIfAlreadyReleased;
-import static uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationDayOffsetTV;
-import static uk.co.ourfriendirony.medianotifier.general.Constants.DB_FALSE;
-import static uk.co.ourfriendirony.medianotifier.general.Constants.DB_TRUE;
-import static uk.co.ourfriendirony.medianotifier.general.Helper.cleanTitle;
-import static uk.co.ourfriendirony.medianotifier.general.Helper.dateToString;
 
 public class TVShowDatabase implements Database {
     private static final String SELECT_TVSHOWS = "SELECT * FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS + " ORDER BY " + TVShowDatabaseDefinition.TITLE + " ASC;";
@@ -75,7 +75,7 @@ public class TVShowDatabase implements Database {
         dbRow.put(TVShowDatabaseDefinition.EXTERNAL_URL, mediaItem.getExternalLink());
         dbRow.put(TVShowDatabaseDefinition.RELEASE_DATE, dateToString(mediaItem.getReleaseDate()));
         dbRow.put(TVShowDatabaseDefinition.DESCRIPTION, mediaItem.getDescription());
-        Log.d("[DB INSERT]", "TVShow: " + dbRow.toString());
+        Log.d("[DB INSERT]", "TVShow: " + dbRow);
         dbWritable.replace(TVShowDatabaseDefinition.TABLE_TVSHOWS, null, dbRow);
     }
 
@@ -93,7 +93,7 @@ public class TVShowDatabase implements Database {
         } else {
             dbRow.put(TVShowDatabaseDefinition.PLAYED, currentWatchedStatus);
         }
-        Log.d("[DB INSERT]", "TVEpisode: " + dbRow.toString());
+        Log.d("[DB INSERT]", "TVEpisode: " + dbRow);
         dbWritable.replace(TVShowDatabaseDefinition.TABLE_EPISODES, null, dbRow);
     }
 

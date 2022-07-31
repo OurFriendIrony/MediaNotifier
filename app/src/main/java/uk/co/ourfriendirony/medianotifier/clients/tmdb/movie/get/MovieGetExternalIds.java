@@ -28,7 +28,7 @@ public class MovieGetExternalIds {
     @JsonProperty("twitter_id")
     private Object twitterId;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("imdb_id")
     public String getImdbId() {

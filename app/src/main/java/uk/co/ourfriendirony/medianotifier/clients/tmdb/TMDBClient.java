@@ -1,5 +1,8 @@
 package uk.co.ourfriendirony.medianotifier.clients.tmdb;
 
+import static uk.co.ourfriendirony.medianotifier.general.Helper.cleanUrl;
+import static uk.co.ourfriendirony.medianotifier.general.Helper.replaceTokens;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -19,9 +22,6 @@ import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem;
 import uk.co.ourfriendirony.medianotifier.mediaitem.movie.Movie;
 import uk.co.ourfriendirony.medianotifier.mediaitem.tv.TVEpisode;
 import uk.co.ourfriendirony.medianotifier.mediaitem.tv.TVShow;
-
-import static uk.co.ourfriendirony.medianotifier.general.Helper.cleanUrl;
-import static uk.co.ourfriendirony.medianotifier.general.Helper.replaceTokens;
 
 public class TMDBClient extends AbstractClient {
     private static final String API_KEY = "17e93178aefe463b7d42c6198ba78f30";

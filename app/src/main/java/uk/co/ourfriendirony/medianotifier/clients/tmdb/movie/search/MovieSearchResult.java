@@ -62,7 +62,7 @@ public class MovieSearchResult {
     @JsonProperty("release_date")
     private Date releaseDate;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("popularity")
     public Double getPopularity() {

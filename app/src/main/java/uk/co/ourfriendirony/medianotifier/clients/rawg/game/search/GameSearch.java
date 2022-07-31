@@ -32,7 +32,7 @@ public class GameSearch {
     @JsonProperty("user_platforms")
     private Boolean userPlatforms;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("count")
     public Integer getCount() {

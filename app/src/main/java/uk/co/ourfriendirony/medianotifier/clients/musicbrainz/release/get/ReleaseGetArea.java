@@ -32,7 +32,7 @@ public class ReleaseGetArea {
     @JsonProperty("disambiguation")
     private String disambiguation;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("sort-name")
     public String getSortName() {
