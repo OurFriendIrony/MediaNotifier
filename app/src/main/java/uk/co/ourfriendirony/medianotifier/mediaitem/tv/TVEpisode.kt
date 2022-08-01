@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class TVEpisode : MediaItem {
-    override val id: String?
+    override val id: String
     private val subid: String
     override val title: String?
     override val releaseDate: Date?

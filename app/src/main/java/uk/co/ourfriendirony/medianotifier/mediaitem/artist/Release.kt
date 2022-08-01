@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class Release : MediaItem {
-    override val id: String?
+    override val id: String
     override val title: String?
     override val releaseDate: Date?
 
@@ -28,9 +28,9 @@ class Release : MediaItem {
     override var children: List<MediaItem> = ArrayList()
 
     constructor(release: ArtistGetReleaseGroup, artist: Artist) {
-        id = artist.id
+        id = artist.id!!
         subId = release.id
-        if (!release.disambiguation!!.isEmpty()) {
+        if (release.disambiguation!!.isNotEmpty()) {
             title = release.title + " (" + release.disambiguation + ")"
         } else {
             title = release.title

@@ -1,19 +1,9 @@
 package uk.co.ourfriendirony.medianotifier.clients.musicbrainz.release.get
 
-import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.annotation.JsonPropertyOrder
-import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.annotation.JsonAnyGetter
-import com.fasterxml.jackson.annotation.JsonAnySetter
-import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.release.get.ReleaseGetTrack
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import uk.co.ourfriendirony.medianotifier.general.MultiDateDeserializer
-import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.release.get.ReleaseGetArea
-import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.release.get.ReleaseGetRecording
-import java.util.HashMap
+import com.fasterxml.jackson.annotation.*
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonPropertyOrder("sort-name", "iso-3166-1-codes", "name", "id", "disambiguation")
 class ReleaseGetArea {
     @get:JsonProperty("sort-name")
@@ -40,16 +30,4 @@ class ReleaseGetArea {
     @set:JsonProperty("disambiguation")
     @JsonProperty("disambiguation")
     var disambiguation: String? = null
-
-    @JsonIgnore
-    private val additionalProperties: MutableMap<String, Any> = HashMap()
-    @JsonAnyGetter
-    fun getAdditionalProperties(): Map<String, Any> {
-        return additionalProperties
-    }
-
-    @JsonAnySetter
-    fun setAdditionalProperty(name: String, value: Any) {
-        additionalProperties[name] = value
-    }
 }

@@ -1,27 +1,27 @@
 package uk.co.ourfriendirony.medianotifier.clients.musicbrainz.artist.get
 
-import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.annotation.JsonPropertyOrder
-import com.fasterxml.jackson.annotation.JsonProperty
-import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.artist.get.ArtistGetArea
-import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.artist.get.ArtistGetBeginArea
-import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.artist.get.ArtistGetReleaseGroup
-import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.artist.get.ArtistGetLifeSpan
-import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.annotation.JsonAnyGetter
-import com.fasterxml.jackson.annotation.JsonAnySetter
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import uk.co.ourfriendirony.medianotifier.general.MultiDateDeserializer
-import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.artist.search.ArtistSearchArtist
-import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.artist.search.ArtistSearchLifeSpan
-import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.artist.search.ArtistSearchArea
-import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.artist.search.ArtistSearchBeginArea
-import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.artist.search.ArtistSearchAlias
-import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.artist.search.ArtistSearchTag
-import java.util.HashMap
+import com.fasterxml.jackson.annotation.*
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder("disambiguation", "id", "area", "gender", "begin-area", "sort-name", "gender-id", "name", "type", "release-groups", "end-area", "ipis", "type-id", "life-span", "isnis", "country")
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonPropertyOrder(
+    "disambiguation",
+    "id",
+    "area",
+    "gender",
+    "begin-area",
+    "sort-name",
+    "gender-id",
+    "name",
+    "type",
+    "release-groups",
+    "end-area",
+    "ipis",
+    "type-id",
+    "life-span",
+    "isnis",
+    "country"
+)
 class ArtistGet {
     @get:JsonProperty("disambiguation")
     @set:JsonProperty("disambiguation")
@@ -102,16 +102,4 @@ class ArtistGet {
     @set:JsonProperty("country")
     @JsonProperty("country")
     var country: String? = null
-
-    @JsonIgnore
-    private val additionalProperties: MutableMap<String, Any> = HashMap()
-    @JsonAnyGetter
-    fun getAdditionalProperties(): Map<String, Any> {
-        return additionalProperties
-    }
-
-    @JsonAnySetter
-    fun setAdditionalProperty(name: String, value: Any) {
-        additionalProperties[name] = value
-    }
 }

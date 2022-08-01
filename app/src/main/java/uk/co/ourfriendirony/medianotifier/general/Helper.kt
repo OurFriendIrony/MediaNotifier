@@ -24,7 +24,10 @@ object Helper {
     fun cleanTitle(string: String): String {
         for (prefix in PREFIXES) {
             if (string.startsWith(prefix)) {
-                return string.substring(prefix.length) + ", " + prefix.substring(0, prefix.length - 1)
+                return string.substring(prefix.length) + ", " + prefix.substring(
+                    0,
+                    prefix.length - 1
+                )
             }
         }
         return string
@@ -68,8 +71,9 @@ object Helper {
 
     @JvmStatic
     fun getColumnValue(cursor: Cursor, field: String?): String {
-        if (field == null)
-            return "0"
-        return cursor.getString(cursor.getColumnIndex(field))
+//        Log.d("[FIELD]", "$field")
+        val colIndex = cursor.getColumnIndex(field)
+        val value = cursor.getString(colIndex)
+        return value ?: ""
     }
 }

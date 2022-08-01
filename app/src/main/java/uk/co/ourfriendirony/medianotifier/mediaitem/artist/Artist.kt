@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class Artist : MediaItem {
-    override val id: String?
+    override val id: String
     override val title: String?
     override val subtitle = ""
 
@@ -27,7 +27,7 @@ class Artist : MediaItem {
     override var children: List<MediaItem> = ArrayList()
 
     constructor(artist: ArtistGet) {
-        id = artist.id
+        id = artist.id!!
         title = artist.name
         if (artist.disambiguation != null) {
             description = artist.disambiguation
@@ -40,7 +40,7 @@ class Artist : MediaItem {
     }
 
     constructor(artist: ArtistSearchArtist) {
-        id = artist.id
+        id = artist.id!!
         title = artist.name
         if (artist.disambiguation != null) {
             description = artist.disambiguation

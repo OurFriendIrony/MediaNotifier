@@ -1,43 +1,41 @@
 package uk.co.ourfriendirony.medianotifier.clients.tmdb.tvshow.get
 
-import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.annotation.JsonPropertyOrder
-import com.fasterxml.jackson.annotation.JsonProperty
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.movie.get.MovieGetBelongsToCollection
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.movie.get.MovieGetGenre
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.movie.get.MovieGetProductionCompany
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.movie.get.MovieGetProductionCountry
-import com.fasterxml.jackson.annotation.JsonFormat
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.movie.get.MovieGetSpokenLanguage
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.movie.get.MovieGetExternalIds
-import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.annotation.JsonAnyGetter
-import com.fasterxml.jackson.annotation.JsonAnySetter
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.movie.search.MovieSearchResult
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.tvshow.get.TVShowGetCreatedBy
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.tvshow.get.TVShowGetLastEpisodeToAir
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.tvshow.get.TVShowGetNetwork
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.tvshow.get.TVShowGetSeason
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.tvshow.search.TVShowSearchResult
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.tvseason.get.TVSeasonGetEpisode
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.tvseason.get.TVSeasonGetExternalIds
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.tvseason.get.TVSeasonGetCrew
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.tvseason.get.TVSeasonGetGuestStar
-import uk.co.ourfriendirony.medianotifier.clients.AbstractClient
-import kotlin.Throws
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.TMDBClient
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.movie.search.MovieSearch
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.tvshow.search.TVShowSearch
-import uk.co.ourfriendirony.medianotifier.mediaitem.tv.TVShow
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.movie.get.MovieGet
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.tvshow.get.TVShowGet
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.tvseason.get.TVSeasonGet
-import uk.co.ourfriendirony.medianotifier.mediaitem.tv.TVEpisode
-import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.annotation.*
 import java.util.*
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder("backdrop_path", "created_by", "episode_run_time", "first_air_date", "genres", "homepage", "id", "in_production", "languages", "last_air_date", "last_episode_to_air", "name", "next_episode_to_air", "networks", "number_of_episodes", "number_of_seasons", "origin_country", "original_language", "original_name", "overview", "popularity", "poster_path", "production_companies", "seasons", "status", "type", "vote_average", "vote_count", "external_ids")
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonPropertyOrder(
+    "backdrop_path",
+    "created_by",
+    "episode_run_time",
+    "first_air_date",
+    "genres",
+    "homepage",
+    "id",
+    "in_production",
+    "languages",
+    "last_air_date",
+    "last_episode_to_air",
+    "name",
+    "next_episode_to_air",
+    "networks",
+    "number_of_episodes",
+    "number_of_seasons",
+    "origin_country",
+    "original_language",
+    "original_name",
+    "overview",
+    "popularity",
+    "poster_path",
+    "production_companies",
+    "seasons",
+    "status",
+    "type",
+    "vote_average",
+    "vote_count",
+    "external_ids"
+)
 class TVShowGet {
     @get:JsonProperty("backdrop_path")
     @set:JsonProperty("backdrop_path")
@@ -63,7 +61,7 @@ class TVShowGet {
     @get:JsonProperty("genres")
     @set:JsonProperty("genres")
     @JsonProperty("genres")
-    var genres: List<MovieGetGenre>? = null
+    var genres: List<TVShowGetGenre>? = null
 
     @get:JsonProperty("homepage")
     @set:JsonProperty("homepage")
@@ -154,7 +152,7 @@ class TVShowGet {
     @get:JsonProperty("production_companies")
     @set:JsonProperty("production_companies")
     @JsonProperty("production_companies")
-    var productionCompanies: List<MovieGetProductionCompany>? = null
+    var productionCompanies: List<TVShowGetProductionCompany>? = null
 
     @get:JsonProperty("seasons")
     @set:JsonProperty("seasons")
@@ -184,17 +182,5 @@ class TVShowGet {
     @get:JsonProperty("external_ids")
     @set:JsonProperty("external_ids")
     @JsonProperty("external_ids")
-    var externalIds: MovieGetExternalIds? = null
-
-    @JsonIgnore
-    private val additionalProperties: MutableMap<String, Any> = HashMap()
-    @JsonAnyGetter
-    fun getAdditionalProperties(): Map<String, Any> {
-        return additionalProperties
-    }
-
-    @JsonAnySetter
-    fun setAdditionalProperty(name: String, value: Any) {
-        additionalProperties[name] = value
-    }
+    var externalIds: TVShowGetExternalIds? = null
 }

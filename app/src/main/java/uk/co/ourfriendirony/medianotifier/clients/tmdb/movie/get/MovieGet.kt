@@ -1,43 +1,38 @@
 package uk.co.ourfriendirony.medianotifier.clients.tmdb.movie.get
 
-import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.annotation.JsonPropertyOrder
-import com.fasterxml.jackson.annotation.JsonProperty
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.movie.get.MovieGetBelongsToCollection
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.movie.get.MovieGetGenre
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.movie.get.MovieGetProductionCompany
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.movie.get.MovieGetProductionCountry
-import com.fasterxml.jackson.annotation.JsonFormat
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.movie.get.MovieGetSpokenLanguage
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.movie.get.MovieGetExternalIds
-import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.annotation.JsonAnyGetter
-import com.fasterxml.jackson.annotation.JsonAnySetter
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.movie.search.MovieSearchResult
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.tvshow.get.TVShowGetCreatedBy
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.tvshow.get.TVShowGetLastEpisodeToAir
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.tvshow.get.TVShowGetNetwork
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.tvshow.get.TVShowGetSeason
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.tvshow.search.TVShowSearchResult
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.tvseason.get.TVSeasonGetEpisode
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.tvseason.get.TVSeasonGetExternalIds
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.tvseason.get.TVSeasonGetCrew
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.tvseason.get.TVSeasonGetGuestStar
-import uk.co.ourfriendirony.medianotifier.clients.AbstractClient
-import kotlin.Throws
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.TMDBClient
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.movie.search.MovieSearch
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.tvshow.search.TVShowSearch
-import uk.co.ourfriendirony.medianotifier.mediaitem.tv.TVShow
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.movie.get.MovieGet
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.tvshow.get.TVShowGet
-import uk.co.ourfriendirony.medianotifier.clients.tmdb.tvseason.get.TVSeasonGet
-import uk.co.ourfriendirony.medianotifier.mediaitem.tv.TVEpisode
-import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.annotation.*
 import java.util.*
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder("adult", "backdrop_path", "belongs_to_collection", "budget", "movieGetGenres", "homepage", "id", "imdb_id", "original_language", "original_title", "overview", "popularity", "poster_path", "production_companies", "production_countries", "release_date", "revenue", "runtime", "spoken_languages", "status", "tagline", "title", "video", "vote_average", "vote_count", "external_ids")
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonPropertyOrder(
+    "adult",
+    "backdrop_path",
+    "belongs_to_collection",
+    "budget",
+    "movieGetGenres",
+    "homepage",
+    "id",
+    "imdb_id",
+    "original_language",
+    "original_title",
+    "overview",
+    "popularity",
+    "poster_path",
+    "production_companies",
+    "production_countries",
+    "release_date",
+    "revenue",
+    "runtime",
+    "spoken_languages",
+    "status",
+    "tagline",
+    "title",
+    "video",
+    "vote_average",
+    "vote_count",
+    "external_ids"
+)
 class MovieGet {
     @get:JsonProperty("adult")
     @set:JsonProperty("adult")
@@ -169,16 +164,4 @@ class MovieGet {
     @set:JsonProperty("external_ids")
     @JsonProperty("external_ids")
     var movieGetExternalIds: MovieGetExternalIds? = null
-
-    @JsonIgnore
-    private val additionalProperties: MutableMap<String, Any> = HashMap()
-    @JsonAnyGetter
-    fun getAdditionalProperties(): Map<String, Any> {
-        return additionalProperties
-    }
-
-    @JsonAnySetter
-    fun setAdditionalProperty(name: String, value: Any) {
-        additionalProperties[name] = value
-    }
 }

@@ -48,7 +48,7 @@ class ActivityLibrary : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         })
         mediaItems = db!!.readAllParentItems()
-        if (mediaItems!!.size > 0) {
+        if (mediaItems!!.isNotEmpty()) {
             progressBar!!.setIndeterminate(true)
             val listAdapterSummary: ArrayAdapter<*> = ListAdapterSummary(baseContext, R.layout.list_item_generic_title, mediaItems!!, db)
             spinnerView!!.setAdapter(listAdapterSummary)
@@ -63,26 +63,31 @@ class ActivityLibrary : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(menuItem: MenuItem): Boolean {
-        if (mediaItems!!.size > 0) {
+        if (mediaItems!!.isNotEmpty()) {
             val mediaItem = mediaItems!![currentItemPos]
-            return if (menuItem.itemId == R.id.action_refresh) {
-                UpdateMediaItem(this@ActivityLibrary, progressBar, db, client).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mediaItem)
-                ListChildren(this@ActivityLibrary, progressBar, listView, db).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mediaItem!!.id)
-                true
-            } else if (menuItem.itemId == R.id.action_remove) {
-                db!!.delete(mediaItem!!.id!!)
-                recreate()
-                true
-            } else if (menuItem.itemId == R.id.action_lookup) {
-                if (mediaItem!!.externalLink != null) {
-                    val intent = getWebPageIntent(mediaItem.externalLink)
-                    startActivity(intent)
-                } else {
-                    Toast.makeText(this, "No External Link", Toast.LENGTH_SHORT).show()
+            return when (menuItem.itemId) {
+                R.id.action_refresh -> {
+                    UpdateMediaItem(this@ActivityLibrary, progressBar, db, client).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mediaItem)
+                    ListChildren(this@ActivityLibrary, progressBar, listView, db).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mediaItem!!.id)
+                    true
                 }
-                true
-            } else {
-                super.onOptionsItemSelected(menuItem)
+                R.id.action_remove -> {
+                    db!!.delete(mediaItem!!.id)
+                    recreate()
+                    true
+                }
+                R.id.action_lookup -> {
+                    if (mediaItem!!.externalLink != null) {
+                        val intent = getWebPageIntent(mediaItem.externalLink)
+                        startActivity(intent)
+                    } else {
+                        Toast.makeText(this, "No External Link", Toast.LENGTH_SHORT).show()
+                    }
+                    true
+                }
+                else -> {
+                    super.onOptionsItemSelected(menuItem)
+                }
             }
         }
         return false

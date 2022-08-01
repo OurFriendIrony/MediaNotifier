@@ -1,21 +1,30 @@
 package uk.co.ourfriendirony.medianotifier.clients.musicbrainz.release.get
 
-import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.annotation.JsonPropertyOrder
-import com.fasterxml.jackson.annotation.JsonProperty
-import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.release.get.ReleaseGetCoverArtArchive
-import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.release.get.ReleaseGetMedium
+import com.fasterxml.jackson.annotation.*
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import uk.co.ourfriendirony.medianotifier.general.MultiDateDeserializer
-import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.release.get.ReleaseGetReleaseEvent
-import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.release.get.ReleaseGetTextRepresentation
-import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.annotation.JsonAnyGetter
-import com.fasterxml.jackson.annotation.JsonAnySetter
 import java.util.*
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder("cover-art-archive", "barcode", "status-id", "title", "media", "quality", "date", "packaging-id", "packaging", "asin", "country", "release-events", "status", "disambiguation", "id", "text-representation")
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonPropertyOrder(
+    "cover-art-archive",
+    "barcode",
+    "status-id",
+    "title",
+    "media",
+    "quality",
+    "date",
+    "packaging-id",
+    "packaging",
+    "asin",
+    "country",
+    "release-events",
+    "status",
+    "disambiguation",
+    "id",
+    "text-representation"
+)
 class ReleaseGet {
     @get:JsonProperty("cover-art-archive")
     @set:JsonProperty("cover-art-archive")
@@ -97,16 +106,4 @@ class ReleaseGet {
     @set:JsonProperty("text-representation")
     @JsonProperty("text-representation")
     var textRepresentation: ReleaseGetTextRepresentation? = null
-
-    @JsonIgnore
-    private val additionalProperties: MutableMap<String, Any> = HashMap()
-    @JsonAnyGetter
-    fun getAdditionalProperties(): Map<String, Any> {
-        return additionalProperties
-    }
-
-    @JsonAnySetter
-    fun setAdditionalProperty(name: String, value: Any) {
-        additionalProperties[name] = value
-    }
 }

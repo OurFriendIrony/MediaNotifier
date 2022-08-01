@@ -1,41 +1,66 @@
 package uk.co.ourfriendirony.medianotifier.clients.rawg.game.get
 
-import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.annotation.JsonPropertyOrder
-import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.annotation.JsonFormat
-import uk.co.ourfriendirony.medianotifier.clients.rawg.game.get.GameGetRating
-import uk.co.ourfriendirony.medianotifier.clients.rawg.game.get.GameGetReactions
-import uk.co.ourfriendirony.medianotifier.clients.rawg.game.get.GameGetAddedByStatus
-import uk.co.ourfriendirony.medianotifier.clients.rawg.game.get.GameGetParentPlatformGroup
-import uk.co.ourfriendirony.medianotifier.clients.rawg.game.get.GameGetPlatformGroup
-import uk.co.ourfriendirony.medianotifier.clients.rawg.game.get.GameGetStoreGroup
-import uk.co.ourfriendirony.medianotifier.clients.rawg.game.get.GameGetDeveloper
-import uk.co.ourfriendirony.medianotifier.clients.rawg.game.get.GameGetGenre
-import uk.co.ourfriendirony.medianotifier.clients.rawg.game.get.GameGetTag
-import uk.co.ourfriendirony.medianotifier.clients.rawg.game.get.GameGetPublisher
-import uk.co.ourfriendirony.medianotifier.clients.rawg.game.get.GameGetEsrbRating
-import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.annotation.JsonAnyGetter
-import com.fasterxml.jackson.annotation.JsonAnySetter
-import uk.co.ourfriendirony.medianotifier.clients.rawg.game.get.GameGetStore
-import uk.co.ourfriendirony.medianotifier.clients.rawg.game.get.GameGetPlatform
-import uk.co.ourfriendirony.medianotifier.clients.rawg.game.get.GameGetParentPlatform
-import uk.co.ourfriendirony.medianotifier.clients.rawg.game.search.GameSearchResult
-import uk.co.ourfriendirony.medianotifier.clients.rawg.game.search.GameSearchPlatformGroup
-import uk.co.ourfriendirony.medianotifier.clients.rawg.game.search.GameSearchStore
-import uk.co.ourfriendirony.medianotifier.clients.rawg.game.search.GameSearchRating
-import uk.co.ourfriendirony.medianotifier.clients.rawg.game.search.GameSearchAddedByStatus
-import uk.co.ourfriendirony.medianotifier.clients.rawg.game.search.GameSearchTag
-import uk.co.ourfriendirony.medianotifier.clients.rawg.game.search.GameSearchShortScreenshot
-import uk.co.ourfriendirony.medianotifier.clients.rawg.game.search.GameSearchParentPlatformGroup
-import uk.co.ourfriendirony.medianotifier.clients.rawg.game.search.GameSearchGenre
-import uk.co.ourfriendirony.medianotifier.clients.rawg.game.search.GameSearchPlatform
-import uk.co.ourfriendirony.medianotifier.clients.rawg.game.search.GameSearchParentPlatform
+import com.fasterxml.jackson.annotation.*
 import java.util.*
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder("id", "slug", "name", "name_original", "description", "metacritic", "metacritic_platforms", "released", "tba", "updated", "background_image", "background_image_additional", "website", "rating", "rating_top", "ratings", "reactions", "added", "added_by_status", "playtime", "screenshots_count", "movies_count", "creators_count", "achievements_count", "parent_achievements_count", "reddit_url", "reddit_name", "reddit_description", "reddit_logo", "reddit_count", "twitch_count", "youtube_count", "reviews_text_count", "ratings_count", "suggestions_count", "alternative_names", "metacritic_url", "parents_count", "additions_count", "game_series_count", "user_game", "reviews_count", "saturated_color", "dominant_color", "parent_platforms", "platforms", "stores", "developers", "genres", "tags", "publishers", "esrb_rating", "clip", "description_raw")
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonPropertyOrder(
+    "id",
+    "slug",
+    "name",
+    "name_original",
+    "description",
+    "metacritic",
+    "metacritic_platforms",
+    "released",
+    "tba",
+    "updated",
+    "background_image",
+    "background_image_additional",
+    "website",
+    "rating",
+    "rating_top",
+    "ratings",
+    "reactions",
+    "added",
+    "added_by_status",
+    "playtime",
+    "screenshots_count",
+    "movies_count",
+    "creators_count",
+    "achievements_count",
+    "parent_achievements_count",
+    "reddit_url",
+    "reddit_name",
+    "reddit_description",
+    "reddit_logo",
+    "reddit_count",
+    "twitch_count",
+    "youtube_count",
+    "reviews_text_count",
+    "ratings_count",
+    "suggestions_count",
+    "alternative_names",
+    "metacritic_url",
+    "parents_count",
+    "additions_count",
+    "game_series_count",
+    "user_game",
+    "reviews_count",
+    "saturated_color",
+    "dominant_color",
+    "parent_platforms",
+    "platforms",
+    "stores",
+    "developers",
+    "genres",
+    "tags",
+    "publishers",
+    "esrb_rating",
+    "clip",
+    "description_raw"
+)
 class GameGet {
     @get:JsonProperty("id")
     @set:JsonProperty("id")
@@ -308,16 +333,4 @@ class GameGet {
     @set:JsonProperty("description_raw")
     @JsonProperty("description_raw")
     var descriptionRaw: String? = null
-
-    @JsonIgnore
-    private val additionalProperties: MutableMap<String, Any> = HashMap()
-    @JsonAnyGetter
-    fun getAdditionalProperties(): Map<String, Any> {
-        return additionalProperties
-    }
-
-    @JsonAnySetter
-    fun setAdditionalProperty(name: String, value: Any) {
-        additionalProperties[name] = value
-    }
 }

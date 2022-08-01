@@ -1,6 +1,7 @@
 package uk.co.ourfriendirony.medianotifier.activities.viewadapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnLongClickListener
@@ -21,14 +22,18 @@ class ListAdapterSummary(context: Context?, private val defaultLayoutId: Int, pr
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        Log.d("[DEBUG]", "here $position - $defaultLayoutId")
         return when (defaultLayoutId) {
             R.layout.list_item_generic -> {
+                Log.d("[DEBUG]", "1")
                 getFindView(position, convertView, parent)
             }
             R.layout.list_item_generic_toggle -> {
+                Log.d("[DEBUG]", "2")
                 getChecklistView(position, convertView, parent)
             }
             else -> {
+                Log.d("[DEBUG]", "3")
                 getTitleView(position, convertView, parent)
             }
         }

@@ -3,7 +3,7 @@ package uk.co.ourfriendirony.medianotifier.mediaitem
 import java.util.*
 
 interface MediaItem {
-    val id: String?
+    val id: String
     val subId: String?
     val title: String?
     val subtitle: String?
