@@ -20,7 +20,7 @@ class UnplayedComingSoon : Fragment() {
         val intentKey = this.requireArguments().getString(INTENT_KEY)
         val db = DatabaseFactory().getDatabase(requireContext(), intentKey!!)
         val mediaItems: List<MediaItem?> = db!!.unplayedTotal
-        if (mediaItems.size > 0) {
+        if (mediaItems.isNotEmpty()) {
             val listAdapterSummary: ArrayAdapter<*> = ListAdapterSummary(context, R.layout.list_item_generic_toggle, mediaItems, db)
             listView.adapter = listAdapterSummary
         }

@@ -14,7 +14,7 @@ class ActivityUnplayed : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pager)
         val intentKey = intent.extras!!.getString(INTENT_KEY)
-        supportActionBar!!.setTitle("Released " + intentKey + "s")
+        supportActionBar!!.title = "Released " + intentKey + "s"
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         cancelNotifications()
         val mPager = findViewById<ViewPager>(R.id.pager)

@@ -28,7 +28,7 @@ class FindMediaItem(context: Context, progressBar: ProgressBar?, listView: ListV
 
     override fun onPostExecute(mediaItems: List<MediaItem?>) {
         progressBar.get()!!.isIndeterminate = false
-        if (mediaItems.size > 0) {
+        if (mediaItems.isNotEmpty()) {
             val adapter: ArrayAdapter<*> = ListAdapterSummary(context.get(), R.layout.list_item_generic, mediaItems, db)
             listView.get()!!.adapter = adapter
         } else {

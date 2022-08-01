@@ -138,8 +138,6 @@ class ActivityMain : AppCompatActivity() {
     }
 
     private fun asArray(items: List<MediaItem>): Array<MediaItem> {
-        var itemsArray = arrayOfNulls<MediaItem>(items.size)
         return items.toTypedArray()
-//        return items.toArray(itemsArray)
     }
 }

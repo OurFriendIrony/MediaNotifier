@@ -1,7 +1,6 @@
 package uk.co.ourfriendirony.medianotifier.activities.viewadapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnLongClickListener
@@ -16,39 +15,36 @@ import uk.co.ourfriendirony.medianotifier.general.Constants.DB_FALSE
 import uk.co.ourfriendirony.medianotifier.general.Constants.DB_TRUE
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem
 
-class ListAdapterSummary(context: Context?, private val defaultLayoutId: Int, private val mediaItems: List<MediaItem?>, private val db: Database?) : ArrayAdapter<Any?>(context!!, defaultLayoutId, mediaItems) {
-    override fun getCount(): Int {
-        return super.getCount()
-    }
-
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        Log.d("[DEBUG]", "here $position - $defaultLayoutId")
+class ListAdapterSummary(
+    context: Context?,
+    private val defaultLayoutId: Int,
+    private val mediaItems: List<MediaItem?>,
+    private val db: Database?
+) : ArrayAdapter<Any?>(context!!, defaultLayoutId, mediaItems) {
+    override fun getView(position: Int, originalView: View?, parent: ViewGroup): View {
         return when (defaultLayoutId) {
             R.layout.list_item_generic -> {
-                Log.d("[DEBUG]", "1")
-                getFindView(position, convertView, parent)
+                getFindView(position, originalView, parent)
             }
             R.layout.list_item_generic_toggle -> {
-                Log.d("[DEBUG]", "2")
-                getChecklistView(position, convertView, parent)
+                getChecklistView(position, originalView, parent)
             }
             else -> {
-                Log.d("[DEBUG]", "3")
-                getTitleView(position, convertView, parent)
+                getTitleView(position, originalView, parent)
             }
         }
     }
 
-    override fun getDropDownView(position: Int, convertView: View, parent: ViewGroup): View {
-        var view = convertView
-        view = getFindView(position, view, parent)
-        return view
+    override fun getDropDownView(position: Int, originalView: View?, parent: ViewGroup): View {
+        return getFindView(position, originalView, parent)
     }
 
-    private fun getFindView(position: Int, v: View?, viewGroup: ViewGroup): View {
-        var view = v
+    private fun getFindView(position: Int, originalView: View?, viewGroup: ViewGroup): View {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+        var view = originalView
         view = inflater.inflate(R.layout.list_item_generic, null)
+
         val textId = view.findViewById<TextView>(R.id.list_item_generic_id)
         val textTitle = view.findViewById<TextView>(R.id.list_item_generic_title)
         val textDate = view.findViewById<TextView>(R.id.list_item_generic_date)
@@ -61,9 +57,10 @@ class ListAdapterSummary(context: Context?, private val defaultLayoutId: Int, pr
         return view
     }
 
-    private fun getChecklistView(position: Int, v: View?, viewGroup: ViewGroup): View {
-        var view = v
+    private fun getChecklistView(position: Int, originalView: View?, viewGroup: ViewGroup): View {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+        var view = originalView
         view = inflater.inflate(R.layout.list_item_generic_toggle, null)
 
         val textTitle = view.findViewById<TextView>(R.id.list_item_generic_title)
@@ -80,26 +77,31 @@ class ListAdapterSummary(context: Context?, private val defaultLayoutId: Int, pr
             val overview = subView.findViewById<TextView>(R.id.list_item_generic_overview)
             val t = if (overview.text === "") mediaItem.description else ""
             overview.text = t
-            println("SHORT CLICK")
         })
         view.setOnLongClickListener(OnLongClickListener { subView: View ->
             val overview = subView.findViewById<TextView>(R.id.list_item_generic_overview)
             val t = if (overview.text === "") mediaItem.description else ""
             overview.text = t
-            println("LONG CLICK")
             true
         })
 
         val toggle = view.findViewById<SwitchCompat>(R.id.list_item_toggle)
         toggle.isChecked = !db!!.getWatchedStatusAsBoolean(mediaItem)
-        toggle.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean -> db.updatePlayedStatus(mediaItem, if (!isChecked) DB_TRUE else DB_FALSE) }
+        toggle.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
+            db.updatePlayedStatus(
+                mediaItem,
+                if (!isChecked) DB_TRUE else DB_FALSE
+            )
+        }
         return view
     }
 
-    private fun getTitleView(position: Int, v: View?, viewGroup: ViewGroup): View {
-        var view = v
+    private fun getTitleView(position: Int, originalView: View?, viewGroup: ViewGroup): View {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+        var view = originalView
         view = inflater.inflate(defaultLayoutId, null)
+
         val textTitle = view.findViewById<TextView>(R.id.list_item_generic_title)
         val mediaItem = mediaItems[position]
         textTitle.text = mediaItem!!.title

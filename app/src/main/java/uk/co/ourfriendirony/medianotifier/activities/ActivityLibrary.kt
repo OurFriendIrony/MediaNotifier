@@ -31,22 +31,22 @@ class ActivityLibrary : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
         val intentKey = intent.extras!!.getString(INTENT_KEY)
-        supportActionBar!!.setTitle("$intentKey Library")
+        supportActionBar!!.title = "$intentKey Library"
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         db = DatabaseFactory().getDatabase(baseContext, intentKey!!)
         client = ClientFactory().getClient(intentKey)
         spinnerView = findViewById(R.id.spinner)
         listView = findViewById(R.id.list)
         progressBar = findViewById(R.id.progress)
-        spinnerView!!.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+        spinnerView!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, itemPos: Int, id: Long) {
                 currentItemPos = itemPos
                 ListChildren(parent.context, progressBar, listView, db)
-                        .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mediaItems!![itemPos]!!.id)
+                    .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mediaItems!![itemPos]!!.id)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
-        })
+        }
         mediaItems = db!!.readAllParentItems()
         if (mediaItems!!.isNotEmpty()) {
             progressBar!!.setIndeterminate(true)
