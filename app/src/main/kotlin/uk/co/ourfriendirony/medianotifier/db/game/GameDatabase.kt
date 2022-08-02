@@ -27,20 +27,20 @@ class GameDatabase(context: Context) : Database {
     private fun insert(mediaItem: MediaItem, isNewItem: Boolean) {
         val currentWatchedStatus = getWatchedStatus(mediaItem)
         val dbRow = ContentValues()
-        dbRow.put(GameDatabaseDefinition.Companion.ID, mediaItem.id)
-        dbRow.put(GameDatabaseDefinition.Companion.SUBID, mediaItem.subId)
-        dbRow.put(GameDatabaseDefinition.Companion.TITLE, Helper.cleanTitle(mediaItem.title!!))
-        dbRow.put(GameDatabaseDefinition.Companion.EXTERNAL_URL, mediaItem.externalLink)
-        dbRow.put(GameDatabaseDefinition.Companion.RELEASE_DATE, Helper.dateToString(mediaItem.releaseDate))
-        dbRow.put(GameDatabaseDefinition.Companion.DESCRIPTION, mediaItem.description)
-        dbRow.put(GameDatabaseDefinition.Companion.SUBTITLE, mediaItem.subtitle)
+        dbRow.put(GameDatabaseDefinition.ID, mediaItem.id)
+        dbRow.put(GameDatabaseDefinition.SUBID, mediaItem.subId)
+        dbRow.put(GameDatabaseDefinition.TITLE, Helper.cleanTitle(mediaItem.title!!))
+        dbRow.put(GameDatabaseDefinition.EXTERNAL_URL, mediaItem.externalLink)
+        dbRow.put(GameDatabaseDefinition.RELEASE_DATE, Helper.dateToString(mediaItem.releaseDate))
+        dbRow.put(GameDatabaseDefinition.DESCRIPTION, mediaItem.description)
+        dbRow.put(GameDatabaseDefinition.SUBTITLE, mediaItem.subtitle)
         if (markPlayedIfReleased(isNewItem, mediaItem)) {
-            dbRow.put(GameDatabaseDefinition.Companion.PLAYED, Constants.DB_TRUE)
+            dbRow.put(GameDatabaseDefinition.PLAYED, Constants.DB_TRUE)
         } else {
-            dbRow.put(GameDatabaseDefinition.Companion.PLAYED, currentWatchedStatus)
+            dbRow.put(GameDatabaseDefinition.PLAYED, currentWatchedStatus)
         }
         Log.d("[DB INSERT]", "Game: $dbRow")
-        dbWritable.replace(GameDatabaseDefinition.Companion.TABLE_GAMES, null, dbRow)
+        dbWritable.replace(GameDatabaseDefinition.TABLE_GAMES, null, dbRow)
     }
 
     override fun getWatchedStatus(mediaItem: MediaItem): String {
@@ -49,7 +49,7 @@ class GameDatabase(context: Context) : Database {
         var playedStatus = Constants.DB_FALSE
         try {
             while (cursor.moveToNext()) {
-                playedStatus = getColumnValue(cursor, GameDatabaseDefinition.Companion.PLAYED)
+                playedStatus = getColumnValue(cursor, GameDatabaseDefinition.PLAYED)
             }
         } finally {
             cursor.close()
@@ -63,7 +63,7 @@ class GameDatabase(context: Context) : Database {
         var playedStatus = Constants.DB_FALSE
         try {
             while (cursor.moveToNext()) {
-                playedStatus = getColumnValue(cursor, GameDatabaseDefinition.Companion.PLAYED)
+                playedStatus = getColumnValue(cursor, GameDatabaseDefinition.PLAYED)
             }
         } finally {
             cursor.close()
@@ -72,11 +72,11 @@ class GameDatabase(context: Context) : Database {
     }
 
     override fun deleteAll() {
-        dbWritable.execSQL("DELETE FROM " + GameDatabaseDefinition.Companion.TABLE_GAMES + ";")
+        dbWritable.execSQL("DELETE FROM " + GameDatabaseDefinition.TABLE_GAMES + ";")
     }
 
     override fun delete(id: String) {
-        dbWritable.execSQL("DELETE FROM " + GameDatabaseDefinition.Companion.TABLE_GAMES + " WHERE " + GameDatabaseDefinition.Companion.ID + "=" + id + ";")
+        dbWritable.execSQL("DELETE FROM " + GameDatabaseDefinition.TABLE_GAMES + " WHERE " + GameDatabaseDefinition.ID + "=" + id + ";")
     }
 
     override fun countUnplayedReleased(): Int {
@@ -149,10 +149,10 @@ class GameDatabase(context: Context) : Database {
 
     override fun updatePlayedStatus(mediaItem: MediaItem, playedStatus: String?) {
         val values = ContentValues()
-        values.put(GameDatabaseDefinition.Companion.PLAYED, playedStatus)
-        val where: String = GameDatabaseDefinition.Companion.ID + "=?"
+        values.put(GameDatabaseDefinition.PLAYED, playedStatus)
+        val where: String = GameDatabaseDefinition.ID + "=?"
         val whereArgs = arrayOf(mediaItem.id)
-        dbWritable.update(GameDatabaseDefinition.Companion.TABLE_GAMES, values, where, whereArgs)
+        dbWritable.update(GameDatabaseDefinition.TABLE_GAMES, values, where, whereArgs)
     }
 
     override fun markPlayedIfReleased(isNew: Boolean, mediaItem: MediaItem): Boolean {
@@ -167,25 +167,26 @@ class GameDatabase(context: Context) : Database {
     private fun alreadyReleased(mediaItem: MediaItem): Boolean {
         return if (mediaItem.releaseDate == null) {
             true
-        } else mediaItem.releaseDate!!.compareTo(Date()) < 0
+        } else mediaItem.releaseDate!! < Date()
     }
 
     private fun getColumnValue(cursor: Cursor, field: String): String {
-        return cursor.getString(cursor.getColumnIndex(field))
+        val idx = cursor.getColumnIndex(field)
+        return cursor.getString(idx)
     }
 
     companion object {
-        private val SELECT_GAMES = "SELECT * FROM " + GameDatabaseDefinition.Companion.TABLE_GAMES + " ORDER BY " + GameDatabaseDefinition.Companion.TITLE + " ASC;"
-        private val SELECT_GAMES_BY_ID = "SELECT * FROM " + GameDatabaseDefinition.Companion.TABLE_GAMES + " WHERE " + GameDatabaseDefinition.Companion.ID + "=? ORDER BY " + GameDatabaseDefinition.Companion.ID + " ASC;"
-        private val GET_GAME_WATCHED_STATUS = "SELECT " + GameDatabaseDefinition.Companion.PLAYED + " FROM " + GameDatabaseDefinition.Companion.TABLE_GAMES + " WHERE " + GameDatabaseDefinition.Companion.ID + "=?;"
-        private val COUNT_UNWATCHED_GAMES_RELEASED = "SELECT COUNT(*) FROM " + GameDatabaseDefinition.Companion.TABLE_GAMES + " " +
-                "WHERE " + GameDatabaseDefinition.Companion.PLAYED + "=" + Constants.DB_FALSE + " AND " + GameDatabaseDefinition.Companion.RELEASE_DATE + " <= @OFFSET@;"
+        private val SELECT_GAMES = "SELECT * FROM " + GameDatabaseDefinition.TABLE_GAMES + " ORDER BY " + GameDatabaseDefinition.TITLE + " ASC;"
+        private val SELECT_GAMES_BY_ID = "SELECT * FROM " + GameDatabaseDefinition.TABLE_GAMES + " WHERE " + GameDatabaseDefinition.ID + "=? ORDER BY " + GameDatabaseDefinition.ID + " ASC;"
+        private val GET_GAME_WATCHED_STATUS = "SELECT " + GameDatabaseDefinition.PLAYED + " FROM " + GameDatabaseDefinition.TABLE_GAMES + " WHERE " + GameDatabaseDefinition.ID + "=?;"
+        private val COUNT_UNWATCHED_GAMES_RELEASED = "SELECT COUNT(*) FROM " + GameDatabaseDefinition.TABLE_GAMES + " " +
+                "WHERE " + GameDatabaseDefinition.PLAYED + "=" + Constants.DB_FALSE + " AND " + GameDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@;"
         private val GET_UNWATCHED_GAMES_RELEASED = "SELECT * " +
-                "FROM " + GameDatabaseDefinition.Companion.TABLE_GAMES + " " +
-                "WHERE " + GameDatabaseDefinition.Companion.PLAYED + "=" + Constants.DB_FALSE + " AND " + GameDatabaseDefinition.Companion.RELEASE_DATE + " <= @OFFSET@ ORDER BY " + GameDatabaseDefinition.Companion.RELEASE_DATE + " ASC;"
+                "FROM " + GameDatabaseDefinition.TABLE_GAMES + " " +
+                "WHERE " + GameDatabaseDefinition.PLAYED + "=" + Constants.DB_FALSE + " AND " + GameDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@ ORDER BY " + GameDatabaseDefinition.RELEASE_DATE + " ASC;"
         private val GET_UNWATCHED_GAMES_TOTAL = "SELECT * " +
-                "FROM " + GameDatabaseDefinition.Companion.TABLE_GAMES + " " +
-                "WHERE " + GameDatabaseDefinition.Companion.PLAYED + "=" + Constants.DB_FALSE + " AND " + GameDatabaseDefinition.Companion.RELEASE_DATE + " != '' ORDER BY " + GameDatabaseDefinition.Companion.RELEASE_DATE + " ASC;"
+                "FROM " + GameDatabaseDefinition.TABLE_GAMES + " " +
+                "WHERE " + GameDatabaseDefinition.PLAYED + "=" + Constants.DB_FALSE + " AND " + GameDatabaseDefinition.RELEASE_DATE + " != '' ORDER BY " + GameDatabaseDefinition.RELEASE_DATE + " ASC;"
     }
 
     init {

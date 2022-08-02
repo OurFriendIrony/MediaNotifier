@@ -43,6 +43,9 @@ android {
     lint {
         abortOnError false
     }
+    lintOptions {
+        checkReleaseBuilds false
+    }
 }
 
 dependencies {

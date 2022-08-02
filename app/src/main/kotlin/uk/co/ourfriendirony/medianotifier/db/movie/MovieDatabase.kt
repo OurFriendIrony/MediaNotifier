@@ -27,20 +27,20 @@ class MovieDatabase(context: Context) : Database {
     private fun insert(mediaItem: MediaItem, isNewItem: Boolean) {
         val currentWatchedStatus = getWatchedStatus(mediaItem)
         val dbRow = ContentValues()
-        dbRow.put(MovieDatabaseDefinition.Companion.ID, mediaItem.id)
-        dbRow.put(MovieDatabaseDefinition.Companion.SUBID, mediaItem.subId)
-        dbRow.put(MovieDatabaseDefinition.Companion.TITLE, Helper.cleanTitle(mediaItem.title!!))
-        dbRow.put(MovieDatabaseDefinition.Companion.EXTERNAL_URL, mediaItem.externalLink)
-        dbRow.put(MovieDatabaseDefinition.Companion.RELEASE_DATE, Helper.dateToString(mediaItem.releaseDate))
-        dbRow.put(MovieDatabaseDefinition.Companion.DESCRIPTION, mediaItem.description)
-        dbRow.put(MovieDatabaseDefinition.Companion.SUBTITLE, mediaItem.subtitle)
+        dbRow.put(MovieDatabaseDefinition.ID, mediaItem.id)
+        dbRow.put(MovieDatabaseDefinition.SUBID, mediaItem.subId)
+        dbRow.put(MovieDatabaseDefinition.TITLE, Helper.cleanTitle(mediaItem.title!!))
+        dbRow.put(MovieDatabaseDefinition.EXTERNAL_URL, mediaItem.externalLink)
+        dbRow.put(MovieDatabaseDefinition.RELEASE_DATE, Helper.dateToString(mediaItem.releaseDate))
+        dbRow.put(MovieDatabaseDefinition.DESCRIPTION, mediaItem.description)
+        dbRow.put(MovieDatabaseDefinition.SUBTITLE, mediaItem.subtitle)
         if (markPlayedIfReleased(isNewItem, mediaItem)) {
-            dbRow.put(MovieDatabaseDefinition.Companion.PLAYED, Constants.DB_TRUE)
+            dbRow.put(MovieDatabaseDefinition.PLAYED, Constants.DB_TRUE)
         } else {
-            dbRow.put(MovieDatabaseDefinition.Companion.PLAYED, currentWatchedStatus)
+            dbRow.put(MovieDatabaseDefinition.PLAYED, currentWatchedStatus)
         }
         Log.d("[DB INSERT]", "Movie: $dbRow")
-        dbWritable.replace(MovieDatabaseDefinition.Companion.TABLE_MOVIES, null, dbRow)
+        dbWritable.replace(MovieDatabaseDefinition.TABLE_MOVIES, null, dbRow)
     }
 
     override fun getWatchedStatus(mediaItem: MediaItem): String {
@@ -49,7 +49,7 @@ class MovieDatabase(context: Context) : Database {
         var playedStatus = Constants.DB_FALSE
         try {
             while (cursor.moveToNext()) {
-                playedStatus = getColumnValue(cursor, MovieDatabaseDefinition.Companion.PLAYED)
+                playedStatus = getColumnValue(cursor, MovieDatabaseDefinition.PLAYED)
             }
         } finally {
             cursor.close()
@@ -63,7 +63,7 @@ class MovieDatabase(context: Context) : Database {
         var playedStatus = Constants.DB_FALSE
         try {
             while (cursor.moveToNext()) {
-                playedStatus = getColumnValue(cursor, MovieDatabaseDefinition.Companion.PLAYED)
+                playedStatus = getColumnValue(cursor, MovieDatabaseDefinition.PLAYED)
             }
         } finally {
             cursor.close()
@@ -72,11 +72,11 @@ class MovieDatabase(context: Context) : Database {
     }
 
     override fun deleteAll() {
-        dbWritable.execSQL("DELETE FROM " + MovieDatabaseDefinition.Companion.TABLE_MOVIES + ";")
+        dbWritable.execSQL("DELETE FROM " + MovieDatabaseDefinition.TABLE_MOVIES + ";")
     }
 
     override fun delete(id: String) {
-        dbWritable.execSQL("DELETE FROM " + MovieDatabaseDefinition.Companion.TABLE_MOVIES + " WHERE " + MovieDatabaseDefinition.Companion.ID + "=" + id + ";")
+        dbWritable.execSQL("DELETE FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " WHERE " + MovieDatabaseDefinition.ID + "=" + id + ";")
     }
 
     override fun countUnplayedReleased(): Int {
@@ -149,10 +149,10 @@ class MovieDatabase(context: Context) : Database {
 
     override fun updatePlayedStatus(mediaItem: MediaItem, playedStatus: String?) {
         val values = ContentValues()
-        values.put(MovieDatabaseDefinition.Companion.PLAYED, playedStatus)
-        val where: String = MovieDatabaseDefinition.Companion.ID + "=?"
+        values.put(MovieDatabaseDefinition.PLAYED, playedStatus)
+        val where: String = MovieDatabaseDefinition.ID + "=?"
         val whereArgs = arrayOf(mediaItem.id)
-        dbWritable.update(MovieDatabaseDefinition.Companion.TABLE_MOVIES, values, where, whereArgs)
+        dbWritable.update(MovieDatabaseDefinition.TABLE_MOVIES, values, where, whereArgs)
     }
 
     override fun markPlayedIfReleased(isNew: Boolean, mediaItem: MediaItem): Boolean {
@@ -167,25 +167,26 @@ class MovieDatabase(context: Context) : Database {
     private fun alreadyReleased(mediaItem: MediaItem): Boolean {
         return if (mediaItem.releaseDate == null) {
             true
-        } else mediaItem.releaseDate!!.compareTo(Date()) < 0
+        } else mediaItem.releaseDate!! < Date()
     }
 
     private fun getColumnValue(cursor: Cursor, field: String): String {
-        return cursor.getString(cursor.getColumnIndex(field))
+        val idx = cursor.getColumnIndex(field)
+        return cursor.getString(idx)
     }
 
     companion object {
-        private val SELECT_MOVIES = "SELECT * FROM " + MovieDatabaseDefinition.Companion.TABLE_MOVIES + " ORDER BY " + MovieDatabaseDefinition.Companion.TITLE + " ASC;"
-        private val SELECT_MOVIES_BY_ID = "SELECT * FROM " + MovieDatabaseDefinition.Companion.TABLE_MOVIES + " WHERE " + MovieDatabaseDefinition.Companion.ID + "=? ORDER BY " + MovieDatabaseDefinition.Companion.ID + " ASC;"
-        private val GET_MOVIE_WATCHED_STATUS = "SELECT " + MovieDatabaseDefinition.Companion.PLAYED + " FROM " + MovieDatabaseDefinition.Companion.TABLE_MOVIES + " WHERE " + MovieDatabaseDefinition.Companion.ID + "=?;"
-        private val COUNT_UNWATCHED_MOVIES_RELEASED = "SELECT COUNT(*) FROM " + MovieDatabaseDefinition.Companion.TABLE_MOVIES + " " +
-                "WHERE " + MovieDatabaseDefinition.Companion.PLAYED + "=" + Constants.DB_FALSE + " AND " + MovieDatabaseDefinition.Companion.RELEASE_DATE + " <= @OFFSET@;"
+        private val SELECT_MOVIES = "SELECT * FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " ORDER BY " + MovieDatabaseDefinition.TITLE + " ASC;"
+        private val SELECT_MOVIES_BY_ID = "SELECT * FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " WHERE " + MovieDatabaseDefinition.ID + "=? ORDER BY " + MovieDatabaseDefinition.ID + " ASC;"
+        private val GET_MOVIE_WATCHED_STATUS = "SELECT " + MovieDatabaseDefinition.PLAYED + " FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " WHERE " + MovieDatabaseDefinition.ID + "=?;"
+        private val COUNT_UNWATCHED_MOVIES_RELEASED = "SELECT COUNT(*) FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " " +
+                "WHERE " + MovieDatabaseDefinition.PLAYED + "=" + Constants.DB_FALSE + " AND " + MovieDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@;"
         private val GET_UNWATCHED_MOVIES_RELEASED = "SELECT * " +
-                "FROM " + MovieDatabaseDefinition.Companion.TABLE_MOVIES + " " +
-                "WHERE " + MovieDatabaseDefinition.Companion.PLAYED + "=" + Constants.DB_FALSE + " AND " + MovieDatabaseDefinition.Companion.RELEASE_DATE + " <= @OFFSET@ ORDER BY " + MovieDatabaseDefinition.Companion.RELEASE_DATE + " ASC;"
+                "FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " " +
+                "WHERE " + MovieDatabaseDefinition.PLAYED + "=" + Constants.DB_FALSE + " AND " + MovieDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@ ORDER BY " + MovieDatabaseDefinition.RELEASE_DATE + " ASC;"
         private val GET_UNWATCHED_MOVIES_TOTAL = "SELECT * " +
-                "FROM " + MovieDatabaseDefinition.Companion.TABLE_MOVIES + " " +
-                "WHERE " + MovieDatabaseDefinition.Companion.PLAYED + "=" + Constants.DB_FALSE + " AND " + MovieDatabaseDefinition.Companion.RELEASE_DATE + " != '' ORDER BY " + MovieDatabaseDefinition.Companion.RELEASE_DATE + " ASC;"
+                "FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " " +
+                "WHERE " + MovieDatabaseDefinition.PLAYED + "=" + Constants.DB_FALSE + " AND " + MovieDatabaseDefinition.RELEASE_DATE + " != '' ORDER BY " + MovieDatabaseDefinition.RELEASE_DATE + " ASC;"
     }
 
     init {

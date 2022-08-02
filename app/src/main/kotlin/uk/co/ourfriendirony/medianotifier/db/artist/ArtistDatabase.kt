@@ -33,33 +33,33 @@ class ArtistDatabase(context: Context) : Database {
 
     private fun insert(artist: MediaItem) {
         val dbRow = ContentValues()
-        dbRow.put(ArtistDatabaseDefinition.Companion.ID, artist.id)
-        dbRow.put(ArtistDatabaseDefinition.Companion.SUBID, artist.subId)
-        dbRow.put(ArtistDatabaseDefinition.Companion.TITLE, Helper.cleanTitle(artist.title!!))
-        dbRow.put(ArtistDatabaseDefinition.Companion.SUBTITLE, artist.subtitle)
-        dbRow.put(ArtistDatabaseDefinition.Companion.EXTERNAL_URL, artist.externalLink)
-        dbRow.put(ArtistDatabaseDefinition.Companion.RELEASE_DATE, Helper.dateToString(artist.releaseDate))
-        dbRow.put(ArtistDatabaseDefinition.Companion.DESCRIPTION, artist.description)
+        dbRow.put(ArtistDatabaseDefinition.ID, artist.id)
+        dbRow.put(ArtistDatabaseDefinition.SUBID, artist.subId)
+        dbRow.put(ArtistDatabaseDefinition.TITLE, Helper.cleanTitle(artist.title!!))
+        dbRow.put(ArtistDatabaseDefinition.SUBTITLE, artist.subtitle)
+        dbRow.put(ArtistDatabaseDefinition.EXTERNAL_URL, artist.externalLink)
+        dbRow.put(ArtistDatabaseDefinition.RELEASE_DATE, Helper.dateToString(artist.releaseDate))
+        dbRow.put(ArtistDatabaseDefinition.DESCRIPTION, artist.description)
         Log.d("[DB INSERT]", "Artist: $dbRow")
-        dbWritable.replace(ArtistDatabaseDefinition.Companion.TABLE_ARTISTS, null, dbRow)
+        dbWritable.replace(ArtistDatabaseDefinition.TABLE_ARTISTS, null, dbRow)
     }
 
     private fun insertRelease(release: MediaItem, isNew: Boolean) {
         val currentWatchedStatus = getWatchedStatus(release)
         val dbRow = ContentValues()
-        dbRow.put(ArtistDatabaseDefinition.Companion.ID, release.id)
-        dbRow.put(ArtistDatabaseDefinition.Companion.SUBID, release.subId)
-        dbRow.put(ArtistDatabaseDefinition.Companion.TITLE, Helper.cleanTitle(release.title!!))
-        dbRow.put(ArtistDatabaseDefinition.Companion.SUBTITLE, release.subtitle)
-        dbRow.put(ArtistDatabaseDefinition.Companion.RELEASE_DATE, Helper.dateToString(release.releaseDate))
-        dbRow.put(ArtistDatabaseDefinition.Companion.DESCRIPTION, release.description)
+        dbRow.put(ArtistDatabaseDefinition.ID, release.id)
+        dbRow.put(ArtistDatabaseDefinition.SUBID, release.subId)
+        dbRow.put(ArtistDatabaseDefinition.TITLE, Helper.cleanTitle(release.title!!))
+        dbRow.put(ArtistDatabaseDefinition.SUBTITLE, release.subtitle)
+        dbRow.put(ArtistDatabaseDefinition.RELEASE_DATE, Helper.dateToString(release.releaseDate))
+        dbRow.put(ArtistDatabaseDefinition.DESCRIPTION, release.description)
         if (markPlayedIfReleased(isNew, release)) {
-            dbRow.put(ArtistDatabaseDefinition.Companion.PLAYED, Constants.DB_TRUE)
+            dbRow.put(ArtistDatabaseDefinition.PLAYED, Constants.DB_TRUE)
         } else {
-            dbRow.put(ArtistDatabaseDefinition.Companion.PLAYED, currentWatchedStatus)
+            dbRow.put(ArtistDatabaseDefinition.PLAYED, currentWatchedStatus)
         }
         Log.d("[DB INSERT]", "Release: $dbRow")
-        dbWritable.replace(ArtistDatabaseDefinition.Companion.TABLE_RELEASES, null, dbRow)
+        dbWritable.replace(ArtistDatabaseDefinition.TABLE_RELEASES, null, dbRow)
     }
 
     override fun getWatchedStatus(release: MediaItem): String {
@@ -68,7 +68,7 @@ class ArtistDatabase(context: Context) : Database {
         var playedStatus = Constants.DB_FALSE
         try {
             while (cursor.moveToNext()) {
-                playedStatus = getColumnValue(cursor, ArtistDatabaseDefinition.Companion.PLAYED)
+                playedStatus = getColumnValue(cursor, ArtistDatabaseDefinition.PLAYED)
             }
         } finally {
             cursor.close()
@@ -82,7 +82,7 @@ class ArtistDatabase(context: Context) : Database {
         var playedStatus = Constants.DB_FALSE
         try {
             while (cursor.moveToNext()) {
-                playedStatus = getColumnValue(cursor, ArtistDatabaseDefinition.Companion.PLAYED)
+                playedStatus = getColumnValue(cursor, ArtistDatabaseDefinition.PLAYED)
             }
         } finally {
             cursor.close()
@@ -91,13 +91,13 @@ class ArtistDatabase(context: Context) : Database {
     }
 
     override fun deleteAll() {
-        dbWritable.execSQL("DELETE FROM " + ArtistDatabaseDefinition.Companion.TABLE_ARTISTS + ";")
-        dbWritable.execSQL("DELETE FROM " + ArtistDatabaseDefinition.Companion.TABLE_RELEASES + ";")
+        dbWritable.execSQL("DELETE FROM " + ArtistDatabaseDefinition.TABLE_ARTISTS + ";")
+        dbWritable.execSQL("DELETE FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + ";")
     }
 
     override fun delete(id: String) {
-        dbWritable.execSQL("DELETE FROM " + ArtistDatabaseDefinition.Companion.TABLE_ARTISTS + " WHERE " + ArtistDatabaseDefinition.Companion.ID + "=\"" + id + "\";")
-        dbWritable.execSQL("DELETE FROM " + ArtistDatabaseDefinition.Companion.TABLE_RELEASES + " WHERE " + ArtistDatabaseDefinition.Companion.ID + "=\"" + id + "\";")
+        dbWritable.execSQL("DELETE FROM " + ArtistDatabaseDefinition.TABLE_ARTISTS + " WHERE " + ArtistDatabaseDefinition.ID + "=\"" + id + "\";")
+        dbWritable.execSQL("DELETE FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " WHERE " + ArtistDatabaseDefinition.ID + "=\"" + id + "\";")
     }
 
     private fun buildSubItemFromDB(cursor: Cursor): MediaItem {
@@ -107,7 +107,7 @@ class ArtistDatabase(context: Context) : Database {
     private fun buildItemFromDB(cursor: Cursor): MediaItem {
         // TODO: When building an mediaItem, we're currently pulling all children back from the DB to display to the user.
         // TODO: Sometimes we just want to display all the tvshows, and pulling all children for all shows is pretty excessive.
-        val id = getColumnValue(cursor, ArtistDatabaseDefinition.Companion.ID)
+        val id = getColumnValue(cursor, ArtistDatabaseDefinition.ID)
         val releases: MutableList<MediaItem> = ArrayList()
         dbWritable.rawQuery(SELECT_RELEASES_BY_ID, arrayOf(id)).use { subCursor ->
             while (subCursor.moveToNext()) {
@@ -182,10 +182,10 @@ class ArtistDatabase(context: Context) : Database {
 
     override fun updatePlayedStatus(mediaItem: MediaItem, playedStatus: String?) {
         val values = ContentValues()
-        values.put(ArtistDatabaseDefinition.Companion.PLAYED, playedStatus)
-        val where: String = ArtistDatabaseDefinition.Companion.ID + "=? and " + ArtistDatabaseDefinition.Companion.SUBID + "=?"
+        values.put(ArtistDatabaseDefinition.PLAYED, playedStatus)
+        val where: String = ArtistDatabaseDefinition.ID + "=? and " + ArtistDatabaseDefinition.SUBID + "=?"
         val whereArgs = arrayOf(mediaItem.id, mediaItem.subId)
-        dbWritable.update(ArtistDatabaseDefinition.Companion.TABLE_RELEASES, values, where, whereArgs)
+        dbWritable.update(ArtistDatabaseDefinition.TABLE_RELEASES, values, where, whereArgs)
     }
 
     override fun markPlayedIfReleased(isNew: Boolean, mediaItem: MediaItem): Boolean {
@@ -199,25 +199,26 @@ class ArtistDatabase(context: Context) : Database {
     private fun alreadyReleased(mediaItem: MediaItem): Boolean {
         return if (mediaItem.releaseDate == null) {
             true
-        } else mediaItem.releaseDate!!.compareTo(Date()) < 0
+        } else mediaItem.releaseDate!! < Date()
     }
 
     private fun getColumnValue(cursor: Cursor, field: String): String {
-        return cursor.getString(cursor.getColumnIndex(field))
+        val idx = cursor.getColumnIndex(field)
+        return cursor.getString(idx)
     }
 
     companion object {
-        private val SELECT_ARTISTS = "SELECT * FROM " + ArtistDatabaseDefinition.Companion.TABLE_ARTISTS + " ORDER BY " + ArtistDatabaseDefinition.Companion.TITLE + " ASC;"
-        private val SELECT_RELEASES_BY_ID = "SELECT * FROM " + ArtistDatabaseDefinition.Companion.TABLE_RELEASES + " WHERE " + ArtistDatabaseDefinition.Companion.ID + "=? ORDER BY " + ArtistDatabaseDefinition.Companion.RELEASE_DATE + " ASC;"
-        private val GET_RELEASE_WATCHED_STATUS = "SELECT " + ArtistDatabaseDefinition.Companion.PLAYED + " FROM " + ArtistDatabaseDefinition.Companion.TABLE_RELEASES + " WHERE " + ArtistDatabaseDefinition.Companion.ID + "=? AND " + ArtistDatabaseDefinition.Companion.SUBID + "=?;"
-        private val COUNT_UNWATCHED_RELEASES_RELEASED = "SELECT COUNT(*) FROM " + ArtistDatabaseDefinition.Companion.TABLE_RELEASES + " " +
-                "WHERE " + ArtistDatabaseDefinition.Companion.PLAYED + "=" + Constants.DB_FALSE + " AND " + ArtistDatabaseDefinition.Companion.RELEASE_DATE + " <= @OFFSET@;"
+        private val SELECT_ARTISTS = "SELECT * FROM " + ArtistDatabaseDefinition.TABLE_ARTISTS + " ORDER BY " + ArtistDatabaseDefinition.TITLE + " ASC;"
+        private val SELECT_RELEASES_BY_ID = "SELECT * FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " WHERE " + ArtistDatabaseDefinition.ID + "=? ORDER BY " + ArtistDatabaseDefinition.RELEASE_DATE + " ASC;"
+        private val GET_RELEASE_WATCHED_STATUS = "SELECT " + ArtistDatabaseDefinition.PLAYED + " FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " WHERE " + ArtistDatabaseDefinition.ID + "=? AND " + ArtistDatabaseDefinition.SUBID + "=?;"
+        private val COUNT_UNWATCHED_RELEASES_RELEASED = "SELECT COUNT(*) FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " " +
+                "WHERE " + ArtistDatabaseDefinition.PLAYED + "=" + Constants.DB_FALSE + " AND " + ArtistDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@;"
         private val GET_UNWATCHED_RELEASES_RELEASED = "SELECT * " +
-                "FROM " + ArtistDatabaseDefinition.Companion.TABLE_RELEASES + " " +
-                "WHERE " + ArtistDatabaseDefinition.Companion.PLAYED + "=" + Constants.DB_FALSE + " AND " + ArtistDatabaseDefinition.Companion.RELEASE_DATE + " <= @OFFSET@ ORDER BY " + ArtistDatabaseDefinition.Companion.RELEASE_DATE + " ASC;"
+                "FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " " +
+                "WHERE " + ArtistDatabaseDefinition.PLAYED + "=" + Constants.DB_FALSE + " AND " + ArtistDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@ ORDER BY " + ArtistDatabaseDefinition.RELEASE_DATE + " ASC;"
         private val GET_UNWATCHED_RELEASES_TOTAL = "SELECT * " +
-                "FROM " + ArtistDatabaseDefinition.Companion.TABLE_RELEASES + " " +
-                "WHERE " + ArtistDatabaseDefinition.Companion.PLAYED + "=" + Constants.DB_FALSE + " AND " + ArtistDatabaseDefinition.Companion.RELEASE_DATE + " != '' ORDER BY " + ArtistDatabaseDefinition.Companion.RELEASE_DATE + " ASC;"
+                "FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " " +
+                "WHERE " + ArtistDatabaseDefinition.PLAYED + "=" + Constants.DB_FALSE + " AND " + ArtistDatabaseDefinition.RELEASE_DATE + " != '' ORDER BY " + ArtistDatabaseDefinition.RELEASE_DATE + " ASC;"
     }
 
     init {
