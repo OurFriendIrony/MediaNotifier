@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
 }
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 33
@@ -29,11 +30,6 @@ android {
         }
     }
 
-//    compileOptions {
-//        sourceCompatibility JavaVersion.VERSION_11
-//        targetCompatibility JavaVersion.VERSION_11
-//    }
-
     kotlinOptions {
         jvmTarget = '1.8'
     }
@@ -47,8 +43,6 @@ android {
     lint {
         abortOnError false
     }
-
-
 }
 
 dependencies {
@@ -58,8 +52,12 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.squareup.okhttp3:okhttp:4.9.0'
-    testImplementation 'junit:junit:4.13.2'
     implementation 'androidx.work:work-runtime-ktx:2.7.1'
+    implementation "androidx.core:core-ktx:1.8.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    testImplementation 'org.jetbrains.kotlin:kotlin-test'
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
 }
 
 configurations.all {
@@ -72,3 +70,11 @@ configurations.all {
         }
     }
 }
+
+repositories {
+    mavenCentral()
+}
+//
+//test {
+//    useJUnitPlatform()
+//}

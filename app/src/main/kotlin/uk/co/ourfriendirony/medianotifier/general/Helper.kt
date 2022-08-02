@@ -49,6 +49,7 @@ object Helper {
         }
     }
 
+    @JvmStatic
     fun replaceTokens(original: String, token: String, value: String): String {
         return replaceTokens(original, arrayOf(token), arrayOf(value))
     }
