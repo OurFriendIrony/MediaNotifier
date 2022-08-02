@@ -87,7 +87,7 @@ class ListAdapterSummary(
 
         val toggle = view.findViewById<SwitchCompat>(R.id.list_item_toggle)
         toggle.isChecked = !db!!.getWatchedStatusAsBoolean(mediaItem)
-        toggle.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
+        toggle.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             db.updatePlayedStatus(
                 mediaItem,
                 if (!isChecked) DB_TRUE else DB_FALSE

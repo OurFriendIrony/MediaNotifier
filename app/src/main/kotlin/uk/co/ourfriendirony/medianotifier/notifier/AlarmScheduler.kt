@@ -13,10 +13,18 @@ object AlarmScheduler {
     fun reschedule(context: Context) {
         val dialogIntent = Intent(context, NotifierReceiver::class.java)
         val alarmMgr = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val pendingIntent = PendingIntent.getBroadcast(context, 0, dialogIntent, PendingIntent.FLAG_CANCEL_CURRENT)
+        val pendingIntent = PendingIntent.getBroadcast(
+            context, 0, dialogIntent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
+        )
         val triggerTime = Calendar.getInstance()
         triggerTime[Calendar.HOUR_OF_DAY] = getNotificationHour(context)
         triggerTime[Calendar.MINUTE] = getNotificationMinute(context)
-        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, triggerTime.timeInMillis, AlarmManager.INTERVAL_DAY, pendingIntent)
+        alarmMgr.setRepeating(
+            AlarmManager.RTC_WAKEUP,
+            triggerTime.timeInMillis,
+            AlarmManager.INTERVAL_DAY,
+            pendingIntent
+        )
     }
 }

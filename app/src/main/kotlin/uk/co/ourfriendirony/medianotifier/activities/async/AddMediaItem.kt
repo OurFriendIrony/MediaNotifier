@@ -42,7 +42,7 @@ class AddMediaItem(context: Context, progressBar: ProgressBar?, db: Database?, c
             mediaItem = client!!.getMediaItem(id)
             db!!.add(mediaItem)
         } catch (e: IOException) {
-            Log.e("[FAILED_ADD]", e.message!! + e.stackTrace!!)
+            Log.e("[FAILED_ADD]", e.message!! + e.stackTrace)
         }
         return db!!.coreType + " '" + title + "' Added"
     }

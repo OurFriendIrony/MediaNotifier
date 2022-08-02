@@ -79,17 +79,17 @@ class Game : MediaItem {
         return TextUtils.join(", ", platforms)
     }
 
-    override val subId: String?
+    override val subId: String
         get() = subid
 
     override val releaseDateFull: String
         get() = if (releaseDate != null) {
             SimpleDateFormat("dd/MM/yyyy", Locale.UK).format(releaseDate)
-        } else MediaItem.Companion.NO_DATE
+        } else MediaItem.NO_DATE
     override val releaseDateYear: String
         get() = if (releaseDate != null) {
             SimpleDateFormat("yyyy", Locale.UK).format(releaseDate)
-        } else MediaItem.Companion.NO_DATE
+        } else MediaItem.NO_DATE
 
     override fun countChildren(): Int {
         return children.size

@@ -6,37 +6,45 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import uk.co.ourfriendirony.medianotifier.general.Constants
 
-class ArtistDatabaseDefinition internal constructor(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+class ArtistDatabaseDefinition internal constructor(context: Context?) :
+    SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     override fun onCreate(db: SQLiteDatabase) {
         Log.d("[DB CREATE]", this.javaClass.toString())
-        db.execSQL("CREATE TABLE " + TABLE_ARTISTS + " (" +
-                ID + " TEXT, " +
-                SUBID + " TEXT, " +
-                TITLE + " TEXT, " +
-                SUBTITLE + " TEXT, " +
-                DESCRIPTION + " TEXT, " +
-                RELEASE_DATE + " TEXT, " +
-                EXTERNAL_URL + " TEXT, " +
-                PLAYED + " INTEGER DEFAULT " + Constants.DB_FALSE + ", " +
-                "PRIMARY KEY (" + ID + ")" +
-                ")")
-        db.execSQL("CREATE TABLE " + TABLE_RELEASES + " (" +
-                ID + " TEXT, " +
-                SUBID + " TEXT, " +
-                TITLE + " TEXT, " +
-                SUBTITLE + " TEXT, " +
-                DESCRIPTION + " TEXT, " +
-                RELEASE_DATE + " TEXT, " +
-                EXTERNAL_URL + " TEXT, " +
-                PLAYED + " INTEGER DEFAULT " + Constants.DB_FALSE + ", " +
-                "PRIMARY KEY (" + ID + "," + SUBID + ") " +
-                ")")
+        db.execSQL(
+            "CREATE TABLE " + TABLE_ARTISTS + " (" +
+                    ID + " TEXT, " +
+                    SUBID + " TEXT, " +
+                    TITLE + " TEXT, " +
+                    SUBTITLE + " TEXT, " +
+                    DESCRIPTION + " TEXT, " +
+                    RELEASE_DATE + " TEXT, " +
+                    EXTERNAL_URL + " TEXT, " +
+                    PLAYED + " INTEGER DEFAULT " + Constants.DB_FALSE + ", " +
+                    "PRIMARY KEY (" + ID + ")" +
+                    ")"
+        )
+        db.execSQL(
+            "CREATE TABLE " + TABLE_RELEASES + " (" +
+                    ID + " TEXT, " +
+                    SUBID + " TEXT, " +
+                    TITLE + " TEXT, " +
+                    SUBTITLE + " TEXT, " +
+                    DESCRIPTION + " TEXT, " +
+                    RELEASE_DATE + " TEXT, " +
+                    EXTERNAL_URL + " TEXT, " +
+                    PLAYED + " INTEGER DEFAULT " + Constants.DB_FALSE + ", " +
+                    "PRIMARY KEY (" + ID + "," + SUBID + ") " +
+                    ")"
+        )
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        Log.d("[DB UPGRADE]", this.javaClass.toString() + " version: " + oldVersion + " -> " + newVersion)
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ARTISTS + ";")
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_RELEASES + ";")
+        Log.d(
+            "[DB UPGRADE]",
+            this.javaClass.toString() + " version: " + oldVersion + " -> " + newVersion
+        )
+        db.execSQL("DROP TABLE IF EXISTS ${TABLE_ARTISTS};")
+        db.execSQL("DROP TABLE IF EXISTS ${TABLE_RELEASES};")
         onCreate(db)
     }
 

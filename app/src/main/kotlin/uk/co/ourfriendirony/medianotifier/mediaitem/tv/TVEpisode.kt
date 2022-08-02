@@ -48,32 +48,33 @@ class TVEpisode : MediaItem {
     }
 
     private fun formatEpSe(episode: TVSeasonGetEpisode): String {
-        return pad(episode.seasonNumber!!, "S", 2) + pad(episode.episodeNumber!!, "E", 2)
+        return pad(episode.seasonNumber!!, "S") + pad(episode.episodeNumber!!, "E")
     }
 
-    override val subId: String?
+    override val subId: String
         get() = subid
 
 
     override val releaseDateFull: String
         get() = if (releaseDate != null) {
             SimpleDateFormat("dd/MM/yyyy", Locale.UK).format(releaseDate)
-        } else MediaItem.Companion.NO_DATE
+        } else MediaItem.NO_DATE
+
     override val releaseDateYear: String
         get() = if (releaseDate != null) {
             SimpleDateFormat("yyyy", Locale.UK).format(releaseDate)
-        } else MediaItem.Companion.NO_DATE
+        } else MediaItem.NO_DATE
 
     override fun countChildren(): Int {
         return children.size
     }
 
     override fun toString(): String {
-        return "TVEpisode: " + subtitle + " > " + title + " > " + releaseDateFull
+        return "TVEpisode: $subtitle > $title > $releaseDateFull"
     }
 
     companion object {
-        private fun pad(num: Int, prefix: String, size: Int): String {
+        private fun pad(num: Int, prefix: String, size: Int = 2): String {
             return prefix + String.format(Locale.UK, "%0" + size + "d", num)
         }
     }

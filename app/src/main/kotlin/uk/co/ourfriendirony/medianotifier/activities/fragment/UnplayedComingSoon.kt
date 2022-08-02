@@ -14,7 +14,7 @@ import uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem
 
 class UnplayedComingSoon : Fragment() {
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val rootView = inflater.inflate(R.layout.activity_notifications, container, false) as ViewGroup
         val listView = rootView.findViewById<ListView>(R.id.notification_list)
         val intentKey = this.requireArguments().getString(INTENT_KEY)

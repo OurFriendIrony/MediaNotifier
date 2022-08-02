@@ -16,12 +16,12 @@ import java.util.*
 class MovieDatabase(context: Context) : Database {
     private val context: Context
     private val dbWritable: SQLiteDatabase
-    override fun add(mediaItem: MediaItem) {
-        insert(mediaItem, true)
+    override fun add(item: MediaItem) {
+        insert(item, true)
     }
 
-    override fun update(mediaItem: MediaItem) {
-        insert(mediaItem, false)
+    override fun update(item: MediaItem) {
+        insert(item, false)
     }
 
     private fun insert(mediaItem: MediaItem, isNewItem: Boolean) {
@@ -47,12 +47,10 @@ class MovieDatabase(context: Context) : Database {
         val args = arrayOf(mediaItem.id)
         val cursor = dbWritable.rawQuery(GET_MOVIE_WATCHED_STATUS, args)
         var playedStatus = Constants.DB_FALSE
-        try {
-            while (cursor.moveToNext()) {
-                playedStatus = getColumnValue(cursor, MovieDatabaseDefinition.PLAYED)
+        cursor.use { c ->
+            while (c.moveToNext()) {
+                playedStatus = getColumnValue(c, MovieDatabaseDefinition.PLAYED)
             }
-        } finally {
-            cursor.close()
         }
         return playedStatus
     }
@@ -61,12 +59,10 @@ class MovieDatabase(context: Context) : Database {
         val args = arrayOf(mediaItem.id)
         val cursor = dbWritable.rawQuery(GET_MOVIE_WATCHED_STATUS, args)
         var playedStatus = Constants.DB_FALSE
-        try {
-            while (cursor.moveToNext()) {
-                playedStatus = getColumnValue(cursor, MovieDatabaseDefinition.PLAYED)
+        cursor.use { c ->
+            while (c.moveToNext()) {
+                playedStatus = getColumnValue(c, MovieDatabaseDefinition.PLAYED)
             }
-        } finally {
-            cursor.close()
         }
         return Constants.DB_TRUE == playedStatus
     }
@@ -89,7 +85,8 @@ class MovieDatabase(context: Context) : Database {
         get() = getUnplayed(GET_UNWATCHED_MOVIES_TOTAL, "UNWATCHED TOTAL")
 
     private fun countUnplayed(countQuery: String): Int {
-        val offset = "date('now','-" + PropertyHelper.getNotificationDayOffsetMovie(context) + " days')"
+        val offset =
+            "date('now','-" + PropertyHelper.getNotificationDayOffsetMovie(context) + " days')"
         val query = Helper.replaceTokens(countQuery, "@OFFSET@", offset)
         val cursor = dbWritable.rawQuery(query, null)
         cursor.moveToFirst()
@@ -99,7 +96,8 @@ class MovieDatabase(context: Context) : Database {
     }
 
     override fun getUnplayed(getQuery: String?, logTag: String?): List<MediaItem> {
-        val offset = "date('now','-" + PropertyHelper.getNotificationDayOffsetMovie(context) + " days')"
+        val offset =
+            "date('now','-" + PropertyHelper.getNotificationDayOffsetMovie(context) + " days')"
         val query = Helper.replaceTokens(getQuery!!, "@OFFSET@", offset)
         val mediaItems: MutableList<MediaItem> = ArrayList()
         dbWritable.rawQuery(query, null).use { cursor ->
@@ -156,7 +154,9 @@ class MovieDatabase(context: Context) : Database {
     }
 
     override fun markPlayedIfReleased(isNew: Boolean, mediaItem: MediaItem): Boolean {
-        return isNew && alreadyReleased(mediaItem) && PropertyHelper.getMarkWatchedIfAlreadyReleased(context)
+        return isNew && alreadyReleased(mediaItem) && PropertyHelper.getMarkWatchedIfAlreadyReleased(
+            context
+        )
     }
 
     // TODO: This is a lazy and unneeded implementation. It should be removed
@@ -176,15 +176,19 @@ class MovieDatabase(context: Context) : Database {
     }
 
     companion object {
-        private val SELECT_MOVIES = "SELECT * FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " ORDER BY " + MovieDatabaseDefinition.TITLE + " ASC;"
-        private val SELECT_MOVIES_BY_ID = "SELECT * FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " WHERE " + MovieDatabaseDefinition.ID + "=? ORDER BY " + MovieDatabaseDefinition.ID + " ASC;"
-        private val GET_MOVIE_WATCHED_STATUS = "SELECT " + MovieDatabaseDefinition.PLAYED + " FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " WHERE " + MovieDatabaseDefinition.ID + "=?;"
-        private val COUNT_UNWATCHED_MOVIES_RELEASED = "SELECT COUNT(*) FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " " +
-                "WHERE " + MovieDatabaseDefinition.PLAYED + "=" + Constants.DB_FALSE + " AND " + MovieDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@;"
-        private val GET_UNWATCHED_MOVIES_RELEASED = "SELECT * " +
+        private const val SELECT_MOVIES =
+            "SELECT * FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " ORDER BY " + MovieDatabaseDefinition.TITLE + " ASC;"
+        private const val SELECT_MOVIES_BY_ID =
+            "SELECT * FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " WHERE " + MovieDatabaseDefinition.ID + "=? ORDER BY " + MovieDatabaseDefinition.ID + " ASC;"
+        private const val GET_MOVIE_WATCHED_STATUS =
+            "SELECT " + MovieDatabaseDefinition.PLAYED + " FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " WHERE " + MovieDatabaseDefinition.ID + "=?;"
+        private const val COUNT_UNWATCHED_MOVIES_RELEASED =
+            "SELECT COUNT(*) FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " " +
+                    "WHERE " + MovieDatabaseDefinition.PLAYED + "=" + Constants.DB_FALSE + " AND " + MovieDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@;"
+        private const val GET_UNWATCHED_MOVIES_RELEASED = "SELECT * " +
                 "FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " " +
                 "WHERE " + MovieDatabaseDefinition.PLAYED + "=" + Constants.DB_FALSE + " AND " + MovieDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@ ORDER BY " + MovieDatabaseDefinition.RELEASE_DATE + " ASC;"
-        private val GET_UNWATCHED_MOVIES_TOTAL = "SELECT * " +
+        private const val GET_UNWATCHED_MOVIES_TOTAL = "SELECT * " +
                 "FROM " + MovieDatabaseDefinition.TABLE_MOVIES + " " +
                 "WHERE " + MovieDatabaseDefinition.PLAYED + "=" + Constants.DB_FALSE + " AND " + MovieDatabaseDefinition.RELEASE_DATE + " != '' ORDER BY " + MovieDatabaseDefinition.RELEASE_DATE + " ASC;"
     }

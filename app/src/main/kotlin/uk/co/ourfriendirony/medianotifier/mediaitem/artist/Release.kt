@@ -28,12 +28,12 @@ class Release : MediaItem {
     override var children: List<MediaItem> = ArrayList()
 
     constructor(release: ArtistGetReleaseGroup, artist: Artist) {
-        id = artist.id!!
+        id = artist.id
         subId = release.id
-        if (release.disambiguation!!.isNotEmpty()) {
-            title = release.title + " (" + release.disambiguation + ")"
+        title = if (release.disambiguation!!.isNotEmpty()) {
+            release.title + " (" + release.disambiguation + ")"
         } else {
-            title = release.title
+            release.title
         }
         subtitle = artist.title
         releaseDate = release.firstReleaseDate

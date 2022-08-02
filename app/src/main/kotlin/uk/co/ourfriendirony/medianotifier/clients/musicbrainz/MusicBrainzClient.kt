@@ -17,7 +17,7 @@ class MusicBrainzClient : AbstractClient() {
     @Throws(IOException::class)
     fun queryArtist(artist: String?): List<MediaItem> {
         payload = httpGetRequest(
-                Helper.replaceTokens(URL_ARTIST_QUERY, "@NAME@", Helper.cleanUrl(artist!!))
+            Helper.replaceTokens(URL_ARTIST_QUERY, "@NAME@", Helper.cleanUrl(artist!!))
         )
         val mediaItems: MutableList<MediaItem> = ArrayList()
         try {
@@ -34,7 +34,7 @@ class MusicBrainzClient : AbstractClient() {
     @Throws(IOException::class)
     fun getArtist(artistID: String?): MediaItem {
         payload = httpGetRequest(
-                Helper.replaceTokens(URL_ARTIST_ID, "@ID@", artistID!!)
+            Helper.replaceTokens(URL_ARTIST_ID, "@ID@", artistID!!)
         )
         val ag = OBJECT_MAPPER.readValue(payload, ArtistGet::class.java)
         val artist = Artist(ag)
@@ -69,7 +69,7 @@ class MusicBrainzClient : AbstractClient() {
         private const val URL_ARTIST_ID = HOST + "artist/@ID@/?inc=release-groups&fmt=json"
         private const val URL_ARTIST_RELEASE_ID = HOST + "release/@ID@?inc=recordings&fmt=json"
         private val OBJECT_MAPPER = ObjectMapper()
-        private val RELEASE_TYPES_UNWANTED: kotlin.collections.ArrayList<String> = object : kotlin.collections.ArrayList<String>() {
+        private val RELEASE_TYPES_UNWANTED: ArrayList<String> = object : ArrayList<String>() {
             init {
                 add("Compilation")
                 add("EP")

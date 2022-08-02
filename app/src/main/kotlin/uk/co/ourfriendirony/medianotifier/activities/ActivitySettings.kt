@@ -3,7 +3,6 @@ package uk.co.ourfriendirony.medianotifier.activities
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
@@ -63,24 +62,26 @@ class ActivitySettings : AppCompatActivity() {
         buttonDeleteGame.text = resources.getString(R.string.button_delete_game_all)
 
         // Define Object Actions
-        toggleMarkWatched.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean -> setMarkWatchedIfAlreadyReleased(baseContext, isChecked) }
-        buttonDeleteTV.setOnClickListener { view: View? ->
+        toggleMarkWatched.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
+            setMarkWatchedIfAlreadyReleased(baseContext, isChecked)
+        }
+        buttonDeleteTV.setOnClickListener {
             TVShowDatabase(applicationContext).deleteAll()
             Toast.makeText(this@ActivitySettings, R.string.toast_db_table_cleared, Toast.LENGTH_SHORT).show()
         }
-        buttonDeleteMovie.setOnClickListener { view: View? ->
+        buttonDeleteMovie.setOnClickListener {
             MovieDatabase(applicationContext).deleteAll()
             Toast.makeText(this@ActivitySettings, R.string.toast_db_table_cleared, Toast.LENGTH_SHORT).show()
         }
-        buttonDeleteArtist.setOnClickListener { view: View? ->
+        buttonDeleteArtist.setOnClickListener {
             ArtistDatabase(applicationContext).deleteAll()
             Toast.makeText(this@ActivitySettings, R.string.toast_db_table_cleared, Toast.LENGTH_SHORT).show()
         }
-        buttonDeleteGame.setOnClickListener { view: View? ->
+        buttonDeleteGame.setOnClickListener {
             GameDatabase(applicationContext).deleteAll()
             Toast.makeText(this@ActivitySettings, R.string.toast_db_table_cleared, Toast.LENGTH_SHORT).show()
         }
-        buttonNotifyTimer.setOnClickListener { view: View? ->
+        buttonNotifyTimer.setOnClickListener {
             val inflater = this@ActivitySettings.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val layout = inflater.inflate(R.layout.popup_time_selector, findViewById(R.id.popup))
             popupWindow = PopupWindow(layout, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true)
@@ -90,16 +91,17 @@ class ActivitySettings : AppCompatActivity() {
             timePicker.hour = getNotificationHour(applicationContext)
             timePicker.minute = getNotificationMinute(applicationContext)
             val buttonOk = popupWindow!!.contentView.findViewById<Button>(R.id.popup_ok)
-            buttonOk.setOnClickListener { v1: View? ->
-                setNotificationHour(applicationContext, timePicker.currentHour)
-                setNotificationMinute(applicationContext, timePicker.currentMinute)
+            buttonOk.setOnClickListener {
+                setNotificationHour(applicationContext, timePicker.hour)
+                setNotificationMinute(applicationContext, timePicker.minute)
                 reschedule(applicationContext)
                 popupWindow!!.dismiss()
                 buttonNotifyTimer.text = getNotificationTimeFull(baseContext)
             }
         }
-        buttonNotifyOffsetTV.setOnClickListener { view: View? ->
-            val inflater = this@ActivitySettings.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        buttonNotifyOffsetTV.setOnClickListener {
+            val inflater =
+                this@ActivitySettings.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val layout = inflater.inflate(R.layout.popup_offset_selector, findViewById(R.id.popup))
             popupWindow = PopupWindow(layout, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true)
             popupWindow!!.showAtLocation(layout, Gravity.CENTER, 0, 0)
@@ -109,13 +111,13 @@ class ActivitySettings : AppCompatActivity() {
             picker.value = getNotificationDayOffsetTV(applicationContext)
             picker.wrapSelectorWheel = false
             val buttonOk = popupWindow!!.contentView.findViewById<Button>(R.id.popup_ok)
-            buttonOk.setOnClickListener { subView: View? ->
+            buttonOk.setOnClickListener {
                 setNotificationDayOffsetTV(applicationContext, picker.value)
                 popupWindow!!.dismiss()
                 buttonNotifyOffsetTV.text = getNotificationDayOffsetTV(baseContext).toString()
             }
         }
-        buttonNotifyOffsetMovie.setOnClickListener { view: View? ->
+        buttonNotifyOffsetMovie.setOnClickListener {
             val inflater = this@ActivitySettings.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val layout = inflater.inflate(R.layout.popup_offset_selector, findViewById(R.id.popup))
             popupWindow = PopupWindow(layout, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true)
@@ -126,13 +128,13 @@ class ActivitySettings : AppCompatActivity() {
             picker.value = getNotificationDayOffsetMovie(applicationContext)
             picker.wrapSelectorWheel = false
             val buttonOk = popupWindow!!.contentView.findViewById<Button>(R.id.popup_ok)
-            buttonOk.setOnClickListener { subView: View? ->
+            buttonOk.setOnClickListener {
                 setNotificationDayOffsetMovie(applicationContext, picker.value)
                 popupWindow!!.dismiss()
                 buttonNotifyOffsetMovie.text = getNotificationDayOffsetMovie(baseContext).toString()
             }
         }
-        buttonNotifyOffsetArtist.setOnClickListener { view: View? ->
+        buttonNotifyOffsetArtist.setOnClickListener {
             val inflater = this@ActivitySettings.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val layout = inflater.inflate(R.layout.popup_offset_selector, findViewById(R.id.popup))
             popupWindow = PopupWindow(layout, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true)
@@ -143,13 +145,13 @@ class ActivitySettings : AppCompatActivity() {
             picker.value = getNotificationDayOffsetArtist(applicationContext)
             picker.wrapSelectorWheel = false
             val buttonOk = popupWindow!!.contentView.findViewById<Button>(R.id.popup_ok)
-            buttonOk.setOnClickListener { subView: View? ->
+            buttonOk.setOnClickListener {
                 setNotificationDayOffsetArtist(applicationContext, picker.value)
                 popupWindow!!.dismiss()
                 buttonNotifyOffsetArtist.text = getNotificationDayOffsetArtist(baseContext).toString()
             }
         }
-        buttonNotifyOffsetGame.setOnClickListener { view: View? ->
+        buttonNotifyOffsetGame.setOnClickListener {
             val inflater = this@ActivitySettings.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val layout = inflater.inflate(R.layout.popup_offset_selector, findViewById(R.id.popup))
             popupWindow = PopupWindow(layout, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true)
@@ -160,7 +162,7 @@ class ActivitySettings : AppCompatActivity() {
             picker.value = getNotificationDayOffsetGame(applicationContext)
             picker.wrapSelectorWheel = false
             val buttonOk = popupWindow!!.contentView.findViewById<Button>(R.id.popup_ok)
-            buttonOk.setOnClickListener { subView: View? ->
+            buttonOk.setOnClickListener {
                 setNotificationDayOffsetGame(applicationContext, picker.value)
                 popupWindow!!.dismiss()
                 buttonNotifyOffsetGame.text = getNotificationDayOffsetGame(baseContext).toString()

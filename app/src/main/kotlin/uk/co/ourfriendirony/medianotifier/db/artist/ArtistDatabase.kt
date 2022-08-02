@@ -17,18 +17,18 @@ import java.util.*
 class ArtistDatabase(context: Context) : Database {
     private val context: Context
     private val dbWritable: SQLiteDatabase
-    override fun add(artist: MediaItem) {
-        for (release in artist.children) {
+    override fun add(item: MediaItem) {
+        for (release in item.children) {
             insertRelease(release, true)
         }
-        insert(artist)
+        insert(item)
     }
 
-    override fun update(artist: MediaItem) {
-        for (release in artist.children) {
+    override fun update(item: MediaItem) {
+        for (release in item.children) {
             insertRelease(release, false)
         }
-        insert(artist)
+        insert(item)
     }
 
     private fun insert(artist: MediaItem) {
@@ -62,30 +62,27 @@ class ArtistDatabase(context: Context) : Database {
         dbWritable.replace(ArtistDatabaseDefinition.TABLE_RELEASES, null, dbRow)
     }
 
-    override fun getWatchedStatus(release: MediaItem): String {
-        val args = arrayOf(release.id, release.subId)
+    override fun getWatchedStatus(mediaItem: MediaItem): String {
+        val args = arrayOf(mediaItem.id, mediaItem.subId)
         val cursor = dbWritable.rawQuery(GET_RELEASE_WATCHED_STATUS, args)
         var playedStatus = Constants.DB_FALSE
-        try {
-            while (cursor.moveToNext()) {
-                playedStatus = getColumnValue(cursor, ArtistDatabaseDefinition.PLAYED)
+
+        cursor.use { c ->
+            while (c.moveToNext()) {
+                playedStatus = getColumnValue(c, ArtistDatabaseDefinition.PLAYED)
             }
-        } finally {
-            cursor.close()
         }
         return playedStatus
     }
 
-    override fun getWatchedStatusAsBoolean(release: MediaItem): Boolean {
-        val args = arrayOf(release.id, release.subId)
+    override fun getWatchedStatusAsBoolean(mediaItem: MediaItem): Boolean {
+        val args = arrayOf(mediaItem.id, mediaItem.subId)
         val cursor = dbWritable.rawQuery(GET_RELEASE_WATCHED_STATUS, args)
         var playedStatus = Constants.DB_FALSE
-        try {
-            while (cursor.moveToNext()) {
-                playedStatus = getColumnValue(cursor, ArtistDatabaseDefinition.PLAYED)
+        cursor.use { c ->
+            while (c.moveToNext()) {
+                playedStatus = getColumnValue(c, ArtistDatabaseDefinition.PLAYED)
             }
-        } finally {
-            cursor.close()
         }
         return Constants.DB_TRUE == playedStatus
     }
@@ -122,7 +119,8 @@ class ArtistDatabase(context: Context) : Database {
     }
 
     private fun countUnplayed(countQuery: String): Int {
-        val offset = "date('now','-" + PropertyHelper.getNotificationDayOffsetArtist(context) + " days')"
+        val offset =
+            "date('now','-" + PropertyHelper.getNotificationDayOffsetArtist(context) + " days')"
         val query = Helper.replaceTokens(countQuery, "@OFFSET@", offset)
         val cursor = dbWritable.rawQuery(query, null)
         cursor.moveToFirst()
@@ -137,7 +135,8 @@ class ArtistDatabase(context: Context) : Database {
         get() = getUnplayed(GET_UNWATCHED_RELEASES_TOTAL, "UNWATCHED TOTAL")
 
     override fun getUnplayed(getQuery: String?, logTag: String?): List<MediaItem> {
-        val offset = "date('now','-" + PropertyHelper.getNotificationDayOffsetArtist(context) + " days')"
+        val offset =
+            "date('now','-" + PropertyHelper.getNotificationDayOffsetArtist(context) + " days')"
         val query = Helper.replaceTokens(getQuery!!, "@OFFSET@", offset)
         val mediaItems: MutableList<MediaItem> = ArrayList()
         dbWritable.rawQuery(query, null).use { cursor ->
@@ -183,13 +182,16 @@ class ArtistDatabase(context: Context) : Database {
     override fun updatePlayedStatus(mediaItem: MediaItem, playedStatus: String?) {
         val values = ContentValues()
         values.put(ArtistDatabaseDefinition.PLAYED, playedStatus)
-        val where: String = ArtistDatabaseDefinition.ID + "=? and " + ArtistDatabaseDefinition.SUBID + "=?"
+        val where: String =
+            ArtistDatabaseDefinition.ID + "=? and " + ArtistDatabaseDefinition.SUBID + "=?"
         val whereArgs = arrayOf(mediaItem.id, mediaItem.subId)
         dbWritable.update(ArtistDatabaseDefinition.TABLE_RELEASES, values, where, whereArgs)
     }
 
     override fun markPlayedIfReleased(isNew: Boolean, mediaItem: MediaItem): Boolean {
-        return isNew && alreadyReleased(mediaItem) && PropertyHelper.getMarkWatchedIfAlreadyReleased(context)
+        return isNew && alreadyReleased(mediaItem) && PropertyHelper.getMarkWatchedIfAlreadyReleased(
+            context
+        )
     }
 
     // TODO: This is a lazy and unneeded implementation. It should be removed
@@ -208,15 +210,19 @@ class ArtistDatabase(context: Context) : Database {
     }
 
     companion object {
-        private val SELECT_ARTISTS = "SELECT * FROM " + ArtistDatabaseDefinition.TABLE_ARTISTS + " ORDER BY " + ArtistDatabaseDefinition.TITLE + " ASC;"
-        private val SELECT_RELEASES_BY_ID = "SELECT * FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " WHERE " + ArtistDatabaseDefinition.ID + "=? ORDER BY " + ArtistDatabaseDefinition.RELEASE_DATE + " ASC;"
-        private val GET_RELEASE_WATCHED_STATUS = "SELECT " + ArtistDatabaseDefinition.PLAYED + " FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " WHERE " + ArtistDatabaseDefinition.ID + "=? AND " + ArtistDatabaseDefinition.SUBID + "=?;"
-        private val COUNT_UNWATCHED_RELEASES_RELEASED = "SELECT COUNT(*) FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " " +
-                "WHERE " + ArtistDatabaseDefinition.PLAYED + "=" + Constants.DB_FALSE + " AND " + ArtistDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@;"
-        private val GET_UNWATCHED_RELEASES_RELEASED = "SELECT * " +
+        private const val SELECT_ARTISTS =
+            "SELECT * FROM " + ArtistDatabaseDefinition.TABLE_ARTISTS + " ORDER BY " + ArtistDatabaseDefinition.TITLE + " ASC;"
+        private const val SELECT_RELEASES_BY_ID =
+            "SELECT * FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " WHERE " + ArtistDatabaseDefinition.ID + "=? ORDER BY " + ArtistDatabaseDefinition.RELEASE_DATE + " ASC;"
+        private const val GET_RELEASE_WATCHED_STATUS =
+            "SELECT " + ArtistDatabaseDefinition.PLAYED + " FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " WHERE " + ArtistDatabaseDefinition.ID + "=? AND " + ArtistDatabaseDefinition.SUBID + "=?;"
+        private const val COUNT_UNWATCHED_RELEASES_RELEASED =
+            "SELECT COUNT(*) FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " " +
+                    "WHERE " + ArtistDatabaseDefinition.PLAYED + "=" + Constants.DB_FALSE + " AND " + ArtistDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@;"
+        private const val GET_UNWATCHED_RELEASES_RELEASED = "SELECT * " +
                 "FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " " +
                 "WHERE " + ArtistDatabaseDefinition.PLAYED + "=" + Constants.DB_FALSE + " AND " + ArtistDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@ ORDER BY " + ArtistDatabaseDefinition.RELEASE_DATE + " ASC;"
-        private val GET_UNWATCHED_RELEASES_TOTAL = "SELECT * " +
+        private const val GET_UNWATCHED_RELEASES_TOTAL = "SELECT * " +
                 "FROM " + ArtistDatabaseDefinition.TABLE_RELEASES + " " +
                 "WHERE " + ArtistDatabaseDefinition.PLAYED + "=" + Constants.DB_FALSE + " AND " + ArtistDatabaseDefinition.RELEASE_DATE + " != '' ORDER BY " + ArtistDatabaseDefinition.RELEASE_DATE + " ASC;"
     }

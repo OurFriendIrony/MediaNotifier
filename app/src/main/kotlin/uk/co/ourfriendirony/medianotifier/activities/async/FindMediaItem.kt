@@ -49,7 +49,7 @@ class FindMediaItem(context: Context, progressBar: ProgressBar?, listView: ListV
         return try {
             client!!.searchMediaItem(query)
         } catch (e: IOException) {
-            Log.e("Exception", e.localizedMessage)
+            Log.e("Exception", e.localizedMessage!!)
             ArrayList()
         }
     }

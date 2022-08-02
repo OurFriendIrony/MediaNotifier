@@ -16,12 +16,12 @@ import java.util.*
 class GameDatabase(context: Context) : Database {
     private val context: Context
     private val dbWritable: SQLiteDatabase
-    override fun add(mediaItem: MediaItem) {
-        insert(mediaItem, true)
+    override fun add(item: MediaItem) {
+        insert(item, true)
     }
 
-    override fun update(mediaItem: MediaItem) {
-        insert(mediaItem, false)
+    override fun update(item: MediaItem) {
+        insert(item, false)
     }
 
     private fun insert(mediaItem: MediaItem, isNewItem: Boolean) {
@@ -47,12 +47,10 @@ class GameDatabase(context: Context) : Database {
         val args = arrayOf(mediaItem.id)
         val cursor = dbWritable.rawQuery(GET_GAME_WATCHED_STATUS, args)
         var playedStatus = Constants.DB_FALSE
-        try {
-            while (cursor.moveToNext()) {
-                playedStatus = getColumnValue(cursor, GameDatabaseDefinition.PLAYED)
+        cursor.use { c ->
+            while (c.moveToNext()) {
+                playedStatus = getColumnValue(c, GameDatabaseDefinition.PLAYED)
             }
-        } finally {
-            cursor.close()
         }
         return playedStatus
     }
@@ -61,12 +59,10 @@ class GameDatabase(context: Context) : Database {
         val args = arrayOf(mediaItem.id)
         val cursor = dbWritable.rawQuery(GET_GAME_WATCHED_STATUS, args)
         var playedStatus = Constants.DB_FALSE
-        try {
-            while (cursor.moveToNext()) {
-                playedStatus = getColumnValue(cursor, GameDatabaseDefinition.PLAYED)
+        cursor.use { c ->
+            while (c.moveToNext()) {
+                playedStatus = getColumnValue(c, GameDatabaseDefinition.PLAYED)
             }
-        } finally {
-            cursor.close()
         }
         return Constants.DB_TRUE == playedStatus
     }
@@ -176,15 +172,15 @@ class GameDatabase(context: Context) : Database {
     }
 
     companion object {
-        private val SELECT_GAMES = "SELECT * FROM " + GameDatabaseDefinition.TABLE_GAMES + " ORDER BY " + GameDatabaseDefinition.TITLE + " ASC;"
-        private val SELECT_GAMES_BY_ID = "SELECT * FROM " + GameDatabaseDefinition.TABLE_GAMES + " WHERE " + GameDatabaseDefinition.ID + "=? ORDER BY " + GameDatabaseDefinition.ID + " ASC;"
-        private val GET_GAME_WATCHED_STATUS = "SELECT " + GameDatabaseDefinition.PLAYED + " FROM " + GameDatabaseDefinition.TABLE_GAMES + " WHERE " + GameDatabaseDefinition.ID + "=?;"
-        private val COUNT_UNWATCHED_GAMES_RELEASED = "SELECT COUNT(*) FROM " + GameDatabaseDefinition.TABLE_GAMES + " " +
+        private const val SELECT_GAMES = "SELECT * FROM " + GameDatabaseDefinition.TABLE_GAMES + " ORDER BY " + GameDatabaseDefinition.TITLE + " ASC;"
+        private const val SELECT_GAMES_BY_ID = "SELECT * FROM " + GameDatabaseDefinition.TABLE_GAMES + " WHERE " + GameDatabaseDefinition.ID + "=? ORDER BY " + GameDatabaseDefinition.ID + " ASC;"
+        private const val GET_GAME_WATCHED_STATUS = "SELECT " + GameDatabaseDefinition.PLAYED + " FROM " + GameDatabaseDefinition.TABLE_GAMES + " WHERE " + GameDatabaseDefinition.ID + "=?;"
+        private const val COUNT_UNWATCHED_GAMES_RELEASED = "SELECT COUNT(*) FROM " + GameDatabaseDefinition.TABLE_GAMES + " " +
                 "WHERE " + GameDatabaseDefinition.PLAYED + "=" + Constants.DB_FALSE + " AND " + GameDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@;"
-        private val GET_UNWATCHED_GAMES_RELEASED = "SELECT * " +
+        private const val GET_UNWATCHED_GAMES_RELEASED = "SELECT * " +
                 "FROM " + GameDatabaseDefinition.TABLE_GAMES + " " +
                 "WHERE " + GameDatabaseDefinition.PLAYED + "=" + Constants.DB_FALSE + " AND " + GameDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@ ORDER BY " + GameDatabaseDefinition.RELEASE_DATE + " ASC;"
-        private val GET_UNWATCHED_GAMES_TOTAL = "SELECT * " +
+        private const val GET_UNWATCHED_GAMES_TOTAL = "SELECT * " +
                 "FROM " + GameDatabaseDefinition.TABLE_GAMES + " " +
                 "WHERE " + GameDatabaseDefinition.PLAYED + "=" + Constants.DB_FALSE + " AND " + GameDatabaseDefinition.RELEASE_DATE + " != '' ORDER BY " + GameDatabaseDefinition.RELEASE_DATE + " ASC;"
     }

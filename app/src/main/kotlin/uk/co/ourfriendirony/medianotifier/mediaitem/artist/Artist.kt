@@ -65,16 +65,16 @@ class Artist : MediaItem {
         Log.d("[DB READ]", this.toString())
     }
 
-    override val subId: String?
+    override val subId: String
         get() = subid
     override val releaseDateFull: String
         get() = if (releaseDate != null) {
-            SimpleDateFormat("dd/MM/yyyy", Locale.UK).format(releaseDate)
-        } else MediaItem.Companion.NO_DATE
+            SimpleDateFormat("dd/MM/yyyy", Locale.UK).format(releaseDate!!)
+        } else MediaItem.NO_DATE
     override val releaseDateYear: String
         get() = if (releaseDate != null) {
-            SimpleDateFormat("yyyy", Locale.UK).format(releaseDate)
-        } else MediaItem.Companion.NO_DATE
+            SimpleDateFormat("yyyy", Locale.UK).format(releaseDate!!)
+        } else MediaItem.NO_DATE
 
     override fun countChildren(): Int {
         return children.size

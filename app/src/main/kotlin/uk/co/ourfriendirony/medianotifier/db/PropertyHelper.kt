@@ -30,7 +30,9 @@ object PropertyHelper {
     @JvmStatic
     fun getNotificationTimeFull(context: Context): String {
         val settings = getSharedPreferences(context)
-        return String.format(Locale.UK, "%02d", settings.getInt(NOTIFY_HOUR, NOTIFY_HOUR_DEFAULT)) + ":" + String.format(Locale.UK, "%02d", settings.getInt(NOTIFY_MIN, NOTIFY_MIN_DEFAULT))
+        return String.format(Locale.UK, "%02d", settings.getInt(NOTIFY_HOUR, NOTIFY_HOUR_DEFAULT)) +
+                ":" +
+                String.format(Locale.UK, "%02d", settings.getInt(NOTIFY_MIN, NOTIFY_MIN_DEFAULT))
     }
 
     @JvmStatic

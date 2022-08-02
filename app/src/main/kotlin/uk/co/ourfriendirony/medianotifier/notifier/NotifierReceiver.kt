@@ -21,11 +21,12 @@ import uk.co.ourfriendirony.medianotifier.general.Constants.TVSHOW
 import java.text.MessageFormat
 
 class NotifierReceiver : BroadcastReceiver() {
-    var unplayedEpisodes = 0
-    var unplayedMovies = 0
-    var unplayedAlbums = 0
-    var unplayedGames = 0
-    var unplayedTotal = 0
+    private var unplayedEpisodes = 0
+    private var unplayedMovies = 0
+    private var unplayedAlbums = 0
+    private var unplayedGames = 0
+    private var unplayedTotal = 0
+
     override fun onReceive(context: Context, intent: Intent) {
         unplayedEpisodes = TVShowDatabase(context).countUnplayedReleased()
         unplayedMovies = MovieDatabase(context).countUnplayedReleased()
@@ -35,12 +36,12 @@ class NotifierReceiver : BroadcastReceiver() {
         if (unplayedTotal > 0) {
             val notification = getBuilder(context)
             val notificationIntent = PendingIntent.getActivity(
-                    context, 0,
-                    getNotificationIntent(context),
-                    PendingIntent.FLAG_UPDATE_CURRENT
+                context, 0, getNotificationIntent(context),
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             )
             notification.setContentIntent(notificationIntent)
-            val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val notificationManager =
+                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             val notificationId = 1
             notificationManager.notify(notificationId, notification.build())
         }
@@ -60,14 +61,15 @@ class NotifierReceiver : BroadcastReceiver() {
     }
 
     private fun getBuilder(context: Context): NotificationCompat.Builder {
-        val text = MessageFormat.format("Episodes: {1}  /  Movies: {2}  /  Albums: {3}  /  Games: {4}",
-                context.getString(R.string.notification_text),
-                unplayedEpisodes, unplayedMovies, unplayedAlbums, unplayedGames
+        val text = MessageFormat.format(
+            "Episodes: {1}  /  Movies: {2}  /  Albums: {3}  /  Games: {4}",
+            context.getString(R.string.notification_text),
+            unplayedEpisodes, unplayedMovies, unplayedAlbums, unplayedGames
         )
         return NotificationCompat.Builder(context, "MediaNotifier")
-                .setSmallIcon(R.drawable.img_app_icon)
-                .setContentTitle(context.getString(R.string.notification_title))
-                .setContentText(text)
-                .setDefaults(Notification.DEFAULT_ALL)
+            .setSmallIcon(R.drawable.img_app_icon)
+            .setContentTitle(context.getString(R.string.notification_title))
+            .setContentText(text)
+            .setDefaults(Notification.DEFAULT_ALL)
     }
 }

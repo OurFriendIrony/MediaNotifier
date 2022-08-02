@@ -11,9 +11,9 @@ abstract class AbstractClient {
     protected fun httpGetRequest(url: String): String {
         val client = OkHttpClient()
         val req: Request = Request.Builder()
-                .url(url)
-                .addHeader("User-Agent", "MediaNotifier/1.0.0 ( ourfriendirony@gmail.com )")
-                .build()
+            .url(url)
+            .addHeader("User-Agent", "MediaNotifier/1.0.0 ( ourfriendirony@gmail.com )")
+            .build()
         while (true) {
             client.newCall(req).execute().use { res ->
                 val payload = res.body!!.string()
@@ -24,7 +24,7 @@ abstract class AbstractClient {
                     return payload
                 } else {
                     // TODO: This is 100% unacceptable implementation for a production release product
-                    sleep(SLEEP)
+                    sleep()
                 }
             }
         }
@@ -37,7 +37,7 @@ abstract class AbstractClient {
         Log.d("[RESPONSE STATUSC]", statusCode.toString())
     }
 
-    private fun sleep(time: Int) {
+    private fun sleep(time: Int = SLEEP) {
         try {
             Thread.sleep((time * 1000).toLong())
         } catch (e: InterruptedException) {

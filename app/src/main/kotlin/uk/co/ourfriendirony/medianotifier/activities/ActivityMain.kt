@@ -34,15 +34,18 @@ class ActivityMain : AppCompatActivity() {
     private val movieClient: Client = MovieClient()
     private val artistClient: Client = ArtistClient()
     private val gameClient: Client = GameClient()
+
     private var tvShowDatabase: Database? = null
     private var movieDatabase: Database? = null
     private var artistDatabase: Database? = null
     private var gameDatabase: Database? = null
-    private var main_button_tvshow_notification: TextView? = null
-    private var main_button_movie_notification: TextView? = null
-    private var main_button_artist_notification: TextView? = null
-    private var main_button_game_notification: TextView? = null
+
+    private var mainButtonTvshowNotification: TextView? = null
+    private var mainButtonMovieNotification: TextView? = null
+    private var mainButtonArtistNotification: TextView? = null
+    private var mainButtonGameNotification: TextView? = null
     private var progressBar: ProgressBar? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -51,36 +54,36 @@ class ActivityMain : AppCompatActivity() {
         movieDatabase = MovieDatabase(applicationContext)
         artistDatabase = ArtistDatabase(applicationContext)
         gameDatabase = GameDatabase(applicationContext)
-        val main_button_tvshow_find = findViewById<FloatingActionButton>(R.id.main_button_tv_find)
-        val main_button_movie_find = findViewById<FloatingActionButton>(R.id.main_button_movie_find)
-        val main_button_artist_find = findViewById<FloatingActionButton>(R.id.main_button_artist_find)
-        val main_button_game_find = findViewById<FloatingActionButton>(R.id.main_button_game_find)
-        main_button_tvshow_notification = findViewById(R.id.main_button_tv_notification)
-        main_button_movie_notification = findViewById(R.id.main_button_movie_notification)
-        main_button_artist_notification = findViewById(R.id.main_button_artist_notification)
-        main_button_game_notification = findViewById(R.id.main_button_game_notification)
-        val main_button_tvshow_library = findViewById<Button>(R.id.main_button_tv)
-        val main_button_movie_library = findViewById<Button>(R.id.main_button_movie)
-        val main_button_artist_library = findViewById<Button>(R.id.main_button_artist)
-        val main_button_game_library = findViewById<Button>(R.id.main_button_game)
+        val mainButtonTvshowFind = findViewById<FloatingActionButton>(R.id.main_button_tv_find)
+        val mainButtonMovieFind = findViewById<FloatingActionButton>(R.id.main_button_movie_find)
+        val mainButtonArtistFind = findViewById<FloatingActionButton>(R.id.main_button_artist_find)
+        val mainButtonGameFind = findViewById<FloatingActionButton>(R.id.main_button_game_find)
+        mainButtonTvshowNotification = findViewById(R.id.main_button_tv_notification)
+        mainButtonMovieNotification = findViewById(R.id.main_button_movie_notification)
+        mainButtonArtistNotification = findViewById(R.id.main_button_artist_notification)
+        mainButtonGameNotification = findViewById(R.id.main_button_game_notification)
+        val mainButtonTvshowLibrary = findViewById<Button>(R.id.main_button_tv)
+        val mainButtonMovieLibrary = findViewById<Button>(R.id.main_button_movie)
+        val mainButtonArtistLibrary = findViewById<Button>(R.id.main_button_artist)
+        val mainButtonGameLibrary = findViewById<Button>(R.id.main_button_game)
         val tmdbImage = findViewById<ImageView>(R.id.badge_tmdb)
         val musicbrainzImage = findViewById<ImageView>(R.id.badge_musicbrainz)
         val rawgImage = findViewById<ImageView>(R.id.badge_rawg)
-        prepButton(main_button_tvshow_find, ActivityFind::class.java, TVSHOW)
-        prepButton(main_button_movie_find, ActivityFind::class.java, MOVIE)
-        prepButton(main_button_artist_find, ActivityFind::class.java, ARTIST)
-        prepButton(main_button_game_find, ActivityFind::class.java, GAME)
-        prepButton(main_button_tvshow_library, ActivityLibrary::class.java, TVSHOW)
-        prepButton(main_button_movie_library, ActivityLibrary::class.java, MOVIE)
-        prepButton(main_button_artist_library, ActivityLibrary::class.java, ARTIST)
-        prepButton(main_button_game_library, ActivityLibrary::class.java, GAME)
-        prepButton(main_button_tvshow_notification, ActivityUnplayed::class.java, TVSHOW)
-        prepButton(main_button_movie_notification, ActivityUnplayed::class.java, MOVIE)
-        prepButton(main_button_artist_notification, ActivityUnplayed::class.java, ARTIST)
-        prepButton(main_button_game_notification, ActivityUnplayed::class.java, GAME)
-        tmdbImage.setOnClickListener { view: View? -> startActivity(getWebPageIntent("https://www.themoviedb.org/")) }
-        musicbrainzImage.setOnClickListener { view: View? -> startActivity(getWebPageIntent("https://musicbrainz.org/")) }
-        rawgImage.setOnClickListener { view: View? -> startActivity(getWebPageIntent("https://rawg.io/")) }
+        prepButton(mainButtonTvshowFind, ActivityFind::class.java, TVSHOW)
+        prepButton(mainButtonMovieFind, ActivityFind::class.java, MOVIE)
+        prepButton(mainButtonArtistFind, ActivityFind::class.java, ARTIST)
+        prepButton(mainButtonGameFind, ActivityFind::class.java, GAME)
+        prepButton(mainButtonTvshowLibrary, ActivityLibrary::class.java, TVSHOW)
+        prepButton(mainButtonMovieLibrary, ActivityLibrary::class.java, MOVIE)
+        prepButton(mainButtonArtistLibrary, ActivityLibrary::class.java, ARTIST)
+        prepButton(mainButtonGameLibrary, ActivityLibrary::class.java, GAME)
+        prepButton(mainButtonTvshowNotification, ActivityUnplayed::class.java, TVSHOW)
+        prepButton(mainButtonMovieNotification, ActivityUnplayed::class.java, MOVIE)
+        prepButton(mainButtonArtistNotification, ActivityUnplayed::class.java, ARTIST)
+        prepButton(mainButtonGameNotification, ActivityUnplayed::class.java, GAME)
+        tmdbImage.setOnClickListener { startActivity(getWebPageIntent("https://www.themoviedb.org/")) }
+        musicbrainzImage.setOnClickListener { startActivity(getWebPageIntent("https://musicbrainz.org/")) }
+        rawgImage.setOnClickListener { startActivity(getWebPageIntent("https://rawg.io/")) }
     }
 
     private fun prepButton(view: View?, c: Class<*>, type: String) {
@@ -102,14 +105,14 @@ class ActivityMain : AppCompatActivity() {
         val movieNotifyBG = if (numMovies > 0) notificationOn else notificationOff
         val albumNotifyBG = if (numAlbums > 0) notificationOn else notificationOff
         val gameNotifyBG = if (numGames > 0) notificationOn else notificationOff
-        main_button_tvshow_notification!!.text = getNotificationNumber(numEpisodes)
-        main_button_tvshow_notification!!.background = tvNotifyBG
-        main_button_movie_notification!!.background = movieNotifyBG
-        main_button_movie_notification!!.text = getNotificationNumber(numMovies)
-        main_button_artist_notification!!.background = albumNotifyBG
-        main_button_artist_notification!!.text = getNotificationNumber(numAlbums)
-        main_button_game_notification!!.background = gameNotifyBG
-        main_button_game_notification!!.text = getNotificationNumber(numGames)
+        mainButtonTvshowNotification!!.text = getNotificationNumber(numEpisodes)
+        mainButtonTvshowNotification!!.background = tvNotifyBG
+        mainButtonMovieNotification!!.background = movieNotifyBG
+        mainButtonMovieNotification!!.text = getNotificationNumber(numMovies)
+        mainButtonArtistNotification!!.background = albumNotifyBG
+        mainButtonArtistNotification!!.text = getNotificationNumber(numAlbums)
+        mainButtonGameNotification!!.background = gameNotifyBG
+        mainButtonGameNotification!!.text = getNotificationNumber(numGames)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -119,21 +122,26 @@ class ActivityMain : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return if (item.itemId == R.id.action_settings) {
-            val intent = Intent(this, ActivitySettings::class.java)
-            startActivity(intent)
-            true
-        } else if (item.itemId == R.id.action_contact) {
-            startActivity(contactEmailIntent)
-            true
-        } else if (item.itemId == R.id.action_refresh) {
-            UpdateMediaItem(baseContext, progressBar, tvShowDatabase, tvShowClient).execute(*asArray(tvShowDatabase!!.readAllItems()))
-            UpdateMediaItem(baseContext, progressBar, movieDatabase, movieClient).execute(*asArray(movieDatabase!!.readAllItems()))
-            UpdateMediaItem(baseContext, progressBar, artistDatabase, artistClient).execute(*asArray(artistDatabase!!.readAllItems()))
-            UpdateMediaItem(baseContext, progressBar, gameDatabase, gameClient).execute(*asArray(gameDatabase!!.readAllItems()))
-            true
-        } else {
-            super.onOptionsItemSelected(item)
+        return when (item.itemId) {
+            R.id.action_settings -> {
+                val intent = Intent(this, ActivitySettings::class.java)
+                startActivity(intent)
+                true
+            }
+            R.id.action_contact -> {
+                startActivity(contactEmailIntent)
+                true
+            }
+            R.id.action_refresh -> {
+                UpdateMediaItem(baseContext, progressBar, tvShowDatabase, tvShowClient).execute(*asArray(tvShowDatabase!!.readAllItems()))
+                UpdateMediaItem(baseContext, progressBar, movieDatabase, movieClient).execute(*asArray(movieDatabase!!.readAllItems()))
+                UpdateMediaItem(baseContext, progressBar, artistDatabase, artistClient).execute(*asArray(artistDatabase!!.readAllItems()))
+                UpdateMediaItem(baseContext, progressBar, gameDatabase, gameClient).execute(*asArray(gameDatabase!!.readAllItems()))
+                true
+            }
+            else -> {
+                super.onOptionsItemSelected(item)
+            }
         }
     }
 

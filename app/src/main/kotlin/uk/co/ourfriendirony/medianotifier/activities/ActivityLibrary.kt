@@ -49,9 +49,9 @@ class ActivityLibrary : AppCompatActivity() {
         }
         mediaItems = db!!.readAllParentItems()
         if (mediaItems!!.isNotEmpty()) {
-            progressBar!!.setIndeterminate(true)
+            progressBar!!.isIndeterminate = true
             val listAdapterSummary: ArrayAdapter<*> = ListAdapterSummary(baseContext, R.layout.list_item_generic_title, mediaItems!!, db)
-            spinnerView!!.setAdapter(listAdapterSummary)
+            spinnerView!!.adapter = listAdapterSummary
         } else {
             findViewById<View>(R.id.spinner_progress).layoutParams = RelativeLayout.LayoutParams(0, 0)
         }
@@ -67,8 +67,10 @@ class ActivityLibrary : AppCompatActivity() {
             val mediaItem = mediaItems!![currentItemPos]
             return when (menuItem.itemId) {
                 R.id.action_refresh -> {
-                    UpdateMediaItem(this@ActivityLibrary, progressBar, db, client).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mediaItem)
-                    ListChildren(this@ActivityLibrary, progressBar, listView, db).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mediaItem!!.id)
+                    UpdateMediaItem(this@ActivityLibrary, progressBar, db, client)
+                        .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mediaItem)
+                    ListChildren(this@ActivityLibrary, progressBar, listView, db)
+                        .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mediaItem!!.id)
                     true
                 }
                 R.id.action_remove -> {

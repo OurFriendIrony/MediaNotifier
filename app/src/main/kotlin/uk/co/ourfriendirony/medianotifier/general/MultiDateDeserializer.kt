@@ -10,7 +10,8 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MultiDateDeserializer @JvmOverloads constructor(vc: Class<*>? = null) : StdDeserializer<Date?>(vc) {
+class MultiDateDeserializer @JvmOverloads constructor(vc: Class<*>? = null) :
+    StdDeserializer<Date?>(vc) {
     @Throws(IOException::class)
     override fun deserialize(jp: JsonParser, ctxt: DeserializationContext): Date? {
         val node = jp.codec.readTree<JsonNode>(jp)
@@ -22,7 +23,8 @@ class MultiDateDeserializer @JvmOverloads constructor(vc: Class<*>? = null) : St
                 // Ignore and check the next deserialise pattern
             }
         }
-        val errorMessage = "Unparseable date: \"" + date + "\". Supported formats: " + Arrays.toString(DATE_FORMATS)
+        val errorMessage =
+            "Unparseable date: \"" + date + "\". Supported formats: " + DATE_FORMATS.contentToString()
         Log.w("[DATE PARSE]", errorMessage)
         return null
     }
@@ -30,9 +32,9 @@ class MultiDateDeserializer @JvmOverloads constructor(vc: Class<*>? = null) : St
     companion object {
         private const val serialVersionUID = 1L
         private val DATE_FORMATS = arrayOf(
-                "yyyy-MM-dd",
-                "yyyy-MM",
-                "yyyy"
+            "yyyy-MM-dd",
+            "yyyy-MM",
+            "yyyy"
         )
     }
 }

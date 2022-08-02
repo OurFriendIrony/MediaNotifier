@@ -37,25 +37,24 @@ class ActivityFind : AppCompatActivity() {
         listView = findViewById(R.id.find_list)
 
         input?.setOnEditorActionListener(
-            OnEditorActionListener { textView: TextView, actionId: Int, event: KeyEvent? ->
-            if (actionId == EditorInfo.IME_ACTION_SEND) {
-                val input = textView.text.toString()
-                if ("" != input) {
-                    FindMediaItem(baseContext, progressBar, listView, db, client).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, input)
+            OnEditorActionListener { textView: TextView, actionId: Int, _: KeyEvent? ->
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    val input = textView.text.toString()
+                    if ("" != input) {
+                        FindMediaItem(baseContext, progressBar, listView, db, client)
+                            .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, input)
+                    }
+                    return@OnEditorActionListener true
+                } else {
+                    return@OnEditorActionListener false
                 }
-                return@OnEditorActionListener true
-            } else {
-                return@OnEditorActionListener false
-            }
-        })
+            })
         listView?.onItemClickListener =
-            OnItemClickListener { parent: AdapterView<*>?, view: View, position: Int, id: Long ->
+            OnItemClickListener { _: AdapterView<*>?, view: View, _: Int, _: Long ->
                 val textViewID = view.findViewById<TextView>(R.id.list_item_generic_id)
                 val textViewTitle = view.findViewById<TextView>(R.id.list_item_generic_title)
-                AddMediaItem(applicationContext, progressBar, db, client).execute(
-                    textViewID.text.toString(),
-                    textViewTitle.text.toString()
-                )
+                AddMediaItem(applicationContext, progressBar, db, client)
+                    .execute(textViewID.text.toString(), textViewTitle.text.toString())
             }
     }
 }

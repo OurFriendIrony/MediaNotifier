@@ -17,18 +17,18 @@ import java.util.*
 class TVShowDatabase(context: Context) : Database {
     private val context: Context
     private val dbWritable: SQLiteDatabase
-    override fun add(show: MediaItem) {
-        for (episode in show.children) {
+    override fun add(item: MediaItem) {
+        for (episode in item.children) {
             insertEpisode(episode, true)
         }
-        insert(show)
+        insert(item)
     }
 
-    override fun update(show: MediaItem) {
-        for (episode in show.children) {
+    override fun update(item: MediaItem) {
+        for (episode in item.children) {
             insertEpisode(episode, false)
         }
-        insert(show)
+        insert(item)
     }
 
     private fun insert(mediaItem: MediaItem) {
@@ -66,12 +66,10 @@ class TVShowDatabase(context: Context) : Database {
         val args = arrayOf(mediaItem.id, mediaItem.subId)
         val cursor = dbWritable.rawQuery(GET_TVEPISODE_WATCHED_STATUS, args)
         var playedStatus = Constants.DB_FALSE
-        try {
-            while (cursor.moveToNext()) {
-                playedStatus = getColumnValue(cursor, TVShowDatabaseDefinition.PLAYED)
+        cursor.use { c ->
+            while (c.moveToNext()) {
+                playedStatus = getColumnValue(c, TVShowDatabaseDefinition.PLAYED)
             }
-        } finally {
-            cursor.close()
         }
         return playedStatus
     }
@@ -80,12 +78,10 @@ class TVShowDatabase(context: Context) : Database {
         val args = arrayOf(mediaItem.id, mediaItem.subId)
         val cursor = dbWritable.rawQuery(GET_TVEPISODE_WATCHED_STATUS, args)
         var playedStatus = Constants.DB_FALSE
-        try {
-            while (cursor.moveToNext()) {
-                playedStatus = getColumnValue(cursor, TVShowDatabaseDefinition.PLAYED)
+        cursor.use { c ->
+            while (c.moveToNext()) {
+                playedStatus = getColumnValue(c, TVShowDatabaseDefinition.PLAYED)
             }
-        } finally {
-            cursor.close()
         }
         return Constants.DB_TRUE == playedStatus
     }
@@ -122,7 +118,8 @@ class TVShowDatabase(context: Context) : Database {
     }
 
     private fun countPlayed(countQuery: String): Int {
-        val offset = "date('now','-" + PropertyHelper.getNotificationDayOffsetTV(context) + " days')"
+        val offset =
+            "date('now','-" + PropertyHelper.getNotificationDayOffsetTV(context) + " days')"
         val query = Helper.replaceTokens(countQuery, "@OFFSET@", offset)
         val cursor = dbWritable.rawQuery(query, null)
         cursor.moveToFirst()
@@ -137,7 +134,8 @@ class TVShowDatabase(context: Context) : Database {
         get() = getUnplayed(GET_UNWATCHED_EPISODES_TOTAL, "UNWATCHED TOTAL")
 
     override fun getUnplayed(getQuery: String?, logTag: String?): List<MediaItem> {
-        val offset = "date('now','-" + PropertyHelper.getNotificationDayOffsetTV(context) + " days')"
+        val offset =
+            "date('now','-" + PropertyHelper.getNotificationDayOffsetTV(context) + " days')"
         val query = Helper.replaceTokens(getQuery!!, "@OFFSET@", offset)
         val mediaItems: MutableList<MediaItem> = ArrayList()
         dbWritable.rawQuery(query, null).use { cursor ->
@@ -183,13 +181,16 @@ class TVShowDatabase(context: Context) : Database {
     override fun updatePlayedStatus(mediaItem: MediaItem, playedStatus: String?) {
         val values = ContentValues()
         values.put(TVShowDatabaseDefinition.PLAYED, playedStatus)
-        val where: String = TVShowDatabaseDefinition.ID + "=? and " + TVShowDatabaseDefinition.SUBID + "=?"
+        val where: String =
+            TVShowDatabaseDefinition.ID + "=? and " + TVShowDatabaseDefinition.SUBID + "=?"
         val whereArgs = arrayOf(mediaItem.id, mediaItem.subId)
         dbWritable.update(TVShowDatabaseDefinition.TABLE_EPISODES, values, where, whereArgs)
     }
 
     override fun markPlayedIfReleased(isNew: Boolean, mediaItem: MediaItem): Boolean {
-        return isNew && alreadyReleased(mediaItem) && PropertyHelper.getMarkWatchedIfAlreadyReleased(context)
+        return isNew && alreadyReleased(mediaItem) && PropertyHelper.getMarkWatchedIfAlreadyReleased(
+            context
+        )
     }
 
     // TODO: This is a lazy and unneeded implementation. It should be removed
@@ -209,15 +210,19 @@ class TVShowDatabase(context: Context) : Database {
     }
 
     companion object {
-        private val SELECT_TVSHOWS = "SELECT * FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS + " ORDER BY " + TVShowDatabaseDefinition.TITLE + " ASC;"
-        private val SELECT_TVEPISODES_BY_ID = "SELECT * FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " WHERE " + TVShowDatabaseDefinition.ID + "=? ORDER BY " + TVShowDatabaseDefinition.SUBID + " ASC;"
-        private val GET_TVEPISODE_WATCHED_STATUS = "SELECT " + TVShowDatabaseDefinition.PLAYED + " FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " WHERE " + TVShowDatabaseDefinition.ID + "=? AND " + TVShowDatabaseDefinition.SUBID + "=?;"
-        private val COUNT_UNWATCHED_EPISODES_RELEASED = "SELECT COUNT(*) FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " " +
-                "WHERE " + TVShowDatabaseDefinition.PLAYED + "=" + Constants.DB_FALSE + " AND " + TVShowDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@;"
-        private val GET_UNWATCHED_EPISODES_RELEASED = "SELECT * " +
+        private const val SELECT_TVSHOWS =
+            "SELECT * FROM " + TVShowDatabaseDefinition.TABLE_TVSHOWS + " ORDER BY " + TVShowDatabaseDefinition.TITLE + " ASC;"
+        private const val SELECT_TVEPISODES_BY_ID =
+            "SELECT * FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " WHERE " + TVShowDatabaseDefinition.ID + "=? ORDER BY " + TVShowDatabaseDefinition.SUBID + " ASC;"
+        private const val GET_TVEPISODE_WATCHED_STATUS =
+            "SELECT " + TVShowDatabaseDefinition.PLAYED + " FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " WHERE " + TVShowDatabaseDefinition.ID + "=? AND " + TVShowDatabaseDefinition.SUBID + "=?;"
+        private const val COUNT_UNWATCHED_EPISODES_RELEASED =
+            "SELECT COUNT(*) FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " " +
+                    "WHERE " + TVShowDatabaseDefinition.PLAYED + "=" + Constants.DB_FALSE + " AND " + TVShowDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@;"
+        private const val GET_UNWATCHED_EPISODES_RELEASED = "SELECT * " +
                 "FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " " +
                 "WHERE " + TVShowDatabaseDefinition.PLAYED + "=" + Constants.DB_FALSE + " AND " + TVShowDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@ ORDER BY " + TVShowDatabaseDefinition.RELEASE_DATE + " ASC;"
-        private val GET_UNWATCHED_EPISODES_TOTAL = "SELECT * " +
+        private const val GET_UNWATCHED_EPISODES_TOTAL = "SELECT * " +
                 "FROM " + TVShowDatabaseDefinition.TABLE_EPISODES + " " +
                 "WHERE " + TVShowDatabaseDefinition.PLAYED + "=" + Constants.DB_FALSE + " AND " + TVShowDatabaseDefinition.RELEASE_DATE + " != '' ORDER BY " + TVShowDatabaseDefinition.RELEASE_DATE + " ASC;"
     }
