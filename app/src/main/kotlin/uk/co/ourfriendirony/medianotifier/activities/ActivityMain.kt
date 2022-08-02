@@ -2,6 +2,8 @@ package uk.co.ourfriendirony.medianotifier.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -28,6 +30,7 @@ import uk.co.ourfriendirony.medianotifier.general.Helper.getNotificationNumber
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator.contactEmailIntent
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator.getWebPageIntent
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem
+import java.util.concurrent.Executors
 
 class ActivityMain : AppCompatActivity() {
     private val tvShowClient: Client = TVClient()
@@ -45,6 +48,8 @@ class ActivityMain : AppCompatActivity() {
     private var mainButtonArtistNotification: TextView? = null
     private var mainButtonGameNotification: TextView? = null
     private var progressBar: ProgressBar? = null
+
+    private val myHandler = Handler(Looper.getMainLooper())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -133,10 +138,39 @@ class ActivityMain : AppCompatActivity() {
                 true
             }
             R.id.action_refresh -> {
-                UpdateMediaItem(baseContext, progressBar, tvShowDatabase, tvShowClient).execute(*asArray(tvShowDatabase!!.readAllItems()))
-                UpdateMediaItem(baseContext, progressBar, movieDatabase, movieClient).execute(*asArray(movieDatabase!!.readAllItems()))
-                UpdateMediaItem(baseContext, progressBar, artistDatabase, artistClient).execute(*asArray(artistDatabase!!.readAllItems()))
-                UpdateMediaItem(baseContext, progressBar, gameDatabase, gameClient).execute(*asArray(gameDatabase!!.readAllItems()))
+                Executors.newSingleThreadExecutor().execute(
+                    UpdateMediaItem(
+                        baseContext,
+                        progressBar,
+                        tvShowDatabase,
+                        tvShowClient,
+                        myHandler,
+                        *asArray(tvShowDatabase!!.readAllItems())
+                    )
+                )
+                Executors.newSingleThreadExecutor().execute(
+                    UpdateMediaItem(
+                        baseContext,
+                        progressBar,
+                        movieDatabase,
+                        movieClient,
+                        myHandler,
+                        *asArray(movieDatabase!!.readAllItems())
+                    )
+                )
+                Executors.newSingleThreadExecutor().execute(
+                    UpdateMediaItem(
+                        baseContext,
+                        progressBar,
+                        artistDatabase,
+                        artistClient,
+                        myHandler,
+                        *asArray(artistDatabase!!.readAllItems())
+                    )
+                )
+                Executors.newSingleThreadExecutor().execute(
+                    UpdateMediaItem(baseContext, progressBar, gameDatabase, gameClient, myHandler, *asArray(gameDatabase!!.readAllItems()))
+                )
                 true
             }
             else -> {

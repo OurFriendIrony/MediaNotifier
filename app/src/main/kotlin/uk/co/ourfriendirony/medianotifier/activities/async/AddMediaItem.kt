@@ -1,7 +1,7 @@
 package uk.co.ourfriendirony.medianotifier.activities.async
 
 import android.content.Context
-import android.os.AsyncTask
+import android.os.Handler
 import android.util.Log
 import android.widget.ProgressBar
 import android.widget.Toast
@@ -11,39 +11,50 @@ import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem
 import java.io.IOException
 import java.lang.ref.WeakReference
 
-class AddMediaItem(context: Context, progressBar: ProgressBar?, db: Database?, client: Client?) : AsyncTask<String?, Void?, String>() {
+class AddMediaItem(
+    context: Context,
+    progressBar: ProgressBar?,
+    db: Database?,
+    client: Client?,
+    ui: Handler,
+    id: String,
+    title: String
+) : Runnable {
     private val context: WeakReference<Context>
     private val progressBar: WeakReference<ProgressBar?>
     private val db: Database?
     private val client: Client?
-    override fun onPreExecute() {
-        super.onPreExecute()
-        progressBar.get()!!.isIndeterminate = true
-    }
-
-
-    override fun onPostExecute(toastMsg: String) {
-        progressBar.get()!!.isIndeterminate = false
-        Toast.makeText(context.get(), toastMsg, Toast.LENGTH_SHORT).show()
-    }
+    private val ui: Handler
+    private val id: String
+    private val title: String
 
     init {
         this.context = WeakReference(context)
         this.progressBar = WeakReference(progressBar)
         this.db = db
         this.client = client
+        this.ui = ui
+        this.id = id
+        this.title = title
     }
 
-    override fun doInBackground(vararg params: String?): String {
-        val id = params[0]
-        val title = params[1]
+    override fun run() {
         val mediaItem: MediaItem
+
+        ui.post {
+            progressBar.get()!!.isIndeterminate = true
+        }
+
         try {
             mediaItem = client!!.getMediaItem(id)
             db!!.add(mediaItem)
         } catch (e: IOException) {
             Log.e("[FAILED_ADD]", e.message!! + e.stackTrace)
         }
-        return db!!.coreType + " '" + title + "' Added"
+
+        ui.post {
+            progressBar.get()!!.isIndeterminate = false
+            Toast.makeText(context.get(), db!!.coreType + " '" + title + "' Added", Toast.LENGTH_SHORT).show()
+        }
     }
 }
