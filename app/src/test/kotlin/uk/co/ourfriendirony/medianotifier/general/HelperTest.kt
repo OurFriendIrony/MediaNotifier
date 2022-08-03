@@ -1,17 +1,12 @@
 package uk.co.ourfriendirony.medianotifier.general
 
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertNull
 import org.junit.Test
-import java.text.SimpleDateFormat
 import java.util.*
 
 class HelperTest {
-    private val dateFormat = SimpleDateFormat("yyyy-MM-dd")
-
     @Test
     fun cleanUrlEncodesSpaces() {
-        assertEquals(
+        kotlin.test.assertEquals(
             "simple+url",
             Helper.cleanUrl("simple url")
         )
@@ -19,15 +14,15 @@ class HelperTest {
 
     @Test
     fun cleanTitleReversesTheAndA() {
-        assertEquals(
+        kotlin.test.assertEquals(
             "Simple Test, The",
             Helper.cleanTitle("The Simple Test")
         )
-        assertEquals(
+        kotlin.test.assertEquals(
             "Simple Test, A",
             Helper.cleanTitle("A Simple Test")
         )
-        assertEquals(
+        kotlin.test.assertEquals(
             "Simple Test",
             Helper.cleanTitle("Simple Test")
         )
@@ -36,7 +31,7 @@ class HelperTest {
     @Test
     fun canConvertDateToString() {
         val date = GregorianCalendar(2001, 0, 1).time
-        assertEquals(
+        kotlin.test.assertEquals(
             "2001-01-01",
             Helper.dateToString(date)
         )
@@ -44,14 +39,14 @@ class HelperTest {
 
     @Test
     fun canHandleNullDateToString() {
-        assertNull(Helper.dateToString(null))
+        kotlin.test.assertNull(Helper.dateToString(null))
     }
 
     @Test
     fun canHandleStringToDate() {
         val expectedDate = GregorianCalendar(2001, 0, 1).time
         val dateString = "2001-01-01"
-        assertEquals(
+        kotlin.test.assertEquals(
             expectedDate,
             Helper.stringToDate(dateString)
         )
@@ -63,7 +58,7 @@ class HelperTest {
         val value = "expected"
         val initialString = "this is my @WIBBLE@ string. string values should be @WIBBLE@"
 
-        assertEquals(
+        kotlin.test.assertEquals(
             "this is my expected string. string values should be expected",
             Helper.replaceTokens(initialString, token, value)
         )
@@ -75,7 +70,7 @@ class HelperTest {
         val values = arrayOf("expected", "string")
         val initialString = "this is my @WIBBLE@ @WOBBLE@. @WOBBLE@ values should be @WIBBLE@"
 
-        assertEquals(
+        kotlin.test.assertEquals(
             "this is my expected string. string values should be expected",
             Helper.replaceTokens(initialString, tokens, values)
         )
@@ -87,7 +82,7 @@ class HelperTest {
         val values = arrayOf("expected")
         val initialString = "this is my @WIBBLE@ @WOBBLE@. @WOBBLE@ values should be @WIBBLE@"
 
-        assertEquals(
+        kotlin.test.assertEquals(
             "this is my @WIBBLE@ @WOBBLE@. @WOBBLE@ values should be @WIBBLE@",
             Helper.replaceTokens(initialString, tokens, values)
         )
@@ -95,15 +90,15 @@ class HelperTest {
 
     @Test
     fun canGetStringValueOfInteger() {
-        assertEquals(
+        kotlin.test.assertEquals(
             "1",
             Helper.getNotificationNumber(1)
         )
-        assertEquals(
+        kotlin.test.assertEquals(
             "7",
             Helper.getNotificationNumber(7)
         )
-        assertEquals(
+        kotlin.test.assertEquals(
             "9",
             Helper.getNotificationNumber(9)
         )
@@ -111,11 +106,11 @@ class HelperTest {
 
     @Test
     fun canGetDefinedStringValueIfIntegerGreaterThanTen() {
-        assertEquals(
+        kotlin.test.assertEquals(
             "9+",
             Helper.getNotificationNumber(10)
         )
-        assertEquals(
+        kotlin.test.assertEquals(
             "9+",
             Helper.getNotificationNumber(20)
         )

@@ -1,7 +1,7 @@
 buildscript {
     ext {
         ver_sdk_min = 24
-        ver_sdk = 33
+        ver_sdk = 32
         ver_gradle = '7.2.1'
         ver_kotlin = '1.7.10'
     }

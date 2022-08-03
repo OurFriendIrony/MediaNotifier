@@ -59,6 +59,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$ver_kotlin"
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
     implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+    implementation 'androidx.core:core-splashscreen:1.0.0'
 
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
     testImplementation 'junit:junit:4.13.2'

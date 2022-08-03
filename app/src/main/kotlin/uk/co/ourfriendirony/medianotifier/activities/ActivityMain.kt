@@ -12,6 +12,8 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import uk.co.ourfriendirony.medianotifier.R
 import uk.co.ourfriendirony.medianotifier.activities.async.UpdateMediaItem
@@ -52,6 +54,7 @@ class ActivityMain : AppCompatActivity() {
     private val myHandler = Handler(Looper.getMainLooper())
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         progressBar = findViewById(R.id.main_progress)
@@ -100,8 +103,8 @@ class ActivityMain : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        val notificationOn = resources.getDrawable(R.drawable.button_notification_on)
-        val notificationOff = resources.getDrawable(R.drawable.button_notification_off)
+        val notificationOn = ContextCompat.getDrawable(baseContext, R.drawable.button_notification_on)
+        val notificationOff = ContextCompat.getDrawable(baseContext, R.drawable.button_notification_off)
         val numEpisodes = tvShowDatabase!!.countUnplayedReleased()
         val numMovies = movieDatabase!!.countUnplayedReleased()
         val numAlbums = artistDatabase!!.countUnplayedReleased()

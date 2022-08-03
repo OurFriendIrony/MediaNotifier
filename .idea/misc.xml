@@ -3,9 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/steve/git/MediaNotifier/app/src/main/res/drawable/background_footer.xml" value="0.102" />
+        <entry key="..\:/Users/steve/git/MediaNotifier/app/src/main/res/drawable/splash.xml" value="0.102" />
         <entry key="..\:/Users/steve/git/MediaNotifier/app/src/main/res/layout/activity_find.xml" value="0.2265625" />
         <entry key="..\:/Users/steve/git/MediaNotifier/app/src/main/res/layout/activity_main.xml" value="0.19166666666666668" />
         <entry key="..\:/Users/steve/git/MediaNotifier/app/src/main/res/layout/activity_splash.xml" value="0.2265625" />
+        <entry key="..\:/Users/steve/git/MediaNotifier/app/src/main/res/layout/splash.xml" value="0.12182971014492754" />
+        <entry key="..\:/Users/steve/git/MediaNotifier/app/src/main/res/menu/menu_library.xml" value="0.19166666666666668" />
       </map>
     </option>
   </component>
