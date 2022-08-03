@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/steve/git/MediaNotifier/app/src/main/res/layout/activity_find.xml" value="0.2265625" />
+        <entry key="..\:/Users/steve/git/MediaNotifier/app/src/main/res/layout/activity_main.xml" value="0.19166666666666668" />
+        <entry key="..\:/Users/steve/git/MediaNotifier/app/src/main/res/layout/activity_splash.xml" value="0.2265625" />
+      </map>
+    </option>
+  </component>
   <component name="NullableNotNullManager">
     <option name="myDefaultNullable" value="android.support.annotation.Nullable" />
     <option name="myDefaultNotNull" value="androidx.annotation.NonNull" />
