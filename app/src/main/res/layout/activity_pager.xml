@@ -12,18 +12,22 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:showIn="@layout/activity_pager">
 
-        <androidx.viewpager.widget.ViewPager
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/pager_strip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            app:tabBackground="@drawable/background_pager_strip"
+            app:tabIndicatorHeight="1dp"
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextColor="@color/grey_09" />
+
+        <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.viewpager.widget.PagerTabStrip
-                style="@style/pager_strip"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top" />
-
-        </androidx.viewpager.widget.ViewPager>
+            android:layout_height="match_parent"
+            android:layout_below="@id/pager_strip"
+            app:layout_anchorGravity="bottom" />
     </RelativeLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

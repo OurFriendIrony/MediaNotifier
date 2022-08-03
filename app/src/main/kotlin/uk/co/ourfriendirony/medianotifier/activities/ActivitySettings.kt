@@ -62,7 +62,7 @@ class ActivitySettings : AppCompatActivity() {
         buttonDeleteGame.text = resources.getString(R.string.button_delete_game_all)
 
         // Define Object Actions
-        toggleMarkWatched.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
+        toggleMarkWatched.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             setMarkWatchedIfAlreadyReleased(baseContext, isChecked)
         }
         buttonDeleteTV.setOnClickListener {

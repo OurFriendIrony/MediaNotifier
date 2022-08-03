@@ -54,7 +54,7 @@ class ActivityMain : AppCompatActivity() {
     private val myHandler = Handler(Looper.getMainLooper())
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val splashScreen = installSplashScreen()
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         progressBar = findViewById(R.id.main_progress)
