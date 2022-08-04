@@ -81,7 +81,3 @@ configurations.all {
 repositories {
     mavenCentral()
 }
-//
-//test {
-//    useJUnitPlatform()
-//}

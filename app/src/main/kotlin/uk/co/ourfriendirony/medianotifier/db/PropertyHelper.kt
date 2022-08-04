@@ -6,7 +6,7 @@ import uk.co.ourfriendirony.medianotifier.R
 import java.util.*
 
 object PropertyHelper {
-    private const val PROP_NAME = R.string.app_name.toString()
+    private const val PROP_NAME = "Media Notifier"
     private const val MARK_PLAYED = "mark_watched"
     private const val NOTIFY_HOUR = "notification_hour"
     private const val NOTIFY_MIN = "notification_minute"
