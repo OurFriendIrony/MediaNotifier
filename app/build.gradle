@@ -5,7 +5,7 @@ plugins {
 
 android {
     compileSdkVersion ver_sdk
-    buildToolsVersion ver_sdk + ".0.0"
+    buildToolsVersion ver_buildtools
 
     defaultConfig {
         applicationId "uk.co.ourfriendirony.medianotifierandroid"
