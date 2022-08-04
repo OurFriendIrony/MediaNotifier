@@ -4,6 +4,7 @@ buildscript {
         ver_sdk = 32
         ver_gradle = '7.2.1'
         ver_kotlin = '1.7.10'
+        ver_kotlin_coroutines = '1.5.0'
     }
 
     repositories {

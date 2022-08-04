@@ -1,9 +1,7 @@
 package uk.co.ourfriendirony.medianotifier.activities.viewadapter
 
 import android.content.Context
-import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnLongClickListener
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.CompoundButton
@@ -24,26 +22,23 @@ class ListAdapterSummary(
     override fun getView(position: Int, originalView: View?, parent: ViewGroup): View {
         return when (defaultLayoutId) {
             R.layout.list_item_generic -> {
-                getFindView(position, originalView, parent)
+                getFindView(position)
             }
             R.layout.list_item_generic_toggle -> {
-                getChecklistView(position, originalView, parent)
+                getChecklistView(position)
             }
             else -> {
-                getTitleView(position, originalView, parent)
+                getTitleView(position)
             }
         }
     }
 
     override fun getDropDownView(position: Int, originalView: View?, parent: ViewGroup): View {
-        return getFindView(position, originalView, parent)
+        return getFindView(position)
     }
 
-    private fun getFindView(position: Int, originalView: View?, viewGroup: ViewGroup): View {
-        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-
-        var view = originalView
-        view = inflater.inflate(R.layout.list_item_generic, null)
+    private fun getFindView(position: Int): View {
+        val view = View.inflate(context, R.layout.list_item_generic, null)
 
         val textId = view.findViewById<TextView>(R.id.list_item_generic_id)
         val textTitle = view.findViewById<TextView>(R.id.list_item_generic_title)
@@ -57,11 +52,8 @@ class ListAdapterSummary(
         return view
     }
 
-    private fun getChecklistView(position: Int, originalView: View?, viewGroup: ViewGroup): View {
-        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-
-        var view = originalView
-        view = inflater.inflate(R.layout.list_item_generic_toggle, null)
+    private fun getChecklistView(position: Int): View {
+        val view = View.inflate(context, R.layout.list_item_generic_toggle, null)
 
         val textTitle = view.findViewById<TextView>(R.id.list_item_generic_title)
         val textSubTitle = view.findViewById<TextView>(R.id.list_item_generic_subtitle)
@@ -73,17 +65,17 @@ class ListAdapterSummary(
         textDate.text = mediaItem.releaseDateFull
         textOverview.text = ""
 
-        view.setOnClickListener(View.OnClickListener { subView: View ->
+        view.setOnClickListener { subView: View ->
             val overview = subView.findViewById<TextView>(R.id.list_item_generic_overview)
             val t = if (overview.text === "") mediaItem.description else ""
             overview.text = t
-        })
-        view.setOnLongClickListener(OnLongClickListener { subView: View ->
+        }
+        view.setOnLongClickListener { subView: View ->
             val overview = subView.findViewById<TextView>(R.id.list_item_generic_overview)
             val t = if (overview.text === "") mediaItem.description else ""
             overview.text = t
             true
-        })
+        }
 
         val toggle = view.findViewById<SwitchCompat>(R.id.list_item_toggle)
         toggle.isChecked = !db!!.getWatchedStatusAsBoolean(mediaItem)
@@ -96,12 +88,8 @@ class ListAdapterSummary(
         return view
     }
 
-    private fun getTitleView(position: Int, originalView: View?, viewGroup: ViewGroup): View {
-        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-
-        var view = originalView
-        view = inflater.inflate(defaultLayoutId, null)
-
+    private fun getTitleView(position: Int): View {
+        val view = View.inflate(context, defaultLayoutId, null)
         val textTitle = view.findViewById<TextView>(R.id.list_item_generic_title)
         val mediaItem = mediaItems[position]
         textTitle.text = mediaItem!!.title
