@@ -1,17 +1,27 @@
 buildscript {
+    ext {
+        ver_sdk_min = 24
+        ver_sdk = 32
+        ver_buildtools = ver_sdk + ".0.0"
+        ver_gradle = '7.2.1'
+        ver_kotlin = '1.7.10'
+        ver_kotlin_coroutines = '1.5.0'
+    }
+
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.1'
+        classpath "com.android.tools.build:gradle:$ver_gradle"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$ver_kotlin"
     }
 }
 
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 }
 

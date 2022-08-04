@@ -1,12 +1,16 @@
-apply plugin: 'com.android.application'
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion ver_sdk
+    buildToolsVersion ver_buildtools
 
     defaultConfig {
         applicationId "uk.co.ourfriendirony.medianotifierandroid"
-        minSdkVersion 24
-        targetSdkVersion 29
+        minSdkVersion ver_sdk_min
+        targetSdkVersion ver_sdk
         versionCode 1
         versionName "0.1"
 
@@ -25,25 +29,57 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    packagingOptions {
-        exclude 'META-INF/LICENSE'
+    kotlinOptions {
+        jvmTarget = '1.8'
     }
 
-    lintOptions {
+    packagingOptions {
+        resources {
+            excludes += ['META-INF/LICENSE']
+        }
+    }
+
+    lint {
         abortOnError false
+        checkReleaseBuilds false
     }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.2.1'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.6.3'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation  'com.squareup.okhttp3:okhttp:4.9.0'
-    testImplementation 'junit:junit:4.13.1'
+    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.work:work-runtime-ktx:2.7.1'
+    implementation "androidx.core:core-ktx:1.8.0"
+    implementation 'androidx.core:core-splashscreen:1.0.0'
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$ver_kotlin_coroutines"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$ver_kotlin_coroutines"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$ver_kotlin"
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+
+    testImplementation 'org.jetbrains.kotlin:kotlin-test'
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
 }
+
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        def requested = details.requested
+        if (requested.group == 'com.android.support') {
+            if (!requested.name.startsWith("multidex")) {
+                details.useVersion '25.3.0'
+            }
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+//
+//test {
+//    useJUnitPlatform()
+//}
