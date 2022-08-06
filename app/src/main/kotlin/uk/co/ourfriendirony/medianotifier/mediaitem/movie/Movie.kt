@@ -25,7 +25,7 @@ class Movie : MediaItem {
         private set
     override var externalLink: String? = null
         private set
-    override var children: List<MediaItem> = ArrayList()
+    override var children: MutableList<MediaItem> = ArrayList()
 
     constructor(movie: MovieGet) {
         id = movie.id.toString()

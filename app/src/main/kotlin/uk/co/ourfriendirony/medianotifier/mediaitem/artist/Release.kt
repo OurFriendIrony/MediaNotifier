@@ -25,7 +25,7 @@ class Release : MediaItem {
         private set
     override var externalLink: String? = null
         private set
-    override var children: List<MediaItem> = ArrayList()
+    override var children: MutableList<MediaItem> = ArrayList()
 
     constructor(release: ArtistGetReleaseGroup, artist: Artist) {
         id = artist.id

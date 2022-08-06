@@ -138,14 +138,15 @@ class ArtistDatabase(context: Context) : Database {
         val offset =
             "date('now','-" + PropertyHelper.getNotificationDayOffsetArtist(context) + " days')"
         val query = Helper.replaceTokens(getQuery!!, "@OFFSET@", offset)
-        val mediaItems: MutableList<MediaItem> = ArrayList()
+        val parentMediaItems: MutableList<MediaItem> = readAllParentItems() as MutableList<MediaItem>
         dbWritable.rawQuery(query, null).use { cursor ->
             while (cursor.moveToNext()) {
                 val mediaItem = buildSubItemFromDB(cursor)
-                mediaItems.add(mediaItem)
+                val parentItem = parentMediaItems.filter { p -> mediaItem.id == p.id }[0]
+                parentItem.children.add(mediaItem)
             }
         }
-        return mediaItems
+        return parentMediaItems.filter { p -> p.children.isNotEmpty() }
     }
 
     override fun readAllItems(): List<MediaItem> {

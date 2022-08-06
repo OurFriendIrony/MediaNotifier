@@ -24,7 +24,7 @@ class TVShow : MediaItem {
         private set
     override var externalLink: String? = null
         private set
-    override var children: List<MediaItem> = ArrayList()
+    override var children: MutableList<MediaItem> = ArrayList()
 
     constructor(tvShow: TVShowGet) {
         id = tvShow.id.toString()
@@ -54,7 +54,7 @@ class TVShow : MediaItem {
         description = getColumnValue(cursor, TVShowDatabaseDefinition.DESCRIPTION)
         releaseDate = stringToDate(getColumnValue(cursor, TVShowDatabaseDefinition.RELEASE_DATE))
         externalLink = getColumnValue(cursor, TVShowDatabaseDefinition.EXTERNAL_URL)
-        children = episodes
+        children = episodes.toMutableList()
         Log.d("[DB READ]", this.toString())
     }
 
