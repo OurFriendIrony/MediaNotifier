@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.CompoundButton
+import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
 import uk.co.ourfriendirony.medianotifier.R
@@ -56,28 +57,79 @@ class ListAdapterSummary(
     }
 
     private fun getChecklistView(mediaItem: MediaItem): View {
-        val view = View.inflate(context, R.layout.list_item_generic_toggle, null)
+        return if (mediaItem.countChildren() > 0) {
+            parentItemView(mediaItem)
+        } else if (mediaItem.subId.isNullOrBlank()) {
+            soloItemView(mediaItem)
+        } else {
+            childItemView(mediaItem)
+        }
 
+    }
+
+    private fun getTitleView(mediaItem: MediaItem): View {
+        val view = View.inflate(context, defaultLayoutId, null)
         val textTitle = view.findViewById<TextView>(R.id.list_item_generic_title)
-        val textSubTitle = view.findViewById<TextView>(R.id.list_item_generic_subtitle)
-        val textDate = view.findViewById<TextView>(R.id.list_item_generic_date)
-        val textOverview = view.findViewById<TextView>(R.id.list_item_generic_overview)
 
         textTitle.text = mediaItem.title
-        textSubTitle.text = mediaItem.subtitle
-        textDate.text = mediaItem.releaseDateFull
+        return view
+    }
+
+    private fun soloItemView(mediaItem: MediaItem): View {
+        val view = View.inflate(context, R.layout.list_item_generic_toggle, null)
+        view.findViewById<TextView>(R.id.list_item_generic_title).text = mediaItem.title
+        view.findViewById<TextView>(R.id.list_item_generic_subtitle).text = mediaItem.subtitle
+        view.findViewById<TextView>(R.id.list_item_generic_date).text = mediaItem.releaseDateFull
+        val textOverview = view.findViewById<TextView>(R.id.list_item_generic_overview)
         textOverview.text = ""
 
-        view.setOnClickListener { subView: View ->
-            val overview = subView.findViewById<TextView>(R.id.list_item_generic_overview)
-            val t = if (overview.text === "") mediaItem.description else ""
-            overview.text = t
+        view.setOnClickListener {
+            textOverview.text = if (textOverview.text === "") mediaItem.description else ""
         }
-        view.setOnLongClickListener { subView: View ->
-            val overview = subView.findViewById<TextView>(R.id.list_item_generic_overview)
-            val t = if (overview.text === "") mediaItem.description else ""
-            overview.text = t
+
+        return view
+    }
+
+    private fun parentItemView(mediaItem: MediaItem): View {
+        val view = View.inflate(context, R.layout.list_item_generic, null)
+        view.findViewById<TextView>(R.id.list_item_generic_title).text = mediaItem.title
+        view.findViewById<TextView>(R.id.list_item_generic_date).text = ""
+        val textOverview = view.findViewById<TextView>(R.id.list_item_generic_overview)
+        val childrenView = view.findViewById<ListView>(R.id.list_item_generic_overview_children)
+
+        textOverview.text = ""
+
+        view.setOnClickListener {
+            textOverview.text = ""
+            if (childrenView.adapter == null) {
+                childrenView.adapter = ListAdapterSummary(context, R.layout.list_item_generic_toggle, mediaItem.children, db)
+            } else {
+                childrenView.adapter = null
+            }
+
+        }
+        view.setOnLongClickListener {
+            childrenView.adapter = null
+            textOverview.text = if (textOverview.text === "") mediaItem.description else ""
             true
+        }
+
+        return view
+    }
+
+    private fun childItemView(mediaItem: MediaItem): View {
+        val view = View.inflate(context, R.layout.list_item_generic_toggle, null)
+        view.findViewById<TextView>(R.id.list_item_generic_title).height = 0
+        view.findViewById<TextView>(R.id.list_item_generic_subtitle).text = mediaItem.title
+        view.findViewById<TextView>(R.id.list_item_generic_date).text = mediaItem.releaseDateFull
+        val textOverview = view.findViewById<TextView>(R.id.list_item_generic_overview)
+        val childrenView = view.findViewById<ListView>(R.id.list_item_generic_overview_children)
+
+        textOverview.text = ""
+
+        view.setOnClickListener {
+            childrenView.adapter = null
+            textOverview.text = if (textOverview.text === "") mediaItem.description else ""
         }
 
         val toggle = view.findViewById<SwitchCompat>(R.id.list_item_toggle)
@@ -88,14 +140,6 @@ class ListAdapterSummary(
                 if (!isChecked) DB_TRUE else DB_FALSE
             )
         }
-        return view
-    }
-
-    private fun getTitleView(mediaItem: MediaItem): View {
-        val view = View.inflate(context, defaultLayoutId, null)
-        val textTitle = view.findViewById<TextView>(R.id.list_item_generic_title)
-
-        textTitle.text = mediaItem.title
         return view
     }
 }

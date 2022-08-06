@@ -116,6 +116,15 @@
             android:text="@string/placeholder_overview" />
     </RelativeLayout>
 
+    <ListView
+        android:id="@+id/list_item_generic_overview_children"
+        style="@style/style_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/list_item_generic_primarybar"
+        android:divider="@null"
+        android:dividerHeight="0dp" />
+
     <TextView
         android:id="@+id/list_item_generic_id"
         android:layout_width="0dp"

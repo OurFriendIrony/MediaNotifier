@@ -29,8 +29,8 @@ class TVEpisode : MediaItem {
     constructor(episode: TVSeasonGetEpisode, tvShow: TVShow) {
         id = tvShow.id
         subid = formatEpSe(episode)
-        title = episode.name
-        subtitle = formatEpSe(episode) + " " + tvShow.title
+        title = formatEpSe(episode) + ": " + episode.name
+        subtitle = tvShow.title!!
         description = episode.overview
         releaseDate = episode.airDate
         Log.d("[API GET]", this.toString())
