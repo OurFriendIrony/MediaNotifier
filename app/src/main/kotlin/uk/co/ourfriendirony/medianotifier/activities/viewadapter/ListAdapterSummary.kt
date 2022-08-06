@@ -20,47 +20,50 @@ class ListAdapterSummary(
     private val db: Database?
 ) : ArrayAdapter<Any?>(context!!, defaultLayoutId, mediaItems) {
     override fun getView(position: Int, originalView: View?, parent: ViewGroup): View {
+        val mediaItem = mediaItems[position]!!
+
         return when (defaultLayoutId) {
             R.layout.list_item_generic -> {
-                getFindView(position)
+                getFindView(mediaItem)
             }
             R.layout.list_item_generic_toggle -> {
-                getChecklistView(position)
+                getChecklistView(mediaItem)
             }
             else -> {
-                getTitleView(position)
+                getTitleView(mediaItem)
             }
         }
     }
 
     override fun getDropDownView(position: Int, originalView: View?, parent: ViewGroup): View {
-        return getFindView(position)
+        val mediaItem = mediaItems[position]
+        return getFindView(mediaItem!!)
     }
 
-    private fun getFindView(position: Int): View {
+    private fun getFindView(mediaItem: MediaItem): View {
         val view = View.inflate(context, R.layout.list_item_generic, null)
 
         val textId = view.findViewById<TextView>(R.id.list_item_generic_id)
         val textTitle = view.findViewById<TextView>(R.id.list_item_generic_title)
         val textDate = view.findViewById<TextView>(R.id.list_item_generic_date)
         val textOverview = view.findViewById<TextView>(R.id.list_item_generic_overview)
-        val mediaItem = mediaItems[position]
-        textId.text = mediaItem!!.id
+
+        textId.text = mediaItem.id
         textTitle.text = mediaItem.title
         textDate.text = mediaItem.releaseDateYear
         textOverview.text = mediaItem.description
         return view
     }
 
-    private fun getChecklistView(position: Int): View {
+    private fun getChecklistView(mediaItem: MediaItem): View {
         val view = View.inflate(context, R.layout.list_item_generic_toggle, null)
 
         val textTitle = view.findViewById<TextView>(R.id.list_item_generic_title)
         val textSubTitle = view.findViewById<TextView>(R.id.list_item_generic_subtitle)
         val textDate = view.findViewById<TextView>(R.id.list_item_generic_date)
         val textOverview = view.findViewById<TextView>(R.id.list_item_generic_overview)
-        val mediaItem = mediaItems[position]
-        textTitle.text = mediaItem!!.title
+
+        textTitle.text = mediaItem.title
         textSubTitle.text = mediaItem.subtitle
         textDate.text = mediaItem.releaseDateFull
         textOverview.text = ""
@@ -88,11 +91,11 @@ class ListAdapterSummary(
         return view
     }
 
-    private fun getTitleView(position: Int): View {
+    private fun getTitleView(mediaItem: MediaItem): View {
         val view = View.inflate(context, defaultLayoutId, null)
         val textTitle = view.findViewById<TextView>(R.id.list_item_generic_title)
-        val mediaItem = mediaItems[position]
-        textTitle.text = mediaItem!!.title
+
+        textTitle.text = mediaItem.title
         return view
     }
 }

@@ -31,7 +31,6 @@ import uk.co.ourfriendirony.medianotifier.general.Constants.TVSHOW
 import uk.co.ourfriendirony.medianotifier.general.Helper.getNotificationNumber
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator.contactEmailIntent
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator.getWebPageIntent
-import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem
 import java.util.concurrent.Executors
 
 class ActivityMain : AppCompatActivity() {
@@ -148,7 +147,7 @@ class ActivityMain : AppCompatActivity() {
                         tvShowDatabase,
                         tvShowClient,
                         myHandler,
-                        *asArray(tvShowDatabase!!.readAllItems())
+                        *tvShowDatabase!!.readAllItems().toTypedArray()
                     )
                 )
                 Executors.newSingleThreadExecutor().execute(
@@ -158,7 +157,7 @@ class ActivityMain : AppCompatActivity() {
                         movieDatabase,
                         movieClient,
                         myHandler,
-                        *asArray(movieDatabase!!.readAllItems())
+                        *movieDatabase!!.readAllItems().toTypedArray()
                     )
                 )
                 Executors.newSingleThreadExecutor().execute(
@@ -168,11 +167,18 @@ class ActivityMain : AppCompatActivity() {
                         artistDatabase,
                         artistClient,
                         myHandler,
-                        *asArray(artistDatabase!!.readAllItems())
+                        *artistDatabase!!.readAllItems().toTypedArray()
                     )
                 )
                 Executors.newSingleThreadExecutor().execute(
-                    UpdateMediaItem(baseContext, progressBar, gameDatabase, gameClient, myHandler, *asArray(gameDatabase!!.readAllItems()))
+                    UpdateMediaItem(
+                        baseContext,
+                        progressBar,
+                        gameDatabase,
+                        gameClient,
+                        myHandler,
+                        *gameDatabase!!.readAllItems().toTypedArray()
+                    )
                 )
                 true
             }
@@ -182,7 +188,4 @@ class ActivityMain : AppCompatActivity() {
         }
     }
 
-    private fun asArray(items: List<MediaItem>): Array<MediaItem> {
-        return items.toTypedArray()
-    }
 }
