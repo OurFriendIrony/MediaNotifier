@@ -63,17 +63,6 @@
                 android:paddingEnd="0dp"
                 android:paddingStart="0dp" />
 
-            <TextView
-                android:id="@+id/list_item_generic_title"
-                style="@style/h1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/list_item_picture"
-                android:gravity="start|center"
-                android:maxLines="1"
-                android:paddingEnd="4dp"
-                android:paddingStart="4dp"
-                android:text="@string/placeholder_title" />
         </RelativeLayout>
     </RelativeLayout>
 
