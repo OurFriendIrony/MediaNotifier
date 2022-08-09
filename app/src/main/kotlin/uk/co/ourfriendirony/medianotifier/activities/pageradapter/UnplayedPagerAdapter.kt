@@ -6,9 +6,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import uk.co.ourfriendirony.medianotifier.activities.fragment.UnplayedComingSoon
-import uk.co.ourfriendirony.medianotifier.activities.fragment.UnplayedReleased
+import uk.co.ourfriendirony.medianotifier.activities.fragment.LibraryFull
+import uk.co.ourfriendirony.medianotifier.activities.fragment.LibraryUnplayedComingSoon
+import uk.co.ourfriendirony.medianotifier.activities.fragment.LibraryUnplayedReleased
 import uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY
+
 
 class UnplayedPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle, type: String?) :
     FragmentStateAdapter(fragmentManager, lifecycle) {
@@ -16,7 +18,7 @@ class UnplayedPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycl
     private var fragment: Fragment? = null
 
     companion object {
-        private const val NUM_PAGES = 2
+        private const val NUM_PAGES = 3
     }
 
     init {
@@ -29,11 +31,18 @@ class UnplayedPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycl
 
     override fun createFragment(position: Int): Fragment {
         when (position) {
-            0 -> fragment = UnplayedReleased()
-            1 -> fragment = UnplayedComingSoon()
+            0 -> fragment = LibraryFull()
+            1 -> fragment = LibraryUnplayedReleased()
+            2 -> fragment = LibraryUnplayedComingSoon()
             else -> Log.e("[FRAGMENT]", "Invalid Fragment Index")
         }
         fragment!!.arguments = bundle
         return fragment!!
     }
+
+    override fun getItemId(position: Int): Long {
+        Log.w("PAGER_ADAPTER", "fragment: $position")
+        return super.getItemId(position)
+    }
+
 }

@@ -15,6 +15,7 @@ class Artist : MediaItem {
     override val id: String
     override val title: String?
     override val subtitle = ""
+    override val isParent = true
 
     // TODO: fully implement played as an item
     override val played = false

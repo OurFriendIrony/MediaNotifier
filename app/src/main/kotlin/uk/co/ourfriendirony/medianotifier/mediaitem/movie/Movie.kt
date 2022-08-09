@@ -15,6 +15,7 @@ class Movie : MediaItem {
     override var id: String
     override val title: String?
     override val releaseDate: Date?
+    override val isParent = false
 
     // TODO: fully implement played as an item
     override val played = false

@@ -14,6 +14,7 @@ interface MediaItem {
     var children: MutableList<MediaItem>
     val externalLink: String?
     val played: Boolean
+    val isParent: Boolean
 
     fun countChildren(): Int
 

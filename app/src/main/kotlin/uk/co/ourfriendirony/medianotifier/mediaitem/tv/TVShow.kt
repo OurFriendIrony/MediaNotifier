@@ -15,6 +15,7 @@ class TVShow : MediaItem {
     override val id: String
     override val title: String?
     override val releaseDate: Date?
+    override val isParent = true
 
     // TODO: fully implement played as an item
     override val played = false

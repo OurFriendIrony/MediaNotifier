@@ -17,6 +17,8 @@ import java.util.*
 class ArtistDatabase(context: Context) : Database {
     private val context: Context
     private val dbWritable: SQLiteDatabase
+    override val isParent = true
+
     override fun add(item: MediaItem) {
         for (release in item.children) {
             insertRelease(release, true)
