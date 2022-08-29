@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
-import android.widget.CompoundButton
 import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
 import uk.co.ourfriendirony.medianotifier.R
@@ -97,8 +96,12 @@ class MyExpandableListAdapter(
         }
         val toggle = view.findViewById<SwitchCompat>(R.id.list_item_toggle)
         toggle.isChecked = !db!!.getWatchedStatusAsBoolean(mediaItem)
-        toggle.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
-            db.updatePlayedStatus(mediaItem, if (!isChecked) Constants.DB_TRUE else Constants.DB_FALSE)
+
+        // Can't use 'setOnCheckedChangeListener' as child moving out of focus triggers the function
+        toggle.setOnClickListener {
+            val isPlayed = if (!toggle.isChecked) Constants.DB_TRUE else Constants.DB_FALSE
+            Log.d("TOGGLE isPlayed", mediaItem.subId + ": $isPlayed")
+            db.updatePlayedStatus(mediaItem, isPlayed)
         }
         return view
     }
@@ -123,8 +126,12 @@ class MyExpandableListAdapter(
 
         val toggle = view.findViewById<SwitchCompat>(R.id.list_item_toggle)
         toggle.isChecked = !db!!.getWatchedStatusAsBoolean(mediaItem)
-        toggle.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
-            db.updatePlayedStatus(mediaItem, if (!isChecked) Constants.DB_TRUE else Constants.DB_FALSE)
+
+        // Can't use 'setOnCheckedChangeListener' as child moving out of focus triggers the function
+        toggle.setOnClickListener {
+            val isPlayed = if (!toggle.isChecked) Constants.DB_TRUE else Constants.DB_FALSE
+            Log.d("TOGGLE isPlayed", mediaItem.subId + ": $isPlayed")
+            db.updatePlayedStatus(mediaItem, isPlayed)
         }
         return view
     }

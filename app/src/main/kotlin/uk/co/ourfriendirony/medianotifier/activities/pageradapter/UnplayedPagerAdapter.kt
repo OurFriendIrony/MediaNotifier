@@ -31,9 +31,9 @@ class UnplayedPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycl
 
     override fun createFragment(position: Int): Fragment {
         when (position) {
-            0 -> fragment = LibraryFull()
-            1 -> fragment = LibraryUnplayedReleased()
-            2 -> fragment = LibraryUnplayedComingSoon()
+            0 -> fragment = LibraryUnplayedReleased()
+            1 -> fragment = LibraryUnplayedComingSoon()
+            2 -> fragment = LibraryFull()
             else -> Log.e("[FRAGMENT]", "Invalid Fragment Index")
         }
         fragment!!.arguments = bundle
@@ -41,7 +41,7 @@ class UnplayedPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycl
     }
 
     override fun getItemId(position: Int): Long {
-        Log.w("PAGER_ADAPTER", "fragment: $position")
+        Log.d("PAGER_ADAPTER", "fragment: $position")
         return super.getItemId(position)
     }
 

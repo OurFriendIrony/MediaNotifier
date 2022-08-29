@@ -77,9 +77,9 @@ abstract class Library : Fragment() {
         val viewPager = requireActivity().findViewById<ViewPager2>(R.id.pager)
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = when (position) {
-                0 -> LibraryFull.t
-                1 -> LibraryUnplayedReleased.t
-                2 -> LibraryUnplayedComingSoon.t
+                0 -> LibraryUnplayedReleased.t
+                1 -> LibraryUnplayedComingSoon.t
+                2 -> LibraryFull.t
                 else -> null
             }
         }.attach()
