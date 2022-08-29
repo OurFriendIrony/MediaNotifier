@@ -78,18 +78,15 @@ class MyExpandableListAdapter(
         val textOverviewHeight = textOverview.height
         textOverview.text = "";
         textOverview.height = 0
-        view.setOnContextClickListener { i ->
-            Log.d("CHILD_CLICK_2", "xxx")
-            true
-        }
+
         view.setOnClickListener {
-            Log.d("CHILD_CLICK", "${textOverview.height}")
+            Log.w("CHILD_CLICK", "${textOverview.height}")
             if (textOverview.text === "") {
-                Log.d("CHILD_CLICK", "GROWING")
-                textOverview.text = mediaItem.description
+                Log.w("CHILD_CLICK", "GROWING")
+                textOverview.text = "mediaItem.description"
                 textOverview.height = textOverviewHeight
             } else {
-                Log.d("CHILD_CLICK", "SHRINKING")
+                Log.w("CHILD_CLICK", "SHRINKING")
                 textOverview.text = ""
                 textOverview.height = 0
             }

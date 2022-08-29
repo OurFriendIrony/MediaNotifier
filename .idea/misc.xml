@@ -12,12 +12,14 @@
         <entry key="..\:/Users/steve/git/MediaNotifier/app/src/main/res/drawable/background_list_row_solo.xml" value="0.207" />
         <entry key="..\:/Users/steve/git/MediaNotifier/app/src/main/res/drawable/background_pager_strip.xml" value="0.105" />
         <entry key="..\:/Users/steve/git/MediaNotifier/app/src/main/res/drawable/button_notification_off.xml" value="0.207" />
+        <entry key="..\:/Users/steve/git/MediaNotifier/app/src/main/res/drawable/custom_expandable.xml" value="0.1195" />
+        <entry key="..\:/Users/steve/git/MediaNotifier/app/src/main/res/drawable/img_external_tmdb_wrapper.xml" value="0.1195" />
         <entry key="..\:/Users/steve/git/MediaNotifier/app/src/main/res/drawable/setting_selector.xml" value="0.206" />
         <entry key="..\:/Users/steve/git/MediaNotifier/app/src/main/res/drawable/splash.xml" value="0.102" />
         <entry key="..\:/Users/steve/git/MediaNotifier/app/src/main/res/layout/activity_find.xml" value="0.2265625" />
         <entry key="..\:/Users/steve/git/MediaNotifier/app/src/main/res/layout/activity_list.xml" value="0.25" />
         <entry key="..\:/Users/steve/git/MediaNotifier/app/src/main/res/layout/activity_main.xml" value="0.19166666666666668" />
-        <entry key="..\:/Users/steve/git/MediaNotifier/app/src/main/res/layout/activity_notifications.xml" value="0.23777173913043478" />
+        <entry key="..\:/Users/steve/git/MediaNotifier/app/src/main/res/layout/activity_notifications.xml" value="0.17898832684824903" />
         <entry key="..\:/Users/steve/git/MediaNotifier/app/src/main/res/layout/activity_pager.xml" value="0.2265625" />
         <entry key="..\:/Users/steve/git/MediaNotifier/app/src/main/res/layout/activity_splash.xml" value="0.2265625" />
         <entry key="..\:/Users/steve/git/MediaNotifier/app/src/main/res/layout/listRowParent.xml" value="0.19947916666666668" />

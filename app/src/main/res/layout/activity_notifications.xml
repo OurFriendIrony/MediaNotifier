@@ -20,7 +20,7 @@
             style="@style/style_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft" />
+            android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"/>
 
     </RelativeLayout>
 </RelativeLayout>

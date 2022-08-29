@@ -56,18 +56,6 @@ abstract class Library : Fragment() {
                 lastExpandedPosition = parentPosition
                 Log.w("GROUP_EXPAND", "$type: $lastExpandedPosition")
             }
-            listView.setOnChildClickListener { parent, v, groupPosition, childPosition, id ->
-                Log.w("CLICK", "CHILD")
-                true
-            }
-            listView.setOnItemClickListener { parent, view, position, id ->
-                Log.w("CLICK", "ITEM")
-            }
-            listView.setOnItemLongClickListener { parent, view, position, id ->
-                Log.w("CLICK", "ITEM LONG - DO A CONTEXT MENU - DELETE/LINK/REFESH/ETC")
-                true
-            }
-            //            listView.setOnClickListener { Log.w("CLICK", "CLICK") }
         }
     }
 
