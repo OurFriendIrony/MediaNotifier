@@ -61,7 +61,8 @@
                 android:focusable="false"
                 android:gravity="start|center"
                 android:paddingEnd="0dp"
-                android:paddingStart="0dp" />
+                android:paddingStart="0dp"
+                android:contentDescription="@string/default_content_description" />
 
             <TextView
                 android:id="@+id/list_item_generic_title"
@@ -87,7 +88,7 @@
         android:paddingStart="10dp">
 
         <androidx.appcompat.widget.SwitchCompat
-            android:textOn="UNPLAYED" android:textOff="PLAYED"
+            android:textOn="@string/default_unplayed" android:textOff="@string/default_played"
             android:id="@+id/list_item_toggle"
             android:focusable="false"
             android:layout_width="wrap_content"

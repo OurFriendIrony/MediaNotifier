@@ -15,7 +15,7 @@
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:padding="10dp"
-        android:text="Select an Offset" />
+        android:text="@string/default_select_an_offset" />
 
     <LinearLayout
         android:id="@+id/popup_date_picker_border"
@@ -39,5 +39,5 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/popup_date_picker_border"
-        android:text="OK" />
+        android:text="@string/default_ok" />
 </RelativeLayout>
