@@ -65,18 +65,13 @@ class MyExpandableListAdapter(
         return true
     }
 
-    override fun onGroupExpanded(groupPosition: Int) {
-        super.onGroupExpanded(groupPosition)
-//        mediaItems[groupPosition]!!.children = db!!
-    }
-
     private fun buildChild(convertView: View?, mediaItem: MediaItem): View {
         val view: View = getView(convertView, R.layout.list_row_child)
         view.findViewById<TextView>(R.id.list_item_generic_subtitle).text = mediaItem.title
         view.findViewById<TextView>(R.id.list_item_generic_date).text = mediaItem.releaseDateFull
         val textOverview = view.findViewById<TextView>(R.id.list_item_generic_overview)
         val textOverviewHeight = textOverview.height
-        textOverview.text = "";
+        textOverview.text = ""
         textOverview.height = 0
 
         view.setOnClickListener {
@@ -136,7 +131,7 @@ class MyExpandableListAdapter(
     private fun getView(convertView: View?, layoutId: Int): View {
         val view: View = if (convertView == null) {
             val layoutInflater = context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            layoutInflater.inflate(layoutId, null);
+            layoutInflater.inflate(layoutId, null)
         } else {
             convertView
         }

@@ -45,4 +45,9 @@
     <string name="initial_count_notification">0</string>
     <string name="default_content_description">TODO</string>
     <string name="default_button_persistent">btn_persistent</string>
+    <string name="default_unplayed">UNPLAYED</string>
+    <string name="default_played">PLAYED</string>
+    <string name="default_select_an_offset">Select an Offset</string>
+    <string name="default_ok">OK</string>
+    <string name="default_select_a_time">Select a Time</string>
 </resources>

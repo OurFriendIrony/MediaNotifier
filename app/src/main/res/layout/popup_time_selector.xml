@@ -15,7 +15,7 @@
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:padding="10dp"
-        android:text="Select a Time" />
+        android:text="@string/default_select_a_time" />
 
     <TimePicker
         android:id="@+id/popup_time_picker"
@@ -33,5 +33,5 @@
         android:layout_alignEnd="@+id/popup_time_picker"
         android:layout_alignStart="@+id/popup_time_picker"
         android:layout_below="@+id/popup_time_picker"
-        android:text="OK" />
+        android:text="@string/default_ok" />
 </RelativeLayout>

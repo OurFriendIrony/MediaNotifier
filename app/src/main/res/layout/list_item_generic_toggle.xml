@@ -87,7 +87,7 @@
         android:paddingStart="10dp">
 
         <androidx.appcompat.widget.SwitchCompat
-            android:textOn="UNPLAYED" android:textOff="PLAYED"
+            android:textOn="@string/default_unplayed" android:textOff="@string/default_played"
             android:id="@+id/list_item_toggle"
             android:focusable="false"
             android:layout_width="wrap_content"
