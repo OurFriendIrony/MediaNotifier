@@ -42,7 +42,8 @@
                     android:layout_margin="8dp"
                     android:backgroundTint="@color/grey_01"
                     android:src="@android:drawable/ic_search_category_default"
-                    app:borderWidth="0dp" />
+                    app:borderWidth="0dp"
+                    android:contentDescription="@string/default_content_description"  />
 
                 <Button
                     android:id="@+id/main_button_tv"
@@ -65,7 +66,8 @@
                     android:clickable="true"
                     android:elevation="10dp"
                     android:gravity="center"
-                    android:text="0" />
+                    android:text="@string/initial_count_notification"
+                    android:focusable="true" />
 
             </RelativeLayout>
 
@@ -84,7 +86,8 @@
                     android:layout_margin="8dp"
                     android:backgroundTint="@color/grey_01"
                     android:src="@android:drawable/ic_search_category_default"
-                    app:borderWidth="0dp" />
+                    app:borderWidth="0dp"
+                    android:contentDescription="@string/default_content_description" />
 
                 <Button
                     android:id="@+id/main_button_movie"
@@ -107,7 +110,8 @@
                     android:clickable="true"
                     android:elevation="10dp"
                     android:gravity="center"
-                    android:text="0" />
+                    android:text="@string/initial_count_notification"
+                    android:focusable="true" />
 
             </RelativeLayout>
 
@@ -125,7 +129,8 @@
                     android:layout_margin="8dp"
                     android:backgroundTint="@color/grey_01"
                     android:src="@android:drawable/ic_search_category_default"
-                    app:borderWidth="0dp" />
+                    app:borderWidth="0dp"
+                    android:contentDescription="@string/default_content_description" />
 
                 <Button
                     android:id="@+id/main_button_artist"
@@ -148,7 +153,8 @@
                     android:clickable="true"
                     android:elevation="10dp"
                     android:gravity="center"
-                    android:text="0" />
+                    android:text="@string/initial_count_notification"
+                    android:focusable="true" />
 
             </RelativeLayout>
 
@@ -166,7 +172,8 @@
                     android:layout_margin="8dp"
                     android:backgroundTint="@color/grey_01"
                     android:src="@android:drawable/ic_search_category_default"
-                    app:borderWidth="0dp" />
+                    app:borderWidth="0dp"
+                    android:contentDescription="@string/default_content_description" />
 
                 <Button
                     android:id="@+id/main_button_game"
@@ -189,7 +196,8 @@
                     android:clickable="true"
                     android:elevation="10dp"
                     android:gravity="center"
-                    android:text="0" />
+                    android:text="@string/initial_count_notification"
+                    android:focusable="true" />
 
             </RelativeLayout>
 

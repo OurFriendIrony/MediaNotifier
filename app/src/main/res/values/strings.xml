@@ -42,4 +42,7 @@
     <string name="placeholder_overview">-overview-</string>
     <string name="placeholder_date">-date-</string>
     <string name="placeholder_subtext">-subtext-</string>
+    <string name="initial_count_notification">0</string>
+    <string name="default_content_description">TODO</string>
+    <string name="default_button_persistent">btn_persistent</string>
 </resources>
