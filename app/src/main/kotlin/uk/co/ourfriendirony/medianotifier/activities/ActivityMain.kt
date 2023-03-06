@@ -11,6 +11,8 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import uk.co.ourfriendirony.medianotifier.R
 import uk.co.ourfriendirony.medianotifier.activities.async.UpdateMediaItem
@@ -29,6 +31,7 @@ import uk.co.ourfriendirony.medianotifier.general.Helper.getNotificationNumber
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator.contactEmailIntent
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator.getWebPageIntent
 import java.util.concurrent.Executors
+
 
 class ActivityMain : AppCompatActivity() {
     private val tvShowClient: Client = TVClient()

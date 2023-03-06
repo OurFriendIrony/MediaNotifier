@@ -58,8 +58,8 @@
                 <TextView
                     android:id="@+id/main_button_tv_notification"
                     style="@style/notification"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_margin="5dp"
@@ -102,8 +102,8 @@
                 <TextView
                     android:id="@+id/main_button_movie_notification"
                     style="@style/notification"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_margin="5dp"
@@ -255,5 +255,6 @@
                 android:contentDescription="@string/rawg"
                 android:src="@drawable/img_external_rawg_wrapper" />
         </RelativeLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
