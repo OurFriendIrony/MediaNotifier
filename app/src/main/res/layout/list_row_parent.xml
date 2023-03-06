@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/style_list_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:paddingTop="4dp"
+    android:paddingEnd="4dp"
+    android:paddingBottom="4dp">
+
+    <RelativeLayout
+        android:id="@+id/list_item_generic_primarybar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="30dp">
+
+        <TextView
+            android:id="@+id/list_item_generic_title"
+            style="@style/h1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start|center"
+            android:maxLines="1"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:text="@string/placeholder_title" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/list_item_generic_secondarybar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/list_item_generic_primarybar"
+        android:orientation="horizontal"
+        android:paddingStart="0dp"
+        android:paddingTop="0dp"
+        android:paddingEnd="0dp">
+
+        <TextView
+            android:id="@+id/list_item_generic_overview"
+            style="@style/text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="0dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="0dp"
+            android:text="@string/placeholder_overview" />
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/list_item_generic_id"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
+</RelativeLayout>

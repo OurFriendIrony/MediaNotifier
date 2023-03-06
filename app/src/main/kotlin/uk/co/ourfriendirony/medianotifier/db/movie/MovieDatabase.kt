@@ -16,6 +16,8 @@ import java.util.*
 class MovieDatabase(context: Context) : Database {
     private val context: Context
     private val dbWritable: SQLiteDatabase
+    override val isParent = false
+
     override fun add(item: MediaItem) {
         insert(item, true)
     }

@@ -15,6 +15,7 @@ class Artist : MediaItem {
     override val id: String
     override val title: String?
     override val subtitle = ""
+    override val isParent = true
 
     // TODO: fully implement played as an item
     override val played = false
@@ -24,7 +25,7 @@ class Artist : MediaItem {
     override var releaseDate: Date? = null
         private set
     override val externalLink: String? = null
-    override var children: List<MediaItem> = ArrayList()
+    override var children: MutableList<MediaItem> = ArrayList()
 
     constructor(artist: ArtistGet) {
         id = artist.id!!
@@ -61,7 +62,7 @@ class Artist : MediaItem {
         title = getColumnValue(cursor, ArtistDatabaseDefinition.TITLE)
         description = getColumnValue(cursor, ArtistDatabaseDefinition.DESCRIPTION)
         releaseDate = stringToDate(getColumnValue(cursor, ArtistDatabaseDefinition.RELEASE_DATE))
-        children = releases
+        children = releases as MutableList<MediaItem>
         Log.d("[DB READ]", this.toString())
     }
 

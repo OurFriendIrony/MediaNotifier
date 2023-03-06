@@ -92,6 +92,14 @@
         <item name="android:background">@drawable/background_list_item</item>
     </style>
 
+    <style name="style_list_row_child" parent="Theme.MediaNotifier">
+        <item name="android:background">@drawable/background_list_row_child</item>
+    </style>
+
+    <style name="style_list_row_parent" parent="Theme.MediaNotifier">
+        <item name="android:background">@drawable/background_list_row_parent</item>
+    </style>
+
     <style name="style_input" parent="Theme.MediaNotifier">
         <item name="android:background">@drawable/background_input</item>
     </style>

@@ -15,6 +15,7 @@ class TVEpisode : MediaItem {
     private val subid: String
     override val title: String?
     override val releaseDate: Date?
+    override val isParent = false
 
     // TODO: fully implement played as an item
     override val played = false
@@ -24,13 +25,13 @@ class TVEpisode : MediaItem {
         private set
     override var externalLink: String? = null
         private set
-    override var children: List<MediaItem> = ArrayList()
+    override var children: MutableList<MediaItem> = ArrayList()
 
     constructor(episode: TVSeasonGetEpisode, tvShow: TVShow) {
         id = tvShow.id
         subid = formatEpSe(episode)
-        title = episode.name
-        subtitle = formatEpSe(episode) + " " + tvShow.title
+        title = formatEpSe(episode) + ": " + episode.name
+        subtitle = tvShow.title!!
         description = episode.overview
         releaseDate = episode.airDate
         Log.d("[API GET]", this.toString())

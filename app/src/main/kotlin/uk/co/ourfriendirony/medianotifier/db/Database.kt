@@ -6,6 +6,7 @@ interface Database {
     val unplayedReleased: List<MediaItem>
     val unplayedTotal: List<MediaItem>
     val coreType: String
+    val isParent: Boolean
 
     fun add(item: MediaItem)
     fun update(item: MediaItem)

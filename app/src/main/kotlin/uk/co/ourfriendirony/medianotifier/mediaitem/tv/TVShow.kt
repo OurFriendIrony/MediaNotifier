@@ -15,6 +15,7 @@ class TVShow : MediaItem {
     override val id: String
     override val title: String?
     override val releaseDate: Date?
+    override val isParent = true
 
     // TODO: fully implement played as an item
     override val played = false
@@ -24,7 +25,7 @@ class TVShow : MediaItem {
         private set
     override var externalLink: String? = null
         private set
-    override var children: List<MediaItem> = ArrayList()
+    override var children: MutableList<MediaItem> = ArrayList()
 
     constructor(tvShow: TVShowGet) {
         id = tvShow.id.toString()
@@ -54,7 +55,7 @@ class TVShow : MediaItem {
         description = getColumnValue(cursor, TVShowDatabaseDefinition.DESCRIPTION)
         releaseDate = stringToDate(getColumnValue(cursor, TVShowDatabaseDefinition.RELEASE_DATE))
         externalLink = getColumnValue(cursor, TVShowDatabaseDefinition.EXTERNAL_URL)
-        children = episodes
+        children = episodes.toMutableList()
         Log.d("[DB READ]", this.toString())
     }
 

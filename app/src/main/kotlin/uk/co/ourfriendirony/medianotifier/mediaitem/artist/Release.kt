@@ -14,6 +14,7 @@ class Release : MediaItem {
     override val id: String
     override val title: String?
     override val releaseDate: Date?
+    override val isParent = false
 
     // TODO: fully implement played as an item
     override val played = false
@@ -25,7 +26,7 @@ class Release : MediaItem {
         private set
     override var externalLink: String? = null
         private set
-    override var children: List<MediaItem> = ArrayList()
+    override var children: MutableList<MediaItem> = ArrayList()
 
     constructor(release: ArtistGetReleaseGroup, artist: Artist) {
         id = artist.id

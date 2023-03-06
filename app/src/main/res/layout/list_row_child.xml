@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/style_list_row_child"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="4dp"
+    android:paddingEnd="4dp"
+    android:paddingBottom="4dp">
+
+    <RelativeLayout
+        android:id="@+id/list_item_generic_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:paddingStart="10dp">
+
+        <TextView
+            android:id="@+id/list_item_generic_subtitle"
+            style="@style/h2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/list_item_toggle"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@id/list_item_generic_date"
+            android:gravity="start|center"
+            android:maxLines="1"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:text="@string/placeholder_subtext" />
+
+        <TextView
+            android:id="@+id/list_item_generic_date"
+            style="@style/h2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/list_item_toggle"
+            android:layout_toStartOf="@id/list_item_toggle"
+            android:gravity="end|center"
+            android:maxLines="1"
+            android:paddingStart="0dp"
+            android:paddingEnd="3dp"
+            android:text="@string/placeholder_date" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/list_item_toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+
+            android:gravity="end|center"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:textOff="PLAYED"
+            android:textOn="UNPLAYED" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/list_item_generic_secondarybar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/list_item_generic_header"
+        android:orientation="horizontal"
+        android:paddingStart="10dp"
+        android:paddingTop="0dp"
+        android:paddingEnd="0dp">
+
+        <TextView
+            android:id="@+id/list_item_generic_overview"
+            style="@style/text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="0dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="0dp"
+            android:text="@string/placeholder_overview" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/list_item_generic_id"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
+</RelativeLayout>

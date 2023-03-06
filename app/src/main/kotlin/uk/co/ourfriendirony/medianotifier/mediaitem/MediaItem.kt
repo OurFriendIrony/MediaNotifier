@@ -11,9 +11,10 @@ interface MediaItem {
     val releaseDate: Date?
     val releaseDateFull: String
     val releaseDateYear: String
-    var children: List<MediaItem>
+    var children: MutableList<MediaItem>
     val externalLink: String?
     val played: Boolean
+    val isParent: Boolean
 
     fun countChildren(): Int
 
