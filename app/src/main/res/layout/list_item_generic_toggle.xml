@@ -61,7 +61,8 @@
                 android:focusable="false"
                 android:gravity="start|center"
                 android:paddingEnd="0dp"
-                android:paddingStart="0dp" />
+                android:paddingStart="0dp"
+                android:contentDescription="@string/default_content_description" />
 
             <TextView
                 android:id="@+id/list_item_generic_title"
