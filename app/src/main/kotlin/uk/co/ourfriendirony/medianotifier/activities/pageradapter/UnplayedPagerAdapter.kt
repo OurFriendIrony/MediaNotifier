@@ -2,10 +2,12 @@ package uk.co.ourfriendirony.medianotifier.activities.pageradapter
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import uk.co.ourfriendirony.medianotifier.R
 import uk.co.ourfriendirony.medianotifier.activities.fragment.LibraryFull
 import uk.co.ourfriendirony.medianotifier.activities.fragment.LibraryUnplayedComingSoon
 import uk.co.ourfriendirony.medianotifier.activities.fragment.LibraryUnplayedReleased

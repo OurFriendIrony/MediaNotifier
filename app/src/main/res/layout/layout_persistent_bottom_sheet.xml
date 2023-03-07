@@ -6,45 +6,50 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:behavior_hideable="false"
-
     app:behavior_peekHeight="10dp"
+    android:maxHeight="200dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/hz"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="@drawable/background_horizontal_line" />
+        android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/zzz"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/hz"
-        app:layout_constraintBaseline_toTopOf="@id/hz">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/hz"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="@drawable/background_horizontal_line" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvTitle"
-            style="@style/style_list_row_child"
-            android:layout_width="0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/zzz"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="xxxx"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_below="@id/hz"
+            app:layout_constraintBaseline_toTopOf="@id/hz">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvSubtitle"
-            style="@style/style_list_row_child"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="yyyy"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/subpaneTitle"
+                style="@style/style_list_row_child"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="xxxx"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/subpaneSubtitle"
+                style="@style/style_list_row_child"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="yyyy"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/subpaneTitle" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 </RelativeLayout>

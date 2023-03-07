@@ -54,6 +54,7 @@ class MyExpandableListAdapter(
 
     override fun getChildView(parentPosition: Int, childPosition: Int, isLastChild: Boolean, convertView: View?, parent: ViewGroup?): View {
         val mediaItem = getChild(parentPosition, childPosition) as MediaItem
+
         return buildChild(convertView, mediaItem)
     }
 
@@ -80,10 +81,20 @@ class MyExpandableListAdapter(
                 Log.w("CHILD_CLICK", "GROWING")
                 textOverview.text = "mediaItem.description"
                 textOverview.height = textOverviewHeight
+
+                // TODO: this is not changing the values. Why?!
+                val subpane:View = getView(convertView, R.layout.layout_persistent_bottom_sheet)
+                subpane.findViewById<TextView>(R.id.subpaneTitle).text= "click!"
+                subpane.findViewById<TextView>(R.id.subpaneSubtitle).text= "click!"
             } else {
                 Log.w("CHILD_CLICK", "SHRINKING")
                 textOverview.text = ""
                 textOverview.height = 0
+
+                // TODO: this is not changing the values. Why?!
+                val subpane:View = getView(convertView, R.layout.layout_persistent_bottom_sheet)
+                subpane.findViewById<TextView>(R.id.subpaneTitle).text= "unclick!"
+                subpane.findViewById<TextView>(R.id.subpaneSubtitle).text= "unclick!"
             }
         }
         val toggle = view.findViewById<SwitchCompat>(R.id.list_item_toggle)
