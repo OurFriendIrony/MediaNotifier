@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ExpandableListView
+import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
@@ -18,6 +20,7 @@ import uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem
 
 abstract class Library : Fragment() {
+    abstract val bottom: ConstraintLayout
     abstract val type: String
     abstract fun getItems(db: Database?): List<MediaItem?>
 
@@ -49,7 +52,7 @@ abstract class Library : Fragment() {
     ) {
         if (mediaItems.isNotEmpty()) {
             var lastExpandedPosition = -1
-            val adapter = MyExpandableListAdapter(context, mediaItems, db)
+            val adapter = MyExpandableListAdapter(context, mediaItems, db, bottom)
             listView.setAdapter(adapter)
             listView.setOnGroupExpandListener { parentPosition ->
                 if (parentPosition != lastExpandedPosition) listView.collapseGroup(lastExpandedPosition)

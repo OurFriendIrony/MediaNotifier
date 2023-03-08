@@ -9,6 +9,7 @@
         android:layout_height="match_parent"
         android:background="@color/black"
         android:orientation="horizontal"
+        app:layout_anchor="@id/bottomSheet"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:showIn="@layout/activity_pager">
 
@@ -29,10 +30,7 @@
             android:layout_below="@id/pager_strip"
             app:layout_anchorGravity="bottom" />
     </RelativeLayout>
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".MainActivity">
-        <include layout="@layout/layout_persistent_bottom_sheet" />
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <include layout="@layout/layout_persistent_bottom_sheet"/>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

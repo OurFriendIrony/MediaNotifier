@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
 import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
+import androidx.constraintlayout.widget.ConstraintLayout
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import uk.co.ourfriendirony.medianotifier.R
 import uk.co.ourfriendirony.medianotifier.db.Database
 import uk.co.ourfriendirony.medianotifier.general.Constants
@@ -16,7 +18,8 @@ import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem
 class MyExpandableListAdapter(
     private val context: Context?,
     private val mediaItems: List<MediaItem?>,
-    private val db: Database?
+    private val db: Database?,
+    private val bottom: ConstraintLayout
 
 ) : BaseExpandableListAdapter() {
     override fun getChild(parentPosition: Int, childPosition: Int): Any {
@@ -77,24 +80,18 @@ class MyExpandableListAdapter(
 
         view.setOnClickListener {
             Log.w("CHILD_CLICK", "${textOverview.height}")
+            bottom.findViewById<TextView>(R.id.subpaneTitle).text= mediaItem.title
             if (textOverview.text === "") {
                 Log.w("CHILD_CLICK", "GROWING")
                 textOverview.text = "mediaItem.description"
                 textOverview.height = textOverviewHeight
 
-                // TODO: this is not changing the values. Why?!
-                val subpane:View = getView(convertView, R.layout.layout_persistent_bottom_sheet)
-                subpane.findViewById<TextView>(R.id.subpaneTitle).text= "click!"
-                subpane.findViewById<TextView>(R.id.subpaneSubtitle).text= "click!"
+                BottomSheetBehavior.from(bottom).state = BottomSheetBehavior.STATE_EXPANDED
             } else {
                 Log.w("CHILD_CLICK", "SHRINKING")
                 textOverview.text = ""
                 textOverview.height = 0
-
-                // TODO: this is not changing the values. Why?!
-                val subpane:View = getView(convertView, R.layout.layout_persistent_bottom_sheet)
-                subpane.findViewById<TextView>(R.id.subpaneTitle).text= "unclick!"
-                subpane.findViewById<TextView>(R.id.subpaneSubtitle).text= "unclick!"
+                BottomSheetBehavior.from(bottom).state = BottomSheetBehavior.STATE_COLLAPSED
             }
         }
         val toggle = view.findViewById<SwitchCompat>(R.id.list_item_toggle)
