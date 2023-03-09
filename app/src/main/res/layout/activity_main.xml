@@ -43,7 +43,7 @@
                     android:backgroundTint="@color/grey_01"
                     android:src="@android:drawable/ic_search_category_default"
                     app:borderWidth="0dp"
-                    android:contentDescription="@string/default_content_description"  />
+                    android:contentDescription="@string/lorum_ipsum"  />
 
                 <Button
                     android:id="@+id/main_button_tv"
@@ -87,7 +87,7 @@
                     android:backgroundTint="@color/grey_01"
                     android:src="@android:drawable/ic_search_category_default"
                     app:borderWidth="0dp"
-                    android:contentDescription="@string/default_content_description" />
+                    android:contentDescription="@string/lorum_ipsum" />
 
                 <Button
                     android:id="@+id/main_button_movie"
@@ -130,7 +130,7 @@
                     android:backgroundTint="@color/grey_01"
                     android:src="@android:drawable/ic_search_category_default"
                     app:borderWidth="0dp"
-                    android:contentDescription="@string/default_content_description" />
+                    android:contentDescription="@string/lorum_ipsum" />
 
                 <Button
                     android:id="@+id/main_button_artist"
@@ -173,7 +173,7 @@
                     android:backgroundTint="@color/grey_01"
                     android:src="@android:drawable/ic_search_category_default"
                     app:borderWidth="0dp"
-                    android:contentDescription="@string/default_content_description" />
+                    android:contentDescription="@string/lorum_ipsum" />
 
                 <Button
                     android:id="@+id/main_button_game"

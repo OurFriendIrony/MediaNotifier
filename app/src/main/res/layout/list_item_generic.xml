@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     android:padding="4dp">
 
-
     <com.google.android.material.circularreveal.CircularRevealRelativeLayout
         android:id="@+id/list_item_generic_primarybar"
         android:layout_width="match_parent"
