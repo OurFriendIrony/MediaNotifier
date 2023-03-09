@@ -80,12 +80,13 @@ class MyExpandableListAdapter(
 
         view.setOnClickListener {
             Log.w("CHILD_CLICK", "${textOverview.height}")
-            bottom.findViewById<TextView>(R.id.bottomSheetTitle).text= mediaItem.title
+            bottom.findViewById<TextView>(R.id.bottomSheetTitle).text = mediaItem.title
+            bottom.findViewById<TextView>(R.id.bottomSheetSubtitle).text = mediaItem.description
+
             if (textOverview.text === "") {
                 Log.w("CHILD_CLICK", "GROWING")
                 textOverview.text = "mediaItem.description"
                 textOverview.height = textOverviewHeight
-
                 BottomSheetBehavior.from(bottom).state = BottomSheetBehavior.STATE_EXPANDED
             } else {
                 Log.w("CHILD_CLICK", "SHRINKING")

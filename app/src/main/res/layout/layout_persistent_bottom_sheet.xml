@@ -20,9 +20,10 @@
 
         <RelativeLayout
             android:id="@+id/bottomSheetTextPane"
-            android:layout_width="300dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/bottomSheetHL">
+            android:layout_below="@id/bottomSheetHL"
+            android:layout_toStartOf="@+id/bottomSheetMenuPane">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/bottomSheetTitle"
@@ -30,10 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="xxxx"
-                android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textColor="@color/white"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/bottomSheetSubtitle"
@@ -45,11 +43,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
                 android:text="yyyy"
-                android:textColor="@color/white"
-                app:layout_below="@+id/bottomSheetTitle"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:textColor="@color/white" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -58,7 +52,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/bottomSheetHL"
             android:layout_alignParentEnd="true"
-            android:layout_toEndOf="@id/bottomSheetTextPane"
             app:layout_constraintBaseline_toTopOf="@id/bottomSheetHL">
 
             <ImageButton

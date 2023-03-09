@@ -6,10 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ExpandableListView
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import uk.co.ourfriendirony.medianotifier.R
@@ -17,6 +19,7 @@ import uk.co.ourfriendirony.medianotifier.activities.viewadapter.MyExpandableLis
 import uk.co.ourfriendirony.medianotifier.db.Database
 import uk.co.ourfriendirony.medianotifier.db.DatabaseFactory
 import uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY
+import uk.co.ourfriendirony.medianotifier.general.IntentGenerator
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem
 
 abstract class Library : Fragment() {
@@ -58,6 +61,15 @@ abstract class Library : Fragment() {
                 if (parentPosition != lastExpandedPosition) listView.collapseGroup(lastExpandedPosition)
                 lastExpandedPosition = parentPosition
                 Log.w("GROUP_EXPAND", "$type: $lastExpandedPosition")
+
+                val mediaItem = mediaItems[lastExpandedPosition]!!
+                bottom.findViewById<TextView>(R.id.bottomSheetTitle).text = mediaItem.title
+                bottom.findViewById<TextView>(R.id.bottomSheetSubtitle).text = mediaItem.description
+                bottom.findViewById<ImageButton>(R.id.action_lookup).setOnClickListener {
+                    val intent = IntentGenerator.getWebPageIntent(mediaItem.externalLink)
+                    startActivity(intent)
+                }
+                BottomSheetBehavior.from(bottom).state = BottomSheetBehavior.STATE_EXPANDED
             }
         }
     }
