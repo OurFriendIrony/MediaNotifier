@@ -7,30 +7,27 @@
     android:layout_height="wrap_content"
     app:behavior_peekHeight="10dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
-    <!--    app:behavior_peekHeight="10dp"-->
-    <!--    android:maxHeight="200dp"-->
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/hz"
+        <RelativeLayout
+            android:id="@+id/bottomSheetHL"
             android:layout_width="match_parent"
             android:layout_height="10dp"
             android:background="@drawable/background_horizontal_line" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/zzz"
-            android:layout_width="match_parent"
+        <RelativeLayout
+            android:id="@+id/bottomSheetTextPane"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/hz"
-            app:layout_constraintBaseline_toTopOf="@id/hz">
+            android:layout_below="@id/bottomSheetHL">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/subpaneTitle"
+                android:id="@+id/bottomSheetTitle"
                 style="@style/style_list_row_child"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="xxxx"
                 android:textColor="@color/white"
@@ -39,17 +36,53 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/subpaneSubtitle"
+                android:id="@+id/bottomSheetSubtitle"
                 style="@style/style_list_row_child"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
                 android:text="yyyy"
                 android:textColor="@color/white"
+                app:layout_below="@+id/bottomSheetTitle"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/subpaneTitle" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintStart_toStartOf="parent" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/bottomSheetMenuPane"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bottomSheetHL"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@id/bottomSheetTextPane"
+            app:layout_constraintBaseline_toTopOf="@id/bottomSheetHL">
+
+            <ImageButton
+                android:id="@+id/action_refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/ic_menu_rotate"
+                android:contentDescription="@string/default_content_description" />
+
+            <ImageButton
+                android:id="@+id/action_remove"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/action_refresh"
+                android:background="@android:drawable/ic_menu_delete"
+                android:contentDescription="@string/default_content_description" />
+
+            <ImageButton
+                android:id="@+id/action_lookup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/action_remove"
+                android:background="@android:drawable/ic_menu_directions"
+                android:contentDescription="@string/default_content_description" />
+        </RelativeLayout>
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
