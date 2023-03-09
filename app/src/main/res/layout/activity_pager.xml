@@ -23,14 +23,22 @@
             app:tabSelectedTextColor="@color/white"
             app:tabTextColor="@color/grey_09" />
 
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_below="@id/pager_strip"
+            android:background="@color/black" />
+
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/pager_strip"
+            android:layout_below="@id/progress"
             app:layout_anchorGravity="bottom" />
     </RelativeLayout>
 
-    <include layout="@layout/layout_persistent_bottom_sheet"/>
+    <include layout="@layout/layout_persistent_bottom_sheet" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

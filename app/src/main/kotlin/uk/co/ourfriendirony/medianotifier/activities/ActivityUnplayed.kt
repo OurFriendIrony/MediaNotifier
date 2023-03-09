@@ -2,6 +2,7 @@ package uk.co.ourfriendirony.medianotifier.activities
 
 import android.app.NotificationManager
 import android.os.Bundle
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.viewpager2.widget.ViewPager2
@@ -23,8 +24,9 @@ class ActivityUnplayed : AppCompatActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         cancelNotifications()
 
+        val progressBar = findViewById<ProgressBar>(R.id.progress)
         val mPager = findViewById<ViewPager2>(R.id.pager)
-        val mPagerAdapter = UnplayedPagerAdapter(supportFragmentManager, lifecycle, intentKey, bottomSheetView)
+        val mPagerAdapter = UnplayedPagerAdapter(supportFragmentManager, lifecycle, intentKey, bottomSheetView, progressBar)
         mPager.adapter = mPagerAdapter
         mPager.currentItem = 0
     }

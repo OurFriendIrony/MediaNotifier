@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -19,7 +20,8 @@ class MyExpandableListAdapter(
     private val context: Context?,
     private val mediaItems: List<MediaItem?>,
     private val db: Database?,
-    private val bottom: ConstraintLayout
+    private val bottom: ConstraintLayout,
+    private val progressBar: ProgressBar
 
 ) : BaseExpandableListAdapter() {
     override fun getChild(parentPosition: Int, childPosition: Int): Any {

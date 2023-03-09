@@ -174,9 +174,12 @@ class GameDatabase(context: Context) : Database {
     }
 
     companion object {
-        private const val SELECT_GAMES = "SELECT * FROM " + GameDatabaseDefinition.TABLE_GAMES + " ORDER BY " + GameDatabaseDefinition.TITLE + " ASC;"
-        private const val SELECT_GAMES_BY_ID = "SELECT * FROM " + GameDatabaseDefinition.TABLE_GAMES + " WHERE " + GameDatabaseDefinition.ID + "=? ORDER BY " + GameDatabaseDefinition.ID + " ASC;"
-        private const val GET_GAME_WATCHED_STATUS = "SELECT " + GameDatabaseDefinition.PLAYED + " FROM " + GameDatabaseDefinition.TABLE_GAMES + " WHERE " + GameDatabaseDefinition.ID + "=?;"
+        private const val SELECT_GAMES =
+            "SELECT * FROM " + GameDatabaseDefinition.TABLE_GAMES + " ORDER BY " + GameDatabaseDefinition.TITLE + " ASC;"
+        private const val SELECT_GAMES_BY_ID =
+            "SELECT * FROM " + GameDatabaseDefinition.TABLE_GAMES + " WHERE " + GameDatabaseDefinition.ID + "=? ORDER BY " + GameDatabaseDefinition.ID + " ASC;"
+        private const val GET_GAME_WATCHED_STATUS =
+            "SELECT " + GameDatabaseDefinition.PLAYED + " FROM " + GameDatabaseDefinition.TABLE_GAMES + " WHERE " + GameDatabaseDefinition.ID + "=?;"
         private const val COUNT_UNWATCHED_GAMES_RELEASED = "SELECT COUNT(*) FROM " + GameDatabaseDefinition.TABLE_GAMES + " " +
                 "WHERE " + GameDatabaseDefinition.PLAYED + "=" + Constants.DB_FALSE + " AND " + GameDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@;"
         private const val GET_UNWATCHED_GAMES_RELEASED = "SELECT * " +
