@@ -13,19 +13,16 @@ import uk.co.ourfriendirony.medianotifier.activities.fragment.LibraryUnplayedCom
 import uk.co.ourfriendirony.medianotifier.activities.fragment.LibraryUnplayedReleased
 import uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY
 
-
 class UnplayedPagerAdapter(
     fragmentManager: FragmentManager,
     lifecycle: Lifecycle,
     type: String?,
-    bottomSheetBehavior: ConstraintLayout,
-    progressBar: ProgressBar
+    private var bottom: ConstraintLayout,
+    private var progressBar: ProgressBar
 ) :
     FragmentStateAdapter(fragmentManager, lifecycle) {
     private val bundle = Bundle()
     private var fragment: Fragment? = null
-    private var bottom = bottomSheetBehavior
-    private var progressBar = progressBar
 
     companion object {
         private const val NUM_PAGES = 3

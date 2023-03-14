@@ -44,14 +44,13 @@ class ActivityLibrary : AppCompatActivity() {
         listView = findViewById(R.id.list)
         progressBar = findViewById(R.id.progress)
         spinnerView!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
             override fun onItemSelected(parent: AdapterView<*>, view: View, itemPos: Int, id: Long) {
                 currentItemPos = itemPos
                 Executors.newSingleThreadExecutor().execute(
                     ListChildren(parent.context, progressBar, listView, db, myHandler, mediaItems!![itemPos]!!.id)
                 )
             }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
         mediaItems = db!!.readAllParentItems()
         if (mediaItems!!.isNotEmpty()) {
