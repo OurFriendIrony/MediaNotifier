@@ -75,26 +75,12 @@ class MyExpandableListAdapter(
         val view: View = getView(convertView, R.layout.list_row_child)
         view.findViewById<TextView>(R.id.list_item_generic_subtitle).text = mediaItem.title
         view.findViewById<TextView>(R.id.list_item_generic_date).text = mediaItem.releaseDateFull
-        val textOverview = view.findViewById<TextView>(R.id.list_item_generic_overview)
-        val textOverviewHeight = textOverview.height
-        textOverview.text = ""
-        textOverview.height = 0
 
         view.setOnClickListener {
-            Log.w("CHILD_CLICK", "${textOverview.height}")
-            bottom.findViewById<TextView>(R.id.bottomSheetSubtitle).text = mediaItem.title+"\n\n"+mediaItem.description
-
-            if (textOverview.text === "") {
-                Log.w("CHILD_CLICK", "GROWING")
-                textOverview.text = "mediaItem.description"
-                textOverview.height = textOverviewHeight
-                BottomSheetBehavior.from(bottom).state = BottomSheetBehavior.STATE_EXPANDED
-            } else {
-                Log.w("CHILD_CLICK", "SHRINKING")
-                textOverview.text = ""
-                textOverview.height = 0
-                BottomSheetBehavior.from(bottom).state = BottomSheetBehavior.STATE_COLLAPSED
-            }
+            Log.d("CHILD_CLICK", "")
+            val childDescription = mediaItem.title + "\n\n" + mediaItem.description
+            bottom.findViewById<TextView>(R.id.bottomSheetSubtitle).text = childDescription
+            BottomSheetBehavior.from(bottom).state = BottomSheetBehavior.STATE_EXPANDED
         }
         val toggle = view.findViewById<SwitchCompat>(R.id.list_item_toggle)
         toggle.isChecked = !db!!.getWatchedStatusAsBoolean(mediaItem)
