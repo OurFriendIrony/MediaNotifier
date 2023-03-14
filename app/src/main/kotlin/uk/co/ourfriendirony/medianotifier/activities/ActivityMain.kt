@@ -7,7 +7,10 @@ import android.os.Looper
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -29,6 +32,7 @@ import uk.co.ourfriendirony.medianotifier.general.Helper.getNotificationNumber
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator.contactEmailIntent
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator.getWebPageIntent
 import java.util.concurrent.Executors
+
 
 class ActivityMain : AppCompatActivity() {
     private val tvShowClient: Client = TVClient()
@@ -77,10 +81,10 @@ class ActivityMain : AppCompatActivity() {
         prepButton(mainButtonMovieFind, ActivityFind::class.java, MOVIE)
         prepButton(mainButtonArtistFind, ActivityFind::class.java, ARTIST)
         prepButton(mainButtonGameFind, ActivityFind::class.java, GAME)
-        prepButton(mainButtonTvshowLibrary, ActivityLibrary::class.java, TVSHOW)
-        prepButton(mainButtonMovieLibrary, ActivityLibrary::class.java, MOVIE)
-        prepButton(mainButtonArtistLibrary, ActivityLibrary::class.java, ARTIST)
-        prepButton(mainButtonGameLibrary, ActivityLibrary::class.java, GAME)
+        prepButton(mainButtonTvshowLibrary, ActivityUnplayed::class.java, TVSHOW)
+        prepButton(mainButtonMovieLibrary, ActivityUnplayed::class.java, MOVIE)
+        prepButton(mainButtonArtistLibrary, ActivityUnplayed::class.java, ARTIST)
+        prepButton(mainButtonGameLibrary, ActivityUnplayed::class.java, GAME)
         prepButton(mainButtonTvshowNotification, ActivityUnplayed::class.java, TVSHOW)
         prepButton(mainButtonMovieNotification, ActivityUnplayed::class.java, MOVIE)
         prepButton(mainButtonArtistNotification, ActivityUnplayed::class.java, ARTIST)

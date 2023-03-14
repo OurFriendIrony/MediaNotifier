@@ -43,7 +43,7 @@
                     android:backgroundTint="@color/grey_01"
                     android:src="@android:drawable/ic_search_category_default"
                     app:borderWidth="0dp"
-                    android:contentDescription="@string/default_content_description"  />
+                    android:contentDescription="@string/lorum_ipsum"  />
 
                 <Button
                     android:id="@+id/main_button_tv"
@@ -58,8 +58,8 @@
                 <TextView
                     android:id="@+id/main_button_tv_notification"
                     style="@style/notification"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_margin="5dp"
@@ -87,7 +87,7 @@
                     android:backgroundTint="@color/grey_01"
                     android:src="@android:drawable/ic_search_category_default"
                     app:borderWidth="0dp"
-                    android:contentDescription="@string/default_content_description" />
+                    android:contentDescription="@string/lorum_ipsum" />
 
                 <Button
                     android:id="@+id/main_button_movie"
@@ -102,8 +102,8 @@
                 <TextView
                     android:id="@+id/main_button_movie_notification"
                     style="@style/notification"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_margin="5dp"
@@ -130,7 +130,7 @@
                     android:backgroundTint="@color/grey_01"
                     android:src="@android:drawable/ic_search_category_default"
                     app:borderWidth="0dp"
-                    android:contentDescription="@string/default_content_description" />
+                    android:contentDescription="@string/lorum_ipsum" />
 
                 <Button
                     android:id="@+id/main_button_artist"
@@ -173,7 +173,7 @@
                     android:backgroundTint="@color/grey_01"
                     android:src="@android:drawable/ic_search_category_default"
                     app:borderWidth="0dp"
-                    android:contentDescription="@string/default_content_description" />
+                    android:contentDescription="@string/lorum_ipsum" />
 
                 <Button
                     android:id="@+id/main_button_game"
@@ -255,5 +255,6 @@
                 android:contentDescription="@string/rawg"
                 android:src="@drawable/img_external_rawg_wrapper" />
         </RelativeLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

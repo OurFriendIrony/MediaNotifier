@@ -2,6 +2,8 @@ package uk.co.ourfriendirony.medianotifier.activities.pageradapter
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.ProgressBar
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
@@ -11,8 +13,13 @@ import uk.co.ourfriendirony.medianotifier.activities.fragment.LibraryUnplayedCom
 import uk.co.ourfriendirony.medianotifier.activities.fragment.LibraryUnplayedReleased
 import uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY
 
-
-class UnplayedPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle, type: String?) :
+class UnplayedPagerAdapter(
+    fragmentManager: FragmentManager,
+    lifecycle: Lifecycle,
+    type: String?,
+    private var bottom: ConstraintLayout,
+    private var progressBar: ProgressBar
+) :
     FragmentStateAdapter(fragmentManager, lifecycle) {
     private val bundle = Bundle()
     private var fragment: Fragment? = null
@@ -31,9 +38,9 @@ class UnplayedPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycl
 
     override fun createFragment(position: Int): Fragment {
         when (position) {
-            0 -> fragment = LibraryUnplayedReleased()
-            1 -> fragment = LibraryUnplayedComingSoon()
-            2 -> fragment = LibraryFull()
+            0 -> fragment = LibraryUnplayedReleased(bottom, progressBar)
+            1 -> fragment = LibraryUnplayedComingSoon(bottom, progressBar)
+            2 -> fragment = LibraryFull(bottom, progressBar)
             else -> Log.e("[FRAGMENT]", "Invalid Fragment Index")
         }
         fragment!!.arguments = bundle

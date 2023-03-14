@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottomSheet"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
+    app:behavior_peekHeight="10dp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/bottomSheetGradient"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="@drawable/bottom_sheet_gradient" />
+
+        <RelativeLayout
+            android:id="@+id/bottomSheet2"
+            style="@style/style_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bottomSheetGradient">
+
+            <RelativeLayout
+                android:id="@+id/bottomSheetHL"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@drawable/background_horizontal_line" />
+
+            <RelativeLayout
+                android:id="@+id/bottomSheetTextPane"
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                android:layout_below="@id/bottomSheetHL"
+                android:layout_toStartOf="@+id/bottomSheetMenuPane">
+
+                <RelativeLayout
+                    android:id="@+id/bottomSheetTitlePane"
+                    style="@style/style_list_row_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/bottomSheetTitle"
+                        style="@style/h1"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="4dp"
+                        android:text="@string/lorum_ipsum_short" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/bottomSheetSubtitlePane"
+                    style="@style/style_list_row_child"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/bottomSheetTitlePane"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginEnd="2dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/bottomSheetSubtitle"
+                        style="@style/text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="@string/lorum_ipsum" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/bottomSheetMenuPane"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/bottomSheetHL"
+                android:layout_alignBottom="@id/bottomSheetTextPane"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintBaseline_toTopOf="@id/bottomSheetHL">
+
+                <ImageButton
+                    android:id="@+id/action_refresh"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@android:drawable/ic_menu_rotate"
+                    android:contentDescription="@string/lorum_ipsum_short" />
+
+                <RelativeLayout
+                    android:id="@+id/action_1_bottomSheetHL"
+                    android:layout_width="40dp"
+                    android:layout_height="10dp"
+                    android:layout_below="@id/action_refresh"
+                    android:background="@drawable/background_horizontal_line" />
+
+                <ImageButton
+                    android:id="@+id/action_remove"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/action_1_bottomSheetHL"
+                    android:background="@android:drawable/ic_menu_delete"
+                    android:contentDescription="@string/lorum_ipsum_short" />
+
+                <RelativeLayout
+                    android:id="@+id/action_2_bottomSheetHL"
+                    android:layout_width="40dp"
+                    android:layout_height="10dp"
+                    android:layout_below="@id/action_remove"
+                    android:background="@drawable/background_horizontal_line" />
+
+                <ImageButton
+                    android:id="@+id/action_lookup"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/action_2_bottomSheetHL"
+                    android:background="@android:drawable/ic_menu_directions"
+                    android:contentDescription="@string/lorum_ipsum_short" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

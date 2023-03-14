@@ -6,8 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
+import androidx.constraintlayout.widget.ConstraintLayout
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import uk.co.ourfriendirony.medianotifier.R
 import uk.co.ourfriendirony.medianotifier.db.Database
 import uk.co.ourfriendirony.medianotifier.general.Constants
@@ -16,7 +19,9 @@ import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem
 class MyExpandableListAdapter(
     private val context: Context?,
     private val mediaItems: List<MediaItem?>,
-    private val db: Database?
+    private val db: Database?,
+    private val bottom: ConstraintLayout,
+    private val progressBar: ProgressBar
 
 ) : BaseExpandableListAdapter() {
     override fun getChild(parentPosition: Int, childPosition: Int): Any {
@@ -54,6 +59,7 @@ class MyExpandableListAdapter(
 
     override fun getChildView(parentPosition: Int, childPosition: Int, isLastChild: Boolean, convertView: View?, parent: ViewGroup?): View {
         val mediaItem = getChild(parentPosition, childPosition) as MediaItem
+
         return buildChild(convertView, mediaItem)
     }
 
@@ -69,22 +75,12 @@ class MyExpandableListAdapter(
         val view: View = getView(convertView, R.layout.list_row_child)
         view.findViewById<TextView>(R.id.list_item_generic_subtitle).text = mediaItem.title
         view.findViewById<TextView>(R.id.list_item_generic_date).text = mediaItem.releaseDateFull
-        val textOverview = view.findViewById<TextView>(R.id.list_item_generic_overview)
-        val textOverviewHeight = textOverview.height
-        textOverview.text = ""
-        textOverview.height = 0
 
         view.setOnClickListener {
-            Log.w("CHILD_CLICK", "${textOverview.height}")
-            if (textOverview.text === "") {
-                Log.w("CHILD_CLICK", "GROWING")
-                textOverview.text = "mediaItem.description"
-                textOverview.height = textOverviewHeight
-            } else {
-                Log.w("CHILD_CLICK", "SHRINKING")
-                textOverview.text = ""
-                textOverview.height = 0
-            }
+            Log.d("CHILD_CLICK", "")
+            val childDescription = mediaItem.title + "\n\n" + mediaItem.description
+            bottom.findViewById<TextView>(R.id.bottomSheetSubtitle).text = childDescription
+            BottomSheetBehavior.from(bottom).state = BottomSheetBehavior.STATE_EXPANDED
         }
         val toggle = view.findViewById<SwitchCompat>(R.id.list_item_toggle)
         toggle.isChecked = !db!!.getWatchedStatusAsBoolean(mediaItem)
@@ -100,11 +96,7 @@ class MyExpandableListAdapter(
 
     private fun buildParent(convertView: View?, mediaItem: MediaItem): View {
         val view: View = getView(convertView, R.layout.list_row_parent)
-
         view.findViewById<TextView>(R.id.list_item_generic_title).text = mediaItem.title
-        val textOverview = view.findViewById<TextView>(R.id.list_item_generic_overview)
-        textOverview.text = ""
-        textOverview.height = 0
         return view
     }
 

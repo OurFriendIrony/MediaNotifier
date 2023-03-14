@@ -44,7 +44,7 @@
             android:paddingStart="0dp"
             android:paddingTop="5dp"
             android:paddingEnd="0dp"
-            android:text="@string/placeholder_overview" />
+            android:height="0dp"/>
     </RelativeLayout>
 
 

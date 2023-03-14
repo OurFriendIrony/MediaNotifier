@@ -15,7 +15,7 @@ class RAWGClient : AbstractClient() {
     @Throws(IOException::class)
     fun queryGame(name: String?): List<MediaItem> {
         payload = httpGetRequest(
-                Helper.replaceTokens(URL_GAME_QUERY, "@NAME@", Helper.cleanUrl(name!!))
+            Helper.replaceTokens(URL_GAME_QUERY, "@NAME@", Helper.cleanUrl(name!!))
         )
         val mediaItems: MutableList<MediaItem> = ArrayList()
         val ms = OBJECT_MAPPER.readValue(payload, GameSearch::class.java)
@@ -28,7 +28,7 @@ class RAWGClient : AbstractClient() {
     @Throws(IOException::class)
     fun getGame(id: String?): MediaItem {
         payload = httpGetRequest(
-                Helper.replaceTokens(URL_GAME_ID, "@ID@", id!!)
+            Helper.replaceTokens(URL_GAME_ID, "@ID@", id!!)
         )
         val gg = OBJECT_MAPPER.readValue(payload, GameGet::class.java)
         return Game(gg)
