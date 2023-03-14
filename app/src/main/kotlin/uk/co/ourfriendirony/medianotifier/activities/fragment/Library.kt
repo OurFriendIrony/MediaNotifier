@@ -1,5 +1,6 @@
 package uk.co.ourfriendirony.medianotifier.activities.fragment
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -11,6 +12,7 @@ import android.widget.ExpandableListView
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
@@ -29,6 +31,7 @@ import uk.co.ourfriendirony.medianotifier.general.IntentGenerator
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem
 import java.util.concurrent.Executors
 
+
 abstract class Library : Fragment() {
     abstract val bottom: ConstraintLayout
     abstract val progressBar: ProgressBar
@@ -36,6 +39,7 @@ abstract class Library : Fragment() {
     abstract fun getItems(db: Database?): List<MediaItem?>
     private val myHandler = Handler(Looper.getMainLooper())
     private lateinit var mediaItems: List<MediaItem?>
+    private lateinit var mediaItemId: String
     private lateinit var db: Database
     private lateinit var client: Client
     private lateinit var listView: ExpandableListView
@@ -58,6 +62,19 @@ abstract class Library : Fragment() {
 
         return rootView
     }
+
+    var dialogClickListener =
+        DialogInterface.OnClickListener { dialog, which ->
+            when (which) {
+                DialogInterface.BUTTON_POSITIVE -> {
+                    BottomSheetBehavior.from(bottom).state = BottomSheetBehavior.STATE_COLLAPSED
+                    db.delete(mediaItemId)
+                    this.mediaItems = getItems(db)
+                    rebuild(this.mediaItems, db, client, listView)
+                }
+                DialogInterface.BUTTON_NEGATIVE -> {}
+            }
+        }
 
     private fun rebuild(
         mediaItems: List<MediaItem?>,
@@ -87,10 +104,13 @@ abstract class Library : Fragment() {
                 rebuild(this.mediaItems, db, client, listView)
             }
             bottom.findViewById<ImageButton>(R.id.action_remove).setOnClickListener {
-                BottomSheetBehavior.from(bottom).state = BottomSheetBehavior.STATE_COLLAPSED
-                db!!.delete(mediaItem.id)
-                this.mediaItems = getItems(db)
-                rebuild(this.mediaItems, db, client, listView)
+                mediaItemId = mediaItem.id
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
+                    .setNegativeButton("No", dialogClickListener).show()
+
+
+
             }
             BottomSheetBehavior.from(bottom).state = BottomSheetBehavior.STATE_EXPANDED
         }
