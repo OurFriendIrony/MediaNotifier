@@ -49,7 +49,6 @@ abstract class Library : Fragment() {
         val c = ClientFactory().getClient(intentKey)!!
         val m: List<MediaItem?> = getItems(d!!)
         val l: ExpandableListView = rootView.findViewById(R.id.notification_list)
-//        val p:ProgressBar = rootView.findViewById(R.id.progress)
 
         mediaItems = m
         db = d
@@ -66,35 +65,38 @@ abstract class Library : Fragment() {
         client: Client,
         listView: ExpandableListView
     ) {
-        if (mediaItems.isNotEmpty()) {
-            var lastExpandedPosition = -1
-            val adapter = MyExpandableListAdapter(context, mediaItems, db, bottom, progressBar)
-            listView.setAdapter(adapter)
-            listView.setOnGroupExpandListener { parentPosition ->
-                if (parentPosition != lastExpandedPosition) listView.collapseGroup(lastExpandedPosition)
-                lastExpandedPosition = parentPosition
-                Log.w("PARENT_EXPANDED", "$type: $lastExpandedPosition")
-                val mediaItem = mediaItems[lastExpandedPosition]!!
-                bottom.findViewById<TextView>(R.id.bottomSheetTitle).text = mediaItem.title
-                bottom.findViewById<TextView>(R.id.bottomSheetSubtitle).text = mediaItem.description
-                bottom.findViewById<ImageButton>(R.id.action_lookup).setOnClickListener {
-                    val intent = IntentGenerator.getWebPageIntent(mediaItem.externalLink)
-                    startActivity(intent)
-                }
-                bottom.findViewById<ImageButton>(R.id.action_refresh).setOnClickListener {
-                    Executors.newSingleThreadExecutor().execute(
-                        UpdateMediaItem(requireContext(), progressBar, db, client, myHandler, mediaItem)
-                    )
-//                    Executors.newSingleThreadExecutor().execute(
-//                        ListChildren(requireContext(), progressBar, listView, db, myHandler, mediaItem.id)
-//                    )
-                }
-                BottomSheetBehavior.from(bottom).state = BottomSheetBehavior.STATE_EXPANDED
+        var lastExpandedPosition = -1
+        val adapter = MyExpandableListAdapter(context, mediaItems, db, bottom, progressBar)
+        listView.setAdapter(adapter)
+        listView.setOnGroupExpandListener { parentPosition ->
+            if (parentPosition != lastExpandedPosition) listView.collapseGroup(lastExpandedPosition)
+            lastExpandedPosition = parentPosition
+            Log.d("PARENT_EXPANDED", "$type: $lastExpandedPosition")
+            val mediaItem = mediaItems[lastExpandedPosition]!!
+            bottom.findViewById<TextView>(R.id.bottomSheetTitle).text = mediaItem.title
+            bottom.findViewById<TextView>(R.id.bottomSheetSubtitle).text = mediaItem.description
+            bottom.findViewById<ImageButton>(R.id.action_lookup).setOnClickListener {
+                val intent = IntentGenerator.getWebPageIntent(mediaItem.externalLink)
+                startActivity(intent)
             }
-            listView.setOnGroupCollapseListener {
-                Log.w("PARENT_COLLAPSED", "$type: $lastExpandedPosition")
+            bottom.findViewById<ImageButton>(R.id.action_refresh).setOnClickListener {
+                Executors.newSingleThreadExecutor().execute(
+                    UpdateMediaItem(requireContext(), progressBar, db, client, myHandler, mediaItem)
+                )
+                this.mediaItems = getItems(db)
+                rebuild(this.mediaItems, db, client, listView)
+            }
+            bottom.findViewById<ImageButton>(R.id.action_remove).setOnClickListener {
                 BottomSheetBehavior.from(bottom).state = BottomSheetBehavior.STATE_COLLAPSED
+                db!!.delete(mediaItem.id)
+                this.mediaItems = getItems(db)
+                rebuild(this.mediaItems, db, client, listView)
             }
+            BottomSheetBehavior.from(bottom).state = BottomSheetBehavior.STATE_EXPANDED
+        }
+        listView.setOnGroupCollapseListener {
+            Log.d("PARENT_COLLAPSED", "$type: $lastExpandedPosition")
+            BottomSheetBehavior.from(bottom).state = BottomSheetBehavior.STATE_COLLAPSED
         }
     }
 
