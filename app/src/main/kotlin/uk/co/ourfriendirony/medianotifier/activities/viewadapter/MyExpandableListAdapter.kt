@@ -96,11 +96,7 @@ class MyExpandableListAdapter(
 
     private fun buildParent(convertView: View?, mediaItem: MediaItem): View {
         val view: View = getView(convertView, R.layout.list_row_parent)
-
         view.findViewById<TextView>(R.id.list_item_generic_title).text = mediaItem.title
-        val textOverview = view.findViewById<TextView>(R.id.list_item_generic_overview)
-        textOverview.text = ""
-        textOverview.height = 0
         return view
     }
 
