@@ -3,6 +3,7 @@ package uk.co.ourfriendirony.medianotifier.activities
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
@@ -48,6 +49,8 @@ class ActivitySettings : AppCompatActivity() {
         val buttonDeleteMovie = findViewById<Button>(R.id.settings_button_delete_movie_all)
         val buttonDeleteArtist = findViewById<Button>(R.id.settings_button_delete_artist_all)
         val buttonDeleteGame = findViewById<Button>(R.id.settings_button_delete_game_all)
+        val customUrlParent = findViewById<EditText>(R.id.settings_custom_parent_input)
+        val customUrlChild = findViewById<EditText>(R.id.settings_custom_child_input)
 
         // Set Object Current Values
         toggleMarkWatched.isChecked = getMarkWatchedIfAlreadyReleased(baseContext)
@@ -56,11 +59,23 @@ class ActivitySettings : AppCompatActivity() {
         buttonNotifyOffsetMovie.text = getNotificationDayOffsetMovie(baseContext).toString()
         buttonNotifyOffsetArtist.text = getNotificationDayOffsetArtist(baseContext).toString()
         buttonNotifyOffsetGame.text = getNotificationDayOffsetGame(baseContext).toString()
+        customUrlParent.setText(PropertyHelper.getCustomUrlParent(baseContext))
+        customUrlChild.setText(PropertyHelper.getCustomUrlChild(baseContext))
         buttonDeleteTV.text = resources.getString(R.string.button_delete_tv_all)
         buttonDeleteMovie.text = resources.getString(R.string.button_delete_movie_all)
         buttonDeleteArtist.text = resources.getString(R.string.button_delete_artist_all)
         buttonDeleteGame.text = resources.getString(R.string.button_delete_game_all)
 
+        customUrlParent.setOnFocusChangeListener { _: View, hasFocus: Boolean ->
+            if (!hasFocus) {
+                PropertyHelper.setCustomUrlParent(baseContext, customUrlParent.text.toString())
+            }
+        }
+        customUrlChild.setOnFocusChangeListener { _: View, hasFocus: Boolean ->
+            if (!hasFocus) {
+                PropertyHelper.setCustomUrlChild(baseContext, customUrlChild.text.toString())
+            }
+        }
         // Define Object Actions
         toggleMarkWatched.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
             setMarkWatchedIfAlreadyReleased(baseContext, isChecked)

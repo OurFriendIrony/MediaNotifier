@@ -50,7 +50,8 @@
             android:gravity="end|center"
             android:paddingStart="0dp"
             android:paddingEnd="0dp"
-            android:textOn="@string/default_unplayed" android:textOff="@string/default_played" />
+            android:textOff="@string/default_played"
+            android:textOn="@string/default_unplayed" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -68,10 +69,10 @@
             style="@style/text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:height="0dp"
             android:paddingStart="0dp"
             android:paddingTop="5dp"
-            android:paddingEnd="0dp"
-            android:height="0dp"/>
+            android:paddingEnd="0dp" />
     </RelativeLayout>
 
     <TextView

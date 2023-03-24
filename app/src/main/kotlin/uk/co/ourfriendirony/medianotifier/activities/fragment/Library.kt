@@ -26,9 +26,11 @@ import uk.co.ourfriendirony.medianotifier.clients.Client
 import uk.co.ourfriendirony.medianotifier.clients.ClientFactory
 import uk.co.ourfriendirony.medianotifier.db.Database
 import uk.co.ourfriendirony.medianotifier.db.DatabaseFactory
+import uk.co.ourfriendirony.medianotifier.db.PropertyHelper
 import uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem
+import java.net.URLEncoder
 import java.util.concurrent.Executors
 
 
@@ -83,7 +85,7 @@ abstract class Library : Fragment() {
         listView: ExpandableListView
     ) {
         var lastExpandedPosition = -1
-        val adapter = MyExpandableListAdapter(context, mediaItems, db, bottom, progressBar)
+        val adapter = MyExpandableListAdapter(context, mediaItems, db, bottom)
         listView.setAdapter(adapter)
         listView.setOnGroupExpandListener { parentPosition ->
             if (parentPosition != lastExpandedPosition) listView.collapseGroup(lastExpandedPosition)
@@ -108,9 +110,15 @@ abstract class Library : Fragment() {
                 val builder = AlertDialog.Builder(requireContext())
                 builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
                     .setNegativeButton("No", dialogClickListener).show()
+            }
 
-
-
+            var url = PropertyHelper.getCustomUrlParent(requireContext())
+            if (url != "") {
+                bottom.findViewById<ImageButton>(R.id.action_download).setOnClickListener {
+                    url = url.replaceFirst("{}", URLEncoder.encode(mediaItem.title, "utf-8").replace("+","%20"))
+                    val intent = IntentGenerator.getWebPageIntent(url)
+                    startActivity(intent)
+                }
             }
             BottomSheetBehavior.from(bottom).state = BottomSheetBehavior.STATE_EXPANDED
         }

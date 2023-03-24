@@ -29,10 +29,6 @@
             android:parentActivityName=".activities.ActivityMain"
             android:theme="@style/Theme.MediaNotifier" />
         <activity
-            android:name=".activities.ActivityLibrary"
-            android:parentActivityName=".activities.ActivityMain"
-            android:theme="@style/Theme.MediaNotifier" />
-        <activity
             android:name=".activities.ActivityUnplayed"
             android:parentActivityName=".activities.ActivityMain"
             android:theme="@style/Theme.MediaNotifier" />

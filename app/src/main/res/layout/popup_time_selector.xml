@@ -9,13 +9,13 @@
 
     <TextView
         android:id="@+id/popup_text"
-        android:textColor="@color/grey_04"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:padding="10dp"
-        android:text="@string/default_select_a_time" />
+        android:text="@string/default_select_a_time"
+        android:textColor="@color/grey_04" />
 
     <TimePicker
         android:id="@+id/popup_time_picker"
@@ -30,8 +30,8 @@
         style="@style/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/popup_time_picker"
-        android:layout_alignStart="@+id/popup_time_picker"
         android:layout_below="@+id/popup_time_picker"
+        android:layout_alignStart="@+id/popup_time_picker"
+        android:layout_alignEnd="@+id/popup_time_picker"
         android:text="@string/default_ok" />
 </RelativeLayout>

@@ -25,8 +25,7 @@
                 android:id="@+id/main_progress"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
-                android:layout_height="4dp"
-                />
+                android:layout_height="4dp" />
 
             <RelativeLayout
                 style="@style/style_input"
@@ -41,9 +40,9 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:backgroundTint="@color/grey_01"
+                    android:contentDescription="@string/lorum_ipsum"
                     android:src="@android:drawable/ic_search_category_default"
-                    app:borderWidth="0dp"
-                    android:contentDescription="@string/lorum_ipsum"  />
+                    app:borderWidth="0dp" />
 
                 <Button
                     android:id="@+id/main_button_tv"
@@ -65,9 +64,9 @@
                     android:layout_margin="5dp"
                     android:clickable="true"
                     android:elevation="10dp"
+                    android:focusable="true"
                     android:gravity="center"
-                    android:text="@string/initial_count_notification"
-                    android:focusable="true" />
+                    android:text="@string/initial_count_notification" />
 
             </RelativeLayout>
 
@@ -85,9 +84,9 @@
                     android:layout_gravity="bottom"
                     android:layout_margin="8dp"
                     android:backgroundTint="@color/grey_01"
+                    android:contentDescription="@string/lorum_ipsum"
                     android:src="@android:drawable/ic_search_category_default"
-                    app:borderWidth="0dp"
-                    android:contentDescription="@string/lorum_ipsum" />
+                    app:borderWidth="0dp" />
 
                 <Button
                     android:id="@+id/main_button_movie"
@@ -109,9 +108,9 @@
                     android:layout_margin="5dp"
                     android:clickable="true"
                     android:elevation="10dp"
+                    android:focusable="true"
                     android:gravity="center"
-                    android:text="@string/initial_count_notification"
-                    android:focusable="true" />
+                    android:text="@string/initial_count_notification" />
 
             </RelativeLayout>
 
@@ -128,9 +127,9 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:backgroundTint="@color/grey_01"
+                    android:contentDescription="@string/lorum_ipsum"
                     android:src="@android:drawable/ic_search_category_default"
-                    app:borderWidth="0dp"
-                    android:contentDescription="@string/lorum_ipsum" />
+                    app:borderWidth="0dp" />
 
                 <Button
                     android:id="@+id/main_button_artist"
@@ -152,9 +151,9 @@
                     android:layout_margin="5dp"
                     android:clickable="true"
                     android:elevation="10dp"
+                    android:focusable="true"
                     android:gravity="center"
-                    android:text="@string/initial_count_notification"
-                    android:focusable="true" />
+                    android:text="@string/initial_count_notification" />
 
             </RelativeLayout>
 
@@ -171,9 +170,9 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:backgroundTint="@color/grey_01"
+                    android:contentDescription="@string/lorum_ipsum"
                     android:src="@android:drawable/ic_search_category_default"
-                    app:borderWidth="0dp"
-                    android:contentDescription="@string/lorum_ipsum" />
+                    app:borderWidth="0dp" />
 
                 <Button
                     android:id="@+id/main_button_game"
@@ -195,9 +194,9 @@
                     android:layout_margin="5dp"
                     android:clickable="true"
                     android:elevation="10dp"
+                    android:focusable="true"
                     android:gravity="center"
-                    android:text="@string/initial_count_notification"
-                    android:focusable="true" />
+                    android:text="@string/initial_count_notification" />
 
             </RelativeLayout>
 
@@ -205,23 +204,24 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_gravity="bottom">
+        android:layout_gravity="bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <RelativeLayout
             style="@style/style_footer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" android:layout_gravity="bottom">
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom">
 
             <TextView
                 android:id="@+id/main_footer_text"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:paddingEnd="5dp"
                 android:paddingStart="5dp"
+                android:paddingEnd="5dp"
                 android:text="@string/footer_text"
                 android:textColor="@color/white" />
 
@@ -229,8 +229,8 @@
                 android:id="@+id/badge_tmdb"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="5dp"
                 android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
                 android:layout_toStartOf="@+id/badge_musicbrainz"
                 android:contentDescription="@string/tmdb"
                 android:src="@drawable/img_external_tmdb_wrapper" />
@@ -239,8 +239,8 @@
                 android:id="@+id/badge_musicbrainz"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="5dp"
                 android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
                 android:layout_toStartOf="@+id/badge_rawg"
                 android:contentDescription="@string/musicbrainz"
                 android:src="@drawable/img_external_musicbrainz_wrapper" />
@@ -250,8 +250,8 @@
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="5dp"
                 android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
                 android:contentDescription="@string/rawg"
                 android:src="@drawable/img_external_rawg_wrapper" />
         </RelativeLayout>

@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        ver_sdk_min = 24
+        ver_sdk_min = 26
         ver_sdk = 33
         ver_buildtools = ver_sdk + ".0.0"
         ver_gradle = '7.4.2'

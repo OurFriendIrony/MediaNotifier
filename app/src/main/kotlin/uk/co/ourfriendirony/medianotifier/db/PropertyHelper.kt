@@ -14,6 +14,8 @@ object PropertyHelper {
     private const val NOTIFY_DAY_OFFSET_MOVIE = "notification_day_offset_movie"
     private const val NOTIFY_DAY_OFFSET_ARTIST = "notification_day_offset_artist"
     private const val NOTIFY_DAY_OFFSET_GAME = "notification_day_offset_game"
+    private const val CUSTOM_URL_PARENT = "custom_url_parent"
+    private const val CUSTOM_URL_CHILD = "custom_url_child"
     private const val MARK_WATCHED_DEFAULT = true
     private const val NOTIFY_HOUR_DEFAULT = 21
     private const val NOTIFY_MIN_DEFAULT = 0
@@ -72,6 +74,18 @@ object PropertyHelper {
     }
 
     @JvmStatic
+    fun getCustomUrlParent(context: Context): String {
+        val settings = getSharedPreferences(context)
+        return settings.getString(CUSTOM_URL_PARENT, "").toString()
+    }
+
+    @JvmStatic
+    fun getCustomUrlChild(context: Context): String {
+        val settings = getSharedPreferences(context)
+        return settings.getString(CUSTOM_URL_CHILD, "").toString()
+    }
+
+    @JvmStatic
     fun setMarkWatchedIfAlreadyReleased(context: Context, markWatched: Boolean) {
         val editor = getSharedPreferencesEditor(context)
         editor.putBoolean(MARK_PLAYED, markWatched)
@@ -117,6 +131,20 @@ object PropertyHelper {
     fun setNotificationDayOffsetGame(context: Context, newDayOffset: Int) {
         val editor = getSharedPreferencesEditor(context)
         editor.putInt(NOTIFY_DAY_OFFSET_GAME, newDayOffset)
+        editor.apply()
+    }
+
+    @JvmStatic
+    fun setCustomUrlParent(context: Context, url: String) {
+        val editor = getSharedPreferencesEditor(context)
+        editor.putString(CUSTOM_URL_PARENT, url)
+        editor.apply()
+    }
+
+    @JvmStatic
+    fun setCustomUrlChild(context: Context, url: String) {
+        val editor = getSharedPreferencesEditor(context)
+        editor.putString(CUSTOM_URL_CHILD, url)
         editor.apply()
     }
 
