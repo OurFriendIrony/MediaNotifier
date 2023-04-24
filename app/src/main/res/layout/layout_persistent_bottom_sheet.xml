@@ -82,7 +82,7 @@
                 android:layout_below="@id/bottomSheetHL"
                 android:layout_alignBottom="@id/bottomSheetTextPane"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintBaseline_toTopOf="@id/bottomSheetHL">
 
@@ -121,6 +121,22 @@
                     android:layout_height="40dp"
                     android:layout_below="@id/action_2_bottomSheetHL"
                     android:background="@android:drawable/ic_menu_directions"
+                    android:contentDescription="@string/lorum_ipsum_short" />
+
+                <RelativeLayout
+                    android:id="@+id/action_3_bottomSheetHL"
+                    android:layout_width="40dp"
+                    android:layout_height="10dp"
+                    android:layout_below="@id/action_lookup"
+
+                    android:background="@drawable/background_horizontal_line" />
+
+                <ImageButton
+                    android:id="@+id/action_download"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/action_3_bottomSheetHL"
+                    android:background="@android:drawable/arrow_down_float"
                     android:contentDescription="@string/lorum_ipsum_short" />
             </RelativeLayout>
         </RelativeLayout>

@@ -9,13 +9,13 @@
 
     <TextView
         android:id="@+id/popup_text"
-        android:textColor="@color/grey_04"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:padding="10dp"
-        android:text="@string/default_select_an_offset" />
+        android:text="@string/default_select_an_offset"
+        android:textColor="@color/grey_04" />
 
     <LinearLayout
         android:id="@+id/popup_date_picker_border"

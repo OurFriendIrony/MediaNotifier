@@ -47,8 +47,8 @@
                 android:id="@+id/settings_played_toggle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignStart="@id/horiz_strut_00" />
+                android:layout_alignStart="@id/horiz_strut_00"
+                android:layout_alignParentEnd="true" />
         </RelativeLayout>
     </RelativeLayout>
 
@@ -94,8 +94,8 @@
                 style="@style/button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignStart="@id/horiz_strut_10" />
+                android:layout_alignStart="@id/horiz_strut_10"
+                android:layout_alignParentEnd="true" />
         </RelativeLayout>
     </RelativeLayout>
 
@@ -133,11 +133,11 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/settings_notification_day_offset_tv_button"
-                android:layout_alignEnd="@id/horiz_strut_20"
-                android:layout_alignParentStart="true"
-
                 android:layout_alignTop="@+id/settings_notification_day_offset_tv_button"
+                android:layout_alignEnd="@id/horiz_strut_20"
+                android:layout_alignBottom="@+id/settings_notification_day_offset_tv_button"
+
+                android:layout_alignParentStart="true"
                 android:gravity="center_vertical|end"
                 android:padding="5dp"
                 android:text="@string/button_tvshows"
@@ -148,8 +148,8 @@
                 style="@style/button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignStart="@id/horiz_strut_20" />
+                android:layout_alignStart="@id/horiz_strut_20"
+                android:layout_alignParentEnd="true" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -167,10 +167,10 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/settings_notification_day_offset_movie_button"
-                android:layout_alignEnd="@id/horiz_strut_21"
-                android:layout_alignParentStart="true"
                 android:layout_alignTop="@+id/settings_notification_day_offset_movie_button"
+                android:layout_alignEnd="@id/horiz_strut_21"
+                android:layout_alignBottom="@+id/settings_notification_day_offset_movie_button"
+                android:layout_alignParentStart="true"
                 android:gravity="center_vertical|end"
                 android:padding="5dp"
                 android:text="@string/button_movies"
@@ -181,8 +181,8 @@
                 style="@style/button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignStart="@id/horiz_strut_21" />
+                android:layout_alignStart="@id/horiz_strut_21"
+                android:layout_alignParentEnd="true" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -200,10 +200,10 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/settings_notification_day_offset_artist_button"
-                android:layout_alignEnd="@id/horiz_strut_22"
-                android:layout_alignParentStart="true"
                 android:layout_alignTop="@+id/settings_notification_day_offset_artist_button"
+                android:layout_alignEnd="@id/horiz_strut_22"
+                android:layout_alignBottom="@+id/settings_notification_day_offset_artist_button"
+                android:layout_alignParentStart="true"
                 android:gravity="center_vertical|end"
                 android:padding="5dp"
                 android:text="@string/button_artists"
@@ -214,8 +214,8 @@
                 style="@style/button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignStart="@id/horiz_strut_22" />
+                android:layout_alignStart="@id/horiz_strut_22"
+                android:layout_alignParentEnd="true" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -233,10 +233,10 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/settings_notification_day_offset_game_button"
-                android:layout_alignEnd="@id/horiz_strut_23"
-                android:layout_alignParentStart="true"
                 android:layout_alignTop="@+id/settings_notification_day_offset_game_button"
+                android:layout_alignEnd="@id/horiz_strut_23"
+                android:layout_alignBottom="@+id/settings_notification_day_offset_game_button"
+                android:layout_alignParentStart="true"
                 android:gravity="center_vertical|end"
                 android:padding="5dp"
                 android:text="@string/button_games"
@@ -247,12 +247,102 @@
                 style="@style/button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignStart="@id/horiz_strut_23" />
+                android:layout_alignStart="@id/horiz_strut_23"
+                android:layout_alignParentEnd="true" />
         </RelativeLayout>
 
     </RelativeLayout>
+    <!-- ################################################################# -->
 
+    <RelativeLayout
+        android:id="@+id/settings_custom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/settings_notification_day_offset"
+        android:background="@drawable/background_list_item_basic">
+
+        <TextView
+            android:id="@+id/settings_custom_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|start"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/settings_custom"
+            android:textColor="@color/white" />
+
+        <RelativeLayout
+            android:id="@+id/settings_custom_parent_rel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/settings_custom_text">
+
+            <View
+                android:id="@+id/horiz_strut_30"
+                android:layout_width="240dp"
+                android:layout_height="0dp"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/settings_custom_parent_input"
+                android:layout_alignEnd="@id/horiz_strut_30"
+                android:layout_alignBottom="@+id/settings_custom_parent_input"
+
+                android:layout_alignParentStart="true"
+                android:gravity="center_vertical|start"
+                android:padding="5dp"
+                android:text="Parent"
+                android:textColor="@color/grey_04" />
+
+            <EditText
+                android:id="@+id/settings_custom_parent_input"
+                android:layout_width="0dp"
+                android:background="@color/grey_04"
+                android:layout_height="26dp"
+                android:layout_alignStart="@id/horiz_strut_30"
+                android:layout_alignParentEnd="true"
+                android:inputType="text" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/settings_custom_child_rel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/settings_custom_parent_rel">
+
+            <View
+                android:id="@+id/horiz_strut_31"
+                android:layout_width="240dp"
+                android:layout_height="0dp"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/settings_custom_child_input"
+                android:layout_alignEnd="@id/horiz_strut_31"
+                android:layout_alignBottom="@+id/settings_custom_child_input"
+
+                android:layout_alignParentStart="true"
+                android:gravity="center_vertical|start"
+                android:padding="5dp"
+                android:text="Child"
+                android:textColor="@color/grey_04" />
+
+            <EditText
+                android:id="@+id/settings_custom_child_input"
+                android:layout_width="0dp"
+                android:background="@color/grey_04"
+                android:layout_height="26dp"
+                android:layout_alignStart="@id/horiz_strut_31"
+                android:layout_alignParentEnd="true"
+                android:inputType="text" />
+        </RelativeLayout>
+
+
+    </RelativeLayout>
     <!-- ################################################################# -->
 
     <RelativeLayout
@@ -297,10 +387,10 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/settings_button_delete_tv_all"
-                android:layout_alignEnd="@id/horiz_strut_90"
-                android:layout_alignParentStart="true"
                 android:layout_alignTop="@+id/settings_button_delete_tv_all"
+                android:layout_alignEnd="@id/horiz_strut_90"
+                android:layout_alignBottom="@+id/settings_button_delete_tv_all"
+                android:layout_alignParentStart="true"
                 android:gravity="center_vertical|end"
                 android:padding="5dp"
                 android:text="@string/button_tvshows"
@@ -311,8 +401,8 @@
                 style="@style/button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignStart="@id/horiz_strut_90" />
+                android:layout_alignStart="@id/horiz_strut_90"
+                android:layout_alignParentEnd="true" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -330,10 +420,10 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/settings_button_delete_movie_all"
-                android:layout_alignEnd="@id/horiz_strut_91"
-                android:layout_alignParentStart="true"
                 android:layout_alignTop="@+id/settings_button_delete_movie_all"
+                android:layout_alignEnd="@id/horiz_strut_91"
+                android:layout_alignBottom="@+id/settings_button_delete_movie_all"
+                android:layout_alignParentStart="true"
                 android:gravity="center_vertical|end"
                 android:padding="5dp"
                 android:text="@string/button_movies"
@@ -344,8 +434,8 @@
                 style="@style/button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignStart="@id/horiz_strut_91" />
+                android:layout_alignStart="@id/horiz_strut_91"
+                android:layout_alignParentEnd="true" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -363,10 +453,10 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/settings_button_delete_artist_all"
-                android:layout_alignEnd="@id/horiz_strut_92"
-                android:layout_alignParentStart="true"
                 android:layout_alignTop="@+id/settings_button_delete_artist_all"
+                android:layout_alignEnd="@id/horiz_strut_92"
+                android:layout_alignBottom="@+id/settings_button_delete_artist_all"
+                android:layout_alignParentStart="true"
                 android:gravity="center_vertical|end"
                 android:padding="5dp"
                 android:text="@string/button_artists"
@@ -377,8 +467,8 @@
                 style="@style/button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignStart="@id/horiz_strut_92" />
+                android:layout_alignStart="@id/horiz_strut_92"
+                android:layout_alignParentEnd="true" />
         </RelativeLayout>
 
 
@@ -397,10 +487,10 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/settings_button_delete_game_all"
-                android:layout_alignEnd="@id/horiz_strut_93"
-                android:layout_alignParentStart="true"
                 android:layout_alignTop="@+id/settings_button_delete_game_all"
+                android:layout_alignEnd="@id/horiz_strut_93"
+                android:layout_alignBottom="@+id/settings_button_delete_game_all"
+                android:layout_alignParentStart="true"
                 android:gravity="center_vertical|end"
                 android:padding="5dp"
                 android:text="@string/button_games"
@@ -411,8 +501,8 @@
                 style="@style/button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignStart="@id/horiz_strut_93" />
+                android:layout_alignStart="@id/horiz_strut_93"
+                android:layout_alignParentEnd="true" />
         </RelativeLayout>
     </RelativeLayout>
 

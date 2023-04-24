@@ -8,8 +8,8 @@
         android:id="@+id/list_item_generic_primarybar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingEnd="0dp"
-        android:paddingStart="0dp">
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp">
 
         <TextView
             android:id="@+id/list_item_generic_title"
@@ -18,8 +18,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:maxLines="1"
-            android:paddingEnd="4dp"
             android:paddingStart="4dp"
+            android:paddingEnd="4dp"
             android:text="@string/placeholder_title" />
 
     </RelativeLayout>

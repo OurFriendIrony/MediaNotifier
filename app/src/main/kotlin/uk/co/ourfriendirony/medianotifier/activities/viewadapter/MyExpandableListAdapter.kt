@@ -6,22 +6,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
-import android.widget.ProgressBar
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import uk.co.ourfriendirony.medianotifier.R
 import uk.co.ourfriendirony.medianotifier.db.Database
+import uk.co.ourfriendirony.medianotifier.db.PropertyHelper
 import uk.co.ourfriendirony.medianotifier.general.Constants
+import uk.co.ourfriendirony.medianotifier.general.IntentGenerator
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem
+import java.net.URLEncoder
 
 class MyExpandableListAdapter(
     private val context: Context?,
     private val mediaItems: List<MediaItem?>,
     private val db: Database?,
-    private val bottom: ConstraintLayout,
-    private val progressBar: ProgressBar
+    private val bottom: ConstraintLayout
 
 ) : BaseExpandableListAdapter() {
     override fun getChild(parentPosition: Int, childPosition: Int): Any {
@@ -77,10 +79,21 @@ class MyExpandableListAdapter(
         view.findViewById<TextView>(R.id.list_item_generic_date).text = mediaItem.releaseDateFull
 
         view.setOnClickListener {
+
             Log.d("CHILD_CLICK", "")
             val childDescription = mediaItem.title + "\n\n" + mediaItem.description
             bottom.findViewById<TextView>(R.id.bottomSheetSubtitle).text = childDescription
             BottomSheetBehavior.from(bottom).state = BottomSheetBehavior.STATE_EXPANDED
+
+            var url = PropertyHelper.getCustomUrlChild(context!!)
+            if (url != "") {
+                bottom.findViewById<ImageButton>(R.id.action_download).setOnClickListener {
+                    url = url.replaceFirst("{}", URLEncoder.encode(mediaItem.subtitle, "utf-8").replace("+","%20"))
+                    url = url.replaceFirst("{}", URLEncoder.encode(mediaItem.subId, "utf-8").replace("+","%20"))
+                    val intent = IntentGenerator.getWebPageIntent(url)
+                    context.startActivity(intent)
+                }
+            }
         }
         val toggle = view.findViewById<SwitchCompat>(R.id.list_item_toggle)
         toggle.isChecked = !db!!.getWatchedStatusAsBoolean(mediaItem)

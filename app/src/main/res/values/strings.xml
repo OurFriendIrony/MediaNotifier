@@ -23,6 +23,7 @@
     <string name="settings_notification_time">Set the time to receive notifications:</string>
     <string name="settings_notification_offsets">Set the release date offset for notifications:</string>
     <string name="settings_notification_delete">**WARNING** Delete Data **WARNING**</string>
+    <string name="settings_custom">Custom external address ({} for var replace)</string>
 
     <string name="toast_db_adding">Adding to Database</string>
     <string name="toast_db_added">Added</string>

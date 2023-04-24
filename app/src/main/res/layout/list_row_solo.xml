@@ -10,8 +10,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toStartOf="@id/list_item_generic_right"
-        android:paddingEnd="0dp"
-        android:paddingStart="0dp">
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp">
 
         <TextView
             android:id="@+id/list_item_generic_subtitle"
@@ -21,8 +21,8 @@
             android:layout_alignParentStart="true"
             android:gravity="start|center"
             android:maxLines="1"
-            android:paddingEnd="0dp"
             android:paddingStart="0dp"
+            android:paddingEnd="0dp"
             android:text="@string/placeholder_subtext" />
 
         <TextView
@@ -33,8 +33,8 @@
             android:layout_alignParentEnd="true"
             android:gravity="end|center"
             android:maxLines="1"
-            android:paddingEnd="0dp"
             android:paddingStart="0dp"
+            android:paddingEnd="0dp"
             android:text="@string/placeholder_date" />
     </RelativeLayout>
 
@@ -44,25 +44,25 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/list_item_generic_header"
         android:layout_toStartOf="@id/list_item_generic_right"
-        android:paddingEnd="0dp"
-        android:paddingStart="0dp">
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingEnd="0dp"
-            android:paddingStart="0dp">
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp">
 
             <ImageView
                 android:id="@+id/list_item_picture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
+                android:contentDescription="@string/lorum_ipsum"
                 android:focusable="false"
                 android:gravity="start|center"
-                android:paddingEnd="0dp"
                 android:paddingStart="0dp"
-                android:contentDescription="@string/lorum_ipsum" />
+                android:paddingEnd="0dp" />
 
             <TextView
                 android:id="@+id/list_item_generic_title"
@@ -72,8 +72,8 @@
                 android:layout_toEndOf="@id/list_item_picture"
                 android:gravity="start|center"
                 android:maxLines="1"
-                android:paddingEnd="4dp"
                 android:paddingStart="4dp"
+                android:paddingEnd="4dp"
                 android:text="@string/placeholder_title" />
         </RelativeLayout>
     </RelativeLayout>
@@ -82,20 +82,21 @@
         android:id="@+id/list_item_generic_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:paddingEnd="0dp"
-        android:paddingStart="10dp">
+        android:layout_alignParentEnd="true"
+        android:paddingStart="10dp"
+        android:paddingEnd="0dp">
 
         <androidx.appcompat.widget.SwitchCompat
-            android:textOn="@string/default_unplayed" android:textOff="@string/default_played"
             android:id="@+id/list_item_toggle"
-            android:focusable="false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:focusable="false"
             android:gravity="end|bottom"
+            android:paddingStart="0dp"
             android:paddingEnd="0dp"
-            android:paddingStart="0dp" />
+            android:textOff="@string/default_played"
+            android:textOn="@string/default_unplayed" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -104,17 +105,17 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/list_item_generic_primarybar"
         android:orientation="horizontal"
-        android:paddingEnd="0dp"
         android:paddingStart="0dp"
-        android:paddingTop="0dp">
+        android:paddingTop="0dp"
+        android:paddingEnd="0dp">
 
         <TextView
             android:id="@+id/list_item_generic_overview"
             style="@style/text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingEnd="0dp"
             android:paddingStart="0dp"
+            android:paddingEnd="0dp"
             android:text="@string/placeholder_overview" />
     </RelativeLayout>
 
