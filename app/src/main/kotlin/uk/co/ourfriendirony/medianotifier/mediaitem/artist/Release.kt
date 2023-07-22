@@ -2,13 +2,16 @@ package uk.co.ourfriendirony.medianotifier.mediaitem.artist
 
 import android.database.Cursor
 import android.util.Log
-import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.artist.get.ArtistGetReleaseGroup
+import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.release.get.ReleaseGet
+import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.release.get.ReleaseGetTrack
+import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.releasegroup.get.ReleaseGroupGet
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabaseDefinition
 import uk.co.ourfriendirony.medianotifier.general.Helper.getColumnValue
 import uk.co.ourfriendirony.medianotifier.general.Helper.stringToDate
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 class Release : MediaItem {
     override val id: String
@@ -28,16 +31,18 @@ class Release : MediaItem {
         private set
     override var children: MutableList<MediaItem> = ArrayList()
 
-    constructor(release: ArtistGetReleaseGroup, artist: Artist) {
+    constructor(release: ReleaseGet, releaseGroup: ReleaseGroupGet, artist: Artist) {
         id = artist.id
-        subId = release.id
-        title = if (release.disambiguation!!.isNotEmpty()) {
-            release.title + " (" + release.disambiguation + ")"
+        subId = releaseGroup.id
+        title = if (releaseGroup.disambiguation!!.isNotEmpty()) {
+            releaseGroup.title + " (" + releaseGroup.disambiguation + ")"
         } else {
-            release.title
+            releaseGroup.title
         }
         subtitle = artist.title
-        releaseDate = release.firstReleaseDate
+        releaseDate = release.date
+        description = getTracksAsDescription(release.media?.get(0)?.tracks)
+
         Log.d("[API GET]", this.toString())
     }
 
@@ -60,6 +65,15 @@ class Release : MediaItem {
         get() = if (releaseDate != null) {
             SimpleDateFormat("yyyy", Locale.UK).format(releaseDate)
         } else MediaItem.NO_DATE
+
+    private fun getTracksAsDescription(tracks: List<ReleaseGetTrack>?): String {
+        var d = ""
+        tracks?.forEach { track ->
+            d += "${track.position.toString()}:${track.title}\n"
+
+        }
+        return d
+    }
 
     override fun countChildren(): Int {
         return children.size

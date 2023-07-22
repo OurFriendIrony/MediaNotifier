@@ -5,6 +5,8 @@ import uk.co.ourfriendirony.medianotifier.clients.AbstractClient
 import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.artist.get.ArtistGet
 import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.artist.get.ArtistGetReleaseGroup
 import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.artist.search.ArtistSearch
+import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.release.get.ReleaseGet
+import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.releasegroup.get.ReleaseGroupGet
 import uk.co.ourfriendirony.medianotifier.general.Helper
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem
 import uk.co.ourfriendirony.medianotifier.mediaitem.artist.Artist
@@ -39,9 +41,18 @@ class MusicBrainzClient : AbstractClient() {
         val ag = OBJECT_MAPPER.readValue(payload, ArtistGet::class.java)
         val artist = Artist(ag)
         val releases: MutableList<MediaItem> = ArrayList()
-        for (rawRelease in ag.releaseGroups!!) {
-            if (isWanted(rawRelease) && hasADate(rawRelease)) {
-                releases.add(Release(rawRelease, artist))
+        for (rawReleaseGroup in ag.releaseGroups!!) {
+            if (isWanted(rawReleaseGroup) && hasADate(rawReleaseGroup)) {
+                val rawRGG = httpGetRequest(
+                    Helper.replaceTokens(URL_ARTIST_RELEASE_GROUP_ID, "@ID@", rawReleaseGroup.id!!)
+                )
+                val rgg = OBJECT_MAPPER.readValue(rawRGG, ReleaseGroupGet::class.java)
+
+                val rawR = httpGetRequest(
+                    Helper.replaceTokens(URL_ARTIST_RELEASE_ID, "@ID@", rgg.releases[0].id!!)
+                )
+                val r = OBJECT_MAPPER.readValue(rawR, ReleaseGet::class.java)
+                releases.add(Release(r, rgg,artist))
             }
         }
         artist.children = releases
@@ -67,6 +78,8 @@ class MusicBrainzClient : AbstractClient() {
         private const val HOST = "https://musicbrainz.org/ws/2/"
         private const val URL_ARTIST_QUERY = HOST + "artist/?query=artist:@NAME@&fmt=json"
         private const val URL_ARTIST_ID = HOST + "artist/@ID@/?inc=release-groups&fmt=json"
+        private const val URL_ARTIST_RELEASE_GROUP_ID =
+            HOST + "release-group/@ID@?inc=releases&fmt=json"
         private const val URL_ARTIST_RELEASE_ID = HOST + "release/@ID@?inc=recordings&fmt=json"
         private val OBJECT_MAPPER = ObjectMapper()
         private val RELEASE_TYPES_UNWANTED: ArrayList<String> = object : ArrayList<String>() {
