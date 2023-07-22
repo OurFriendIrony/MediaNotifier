@@ -3,10 +3,6 @@ buildscript {
         ver_sdk_min = 26
         ver_sdk = 33
         ver_buildtools = ver_sdk + ".0.0"
-        ver_gradle = '8.0.2'
-        ver_kotlin = '1.7.21'
-        ver_kotlin_gradle = '1.8.0'
-        ver_kotlin_coroutines = '1.5.0'
     }
 
     repositories {
@@ -14,8 +10,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:$ver_gradle"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$ver_kotlin_gradle"
+        classpath "com.android.tools.build:gradle:8.0.2"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0"
     }
 }
 

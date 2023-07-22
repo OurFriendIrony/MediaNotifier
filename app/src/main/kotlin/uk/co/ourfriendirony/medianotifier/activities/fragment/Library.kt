@@ -65,8 +65,8 @@ abstract class Library : Fragment() {
         return rootView
     }
 
-    var dialogClickListener =
-        DialogInterface.OnClickListener { dialog, which ->
+    private var dialogClickListener =
+        DialogInterface.OnClickListener { _, which ->
             when (which) {
                 DialogInterface.BUTTON_POSITIVE -> {
                     BottomSheetBehavior.from(bottom).state = BottomSheetBehavior.STATE_COLLAPSED
