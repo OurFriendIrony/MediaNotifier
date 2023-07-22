@@ -1,13 +1,17 @@
-*.iml
-.gradle
-/local.properties
-/.idea/workspace.xml
-/.idea/libraries
-.DS_Store
-/build
-/captures
-*.hprof
-**/*.swp
+# Build
+**/.gradle
+#**/local.properties
+**/build
+**/captures
+**/*.hprof
 
-.idea/caches/build_file_checksums.ser
+# IDE - Android Studio
+**/*.iml
+**/.idea/workspace.xml
+**/.idea/libraries
+**/.idea/caches/build_file_checksums.ser
+**/.idea
+
+# VIM
+**/*.swp
 
