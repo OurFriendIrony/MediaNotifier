@@ -1,6 +1,13 @@
+---
 version: 2.1
 orbs:
   android: circleci/android@2.3.0
+  codecov: codecov/codecov@3.2.5
+
+workflows:
+  app:
+    jobs:
+    - build
 
 jobs:
   build:
@@ -10,29 +17,6 @@ jobs:
     - checkout
     - run: ./gradlew build
     - run: ./gradlew lint test
-
-#  test:
-#    executor:
-#      name: android/android-machine
-#      resource-class: large
-#      tag: 2021.10.1
-#
-#    steps:
-#    - checkout
-#    - android/create-avd:
-#        avd-name: myavd
-#        install: true
-#        system-image: system-images;android-31;default;x86_64
-#    - android/start-emulator:
-#        avd-name: myavd
-#        no-window: true
-#        restore-gradle-cache-prefix: v1a
-#    - android/run-tests
-#    - android/save-gradle-cache:
-#        cache-prefix: v1a
-
-workflows:
-  app:
-    jobs:
-    - build
-#    - test
+    - run: ./gradlew createDebugCoverageReport
+    - codecov/upload
+...
