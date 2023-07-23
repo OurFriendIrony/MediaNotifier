@@ -8,4 +8,5 @@ object Constants {
     const val TVSHOW = "TV Show"
     const val ARTIST = "Artist"
     const val GAME = "Game"
+    const val QUEUE_FILENAME = "media.queue"
 }

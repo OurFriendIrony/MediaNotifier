@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
+import com.squareup.tape2.QueueFile
 import uk.co.ourfriendirony.medianotifier.R
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getMarkWatchedIfAlreadyReleased
@@ -28,11 +29,17 @@ import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase
 import uk.co.ourfriendirony.medianotifier.db.game.GameDatabase
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabase
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabase
+import uk.co.ourfriendirony.medianotifier.general.Constants
 import uk.co.ourfriendirony.medianotifier.notifier.AlarmScheduler.reschedule
+import java.io.File
 
 class ActivitySettings : AppCompatActivity() {
     private var popupWindow: PopupWindow? = null
     override fun onCreate(savedInstanceState: Bundle?) {
+        val file = File(filesDir, Constants.QUEUE_FILENAME)
+        val queueFile = QueueFile.Builder(file).build()
+
+        Toast.makeText(baseContext, "${queueFile.size()} - "+queueFile.remove().toString(), Toast.LENGTH_SHORT).show()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         supportActionBar!!.setTitle(R.string.title_settings)

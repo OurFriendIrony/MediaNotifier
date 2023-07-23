@@ -15,9 +15,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.squareup.tape2.QueueFile
 import uk.co.ourfriendirony.medianotifier.R
 import uk.co.ourfriendirony.medianotifier.activities.async.UpdateMediaItem
-import uk.co.ourfriendirony.medianotifier.clients.*
+import uk.co.ourfriendirony.medianotifier.clients.ArtistClient
+import uk.co.ourfriendirony.medianotifier.clients.Client
+import uk.co.ourfriendirony.medianotifier.clients.GameClient
+import uk.co.ourfriendirony.medianotifier.clients.MovieClient
+import uk.co.ourfriendirony.medianotifier.clients.TVClient
 import uk.co.ourfriendirony.medianotifier.db.Database
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabase
 import uk.co.ourfriendirony.medianotifier.db.game.GameDatabase
@@ -27,14 +32,17 @@ import uk.co.ourfriendirony.medianotifier.general.Constants.ARTIST
 import uk.co.ourfriendirony.medianotifier.general.Constants.GAME
 import uk.co.ourfriendirony.medianotifier.general.Constants.INTENT_KEY
 import uk.co.ourfriendirony.medianotifier.general.Constants.MOVIE
+import uk.co.ourfriendirony.medianotifier.general.Constants.QUEUE_FILENAME
 import uk.co.ourfriendirony.medianotifier.general.Constants.TVSHOW
 import uk.co.ourfriendirony.medianotifier.general.Helper.getNotificationNumber
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator.contactEmailIntent
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator.getWebPageIntent
+import java.io.File
 import java.util.concurrent.Executors
 
 
 class ActivityMain : AppCompatActivity() {
+    private var menu: Menu? = null
     private val tvShowClient: Client = TVClient()
     private val movieClient: Client = MovieClient()
     private val artistClient: Client = ArtistClient()
@@ -50,6 +58,7 @@ class ActivityMain : AppCompatActivity() {
     private var mainButtonArtistNotification: TextView? = null
     private var mainButtonGameNotification: TextView? = null
     private var progressBar: ProgressBar? = null
+    private var queueFile: QueueFile? = null
 
     private val myHandler = Handler(Looper.getMainLooper())
 
@@ -62,6 +71,9 @@ class ActivityMain : AppCompatActivity() {
         movieDatabase = MovieDatabase(applicationContext)
         artistDatabase = ArtistDatabase(applicationContext)
         gameDatabase = GameDatabase(applicationContext)
+
+        queueFile = QueueFile.Builder(File(filesDir, QUEUE_FILENAME)).build()
+
         val mainButtonTvshowFind = findViewById<FloatingActionButton>(R.id.main_button_tv_find)
         val mainButtonMovieFind = findViewById<FloatingActionButton>(R.id.main_button_movie_find)
         val mainButtonArtistFind = findViewById<FloatingActionButton>(R.id.main_button_artist_find)
@@ -103,8 +115,10 @@ class ActivityMain : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        val notificationOn = ContextCompat.getDrawable(baseContext, R.drawable.button_notification_on)
-        val notificationOff = ContextCompat.getDrawable(baseContext, R.drawable.button_notification_off)
+        val notificationOn =
+            ContextCompat.getDrawable(baseContext, R.drawable.button_notification_on)
+        val notificationOff =
+            ContextCompat.getDrawable(baseContext, R.drawable.button_notification_off)
         val numEpisodes = tvShowDatabase!!.countUnplayedReleased()
         val numMovies = movieDatabase!!.countUnplayedReleased()
         val numAlbums = artistDatabase!!.countUnplayedReleased()
@@ -124,8 +138,10 @@ class ActivityMain : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        this.menu = menu
         menuInflater.inflate(R.menu.menu_main, menu)
         menu.findItem(R.id.action_about).isEnabled = false
+        menu.findItem(R.id.action_queue)?.title = queueFile?.size().toString()
         return true
     }
 
@@ -136,10 +152,12 @@ class ActivityMain : AppCompatActivity() {
                 startActivity(intent)
                 true
             }
+
             R.id.action_contact -> {
                 startActivity(contactEmailIntent)
                 true
             }
+
             R.id.action_refresh -> {
                 Executors.newSingleThreadExecutor().execute(
                     UpdateMediaItem(
@@ -183,6 +201,7 @@ class ActivityMain : AppCompatActivity() {
                 )
                 true
             }
+
             else -> {
                 super.onOptionsItemSelected(item)
             }
