@@ -1,8 +1,9 @@
 buildscript {
     ext {
         ver_sdk_min = 26
-        ver_sdk = 33
+        ver_sdk = 34
         ver_buildtools = ver_sdk + ".0.0"
+        ver_java = JavaVersion.VERSION_11
     }
 
     repositories {
@@ -16,13 +17,18 @@ buildscript {
     }
 }
 
+ext {
+    buildToolsVersion = ver_buildtools
+    compileSdkVersion = ver_sdk
+    sourceCompatibility = ver_java
+    targetCompatibility = ver_java
+    defaultTargetSdkVersion = ver_sdk
+    defaultMinSdkVersion = ver_sdk_min
+}
+
 allprojects {
     repositories {
         google()
         mavenCentral()
     }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
 }

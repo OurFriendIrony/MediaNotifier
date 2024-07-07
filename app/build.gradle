@@ -5,15 +5,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion ver_sdk
-    buildToolsVersion ver_buildtools
-
     defaultConfig {
         applicationId "uk.co.ourfriendirony.medianotifierandroid"
-        minSdkVersion ver_sdk_min
-        targetSdkVersion ver_sdk
+        minSdkVersion defaultMinSdkVersion
+        targetSdkVersion defaultTargetSdkVersion
         versionCode 1
         versionName "0.1"
+        compileSdk ver_sdk
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -49,17 +47,17 @@ android {
 
 dependencies {
     implementation fileTree(include: ["*.jar"], dir: "libs")
-    implementation "com.google.android.material:material:1.9.0"
-    implementation "androidx.appcompat:appcompat:1.6.1"
+    implementation "com.google.android.material:material:1.12.0"
+    implementation "androidx.appcompat:appcompat:1.7.0"
     implementation "androidx.constraintlayout:constraintlayout:2.1.4"
-    implementation "androidx.work:work-runtime-ktx:2.8.1"
-    implementation "androidx.fragment:fragment-ktx:1.6.0"
-    implementation "androidx.core:core-ktx:1.10.1"
+    implementation "androidx.work:work-runtime-ktx:2.9.0"
+    implementation "androidx.fragment:fragment-ktx:1.8.1"
+    implementation "androidx.core:core-ktx:1.13.1"
     implementation "androidx.core:core-splashscreen:1.0.1"
-    implementation "androidx.viewpager2:viewpager2:1.0.0"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0"
+    implementation "androidx.viewpager2:viewpager2:1.1.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.20"
     implementation "com.fasterxml.jackson.core:jackson-databind:2.13.3"
     implementation "com.squareup.okhttp3:okhttp:4.9.0"
     implementation "com.squareup.tape2:tape:2.0.0-beta1"
@@ -70,10 +68,10 @@ dependencies {
     testImplementation "org.jacoco:org.jacoco.core:0.8.8"
 }
 
-configurations.all {
+configurations.configureEach {
     resolutionStrategy.eachDependency { DependencyResolveDetails details ->
         def requested = details.requested
-        if (requested.group.equals("com.android.support")) {
+        if (requested.group == "com.android.support") {
             if (!requested.name.startsWith("multidex")) {
                 details.useVersion "25.3.0"
             }
