@@ -18,7 +18,7 @@ class UpdateMediaItem(
     private val ui: Handler,
     private vararg val mediaItems: MediaItem
 ) : Runnable {
-    private var context: WeakReference<Context>
+    private var context: WeakReference<Context> = WeakReference(context)
     private var progressBar: WeakReference<ProgressBar?>
     private var db: Database?
     private var client: Client?
@@ -26,7 +26,6 @@ class UpdateMediaItem(
 
 
     init {
-        this.context = WeakReference(context)
         this.progressBar = WeakReference(progressBar)
         this.db = db
         this.client = client

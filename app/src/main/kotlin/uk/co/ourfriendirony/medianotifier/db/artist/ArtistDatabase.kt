@@ -16,7 +16,7 @@ import java.util.*
 
 class ArtistDatabase(context: Context) : Database {
     private val context: Context
-    private val dbWritable: SQLiteDatabase
+    private val dbWritable: SQLiteDatabase = ArtistDatabaseDefinition(context).writableDatabase
     override val isParent = true
 
     override fun add(item: MediaItem) {
@@ -231,7 +231,6 @@ class ArtistDatabase(context: Context) : Database {
     }
 
     init {
-        dbWritable = ArtistDatabaseDefinition(context).writableDatabase
         this.context = context
     }
 }

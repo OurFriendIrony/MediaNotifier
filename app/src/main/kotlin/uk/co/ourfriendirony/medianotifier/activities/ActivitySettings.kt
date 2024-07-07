@@ -38,8 +38,9 @@ class ActivitySettings : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val file = File(filesDir, Constants.QUEUE_FILENAME)
         val queueFile = QueueFile.Builder(file).build()
-
-        Toast.makeText(baseContext, "${queueFile.size()} - "+queueFile.remove().toString(), Toast.LENGTH_SHORT).show()
+        if (!queueFile.isEmpty) {
+            Toast.makeText(baseContext, "${queueFile.size()} - "+queueFile.remove().toString(), Toast.LENGTH_SHORT).show()
+        }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         supportActionBar!!.setTitle(R.string.title_settings)
@@ -128,8 +129,8 @@ class ActivitySettings : AppCompatActivity() {
             popupWindow = PopupWindow(layout, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true)
             popupWindow!!.showAtLocation(layout, Gravity.CENTER, 0, 0)
             val picker = popupWindow!!.contentView.findViewById<NumberPicker>(R.id.popup_date_picker)
-            picker.maxValue = PropertyHelper.notificationDayOffsetMax
-            picker.minValue = PropertyHelper.notificationDayOffsetMin
+            picker.maxValue = PropertyHelper.NOTIFICATION_DAY_OFFSET_MAX
+            picker.minValue = PropertyHelper.NOTIFICATION_DAY_OFFSET_MIN
             picker.value = getNotificationDayOffsetTV(applicationContext)
             picker.wrapSelectorWheel = false
             val buttonOk = popupWindow!!.contentView.findViewById<Button>(R.id.popup_ok)
@@ -145,8 +146,8 @@ class ActivitySettings : AppCompatActivity() {
             popupWindow = PopupWindow(layout, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true)
             popupWindow!!.showAtLocation(layout, Gravity.CENTER, 0, 0)
             val picker = popupWindow!!.contentView.findViewById<NumberPicker>(R.id.popup_date_picker)
-            picker.maxValue = PropertyHelper.notificationDayOffsetMax
-            picker.minValue = PropertyHelper.notificationDayOffsetMin
+            picker.maxValue = PropertyHelper.NOTIFICATION_DAY_OFFSET_MAX
+            picker.minValue = PropertyHelper.NOTIFICATION_DAY_OFFSET_MIN
             picker.value = getNotificationDayOffsetMovie(applicationContext)
             picker.wrapSelectorWheel = false
             val buttonOk = popupWindow!!.contentView.findViewById<Button>(R.id.popup_ok)
@@ -162,8 +163,8 @@ class ActivitySettings : AppCompatActivity() {
             popupWindow = PopupWindow(layout, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true)
             popupWindow!!.showAtLocation(layout, Gravity.CENTER, 0, 0)
             val picker = popupWindow!!.contentView.findViewById<NumberPicker>(R.id.popup_date_picker)
-            picker.maxValue = PropertyHelper.notificationDayOffsetMax
-            picker.minValue = PropertyHelper.notificationDayOffsetMin
+            picker.maxValue = PropertyHelper.NOTIFICATION_DAY_OFFSET_MAX
+            picker.minValue = PropertyHelper.NOTIFICATION_DAY_OFFSET_MIN
             picker.value = getNotificationDayOffsetArtist(applicationContext)
             picker.wrapSelectorWheel = false
             val buttonOk = popupWindow!!.contentView.findViewById<Button>(R.id.popup_ok)
@@ -179,8 +180,8 @@ class ActivitySettings : AppCompatActivity() {
             popupWindow = PopupWindow(layout, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true)
             popupWindow!!.showAtLocation(layout, Gravity.CENTER, 0, 0)
             val picker = popupWindow!!.contentView.findViewById<NumberPicker>(R.id.popup_date_picker)
-            picker.maxValue = PropertyHelper.notificationDayOffsetMax
-            picker.minValue = PropertyHelper.notificationDayOffsetMin
+            picker.maxValue = PropertyHelper.NOTIFICATION_DAY_OFFSET_MAX
+            picker.minValue = PropertyHelper.NOTIFICATION_DAY_OFFSET_MIN
             picker.value = getNotificationDayOffsetGame(applicationContext)
             picker.wrapSelectorWheel = false
             val buttonOk = popupWindow!!.contentView.findViewById<Button>(R.id.popup_ok)

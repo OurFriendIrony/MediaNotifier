@@ -51,7 +51,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:layout_marginStart="4dp"
-                        android:text="@string/lorum_ipsum_short" />
+                        android:text="@string/lorem_ipsum_short" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -71,7 +71,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
-                        android:text="@string/lorum_ipsum" />
+                        android:text="@string/lorem_ipsum" />
                 </RelativeLayout>
             </RelativeLayout>
 
@@ -91,7 +91,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@android:drawable/ic_menu_rotate"
-                    android:contentDescription="@string/lorum_ipsum_short" />
+                    android:contentDescription="@string/lorem_ipsum_short" />
 
                 <RelativeLayout
                     android:id="@+id/action_1_bottomSheetHL"
@@ -106,7 +106,7 @@
                     android:layout_height="40dp"
                     android:layout_below="@id/action_1_bottomSheetHL"
                     android:background="@android:drawable/ic_menu_delete"
-                    android:contentDescription="@string/lorum_ipsum_short" />
+                    android:contentDescription="@string/lorem_ipsum_short" />
 
                 <RelativeLayout
                     android:id="@+id/action_2_bottomSheetHL"
@@ -121,7 +121,7 @@
                     android:layout_height="40dp"
                     android:layout_below="@id/action_2_bottomSheetHL"
                     android:background="@android:drawable/ic_menu_directions"
-                    android:contentDescription="@string/lorum_ipsum_short" />
+                    android:contentDescription="@string/lorem_ipsum_short" />
 
                 <RelativeLayout
                     android:id="@+id/action_3_bottomSheetHL"
@@ -137,7 +137,7 @@
                     android:layout_height="40dp"
                     android:layout_below="@id/action_3_bottomSheetHL"
                     android:background="@android:drawable/arrow_down_float"
-                    android:contentDescription="@string/lorum_ipsum_short" />
+                    android:contentDescription="@string/lorem_ipsum_short" />
             </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>

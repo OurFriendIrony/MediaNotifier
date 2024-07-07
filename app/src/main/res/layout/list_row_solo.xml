@@ -58,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:contentDescription="@string/lorum_ipsum"
+                android:contentDescription="@string/lorem_ipsum"
                 android:focusable="false"
                 android:gravity="start|center"
                 android:paddingStart="0dp"

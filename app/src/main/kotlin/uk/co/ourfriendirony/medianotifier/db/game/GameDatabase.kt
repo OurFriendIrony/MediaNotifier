@@ -15,7 +15,7 @@ import java.util.*
 
 class GameDatabase(context: Context) : Database {
     private val context: Context
-    private val dbWritable: SQLiteDatabase
+    private val dbWritable: SQLiteDatabase = GameDatabaseDefinition(context).writableDatabase
     override val isParent = false
 
     override fun add(item: MediaItem) {
@@ -191,7 +191,6 @@ class GameDatabase(context: Context) : Database {
     }
 
     init {
-        dbWritable = GameDatabaseDefinition(context).writableDatabase
         this.context = context
     }
 }

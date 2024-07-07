@@ -16,7 +16,7 @@ import java.util.*
 
 class TVShowDatabase(context: Context) : Database {
     private val context: Context
-    private val dbWritable: SQLiteDatabase
+    private val dbWritable: SQLiteDatabase = TVShowDatabaseDefinition(context).writableDatabase
     override val isParent = true
 
     override fun add(item: MediaItem) {
@@ -232,7 +232,6 @@ class TVShowDatabase(context: Context) : Database {
     }
 
     init {
-        dbWritable = TVShowDatabaseDefinition(context).writableDatabase
         this.context = context
     }
 }

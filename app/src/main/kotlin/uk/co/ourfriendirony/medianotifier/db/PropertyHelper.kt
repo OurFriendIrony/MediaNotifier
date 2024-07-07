@@ -2,7 +2,6 @@ package uk.co.ourfriendirony.medianotifier.db
 
 import android.content.Context
 import android.content.SharedPreferences
-import uk.co.ourfriendirony.medianotifier.R
 import java.util.*
 
 object PropertyHelper {
@@ -20,8 +19,8 @@ object PropertyHelper {
     private const val NOTIFY_HOUR_DEFAULT = 21
     private const val NOTIFY_MIN_DEFAULT = 0
     private const val NOTIFY_DAY_OFFSET_DEFAULT = 0
-    const val notificationDayOffsetMax = +90
-    const val notificationDayOffsetMin = 0
+    const val NOTIFICATION_DAY_OFFSET_MAX = +90
+    const val NOTIFICATION_DAY_OFFSET_MIN = 0
 
     @JvmStatic
     fun getMarkWatchedIfAlreadyReleased(context: Context): Boolean {

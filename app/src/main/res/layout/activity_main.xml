@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:backgroundTint="@color/grey_01"
-                    android:contentDescription="@string/lorum_ipsum"
+                    android:contentDescription="@string/lorem_ipsum"
                     android:src="@android:drawable/ic_search_category_default"
                     app:borderWidth="0dp" />
 
@@ -84,7 +84,7 @@
                     android:layout_gravity="bottom"
                     android:layout_margin="8dp"
                     android:backgroundTint="@color/grey_01"
-                    android:contentDescription="@string/lorum_ipsum"
+                    android:contentDescription="@string/lorem_ipsum"
                     android:src="@android:drawable/ic_search_category_default"
                     app:borderWidth="0dp" />
 
@@ -127,7 +127,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:backgroundTint="@color/grey_01"
-                    android:contentDescription="@string/lorum_ipsum"
+                    android:contentDescription="@string/lorem_ipsum"
                     android:src="@android:drawable/ic_search_category_default"
                     app:borderWidth="0dp" />
 
@@ -170,7 +170,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:backgroundTint="@color/grey_01"
-                    android:contentDescription="@string/lorum_ipsum"
+                    android:contentDescription="@string/lorem_ipsum"
                     android:src="@android:drawable/ic_search_category_default"
                     app:borderWidth="0dp" />
 

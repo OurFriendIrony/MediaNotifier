@@ -20,7 +20,7 @@ class AddMediaItem(
     id: String,
     title: String
 ) : Runnable {
-    private val context: WeakReference<Context>
+    private val context: WeakReference<Context> = WeakReference(context)
     private val progressBar: WeakReference<ProgressBar?>
     private val db: Database?
     private val client: Client?
@@ -29,7 +29,6 @@ class AddMediaItem(
     private val title: String
 
     init {
-        this.context = WeakReference(context)
         this.progressBar = WeakReference(progressBar)
         this.db = db
         this.client = client

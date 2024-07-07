@@ -24,7 +24,7 @@ class FindMediaItem(
     ui: Handler,
     query: String
 ) : Runnable {
-    private val context: WeakReference<Context>
+    private val context: WeakReference<Context> = WeakReference(context)
     private val progressBar: WeakReference<ProgressBar?>
     private val listView: WeakReference<ListView?>
     private val db: Database?
@@ -56,7 +56,6 @@ class FindMediaItem(
     }
 
     init {
-        this.context = WeakReference(context)
         this.progressBar = WeakReference(progressBar)
         this.listView = WeakReference(listView)
         this.db = db

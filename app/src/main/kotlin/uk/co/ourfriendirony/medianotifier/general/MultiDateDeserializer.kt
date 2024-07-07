@@ -30,7 +30,7 @@ class MultiDateDeserializer @JvmOverloads constructor(vc: Class<*>? = null) :
     }
 
     companion object {
-        private const val serialVersionUID = 1L
+        private const val SERIAL_VERSION_ID = 1L
         private val DATE_FORMATS = arrayOf(
             "yyyy-MM-dd",
             "yyyy-MM",
