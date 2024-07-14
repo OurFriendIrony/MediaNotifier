@@ -16,9 +16,9 @@ class MultiDateDeserializer @JvmOverloads constructor(vc: Class<*>? = null) :
     override fun deserialize(jp: JsonParser, ctxt: DeserializationContext): Date? {
         val node = jp.codec.readTree<JsonNode>(jp)
         val date = node.textValue()
-        for (DATE_FORMAT in DATE_FORMATS) {
+        for (dateFormat in DATE_FORMATS) {
             try {
-                return SimpleDateFormat(DATE_FORMAT, Locale.UK).parse(date)
+                return SimpleDateFormat(dateFormat, Locale.UK).parse(date)
             } catch (e: ParseException) {
                 // Ignore and check the next deserialise pattern
             }

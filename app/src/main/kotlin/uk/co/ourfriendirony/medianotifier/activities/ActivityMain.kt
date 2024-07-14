@@ -1,6 +1,9 @@
 package uk.co.ourfriendirony.medianotifier.activities
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -14,10 +17,12 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.tape2.QueueFile
+import uk.co.ourfriendirony.medianotifier.QueueObject
+import uk.co.ourfriendirony.medianotifier.QueueProcessingService
 import uk.co.ourfriendirony.medianotifier.R
-import uk.co.ourfriendirony.medianotifier.activities.async.UpdateMediaItem
 import uk.co.ourfriendirony.medianotifier.clients.ArtistClient
 import uk.co.ourfriendirony.medianotifier.clients.Client
 import uk.co.ourfriendirony.medianotifier.clients.GameClient
@@ -38,8 +43,6 @@ import uk.co.ourfriendirony.medianotifier.general.Helper.getNotificationNumber
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator.contactEmailIntent
 import uk.co.ourfriendirony.medianotifier.general.IntentGenerator.getWebPageIntent
 import java.io.File
-import java.util.concurrent.Executors
-
 
 class ActivityMain : AppCompatActivity() {
     private var menu: Menu? = null
@@ -60,11 +63,20 @@ class ActivityMain : AppCompatActivity() {
     private var progressBar: ProgressBar? = null
     private var queueFile: QueueFile? = null
 
+
     private val myHandler = Handler(Looper.getMainLooper())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
+
+        // Start Foreground Service
+        val serviceIntent = Intent(this, QueueProcessingService::class.java).apply {
+            // putStringArrayListExtra("queueItems", ArrayList(queueItems))
+        }
+        startForegroundService(serviceIntent)
+
+        // Set content view
         setContentView(R.layout.activity_main)
         progressBar = findViewById(R.id.main_progress)
         tvShowDatabase = TVShowDatabase(applicationContext)
@@ -159,46 +171,50 @@ class ActivityMain : AppCompatActivity() {
             }
 
             R.id.action_refresh -> {
-                Executors.newSingleThreadExecutor().execute(
-                    UpdateMediaItem(
-                        baseContext,
-                        progressBar,
-                        tvShowDatabase,
-                        tvShowClient,
-                        myHandler,
-                        *tvShowDatabase!!.readAllItems().toTypedArray()
-                    )
-                )
-                Executors.newSingleThreadExecutor().execute(
-                    UpdateMediaItem(
-                        baseContext,
-                        progressBar,
-                        movieDatabase,
-                        movieClient,
-                        myHandler,
-                        *movieDatabase!!.readAllItems().toTypedArray()
-                    )
-                )
-                Executors.newSingleThreadExecutor().execute(
-                    UpdateMediaItem(
-                        baseContext,
-                        progressBar,
-                        artistDatabase,
-                        artistClient,
-                        myHandler,
-                        *artistDatabase!!.readAllItems().toTypedArray()
-                    )
-                )
-                Executors.newSingleThreadExecutor().execute(
-                    UpdateMediaItem(
-                        baseContext,
-                        progressBar,
-                        gameDatabase,
-                        gameClient,
-                        myHandler,
-                        *gameDatabase!!.readAllItems().toTypedArray()
-                    )
-                )
+                val x = tvShowDatabase!!.readAllItems().toTypedArray()
+                x.onEach { queueFile?.add(QueueObject(it.id, TVSHOW).toBytes()) }
+                startForegroundService(Intent(this, QueueProcessingService::class.java).apply {})
+
+//                Executors.newSingleThreadExecutor().execute(
+//                    UpdateMediaItem(
+//                        baseContext,
+//                        progressBar,
+//                        tvShowDatabase,
+//                        tvShowClient,
+//                        myHandler,
+//                        *x
+//                    )
+//                )
+//                Executors.newSingleThreadExecutor().execute(
+//                    UpdateMediaItem(
+//                        baseContext,
+//                        progressBar,
+//                        movieDatabase,
+//                        movieClient,
+//                        myHandler,
+//                        *movieDatabase!!.readAllItems().toTypedArray()
+//                    )
+//                )
+//                Executors.newSingleThreadExecutor().execute(
+//                    UpdateMediaItem(
+//                        baseContext,
+//                        progressBar,
+//                        artistDatabase,
+//                        artistClient,
+//                        myHandler,
+//                        *artistDatabase!!.readAllItems().toTypedArray()
+//                    )
+//                )
+//                Executors.newSingleThreadExecutor().execute(
+//                    UpdateMediaItem(
+//                        baseContext,
+//                        progressBar,
+//                        gameDatabase,
+//                        gameClient,
+//                        myHandler,
+//                        *gameDatabase!!.readAllItems().toTypedArray()
+//                    )
+//                )
                 true
             }
 
@@ -206,6 +222,24 @@ class ActivityMain : AppCompatActivity() {
                 super.onOptionsItemSelected(item)
             }
         }
+    }
+
+    private val queueUpdateReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val remainingItems = intent?.getIntExtra("remainingItems", 0) ?: 0
+            menu?.findItem(R.id.action_queue)?.title = remainingItems.toString()
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val filter = IntentFilter("QUEUE_UPDATE")
+        LocalBroadcastManager.getInstance(this).registerReceiver(queueUpdateReceiver, filter)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(queueUpdateReceiver)
     }
 
 }

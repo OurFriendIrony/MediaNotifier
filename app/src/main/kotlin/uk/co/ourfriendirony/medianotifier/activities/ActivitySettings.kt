@@ -1,13 +1,26 @@
 package uk.co.ourfriendirony.medianotifier.activities
 
+//import uk.co.ourfriendirony.medianotifier.QueueObject
+
+
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.*
+import android.widget.Button
+import android.widget.CompoundButton
+import android.widget.EditText
+import android.widget.NumberPicker
+import android.widget.PopupWindow
+import android.widget.RelativeLayout
+import android.widget.TimePicker
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.squareup.tape2.QueueFile
+import uk.co.ourfriendirony.medianotifier.QueueObject
 import uk.co.ourfriendirony.medianotifier.R
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getMarkWatchedIfAlreadyReleased
@@ -33,14 +46,33 @@ import uk.co.ourfriendirony.medianotifier.general.Constants
 import uk.co.ourfriendirony.medianotifier.notifier.AlarmScheduler.reschedule
 import java.io.File
 
+const val chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+val objectMapper: ObjectMapper = jacksonObjectMapper()
+
 class ActivitySettings : AppCompatActivity() {
     private var popupWindow: PopupWindow? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         val file = File(filesDir, Constants.QUEUE_FILENAME)
         val queueFile = QueueFile.Builder(file).build()
-        if (!queueFile.isEmpty) {
-            Toast.makeText(baseContext, "${queueFile.size()} - "+queueFile.remove().toString(), Toast.LENGTH_SHORT).show()
-        }
+        Toast.makeText(baseContext, "${queueFile.size()}", Toast.LENGTH_LONG).show()
+
+//        while (!queueFile.isEmpty) {
+//            val it = queueFile.peek()
+//            val deserializedObject: QueueObject =
+//                objectMapper.readValue(it, QueueObject::class.java)
+//            Toast.makeText(
+//                baseContext,
+//                "${queueFile.size()} - " + deserializedObject.id + "/" + deserializedObject.type,
+//                Toast.LENGTH_SHORT
+//            ).show()
+//            queueFile.remove()
+//        }
+
+//        val value = QueueObject("1", chars.random().toString())
+
+//        val byteArray: ByteArray = objectMapper.writeValueAsBytes(value)
+//        queueFile.add(byteArray)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         supportActionBar!!.setTitle(R.string.title_settings)
@@ -49,10 +81,14 @@ class ActivitySettings : AppCompatActivity() {
         // Load Page Objects
         val toggleMarkWatched = findViewById<SwitchCompat>(R.id.settings_played_toggle)
         val buttonNotifyTimer = findViewById<Button>(R.id.settings_notification_time_button)
-        val buttonNotifyOffsetTV = findViewById<Button>(R.id.settings_notification_day_offset_tv_button)
-        val buttonNotifyOffsetMovie = findViewById<Button>(R.id.settings_notification_day_offset_movie_button)
-        val buttonNotifyOffsetArtist = findViewById<Button>(R.id.settings_notification_day_offset_artist_button)
-        val buttonNotifyOffsetGame = findViewById<Button>(R.id.settings_notification_day_offset_game_button)
+        val buttonNotifyOffsetTV =
+            findViewById<Button>(R.id.settings_notification_day_offset_tv_button)
+        val buttonNotifyOffsetMovie =
+            findViewById<Button>(R.id.settings_notification_day_offset_movie_button)
+        val buttonNotifyOffsetArtist =
+            findViewById<Button>(R.id.settings_notification_day_offset_artist_button)
+        val buttonNotifyOffsetGame =
+            findViewById<Button>(R.id.settings_notification_day_offset_game_button)
         val buttonDeleteTV = findViewById<Button>(R.id.settings_button_delete_tv_all)
         val buttonDeleteMovie = findViewById<Button>(R.id.settings_button_delete_movie_all)
         val buttonDeleteArtist = findViewById<Button>(R.id.settings_button_delete_artist_all)
@@ -90,26 +126,49 @@ class ActivitySettings : AppCompatActivity() {
         }
         buttonDeleteTV.setOnClickListener {
             TVShowDatabase(applicationContext).deleteAll()
-            Toast.makeText(this@ActivitySettings, R.string.toast_db_table_cleared, Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this@ActivitySettings,
+                R.string.toast_db_table_cleared,
+                Toast.LENGTH_SHORT
+            ).show()
         }
         buttonDeleteMovie.setOnClickListener {
             MovieDatabase(applicationContext).deleteAll()
-            Toast.makeText(this@ActivitySettings, R.string.toast_db_table_cleared, Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this@ActivitySettings,
+                R.string.toast_db_table_cleared,
+                Toast.LENGTH_SHORT
+            ).show()
         }
         buttonDeleteArtist.setOnClickListener {
             ArtistDatabase(applicationContext).deleteAll()
-            Toast.makeText(this@ActivitySettings, R.string.toast_db_table_cleared, Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this@ActivitySettings,
+                R.string.toast_db_table_cleared,
+                Toast.LENGTH_SHORT
+            ).show()
         }
         buttonDeleteGame.setOnClickListener {
             GameDatabase(applicationContext).deleteAll()
-            Toast.makeText(this@ActivitySettings, R.string.toast_db_table_cleared, Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this@ActivitySettings,
+                R.string.toast_db_table_cleared,
+                Toast.LENGTH_SHORT
+            ).show()
         }
         buttonNotifyTimer.setOnClickListener {
-            val inflater = this@ActivitySettings.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val inflater =
+                this@ActivitySettings.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val layout = inflater.inflate(R.layout.popup_time_selector, findViewById(R.id.popup))
-            popupWindow = PopupWindow(layout, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true)
+            popupWindow = PopupWindow(
+                layout,
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                true
+            )
             popupWindow!!.showAtLocation(layout, Gravity.CENTER, 0, 0)
-            val timePicker = popupWindow!!.contentView.findViewById<TimePicker>(R.id.popup_time_picker)
+            val timePicker =
+                popupWindow!!.contentView.findViewById<TimePicker>(R.id.popup_time_picker)
             timePicker.setIs24HourView(true)
             timePicker.hour = getNotificationHour(applicationContext)
             timePicker.minute = getNotificationMinute(applicationContext)
@@ -126,9 +185,15 @@ class ActivitySettings : AppCompatActivity() {
             val inflater =
                 this@ActivitySettings.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val layout = inflater.inflate(R.layout.popup_offset_selector, findViewById(R.id.popup))
-            popupWindow = PopupWindow(layout, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true)
+            popupWindow = PopupWindow(
+                layout,
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                true
+            )
             popupWindow!!.showAtLocation(layout, Gravity.CENTER, 0, 0)
-            val picker = popupWindow!!.contentView.findViewById<NumberPicker>(R.id.popup_date_picker)
+            val picker =
+                popupWindow!!.contentView.findViewById<NumberPicker>(R.id.popup_date_picker)
             picker.maxValue = PropertyHelper.NOTIFICATION_DAY_OFFSET_MAX
             picker.minValue = PropertyHelper.NOTIFICATION_DAY_OFFSET_MIN
             picker.value = getNotificationDayOffsetTV(applicationContext)
@@ -141,11 +206,18 @@ class ActivitySettings : AppCompatActivity() {
             }
         }
         buttonNotifyOffsetMovie.setOnClickListener {
-            val inflater = this@ActivitySettings.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val inflater =
+                this@ActivitySettings.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val layout = inflater.inflate(R.layout.popup_offset_selector, findViewById(R.id.popup))
-            popupWindow = PopupWindow(layout, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true)
+            popupWindow = PopupWindow(
+                layout,
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                true
+            )
             popupWindow!!.showAtLocation(layout, Gravity.CENTER, 0, 0)
-            val picker = popupWindow!!.contentView.findViewById<NumberPicker>(R.id.popup_date_picker)
+            val picker =
+                popupWindow!!.contentView.findViewById<NumberPicker>(R.id.popup_date_picker)
             picker.maxValue = PropertyHelper.NOTIFICATION_DAY_OFFSET_MAX
             picker.minValue = PropertyHelper.NOTIFICATION_DAY_OFFSET_MIN
             picker.value = getNotificationDayOffsetMovie(applicationContext)
@@ -158,11 +230,18 @@ class ActivitySettings : AppCompatActivity() {
             }
         }
         buttonNotifyOffsetArtist.setOnClickListener {
-            val inflater = this@ActivitySettings.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val inflater =
+                this@ActivitySettings.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val layout = inflater.inflate(R.layout.popup_offset_selector, findViewById(R.id.popup))
-            popupWindow = PopupWindow(layout, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true)
+            popupWindow = PopupWindow(
+                layout,
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                true
+            )
             popupWindow!!.showAtLocation(layout, Gravity.CENTER, 0, 0)
-            val picker = popupWindow!!.contentView.findViewById<NumberPicker>(R.id.popup_date_picker)
+            val picker =
+                popupWindow!!.contentView.findViewById<NumberPicker>(R.id.popup_date_picker)
             picker.maxValue = PropertyHelper.NOTIFICATION_DAY_OFFSET_MAX
             picker.minValue = PropertyHelper.NOTIFICATION_DAY_OFFSET_MIN
             picker.value = getNotificationDayOffsetArtist(applicationContext)
@@ -171,15 +250,23 @@ class ActivitySettings : AppCompatActivity() {
             buttonOk.setOnClickListener {
                 setNotificationDayOffsetArtist(applicationContext, picker.value)
                 popupWindow!!.dismiss()
-                buttonNotifyOffsetArtist.text = getNotificationDayOffsetArtist(baseContext).toString()
+                buttonNotifyOffsetArtist.text =
+                    getNotificationDayOffsetArtist(baseContext).toString()
             }
         }
         buttonNotifyOffsetGame.setOnClickListener {
-            val inflater = this@ActivitySettings.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val inflater =
+                this@ActivitySettings.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val layout = inflater.inflate(R.layout.popup_offset_selector, findViewById(R.id.popup))
-            popupWindow = PopupWindow(layout, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, true)
+            popupWindow = PopupWindow(
+                layout,
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                true
+            )
             popupWindow!!.showAtLocation(layout, Gravity.CENTER, 0, 0)
-            val picker = popupWindow!!.contentView.findViewById<NumberPicker>(R.id.popup_date_picker)
+            val picker =
+                popupWindow!!.contentView.findViewById<NumberPicker>(R.id.popup_date_picker)
             picker.maxValue = PropertyHelper.NOTIFICATION_DAY_OFFSET_MAX
             picker.minValue = PropertyHelper.NOTIFICATION_DAY_OFFSET_MIN
             picker.value = getNotificationDayOffsetGame(applicationContext)

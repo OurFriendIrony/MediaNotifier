@@ -2,7 +2,7 @@ plugins {
     id "com.android.application"
     id "kotlin-android"
     id "jacoco"
-}
+    }
 
 android {
     defaultConfig {
@@ -61,11 +61,15 @@ dependencies {
     implementation "com.fasterxml.jackson.core:jackson-databind:2.13.3"
     implementation "com.squareup.okhttp3:okhttp:4.9.0"
     implementation "com.squareup.tape2:tape:2.0.0-beta1"
-
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-core:1.5.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.5.1'
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.3")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.13.3")
     testImplementation "org.jetbrains.kotlin:kotlin-test"
     testImplementation "junit:junit:4.13.2"
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.8.2"
     testImplementation "org.jacoco:org.jacoco.core:0.8.8"
+    implementation "androidx.work:work-runtime-ktx:2.9.0"
 }
 
 configurations.configureEach {

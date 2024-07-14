@@ -46,7 +46,7 @@ class UpdateMediaItem(
         } else {
             "All " + db!!.coreType + " Media Updated"
         }
-        for (mediaItem in mediaItems) {
+        mediaItems.forEach { mediaItem ->
             try {
                 db!!.update(client!!.getMediaItem(mediaItem.id))
             } catch (e: Exception) {
