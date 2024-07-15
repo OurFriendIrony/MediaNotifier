@@ -6,11 +6,15 @@ import android.util.Log
 import uk.co.ourfriendirony.medianotifier.clients.rawg.game.get.GameGet
 import uk.co.ourfriendirony.medianotifier.clients.rawg.game.search.GameSearchResult
 import uk.co.ourfriendirony.medianotifier.db.game.GameDatabaseDefinition
+import uk.co.ourfriendirony.medianotifier.general.Constants.LOGLABEL_APIGET
+import uk.co.ourfriendirony.medianotifier.general.Constants.LOGLABEL_APISEARCH
+import uk.co.ourfriendirony.medianotifier.general.Constants.LOGLABEL_DBREAD
 import uk.co.ourfriendirony.medianotifier.general.Helper.getColumnValue
 import uk.co.ourfriendirony.medianotifier.general.Helper.stringToDate
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 class Game : MediaItem {
     override var id: String
@@ -37,7 +41,7 @@ class Game : MediaItem {
         if (game.website != "" && game.website != null) {
             externalLink = game.website
         }
-        Log.d("[API GET]", this.toString())
+        Log.d(LOGLABEL_APIGET, this.toString())
     }
 
     constructor(game: GameSearchResult) {
@@ -45,7 +49,7 @@ class Game : MediaItem {
         title = game.name
         subtitle = getPlatformsCompressed(game)
         releaseDate = game.released
-        Log.d("[API SEARCH]", this.toString())
+        Log.d(LOGLABEL_APISEARCH, this.toString())
     }
 
     constructor(cursor: Cursor?) {
@@ -57,7 +61,7 @@ class Game : MediaItem {
         releaseDate = stringToDate(getColumnValue(cursor, GameDatabaseDefinition.RELEASE_DATE))
         externalLink = getColumnValue(cursor, GameDatabaseDefinition.EXTERNAL_URL)
         children = ArrayList()
-        Log.d("[DB READ]", this.toString())
+        Log.d(LOGLABEL_DBREAD, this.toString())
     }
 
     private fun getPlatformsCompressed(game: GameGet): String {
@@ -97,6 +101,7 @@ class Game : MediaItem {
     }
 
     override fun toString(): String {
-        return "Game: $title > $releaseDateFull"
+        return "%10s: %s > %s"
+            .format("Game", releaseDateFull, title)
     }
 }

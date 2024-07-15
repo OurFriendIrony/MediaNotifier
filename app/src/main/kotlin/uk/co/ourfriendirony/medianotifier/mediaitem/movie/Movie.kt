@@ -5,11 +5,15 @@ import android.util.Log
 import uk.co.ourfriendirony.medianotifier.clients.tmdb.movie.get.MovieGet
 import uk.co.ourfriendirony.medianotifier.clients.tmdb.movie.search.MovieSearchResult
 import uk.co.ourfriendirony.medianotifier.db.movie.MovieDatabaseDefinition
+import uk.co.ourfriendirony.medianotifier.general.Constants.LOGLABEL_APIGET
+import uk.co.ourfriendirony.medianotifier.general.Constants.LOGLABEL_APISEARCH
+import uk.co.ourfriendirony.medianotifier.general.Constants.LOGLABEL_DBREAD
 import uk.co.ourfriendirony.medianotifier.general.Helper.getColumnValue
 import uk.co.ourfriendirony.medianotifier.general.Helper.stringToDate
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 class Movie : MediaItem {
     override var id: String
@@ -39,7 +43,7 @@ class Movie : MediaItem {
         if (movie.imdbId != null) {
             externalLink = IMDB_URL + movie.imdbId
         }
-        Log.d("[API GET]", this.toString())
+        Log.d(LOGLABEL_APIGET, this.toString())
     }
 
     constructor(movie: MovieSearchResult) {
@@ -47,7 +51,7 @@ class Movie : MediaItem {
         title = movie.title
         description = movie.overview
         releaseDate = movie.releaseDate
-        Log.d("[API SEARCH]", this.toString())
+        Log.d(LOGLABEL_APISEARCH, this.toString())
     }
 
     constructor(cursor: Cursor?) {
@@ -59,7 +63,7 @@ class Movie : MediaItem {
         releaseDate = stringToDate(getColumnValue(cursor, MovieDatabaseDefinition.RELEASE_DATE))
         externalLink = getColumnValue(cursor, MovieDatabaseDefinition.EXTERNAL_URL)
         children = ArrayList()
-        Log.d("[DB READ]", this.toString())
+        Log.d(LOGLABEL_DBREAD, this.toString())
     }
 
     override val subId: String
@@ -78,7 +82,8 @@ class Movie : MediaItem {
     }
 
     override fun toString(): String {
-        return "Movie: $title > $releaseDateFull"
+        return "%10s: %s > %s"
+            .format("Movie", releaseDateFull, title)
     }
 
     companion object {

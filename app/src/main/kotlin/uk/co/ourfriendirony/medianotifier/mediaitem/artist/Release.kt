@@ -13,6 +13,10 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+import uk.co.ourfriendirony.medianotifier.general.Constants.LOGLABEL_APIGET
+import uk.co.ourfriendirony.medianotifier.general.Constants.LOGLABEL_APISEARCH
+import uk.co.ourfriendirony.medianotifier.general.Constants.LOGLABEL_DBREAD
+
 class Release : MediaItem {
     override val id: String
     override val title: String?
@@ -43,7 +47,7 @@ class Release : MediaItem {
         releaseDate = release.date
         description = getTracksAsDescription(release.media?.get(0)?.tracks)
 
-        Log.d("[API GET]", this.toString())
+        Log.d(LOGLABEL_APIGET, this.toString())
     }
 
     constructor(cursor: Cursor?) {
@@ -54,7 +58,7 @@ class Release : MediaItem {
         description = getColumnValue(cursor, ArtistDatabaseDefinition.DESCRIPTION)
         releaseDate = stringToDate(getColumnValue(cursor, ArtistDatabaseDefinition.RELEASE_DATE))
         externalLink = getColumnValue(cursor, ArtistDatabaseDefinition.EXTERNAL_URL)
-        Log.d("[DB READ]", this.toString())
+        Log.d(LOGLABEL_DBREAD, this.toString())
     }
 
     override val releaseDateFull: String
@@ -80,6 +84,7 @@ class Release : MediaItem {
     }
 
     override fun toString(): String {
-        return "Release: $title > $releaseDateFull"
+        return "%10s: %s > %s"
+            .format("Release", releaseDateFull, title)
     }
 }

@@ -4,11 +4,14 @@ import android.database.Cursor
 import android.util.Log
 import uk.co.ourfriendirony.medianotifier.clients.tmdb.tvseason.get.TVSeasonGetEpisode
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabaseDefinition
+import uk.co.ourfriendirony.medianotifier.general.Constants.LOGLABEL_APIGET
+import uk.co.ourfriendirony.medianotifier.general.Constants.LOGLABEL_DBREAD
 import uk.co.ourfriendirony.medianotifier.general.Helper.getColumnValue
 import uk.co.ourfriendirony.medianotifier.general.Helper.stringToDate
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 class TVEpisode : MediaItem {
     override val id: String
@@ -34,7 +37,7 @@ class TVEpisode : MediaItem {
         subtitle = tvShow.title!!
         description = episode.overview
         releaseDate = episode.airDate
-        Log.d("[API GET]", this.toString())
+        Log.d(LOGLABEL_APIGET, this.toString())
     }
 
     constructor(cursor: Cursor?) {
@@ -45,7 +48,7 @@ class TVEpisode : MediaItem {
         description = getColumnValue(cursor, TVShowDatabaseDefinition.DESCRIPTION)
         releaseDate = stringToDate(getColumnValue(cursor, TVShowDatabaseDefinition.RELEASE_DATE))
         externalLink = getColumnValue(cursor, TVShowDatabaseDefinition.EXTERNAL_URL)
-        Log.d("[DB READ]", this.toString())
+        Log.d(LOGLABEL_DBREAD, this.toString())
     }
 
     private fun formatEpSe(episode: TVSeasonGetEpisode): String {
@@ -71,7 +74,8 @@ class TVEpisode : MediaItem {
     }
 
     override fun toString(): String {
-        return "TVEpisode: $subtitle > $title > $releaseDateFull"
+        return "%10s: %s > %s (%s)"
+            .format("TVEpisode", releaseDateFull, subtitle, title)
     }
 
     companion object {

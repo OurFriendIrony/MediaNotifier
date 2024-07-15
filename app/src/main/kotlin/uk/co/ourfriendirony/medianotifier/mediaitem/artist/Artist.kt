@@ -5,11 +5,15 @@ import android.util.Log
 import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.artist.get.ArtistGet
 import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.artist.search.ArtistSearchArtist
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabaseDefinition
+import uk.co.ourfriendirony.medianotifier.general.Constants.LOGLABEL_APIGET
+import uk.co.ourfriendirony.medianotifier.general.Constants.LOGLABEL_APISEARCH
+import uk.co.ourfriendirony.medianotifier.general.Constants.LOGLABEL_DBREAD
 import uk.co.ourfriendirony.medianotifier.general.Helper.getColumnValue
 import uk.co.ourfriendirony.medianotifier.general.Helper.stringToDate
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 class Artist : MediaItem {
     override val id: String
@@ -38,6 +42,7 @@ class Artist : MediaItem {
         if (artist.lifeSpan != null && artist.lifeSpan!!.begin != null) {
             releaseDate = artist.lifeSpan!!.begin
         }
+        Log.d(LOGLABEL_APIGET, this.toString())
     }
 
     constructor(artist: ArtistSearchArtist) {
@@ -51,7 +56,7 @@ class Artist : MediaItem {
         if (artist.lifeSpan != null && artist.lifeSpan!!.begin != null) {
             releaseDate = artist.lifeSpan!!.begin
         }
-        Log.d("[API SEARCH]", this.toString())
+        Log.d(LOGLABEL_APISEARCH, this.toString())
     }
 
     @JvmOverloads
@@ -63,7 +68,7 @@ class Artist : MediaItem {
         description = getColumnValue(cursor, ArtistDatabaseDefinition.DESCRIPTION)
         releaseDate = stringToDate(getColumnValue(cursor, ArtistDatabaseDefinition.RELEASE_DATE))
         children = releases as MutableList<MediaItem>
-        Log.d("[DB READ]", this.toString())
+        Log.d(LOGLABEL_DBREAD, this.toString())
     }
 
     override val subId: String
@@ -82,6 +87,7 @@ class Artist : MediaItem {
     }
 
     override fun toString(): String {
-        return "Artist: " + title + " > " + releaseDateFull + " > Releases " + countChildren()
+        return "%10s: %s > %s > Releases: %3s"
+            .format("Artist", releaseDateFull, title, countChildren())
     }
 }

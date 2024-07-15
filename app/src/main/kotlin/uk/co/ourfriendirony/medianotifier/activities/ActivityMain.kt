@@ -171,9 +171,19 @@ class ActivityMain : AppCompatActivity() {
             }
 
             R.id.action_refresh -> {
-                val x = tvShowDatabase!!.readAllItems().toTypedArray()
-                x.onEach { queueFile?.add(QueueObject(it.id, TVSHOW).toBytes()) }
-                startForegroundService(Intent(this, QueueProcessingService::class.java).apply {})
+                tvShowDatabase!!.readAllItems().toTypedArray().onEach {
+                    queueFile?.add(QueueObject(it.id, TVSHOW).toBytes())
+                }
+                movieDatabase!!.readAllItems().toTypedArray().onEach {
+                    queueFile?.add(QueueObject(it.id, MOVIE).toBytes())
+                }
+                artistDatabase!!.readAllItems().toTypedArray().onEach {
+                    queueFile?.add(QueueObject(it.id, ARTIST).toBytes())
+                }
+                gameDatabase!!.readAllItems().toTypedArray().onEach {
+                    queueFile?.add(QueueObject(it.id, GAME).toBytes())
+                }
+//                startForegroundService(Intent(this, QueueProcessingService::class.java).apply {})
 
 //                Executors.newSingleThreadExecutor().execute(
 //                    UpdateMediaItem(

@@ -5,11 +5,15 @@ import android.util.Log
 import uk.co.ourfriendirony.medianotifier.clients.tmdb.tvshow.get.TVShowGet
 import uk.co.ourfriendirony.medianotifier.clients.tmdb.tvshow.search.TVShowSearchResult
 import uk.co.ourfriendirony.medianotifier.db.tv.TVShowDatabaseDefinition
+import uk.co.ourfriendirony.medianotifier.general.Constants.LOGLABEL_APIGET
+import uk.co.ourfriendirony.medianotifier.general.Constants.LOGLABEL_APISEARCH
+import uk.co.ourfriendirony.medianotifier.general.Constants.LOGLABEL_DBREAD
 import uk.co.ourfriendirony.medianotifier.general.Helper.getColumnValue
 import uk.co.ourfriendirony.medianotifier.general.Helper.stringToDate
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 class TVShow : MediaItem {
     override val id: String
@@ -35,7 +39,7 @@ class TVShow : MediaItem {
         if (tvShow.externalIds != null && tvShow.externalIds!!.imdbId != null) {
             externalLink = IMDB_URL + tvShow.externalIds!!.imdbId
         }
-        Log.d("[API GET]", this.toString())
+        Log.d(LOGLABEL_APIGET, this.toString())
     }
 
     constructor(item: TVShowSearchResult) {
@@ -43,7 +47,7 @@ class TVShow : MediaItem {
         title = item.name
         description = item.overview
         releaseDate = item.firstAirDate
-        Log.d("[API SEARCH]", this.toString())
+        Log.d(LOGLABEL_APISEARCH, this.toString())
     }
 
     @JvmOverloads
@@ -56,7 +60,7 @@ class TVShow : MediaItem {
         releaseDate = stringToDate(getColumnValue(cursor, TVShowDatabaseDefinition.RELEASE_DATE))
         externalLink = getColumnValue(cursor, TVShowDatabaseDefinition.EXTERNAL_URL)
         children = episodes.toMutableList()
-        Log.d("[DB READ]", this.toString())
+        Log.d(LOGLABEL_DBREAD, this.toString())
     }
 
 
@@ -78,7 +82,8 @@ class TVShow : MediaItem {
     }
 
     override fun toString(): String {
-        return "TVShow: " + title + " > " + releaseDateFull + " > Episodes " + countChildren()
+        return "%10s: %s > %s > Episodes: %s"
+            .format("TVShow", releaseDateFull, title, countChildren())
     }
 
     companion object {
