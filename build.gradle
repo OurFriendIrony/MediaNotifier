@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        ver_sdk_min = 26
+        ver_sdk_min = 33
         ver_sdk = 34
         ver_buildtools = ver_sdk + ".0.0"
         ver_java = JavaVersion.VERSION_11
