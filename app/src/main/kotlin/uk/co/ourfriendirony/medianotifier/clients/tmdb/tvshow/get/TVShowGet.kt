@@ -1,7 +1,11 @@
 package uk.co.ourfriendirony.medianotifier.clients.tmdb.tvshow.get
 
-import com.fasterxml.jackson.annotation.*
-import java.util.*
+import com.fasterxml.jackson.annotation.JsonFormat
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonPropertyOrder
+import java.util.Date
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)

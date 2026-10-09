@@ -2,7 +2,7 @@ package uk.co.ourfriendirony.medianotifier.db
 
 import android.content.Context
 import android.content.SharedPreferences
-import java.util.*
+import java.util.Locale
 
 object PropertyHelper {
     private const val PROP_NAME = "Media Notifier"

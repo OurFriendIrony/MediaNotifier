@@ -11,7 +11,7 @@ import uk.co.ourfriendirony.medianotifier.general.Constants
 import uk.co.ourfriendirony.medianotifier.general.Helper
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem
 import uk.co.ourfriendirony.medianotifier.mediaitem.movie.Movie
-import java.util.*
+import java.util.Date
 
 class MovieDatabase(context: Context) : Database {
     private val context: Context

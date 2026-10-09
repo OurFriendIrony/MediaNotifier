@@ -50,7 +50,12 @@ class MyExpandableListAdapter(
         return groupPosition.toLong()
     }
 
-    override fun getGroupView(groupPosition: Int, isExpanded: Boolean, convertView: View?, parent: ViewGroup?): View {
+    override fun getGroupView(
+        groupPosition: Int,
+        isExpanded: Boolean,
+        convertView: View?,
+        parent: ViewGroup?
+    ): View {
         val mediaItem = getGroup(groupPosition) as MediaItem
         return if (mediaItem.isParent) {
             buildParent(convertView, mediaItem)
@@ -59,7 +64,13 @@ class MyExpandableListAdapter(
         }
     }
 
-    override fun getChildView(parentPosition: Int, childPosition: Int, isLastChild: Boolean, convertView: View?, parent: ViewGroup?): View {
+    override fun getChildView(
+        parentPosition: Int,
+        childPosition: Int,
+        isLastChild: Boolean,
+        convertView: View?,
+        parent: ViewGroup?
+    ): View {
         val mediaItem = getChild(parentPosition, childPosition) as MediaItem
 
         return buildChild(convertView, mediaItem)
@@ -88,8 +99,14 @@ class MyExpandableListAdapter(
             var url = PropertyHelper.getCustomUrlChild(context!!)
             if (url != "") {
                 bottom.findViewById<ImageButton>(R.id.action_download).setOnClickListener {
-                    url = url.replaceFirst("{}", URLEncoder.encode(mediaItem.subtitle, "utf-8").replace("+","%20"))
-                    url = url.replaceFirst("{}", URLEncoder.encode(mediaItem.subId, "utf-8").replace("+","%20"))
+                    url = url.replaceFirst(
+                        "{}",
+                        URLEncoder.encode(mediaItem.subtitle, "utf-8").replace("+", "%20")
+                    )
+                    url = url.replaceFirst(
+                        "{}",
+                        URLEncoder.encode(mediaItem.subId, "utf-8").replace("+", "%20")
+                    )
                     val intent = IntentGenerator.getWebPageIntent(url)
                     context.startActivity(intent)
                 }
@@ -135,7 +152,8 @@ class MyExpandableListAdapter(
 
     private fun getView(convertView: View?, layoutId: Int): View {
         val view: View = if (convertView == null) {
-            val layoutInflater = context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val layoutInflater =
+                context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             layoutInflater.inflate(layoutId, null)
         } else {
             convertView

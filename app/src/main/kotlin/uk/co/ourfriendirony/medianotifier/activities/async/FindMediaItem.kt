@@ -47,7 +47,8 @@ class FindMediaItem(
         ui.post {
             progressBar.get()!!.isIndeterminate = false
             if (mediaItems.isNotEmpty()) {
-                val adapter: ArrayAdapter<*> = ListAdapterSummary(context.get(), R.layout.list_item_generic, mediaItems, db)
+                val adapter: ArrayAdapter<*> =
+                    ListAdapterSummary(context.get(), R.layout.list_item_generic, mediaItems, db)
                 listView.get()!!.adapter = adapter
             } else {
                 Toast.makeText(context.get(), R.string.toast_no_results, Toast.LENGTH_LONG).show()

@@ -6,8 +6,12 @@ import android.os.Looper
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.*
+import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
+import android.widget.EditText
+import android.widget.ListView
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import uk.co.ourfriendirony.medianotifier.R
 import uk.co.ourfriendirony.medianotifier.activities.async.AddMediaItem
@@ -47,7 +51,15 @@ class ActivityFind : AppCompatActivity() {
                 val input = textView.text.toString()
                 if ("" != input) {
                     Executors.newSingleThreadExecutor().execute(
-                        FindMediaItem(baseContext, progressBar, listView, db, client, myHandler, input)
+                        FindMediaItem(
+                            baseContext,
+                            progressBar,
+                            listView,
+                            db,
+                            client,
+                            myHandler,
+                            input
+                        )
                     )
                 }
                 true
@@ -56,13 +68,15 @@ class ActivityFind : AppCompatActivity() {
             }
         }
 
-        listView?.onItemClickListener = OnItemClickListener { _: AdapterView<*>?, view: View, _: Int, _: Long ->
-            val id = view.findViewById<TextView>(R.id.list_item_generic_id).text.toString()
-            val title = view.findViewById<TextView>(R.id.list_item_generic_title).text.toString()
+        listView?.onItemClickListener =
+            OnItemClickListener { _: AdapterView<*>?, view: View, _: Int, _: Long ->
+                val id = view.findViewById<TextView>(R.id.list_item_generic_id).text.toString()
+                val title =
+                    view.findViewById<TextView>(R.id.list_item_generic_title).text.toString()
 
-            Executors.newSingleThreadExecutor().execute(
-                AddMediaItem(applicationContext, progressBar, db, client, myHandler, id, title)
-            )
-        }
+                Executors.newSingleThreadExecutor().execute(
+                    AddMediaItem(applicationContext, progressBar, db, client, myHandler, id, title)
+                )
+            }
     }
 }

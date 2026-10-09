@@ -5,7 +5,8 @@ import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
 import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 object Helper {
     private val PREFIXES = arrayOf("A ", "The ")

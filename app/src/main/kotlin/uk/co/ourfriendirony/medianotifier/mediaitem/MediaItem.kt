@@ -1,6 +1,6 @@
 package uk.co.ourfriendirony.medianotifier.mediaitem
 
-import java.util.*
+import java.util.Date
 
 interface MediaItem {
     val id: String

@@ -20,7 +20,6 @@ import androidx.appcompat.widget.SwitchCompat
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.squareup.tape2.QueueFile
-import uk.co.ourfriendirony.medianotifier.QueueObject
 import uk.co.ourfriendirony.medianotifier.R
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getMarkWatchedIfAlreadyReleased

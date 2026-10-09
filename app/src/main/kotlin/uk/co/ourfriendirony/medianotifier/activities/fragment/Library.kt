@@ -47,8 +47,13 @@ abstract class Library : Fragment() {
     private lateinit var listView: ExpandableListView
     private var allowRefresh = false
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val rootView = inflater.inflate(R.layout.activity_notifications, container, false) as ViewGroup
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        val rootView =
+            inflater.inflate(R.layout.activity_notifications, container, false) as ViewGroup
         val intentKey = this.requireArguments().getString(INTENT_KEY)
 
         val d = DatabaseFactory().getDatabase(requireContext(), intentKey!!)
@@ -74,6 +79,7 @@ abstract class Library : Fragment() {
                     this.mediaItems = getItems(db)
                     rebuild(this.mediaItems, db, client, listView)
                 }
+
                 DialogInterface.BUTTON_NEGATIVE -> {}
             }
         }
@@ -115,7 +121,10 @@ abstract class Library : Fragment() {
             var url = PropertyHelper.getCustomUrlParent(requireContext())
             if (url != "") {
                 bottom.findViewById<ImageButton>(R.id.action_download).setOnClickListener {
-                    url = url.replaceFirst("{}", URLEncoder.encode(mediaItem.title, "utf-8").replace("+","%20"))
+                    url = url.replaceFirst(
+                        "{}",
+                        URLEncoder.encode(mediaItem.title, "utf-8").replace("+", "%20")
+                    )
                     val intent = IntentGenerator.getWebPageIntent(url)
                     startActivity(intent)
                 }

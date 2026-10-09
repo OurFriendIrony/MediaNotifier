@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.Intent
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationHour
 import uk.co.ourfriendirony.medianotifier.db.PropertyHelper.getNotificationMinute
-import java.util.*
+import java.util.Calendar
 
 object AlarmScheduler {
     @JvmStatic

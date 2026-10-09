@@ -26,13 +26,20 @@ class ActivityUnplayed : AppCompatActivity() {
 
         val progressBar = findViewById<ProgressBar>(R.id.progress)
         val mPager = findViewById<ViewPager2>(R.id.pager)
-        val mPagerAdapter = UnplayedPagerAdapter(supportFragmentManager, lifecycle, intentKey, bottomSheetView, progressBar)
+        val mPagerAdapter = UnplayedPagerAdapter(
+            supportFragmentManager,
+            lifecycle,
+            intentKey,
+            bottomSheetView,
+            progressBar
+        )
         mPager.adapter = mPagerAdapter
         mPager.currentItem = 0
     }
 
     private fun cancelNotifications() {
-        val notificationManager = applicationContext.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager =
+            applicationContext.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.cancelAll()
     }
 }

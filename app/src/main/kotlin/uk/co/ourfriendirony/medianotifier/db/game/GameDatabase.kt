@@ -11,7 +11,7 @@ import uk.co.ourfriendirony.medianotifier.general.Constants
 import uk.co.ourfriendirony.medianotifier.general.Helper
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem
 import uk.co.ourfriendirony.medianotifier.mediaitem.game.Game
-import java.util.*
+import java.util.Date
 
 class GameDatabase(context: Context) : Database {
     private val context: Context
@@ -87,7 +87,8 @@ class GameDatabase(context: Context) : Database {
         get() = getUnplayed(GET_UNWATCHED_GAMES_TOTAL, "UNWATCHED TOTAL")
 
     private fun countUnplayed(countQuery: String): Int {
-        val offset = "date('now','-" + PropertyHelper.getNotificationDayOffsetGame(context) + " days')"
+        val offset =
+            "date('now','-" + PropertyHelper.getNotificationDayOffsetGame(context) + " days')"
         val query = Helper.replaceTokens(countQuery, "@OFFSET@", offset)
         val cursor = dbWritable.rawQuery(query, null)
         cursor.moveToFirst()
@@ -97,7 +98,8 @@ class GameDatabase(context: Context) : Database {
     }
 
     override fun getUnplayed(getQuery: String?, logTag: String?): List<MediaItem> {
-        val offset = "date('now','-" + PropertyHelper.getNotificationDayOffsetGame(context) + " days')"
+        val offset =
+            "date('now','-" + PropertyHelper.getNotificationDayOffsetGame(context) + " days')"
         val query = Helper.replaceTokens(getQuery!!, "@OFFSET@", offset)
         val mediaItems: MutableList<MediaItem> = ArrayList()
         dbWritable.rawQuery(query, null).use { cursor ->
@@ -154,7 +156,9 @@ class GameDatabase(context: Context) : Database {
     }
 
     override fun markPlayedIfReleased(isNew: Boolean, mediaItem: MediaItem): Boolean {
-        return isNew && alreadyReleased(mediaItem) && PropertyHelper.getMarkWatchedIfAlreadyReleased(context)
+        return isNew && alreadyReleased(mediaItem) && PropertyHelper.getMarkWatchedIfAlreadyReleased(
+            context
+        )
     }
 
     // TODO: This is a lazy and unneeded implementation. It should be removed
@@ -180,8 +184,9 @@ class GameDatabase(context: Context) : Database {
             "SELECT * FROM " + GameDatabaseDefinition.TABLE_GAMES + " WHERE " + GameDatabaseDefinition.ID + "=? ORDER BY " + GameDatabaseDefinition.ID + " ASC;"
         private const val GET_GAME_WATCHED_STATUS =
             "SELECT " + GameDatabaseDefinition.PLAYED + " FROM " + GameDatabaseDefinition.TABLE_GAMES + " WHERE " + GameDatabaseDefinition.ID + "=?;"
-        private const val COUNT_UNWATCHED_GAMES_RELEASED = "SELECT COUNT(*) FROM " + GameDatabaseDefinition.TABLE_GAMES + " " +
-                "WHERE " + GameDatabaseDefinition.PLAYED + "=" + Constants.DB_FALSE + " AND " + GameDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@;"
+        private const val COUNT_UNWATCHED_GAMES_RELEASED =
+            "SELECT COUNT(*) FROM " + GameDatabaseDefinition.TABLE_GAMES + " " +
+                    "WHERE " + GameDatabaseDefinition.PLAYED + "=" + Constants.DB_FALSE + " AND " + GameDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@;"
         private const val GET_UNWATCHED_GAMES_RELEASED = "SELECT * " +
                 "FROM " + GameDatabaseDefinition.TABLE_GAMES + " " +
                 "WHERE " + GameDatabaseDefinition.PLAYED + "=" + Constants.DB_FALSE + " AND " + GameDatabaseDefinition.RELEASE_DATE + " <= @OFFSET@ ORDER BY " + GameDatabaseDefinition.RELEASE_DATE + " ASC;"

@@ -27,9 +27,11 @@ class ListAdapterSummary(
             R.layout.list_item_generic -> {
                 getFindView(mediaItem)
             }
+
             R.layout.list_item_generic_toggle -> {
                 getChecklistView(mediaItem)
             }
+
             else -> {
                 getTitleView(mediaItem)
             }
@@ -102,7 +104,12 @@ class ListAdapterSummary(
         view.setOnClickListener {
             textOverview.text = ""
             if (childrenView.adapter == null) {
-                childrenView.adapter = ListAdapterSummary(context, R.layout.list_item_generic_toggle, mediaItem.children, db)
+                childrenView.adapter = ListAdapterSummary(
+                    context,
+                    R.layout.list_item_generic_toggle,
+                    mediaItem.children,
+                    db
+                )
             } else {
                 childrenView.adapter = null
             }

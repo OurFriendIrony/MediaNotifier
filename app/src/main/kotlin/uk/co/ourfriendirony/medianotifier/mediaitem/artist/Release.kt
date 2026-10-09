@@ -6,16 +6,14 @@ import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.release.get.Releas
 import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.release.get.ReleaseGetTrack
 import uk.co.ourfriendirony.medianotifier.clients.musicbrainz.releasegroup.get.ReleaseGroupGet
 import uk.co.ourfriendirony.medianotifier.db.artist.ArtistDatabaseDefinition
+import uk.co.ourfriendirony.medianotifier.general.Constants.LOGLABEL_APIGET
+import uk.co.ourfriendirony.medianotifier.general.Constants.LOGLABEL_DBREAD
 import uk.co.ourfriendirony.medianotifier.general.Helper.getColumnValue
 import uk.co.ourfriendirony.medianotifier.general.Helper.stringToDate
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-
-import uk.co.ourfriendirony.medianotifier.general.Constants.LOGLABEL_APIGET
-import uk.co.ourfriendirony.medianotifier.general.Constants.LOGLABEL_APISEARCH
-import uk.co.ourfriendirony.medianotifier.general.Constants.LOGLABEL_DBREAD
 
 class Release : MediaItem {
     override val id: String

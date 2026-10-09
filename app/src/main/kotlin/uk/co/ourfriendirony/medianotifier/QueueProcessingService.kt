@@ -72,7 +72,7 @@ class QueueProcessingService : Service() {
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle("Queue Processing Service")
             .setContentText("Service is running")
-//            .setSmallIcon(R.drawable.ic_notification)
+            .setSmallIcon(R.drawable.ic_notification)
             .setContentIntent(pendingIntent)
             .build()
 
@@ -80,66 +80,27 @@ class QueueProcessingService : Service() {
 
     }
 
-    private fun performLongRunningTask() {
-        // This simulates a long-running task
-        queueFile.clear()
-        handler.postDelayed(object : Runnable {
-            override fun run() {
 
-                while (!queueFile.isEmpty) {
-                    val it = queueFile.peek()
-                    Log.e(LOGLABEL_HEY, "before deserialize" + it.toString())
+    private fun processQueue() {
+        Log.e(LOGLABEL_DEBUG, "Before Thread")
+        Thread {
+            while (!queueFile.isEmpty) {
+                Log.e(LOGLABEL_DEBUG, "QueueNotEmpty")
+                val it = queueFile.peek()
+                Log.e(LOGLABEL_HEY, "before deserialize ${it?.contentToString()}")
+                try {
                     val obj: QueueObject = objectMapper.readValue(it, QueueObject::class.java)
                     Log.e(LOGLABEL_HEY, obj.toString())
                     val client = ClientFactory().getClient(obj.type)
                     val db = DatabaseFactory().getDatabase(applicationContext, obj.type)
 
                     db!!.update(client!!.getMediaItem(obj.id))
-
-                    queueFile.remove()
-                    updateNotification(queueFile.size())
+                } catch (_: Exception) {
+                    Log.e(LOGLABEL_SERVICE, "Failed to Parse item from queue...")
                 }
 
-                // Perform your task here
-                // For demonstration, we're just logging a message every 5 seconds
-                // In a real application, you might perform network operations, etc.
-                // Ensure that you keep the service running by scheduling the next execution
-
-                handler.postDelayed(this, rerunInMS)
-            }
-        }, rerunInMS)
-    }
-
-    private val rerunInSeconds: Long = 20
-    val rerunInMS: Long = rerunInSeconds * 1000
-    private fun processQueue() {
-//        queueFile.clear()
-        Log.e(LOGLABEL_DEBUG, "Before Thread")
-        Thread {
-            while (true) {
-                Log.e(LOGLABEL_DEBUG, "Thread Loop")
-                while (!queueFile.isEmpty) {
-                    Log.e(LOGLABEL_DEBUG, "QueueNotEmpty")
-                    val it = queueFile.peek()
-                    Log.e(LOGLABEL_HEY, "before deserialize" + it.toString())
-                    try {
-                        val obj: QueueObject = objectMapper.readValue(it, QueueObject::class.java)
-                        Log.e(LOGLABEL_HEY, obj.toString())
-                        val client = ClientFactory().getClient(obj.type)
-                        val db = DatabaseFactory().getDatabase(applicationContext, obj.type)
-
-                        db!!.update(client!!.getMediaItem(obj.id))
-                    } catch (_: Exception) {
-                        Log.e(LOGLABEL_SERVICE, "Failed to Parse item from queue...")
-                    }
-
-
-//                Thread.sleep(2000)
-
-                    queueFile.remove()
-                    updateNotification(queueFile.size())
-                }
-                Thread.sleep(2000)
+                queueFile.remove()
+                updateNotification(queueFile.size())
             }
             stopForeground(STOP_FOREGROUND_REMOVE)
             stopSelf()

@@ -12,7 +12,7 @@ import uk.co.ourfriendirony.medianotifier.general.Helper
 import uk.co.ourfriendirony.medianotifier.mediaitem.MediaItem
 import uk.co.ourfriendirony.medianotifier.mediaitem.tv.TVEpisode
 import uk.co.ourfriendirony.medianotifier.mediaitem.tv.TVShow
-import java.util.*
+import java.util.Date
 
 class TVShowDatabase(context: Context) : Database {
     private val context: Context
@@ -140,7 +140,8 @@ class TVShowDatabase(context: Context) : Database {
             "date('now','-" + PropertyHelper.getNotificationDayOffsetTV(context) + " days')"
         val query = Helper.replaceTokens(getQuery!!, "@OFFSET@", offset)
 
-        val parentMediaItems: MutableList<MediaItem> = readAllParentItems() as MutableList<MediaItem>
+        val parentMediaItems: MutableList<MediaItem> =
+            readAllParentItems() as MutableList<MediaItem>
         dbWritable.rawQuery(query, null).use { cursor ->
             while (cursor.moveToNext()) {
                 val mediaItem = buildSubItemFromDB(cursor)

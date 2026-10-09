@@ -52,7 +52,7 @@ class MusicBrainzClient : AbstractClient() {
                     Helper.replaceTokens(URL_ARTIST_RELEASE_ID, "@ID@", rgg.releases[0].id!!)
                 )
                 val r = OBJECT_MAPPER.readValue(rawR, ReleaseGet::class.java)
-                releases.add(Release(r, rgg,artist))
+                releases.add(Release(r, rgg, artist))
             }
         }
         artist.children = releases

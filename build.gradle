@@ -11,9 +11,9 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.9.1'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0"
-        classpath "org.jacoco:org.jacoco.core:0.8.8"
+        classpath 'com.android.tools.build:gradle:9.4.1'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.2.10'
+        classpath "org.jacoco:org.jacoco.core:0.8.15"
     }
 }
 

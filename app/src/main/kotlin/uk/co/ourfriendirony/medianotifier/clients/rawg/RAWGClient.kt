@@ -39,7 +39,8 @@ class RAWGClient : AbstractClient() {
         private const val HOST = "https://api.rawg.io/api/"
         private const val URL_PAGE = "&page=1&page_size=20"
         private const val URL_API = "key=$API_KEY"
-        private const val URL_GAME_QUERY = HOST + "games?search=@NAME@" + URL_PAGE + "&exclude_additions" + "&" + URL_API
+        private const val URL_GAME_QUERY =
+            HOST + "games?search=@NAME@" + URL_PAGE + "&exclude_additions" + "&" + URL_API
         private const val URL_GAME_ID = HOST + "games/@ID@" + "?" + URL_API
         private val OBJECT_MAPPER = ObjectMapper()
     }

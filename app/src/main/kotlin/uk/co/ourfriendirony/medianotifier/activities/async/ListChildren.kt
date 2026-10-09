@@ -10,7 +10,14 @@ import uk.co.ourfriendirony.medianotifier.activities.viewadapter.ListAdapterSumm
 import uk.co.ourfriendirony.medianotifier.db.Database
 import java.lang.ref.WeakReference
 
-class ListChildren(context: Context, progressBar: ProgressBar?, listView: ListView?, db: Database?, ui: Handler, id: String) : Runnable {
+class ListChildren(
+    context: Context,
+    progressBar: ProgressBar?,
+    listView: ListView?,
+    db: Database?,
+    ui: Handler,
+    id: String
+) : Runnable {
     private val context: WeakReference<Context> = WeakReference(context)
     private val progressBar: WeakReference<ProgressBar?>
     private val listView: WeakReference<ListView?>
@@ -35,7 +42,8 @@ class ListChildren(context: Context, progressBar: ProgressBar?, listView: ListVi
 
         ui.post {
             progressBar.get()!!.isIndeterminate = false
-            val adapter: ArrayAdapter<*> = ListAdapterSummary(context.get(), R.layout.list_item_generic_toggle, children, db)
+            val adapter: ArrayAdapter<*> =
+                ListAdapterSummary(context.get(), R.layout.list_item_generic_toggle, children, db)
             listView.get()!!.adapter = adapter
             listView.get()!!.setSelection(children.size)
         }

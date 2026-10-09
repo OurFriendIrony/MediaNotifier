@@ -53,7 +53,11 @@ class AddMediaItem(
 
         ui.post {
             progressBar.get()!!.isIndeterminate = false
-            Toast.makeText(context.get(), db!!.coreType + " '" + title + "' Added", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                context.get(),
+                db!!.coreType + " '" + title + "' Added",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 }

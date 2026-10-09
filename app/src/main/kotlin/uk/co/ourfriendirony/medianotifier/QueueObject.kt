@@ -3,7 +3,6 @@ package uk.co.ourfriendirony.medianotifier
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
-import uk.co.ourfriendirony.medianotifier.activities.chars
 import uk.co.ourfriendirony.medianotifier.activities.objectMapper
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
