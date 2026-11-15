@@ -168,7 +168,7 @@ class ActivitySettings : AppCompatActivity() {
             popupWindow!!.showAtLocation(layout, Gravity.CENTER, 0, 0)
             val timePicker =
                 popupWindow!!.contentView.findViewById<TimePicker>(R.id.popup_time_picker)
-            timePicker.setIs24HourView(true)
+            timePicker.is24HourView = true
             timePicker.hour = getNotificationHour(applicationContext)
             timePicker.minute = getNotificationMinute(applicationContext)
             val buttonOk = popupWindow!!.contentView.findViewById<Button>(R.id.popup_ok)
